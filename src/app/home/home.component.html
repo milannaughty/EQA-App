@@ -1,12 +1,64 @@
-<div class="col-md-6 col-md-offset-3">
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    <p>You're logged in with Angular 2!!</p>
-    <h3>All registered users:</h3>
-    <ul>
-        <li *ngFor="let user of users">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    <p><a [routerLink]="['/login']">Logout</a></p>
+<div class="container-fluid">
+    <h2>
+        Hi {{currentUser.username}}!</h2>
+    <!-- <p>You're logged in with Angular 2!!</p>
+            <h3>All registered users:</h3>
+            <ul>
+                <li *ngFor="let user of users">
+                    {{user.username}} ({{user.firstName}} {{user.lastName}})
+                    - <a (click)="deleteUser(user.id)">Delete</a>
+                </li>
+            </ul> -->
+    <a [routerLink]="['/login']">Logout</a>
 </div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li>
+                <span class="glyphicon glyphicon-home"></span> Home</li>
+            <li class="active">{{ActiveTab}}</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-2 breadcrumb">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div style="margin-left:2%">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" class="active">
+                                <a href="#" (click)="doAction('')">Home</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#" (click)="doAction('EQA New Requests')">EQA New Requests
+                                    <span class="badge">4</span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#" (click)="doAction('EQA Summary')">EQA Summary</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#" (click)="doAction('Action One')">Action One</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#" (click)="doAction('Action Two')">Action Two</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-9 col-xs-9">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <associate-new-request-list *ngIf="ActiveTab==='EQA New Requests'"></associate-new-request-list>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

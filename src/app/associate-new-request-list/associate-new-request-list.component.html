@@ -1,0 +1,43 @@
+<table class="table table-striped">
+
+  <!--Table head-->
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>PBI</th>
+      <th>Name</th>
+      <th>Skill Set</th>
+      <th>Delivery Date</th>
+      <th>Expected IQA Date</th>
+      <th>Status</th>
+      <th>Remarks</th>
+      <th>Initiated By</th>
+      <!-- <th>Creation Date</th>
+                                        <th>Last Update Date</th> -->
+    </tr>
+  </thead>
+  <!--Table head-->
+
+  <!--Table body-->
+  <tbody>
+    <tr *ngFor="let data of NewRequest">
+      <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
+      <td>{{data.PBIID}}</td>
+      <td>{{data.Name}}</td>
+      <td>{{data.Skills}}</td>
+      <td>{{data.DeliveryDate}}</td>
+      <td>{{data.ExpectedIQADate}}</td>
+      <td>{{data.Status}}</td>
+      <td>{{data.Remarks}}</td>
+      <td>{{data.InitiatedBy}}</td>
+      <td>
+        <button class="btn btn-success btn-xs">
+          <i class="fa fa-check"></i> Accept </button>
+        <button class="btn btn-danger btn-xs">
+          <i class="fa fa-trash-o"></i> Reject</button>
+      </td>
+    </tr>
+  </tbody>
+  <!--Table body-->
+
+</table>

@@ -9,22 +9,26 @@ import { UserService } from '../_services/index';
 })
 
 export class HomeComponent implements OnInit {
+    NewRequest: any;
     currentUser: User;
     users: User[] = [];
+    ActiveTab: any ='Dashboard';
 
     constructor(private userService: UserService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     ngOnInit() {
-        this.loadAllUsers();
+        // this.loadNewRequestForAssociate();
     }
 
     deleteUser(id: number) {
-        this.userService.delete(id).subscribe(() => { this.loadAllUsers() });
+        // this.userService.delete(id).subscribe(() => { this.loadNewRequestForAssociate() });
     }
 
-    private loadAllUsers() {
-        this.userService.getAll().subscribe(users => { this.users = users; });
+    doAction(actionName: string) {
+        this.ActiveTab = actionName;
     }
+
+
 }

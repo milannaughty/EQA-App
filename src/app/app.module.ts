@@ -19,6 +19,7 @@ import { RegisterComponent } from './register/index';
 
 //Third Party
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { AssociateNewRequestListComponent } from './associate-new-request-list/associate-new-request-list.component';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
         AlertComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        AssociateNewRequestListComponent
     ],
     providers: [
         AuthGuard,

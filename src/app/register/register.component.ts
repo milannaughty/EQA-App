@@ -30,10 +30,6 @@ export class RegisterComponent {
             {
                 "Id": 2,
                 "Name": "Panel"
-            },
-            {
-                "Id": 3,
-                "Name": "Associate"
             }]
         this.skillList = [
             { id: 1, itemName: 'Java' },
