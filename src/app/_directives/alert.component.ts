@@ -17,3 +17,4 @@ export class AlertComponent {
         this.alertService.getMessage().subscribe(message => { this.message = message; });
     }
 }
+
