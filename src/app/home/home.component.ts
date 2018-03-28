@@ -22,13 +22,8 @@ export class HomeComponent implements OnInit {
         // this.loadNewRequestForAssociate();
     }
 
-<<<<<<< HEAD
     deleteUser(id: number) {
         // this.userService.delete(id).subscribe(() => { this.loadNewRequestForAssociate() });
-=======
-    deleteUser(id: string) {
-        this.userService.delete(id).subscribe(() => { this.loadAllUsers() });
->>>>>>> c706e188be5341ac358f3a07ca165ed0e16d3cc1
     }
 
     doAction(actionName: string) {
