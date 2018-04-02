@@ -30,4 +30,9 @@ export class UserService {
     delete(_id: number) {
         return this.http.delete('/api/users/' + _id);
     }
+
+    GetAssociateNewRequest(_associateId: number) {
+        return this.http.get('/api/users/associatenewrequest/' + _associateId);
+    }
+
 }

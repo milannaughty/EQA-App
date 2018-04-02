@@ -38,7 +38,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.EQANewRequests)">{{ActionList.EQANewRequests}}
-                                        <span class="badge">4</span>
+                                        <span class="badge" *ngIf="NewRequestCount">{{NewRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">
@@ -77,7 +77,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests"></associate-new-request-list>
+                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser"></associate-new-request-list>
                         <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary"></app-associate-request-list>
                         <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail"></app-associate-request-detail>
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest"></app-team-new-request>

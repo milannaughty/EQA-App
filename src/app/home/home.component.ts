@@ -9,19 +9,20 @@ import { UserService } from '../_services/index';
 })
 
 export class HomeComponent implements OnInit {
+    NewRequestCount: any;
     NewRequest: any;
     currentUser: User;
     users: User[] = [];
     ActiveTab: any = 'Dashboard';
     ActionList: any = {
         'EQANewRequests': 'EQA New Requests',
-        'EQASummary':'EQA Summary',
-        'AssociateRequestDetail':'Request Detail',
-        'InitiateEQARequest':'Initiate EQA Request',
-        'TeamEQARequest':'Request History',
-        'TeamRequestDetail':'Request Detail',
-        'PanelList':'Panel List',
-        'PanelDetail':'Panel Detail'
+        'EQASummary': 'EQA Summary',
+        'AssociateRequestDetail': 'Request Detail',
+        'InitiateEQARequest': 'Initiate EQA Request',
+        'TeamEQARequest': 'Request History',
+        'TeamRequestDetail': 'Request Detail',
+        'PanelList': 'Panel List',
+        'PanelDetail': 'Panel Detail'
     }
 
     constructor(private userService: UserService) {
@@ -30,7 +31,10 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.loadNewRequestForAssociate();
+        this.userService.GetAssociateNewRequest(this.currentUser.id).subscribe(result => {
+            this.NewRequestCount = result;
+            this.NewRequestCount = Array.from(this.NewRequestCount).length;
+        });
     }
 
     deleteUser(id: number) {
