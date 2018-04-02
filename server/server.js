@@ -28,6 +28,8 @@ app.use('/users', require('./controllers/users.controller'));
 
 // error handler
 app.use(function (err, req, res, next) {
+    //res.header("Access-Control-Allow-Origin", "*")
+    //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")  
     if (err.name === 'UnauthorizedError') {
         res.status(401).send('Invalid Token');
     } else {
