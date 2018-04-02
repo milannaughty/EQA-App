@@ -22,6 +22,10 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { AssociateNewRequestListComponent } from './associate-new-request-list/associate-new-request-list.component';
 import { TeamNewRequestComponent } from './team-new-request/team-new-request.component';
 import { NgDatepickerModule } from 'ng2-datepicker';
+import { TeamRequestListComponent } from './team-request-list/team-request-list.component';
+import { TeamRequestDetailComponent } from './team-request-detail/team-request-detail.component';
+import { AssociateRequestDetailComponent } from './associate-request-detail/associate-request-detail.component';
+import { AssociateRequestListComponent } from './associate-request-list/associate-request-list.component';
 
 @NgModule({
     imports: [
@@ -39,7 +43,11 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         LoginComponent,
         RegisterComponent,
         AssociateNewRequestListComponent,
-        TeamNewRequestComponent
+        TeamNewRequestComponent,
+        TeamRequestListComponent,
+        TeamRequestDetailComponent,
+        AssociateRequestDetailComponent,
+        AssociateRequestListComponent
     ],
     providers: [
         AuthGuard,
