@@ -20,7 +20,8 @@ export class HomeComponent implements OnInit {
         'InitiateEQARequest':'Initiate EQA Request',
         'TeamEQARequest':'Request History',
         'TeamRequestDetail':'Request Detail',
-        'PanelList':'Panel List'
+        'PanelList':'Panel List',
+        'PanelDetail':'Panel Detail'
     }
 
     constructor(private userService: UserService) {
