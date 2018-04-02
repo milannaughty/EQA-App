@@ -11,7 +11,94 @@ import 'rxjs/add/operator/dematerialize';
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    allRequest: any;
+    constructor() {
+        this.allRequest = [{
+            ID: 1,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'New',
+            AssignAssociateId: 6,
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }, {
+            ID: 2,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'New',
+            AssignAssociateId: 6,
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }, {
+            ID: 3,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'New',
+            AssignAssociateId: 6,
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }, {
+            ID: 4,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'Complete',
+            AssignAssociateId: 6,
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }, {
+            ID: 5,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'New',
+            AssignAssociateId: '',
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }, {
+            ID: 6,
+            PBIID: 100,
+            Name: 'Payu PSP Team',
+            Skills: 'AWS,NodeJs',
+            DeliveryDate: new Date().toLocaleDateString(),
+            ExpectedIQADate: new Date().toLocaleDateString(),
+            Status: 'New',
+            AssignAssociateId: '',
+            CheckList: '',
+            Remarks: '',
+            InitiatedBy: 'Ravi',
+            CreationDate: new Date().toLocaleDateString(),
+            UpdateDate: new Date().toLocaleDateString()
+        }]
+    }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // array in local storage for registered users
@@ -122,6 +209,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
+            debugger;
+            if (request.url.match(/\/api\/users\/associatenewrequest\/\d+$/) && request.method === 'GET') {
+                // find user by id in users array
+                let urlParts = request.url.split('/');
+                let associateId = parseInt(urlParts[urlParts.length - 1]);
+
+
+                let matchedRequests = this.allRequest.filter(request => { return request.AssignAssociateId === associateId && request.Status == 'New' });
+                let requestResult = matchedRequests.length ? matchedRequests : [];
+                return Observable.of(new HttpResponse({ status: 200, body: requestResult }));
+            }
             // pass through any requests not handled above
             return next.handle(request);
 

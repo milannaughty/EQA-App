@@ -29,4 +29,9 @@ export class UserService {
     delete(_id: string) {
         return this.http.delete(appConfig.apiUrl + '/users/' + _id);
     }
+
+    GetAssociateNewRequest(_associateId: number) {
+        return this.http.get('/api/users/associatenewrequest/' + _associateId);
+    }
+
 }

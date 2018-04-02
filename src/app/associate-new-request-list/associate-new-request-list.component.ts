@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from '../_services/index';
 
 @Component({
   selector: 'associate-new-request-list',
@@ -6,101 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./associate-new-request-list.component.css']
 })
 export class AssociateNewRequestListComponent implements OnInit {
-  NewRequest: any[];
-
-  constructor() { }
+  NewRequest: any;
+  loading: boolean;
+  @Input() currentUser: any;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.loadNewRequestForAssociate();
   }
 
   private loadNewRequestForAssociate() {
-    //this.userService.getAll().subscribe(users => { this.users = users; });
-    this.NewRequest = [{
-      ID: 1,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }, {
-      ID: 2,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }, {
-      ID: 3,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }, {
-      ID: 4,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }, {
-      ID: 5,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }, {
-      ID: 6,
-      PBIID: 100,
-      Name: 'Payu PSP Team',
-      Skills: 'AWS,NodeJs',
-      DeliveryDate: new Date().toLocaleDateString(),
-      ExpectedIQADate: new Date().toLocaleDateString(),
-      Status: 'New',
-      UserIDs: '',
-      CheckList: '',
-      Remarks: '',
-      InitiatedBy: 'Ravi',
-      CreationDate: new Date().toLocaleDateString(),
-      UpdateDate: new Date().toLocaleDateString()
-    }]
+    this.loading = true;
+    this.userService.GetAssociateNewRequest(this.currentUser.id).subscribe(result => {
+      this.loading = false;
+      this.NewRequest = result;
+    });
   }
 
 }
