@@ -20,6 +20,8 @@ import { RegisterComponent } from './register/index';
 //Third Party
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AssociateNewRequestListComponent } from './associate-new-request-list/associate-new-request-list.component';
+import { TeamNewRequestComponent } from './team-new-request/team-new-request.component';
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 @NgModule({
     imports: [
@@ -27,7 +29,8 @@ import { AssociateNewRequestListComponent } from './associate-new-request-list/a
         FormsModule,
         HttpClientModule,
         routing,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        NgDatepickerModule
     ],
     declarations: [
         AppComponent,
@@ -35,7 +38,8 @@ import { AssociateNewRequestListComponent } from './associate-new-request-list/a
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        AssociateNewRequestListComponent
+        AssociateNewRequestListComponent,
+        TeamNewRequestComponent
     ],
     providers: [
         AuthGuard,

@@ -14,7 +14,7 @@ export class RegisterComponent {
     roleList: any;
     selectedSkills: number[];
     dropdownSettings = {};
-    skillList:any;
+    skillList: any;
     constructor(
         private router: Router,
         private userService: UserService,
@@ -48,18 +48,19 @@ export class RegisterComponent {
             { id: 14, itemName: 'C' },
             { id: 15, itemName: 'C++' },
             { id: 16, itemName: 'C#' },
-        ].sort((x,y)=> x.itemName.localeCompare(y.itemName));
-        this.dropdownSettings = { 
-            singleSelection: false, 
-            text:"Select Skillset",
-            selectAllText:'Select All',
-            unSelectAllText:'UnSelect All',
+        ].sort((x, y) => x.itemName.localeCompare(y.itemName));
+        this.dropdownSettings = {
+            singleSelection: false,
+            text: "Select Skillset",
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
             enableSearchFilter: true
-          };    
+        };
     }
 
     register() {
         this.loading = true;
+        this.model.isPanel = this.model.roleId == 2;//2 is used for Panel registration, 1 is for Team
         this.userService.create(this.model)
             .subscribe(
             data => {
