@@ -16,8 +16,10 @@ export class HomeComponent implements OnInit {
     ActionList: any = {
         'EQANewRequests': 'EQA New Requests',
         'EQASummary':'EQA Summary',
+        'AssociateRequestDetail':'Request Detail',
         'InitiateEQARequest':'Initiate EQA Request',
-        'TeamEQARequest':'Request History'
+        'TeamEQARequest':'Request History',
+        'TeamRequestDetail':'Request Detail'
     }
 
     constructor(private userService: UserService) {
