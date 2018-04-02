@@ -33,21 +33,42 @@
                             <li role="presentation" class="active">
                                 <a href="#" (click)="doAction('')">Home</a>
                             </li>
-                            <li role="presentation">
-                                <a href="#" (click)="doAction('EQA New Requests')">EQA New Requests
-                                    <span class="badge">4</span>
-                                </a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#" (click)="doAction('EQA Summary')">EQA Summary</a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#" (click)="doAction('Action One')">Action One</a>
-                            </li>
-                            <li role="presentation">
-                                <a href="#" (click)="doAction('Action Two')">Action Two</a>
-                            </li>
                         </ul>
+                        <div *ngIf="currentUser.isPanel">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.EQANewRequests)">{{ActionList.EQANewRequests}}
+                                        <span class="badge">4</span>
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.EQASummary)">{{ActionList.EQASummary}}</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction('Action One')">Action One</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction('Action Two')">Action Two</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div *ngIf="!currentUser.isPanel">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.InitiateEQARequest)">{{ActionList.InitiateEQARequest}}
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.TeamEQARequest)">{{ActionList.TeamEQARequest}}</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction('Panel List')">Panel List</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction('Action one')">Action one</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,7 +77,8 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <associate-new-request-list *ngIf="ActiveTab==='EQA New Requests'"></associate-new-request-list>
+                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests"></associate-new-request-list>
+                        <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest"></app-team-new-request>
                     </div>
                 </div>
             </div>

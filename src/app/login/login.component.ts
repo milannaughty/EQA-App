@@ -31,10 +31,6 @@ export class LoginComponent implements OnInit {
             {
                 "Id": 2,
                 "Name": "Panel"
-            },
-            {
-                "Id": 3,
-                "Name": "Associate"
             }]
             this.model.loginAsId=1
         // get return url from route parameters or default to '/'
@@ -46,7 +42,7 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
             data => {
-                this.router.navigate([this.returnUrl]);
+                this.router.navigate(['home']);
             },
             error => {
                 this.alertService.error(error);

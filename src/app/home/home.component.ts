@@ -12,9 +12,16 @@ export class HomeComponent implements OnInit {
     NewRequest: any;
     currentUser: User;
     users: User[] = [];
-    ActiveTab: any ='Dashboard';
+    ActiveTab: any = 'Dashboard';
+    ActionList: any = {
+        'EQANewRequests': 'EQA New Requests',
+        'EQASummary':'EQA Summary',
+        'InitiateEQARequest':'Initiate EQA Request',
+        'TeamEQARequest':'Request History'
+    }
 
     constructor(private userService: UserService) {
+        console.log(localStorage.getItem('currentUser'))
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 

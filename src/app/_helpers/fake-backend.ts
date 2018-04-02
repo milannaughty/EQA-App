@@ -30,15 +30,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 if (filteredUsers.length) {
                     // if login details are valid return 200 OK with user details and fake jwt token
                     let user = filteredUsers[0];
-                    let body = {
-                        id: user.id,
-                        username: user.username,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        token: 'fake-jwt-token'
-                    };
+                    // let body = {
+                    //     id: user.id,
+                    //     username: user.username,
+                    //     isPanel: user.isPanel,
+                    //     token: 'fake-jwt-token'
+                    // };
 
-                    return Observable.of(new HttpResponse({ status: 200, body: body }));
+                    // if (body.isPanel) {
+                    //     body.skillSet=user.skillSet
+                    // }
+
+                    user.token = 'fake-jwt-token';
+                    return Observable.of(new HttpResponse({ status: 200, body: user }));
                 } else {
                     // else return 400 bad request
                     return Observable.throw('Username or password is incorrect');
@@ -120,13 +124,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // pass through any requests not handled above
             return next.handle(request);
-            
+
         })
 
-        // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-        .materialize()
-        .delay(500)
-        .dematerialize();
+            // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+            .materialize()
+            .delay(500)
+            .dematerialize();
     }
 }
 
