@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
         'AssociateRequestDetail':'Request Detail',
         'InitiateEQARequest':'Initiate EQA Request',
         'TeamEQARequest':'Request History',
-        'TeamRequestDetail':'Request Detail'
+        'TeamRequestDetail':'Request Detail',
+        'PanelList':'Panel List'
     }
 
     constructor(private userService: UserService) {

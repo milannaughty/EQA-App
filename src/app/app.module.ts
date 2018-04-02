@@ -26,6 +26,7 @@ import { TeamRequestListComponent } from './team-request-list/team-request-list.
 import { TeamRequestDetailComponent } from './team-request-detail/team-request-detail.component';
 import { AssociateRequestDetailComponent } from './associate-request-detail/associate-request-detail.component';
 import { AssociateRequestListComponent } from './associate-request-list/associate-request-list.component';
+import { TeamPanelListComponent } from './team-panel-list/team-panel-list.component';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import { AssociateRequestListComponent } from './associate-request-list/associat
         TeamRequestListComponent,
         TeamRequestDetailComponent,
         AssociateRequestDetailComponent,
-        AssociateRequestListComponent
+        AssociateRequestListComponent,
+        TeamPanelListComponent
     ],
     providers: [
         AuthGuard,

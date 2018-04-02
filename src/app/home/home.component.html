@@ -62,7 +62,7 @@
                                     <a href="#" (click)="doAction(ActionList.TeamEQARequest)">{{ActionList.TeamEQARequest}}</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction('Panel List')">Panel List</a>
+                                    <a href="#" (click)="doAction(ActionList.PanelList)">{{ActionList.PanelList}}</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction('Action one')">Action one</a>
@@ -83,6 +83,7 @@
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest"></app-team-new-request>
                         <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest"></app-team-request-list>
                         <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail"></app-team-request-detail>
+                        <app-team-panel-list *ngIf="ActiveTab===ActionList.PanelList"></app-team-panel-list>
                     </div>
                 </div>
             </div>
