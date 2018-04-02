@@ -26,13 +26,16 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.loadNewRequestForAssociate();
+        this.loadAllUsers();
     }
-
-    deleteUser(id: number) {
-        // this.userService.delete(id).subscribe(() => { this.loadNewRequestForAssociate() });
+ 
+    deleteUser(_id: string) {
+        this.userService.delete(_id).subscribe(() => { this.loadAllUsers() });
     }
-
+ 
+    private loadAllUsers() {
+        this.userService.getAll().subscribe(users => { this.users = users; });
+    }
     doAction(actionName: string) {
         this.ActiveTab = actionName;
     }
