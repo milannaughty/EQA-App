@@ -1,3 +1,45 @@
-<p>
-  associate-request-list works!
-</p>
+<table class="table table-striped">
+    
+      <!--Table head-->
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>PBI</th>
+          <th>Name</th>
+          <th>Skill Set</th>
+          <th>Delivery Date</th>
+          <th>Expected IQA Date</th>
+          <th>Status</th>
+          <th>Remarks</th>
+          <th>Initiated By</th>
+          <!-- <th>Creation Date</th>
+                                            <th>Last Update Date</th> -->
+        </tr>
+      </thead>
+      <!--Table head-->
+    
+      <!--Table body-->
+      <tbody>
+        <tr *ngFor="let data of NewRequest">
+          <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
+          <td>{{data.PBIID}}</td>
+          <td>{{data.Name}}</td>
+          <td>{{data.Skills}}</td>
+          <td>{{data.DeliveryDate}}</td>
+          <td>{{data.ExpectedIQADate}}</td>
+          <td>{{data.Status}}</td>
+          <td>{{data.Remarks}}</td>
+          <td>{{data.InitiatedBy}}</td>
+          <td>
+            <button class="btn btn-success btn-xs">
+              <i class="fa fa-check"></i> Accept </button>
+            <button class="btn btn-danger btn-xs">
+              <i class="fa fa-trash-o"></i> Reject</button>
+          </td>
+        </tr>
+      </tbody>
+      <!--Table body-->
+    
+    </table>
+    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+    />

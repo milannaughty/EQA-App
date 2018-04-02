@@ -209,7 +209,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-            debugger;
             if (request.url.match(/\/api\/users\/associatenewrequest\/\d+$/) && request.method === 'GET') {
                 // find user by id in users array
                 let urlParts = request.url.split('/');
@@ -217,6 +216,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
 
                 let matchedRequests = this.allRequest.filter(request => { return request.AssignAssociateId === associateId && request.Status == 'New' });
+                let requestResult = matchedRequests.length ? matchedRequests : [];
+                return Observable.of(new HttpResponse({ status: 200, body: requestResult }));
+            }
+
+            if (request.url.match(/\/api\/users\/associateallrequest\/\d+$/) && request.method === 'GET') {
+                // find user by id in users array
+                let urlParts = request.url.split('/');
+                let associateId = parseInt(urlParts[urlParts.length - 1]);
+
+
+                let matchedRequests = this.allRequest.filter(request => { return request.AssignAssociateId === associateId  });
                 let requestResult = matchedRequests.length ? matchedRequests : [];
                 return Observable.of(new HttpResponse({ status: 200, body: requestResult }));
             }

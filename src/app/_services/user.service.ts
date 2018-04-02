@@ -35,4 +35,8 @@ export class UserService {
         return this.http.get('/api/users/associatenewrequest/' + _associateId);
     }
 
+    GetAssociateAllRequest(_associateId: number) {
+        return this.http.get('/api/users/associateallrequest/' + _associateId);
+    }
+
 }

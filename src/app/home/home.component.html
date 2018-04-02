@@ -78,7 +78,7 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser"></associate-new-request-list>
-                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary"></app-associate-request-list>
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary"  [currentUser]="currentUser"></app-associate-request-list>
                         <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail"></app-associate-request-detail>
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest"></app-team-new-request>
                         <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest"></app-team-request-list>
