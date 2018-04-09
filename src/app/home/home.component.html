@@ -38,7 +38,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.EQANewRequests)">{{ActionList.EQANewRequests}}
-                                        <span class="badge" *ngIf="NewRequestCount">{{NewRequestCount}}</span>
+                                        <span *ngIf="NewRequestCount" class="badge badge-warning" >{{NewRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">

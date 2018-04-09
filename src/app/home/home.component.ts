@@ -36,12 +36,12 @@ export class HomeComponent implements OnInit {
             this.NewRequestCount = result;
             this.NewRequestCount = Array.from(this.NewRequestCount).length;
         });
-  }
- 
-    deleteUser(_id: string) {
-        this.userService.delete(_id).subscribe(() => { this.loadAllUsers() });
     }
- 
+
+    deleteUser(_id: string) {
+        // this.userService.delete(_id).subscribe(() => { this.loadAllUsers() });
+    }
+
     private loadAllUsers() {
         this.userService.getAll().subscribe(users => { this.users = users; });
     }
