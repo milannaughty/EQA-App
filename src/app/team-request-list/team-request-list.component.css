@@ -1,0 +1,12 @@
+.text-white {
+    color: #fff!important;
+}
+.p-3 {
+    padding: 1rem!important;
+}
+.mb-2, .my-2 {
+    margin-bottom: .5rem!important;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}

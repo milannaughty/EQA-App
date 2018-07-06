@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { User } from '../_models/index';
 
 import { AlertService, AuthenticationService } from '../_services/index';
 
@@ -13,12 +14,14 @@ export class LoginComponent implements OnInit {
     loading = false;
     returnUrl: string;
     loginAsList: any;
+    currentUser: User;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+        private alertService: AlertService) {
+    }
 
     ngOnInit() {
         // reset login status
@@ -32,20 +35,28 @@ export class LoginComponent implements OnInit {
                 "Id": 2,
                 "Name": "Panel"
             }]
-            this.model.loginAsId=1
+        this.model.loginAsId = 1
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     login() {
         this.loading = true;
-        this.authenticationService.login(this.model.username, this.model.password)
+        debugger;
+        if(this.model.loginAsId === 1){
+            this.model.isPanel = false;
+        }
+        else {
+            this.model.isPanel = true;
+        }
+        this.authenticationService.login(this.model.username, this.model.password, this.model.isPanel)
             .subscribe(
             data => {
-                this.router.navigate(['home']);
+                this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                this.router.navigate(this.currentUser.isAdmin ? ['admin'] : ['home']);
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error(JSON.stringify(error.error));
                 this.loading = false;
             });
     }

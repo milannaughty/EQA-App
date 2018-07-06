@@ -10,14 +10,16 @@ router.get('/', getAll);
 router.get('/current', getCurrent);
 router.put('/:_id', update);
 router.delete('/:_id', _delete);
+router.post('/getPanelBySkills', getPanelBySkills);
 
 module.exports = router;
 
 function authenticate(req, res) {
-    userService.authenticate(req.body.username, req.body.password)
+    userService.authenticate(req.body.username, req.body.password, req.body.isPanel)
         .then(function (user) {
             if (user) {
                 // authentication successful
+                console.log(user);
                 res.send(user);
             } else {
                 // authentication failed
@@ -77,6 +79,18 @@ function _delete(req, res) {
     userService.delete(req.params._id)
         .then(function () {
             res.json('success');
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getPanelBySkills(req, res) {
+    console.log('Server : In getPanelBySkills service');
+    userService.getPanelBySkills(req.body)
+        .then(function (panelList) {
+            res.json(panelList);
+            console.log('Server : In getPanelBySkills service completed');
         })
         .catch(function (err) {
             res.status(400).send(err);

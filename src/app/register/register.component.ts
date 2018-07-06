@@ -9,9 +9,11 @@ import { AlertService, UserService } from '../_services/index';
 })
 
 export class RegisterComponent {
+    qaSkillList: { id: number; itemName: string; }[];
     model: any = {};
     loading = false;
     roleList: any;
+    panelTypeList: any;
     selectedSkills: number[];
     dropdownSettings = {};
     skillList: any;
@@ -31,6 +33,15 @@ export class RegisterComponent {
                 "Id": 2,
                 "Name": "Panel"
             }]
+            this.panelTypeList = [
+                {
+                    "Id": 'Dev',
+                    "Name": "Dev"
+                },
+                {
+                    "Id": 'QA',
+                    "Name": "QA"
+                }]
         this.skillList = [
             { id: 1, itemName: 'Java' },
             { id: 2, itemName: 'Ruby' },
@@ -48,6 +59,19 @@ export class RegisterComponent {
             { id: 14, itemName: 'C' },
             { id: 15, itemName: 'C++' },
             { id: 16, itemName: 'C#' },
+        ].sort((x, y) => x.itemName.localeCompare(y.itemName));
+        this.qaSkillList = [
+            { id: 17, itemName: 'Web Service' },
+            { id: 18, itemName: 'API' },
+            { id: 19, itemName: 'Performance' },
+            { id: 20, itemName: 'Load ' },
+            { id: 21, itemName: 'SQL' },
+            { id: 22, itemName: 'Automation' },
+            { id: 23, itemName: 'Selenium' },
+            { id: 24, itemName: 'UFT' },
+            { id: 25, itemName: 'Mobile testing' },
+            { id: 26, itemName: 'Jmeter' },
+            { id: 27, itemName: 'SOAPUI and Postman' }
         ].sort((x, y) => x.itemName.localeCompare(y.itemName));
         this.dropdownSettings = {
             singleSelection: false,

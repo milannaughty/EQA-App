@@ -1,3 +1,55 @@
 <p>
   team-request-list works!
 </p>
+<table class="table table-striped">
+
+  <!--Table head-->
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>PBI</th>
+      <th>Name</th>
+      <th>Skill Set</th>
+      <th>Creation Date</th>
+      <th>Expected IQA Date</th>
+      <th>Status</th>
+      <th>Remarks</th>
+      <th>Checklist</th>
+      <th>Initiated By</th>
+      <!-- <th>Creation Date</th>
+                                            <th>Last Update Date</th> -->
+    </tr>
+  </thead>
+  <!--Table head-->
+
+  <!--Table body-->
+  <tbody>
+    <tr *ngFor="let data of NewRequest">
+      <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
+      <td>
+        <p class="text-primary">{{data.pbiId}}</p>
+      </td>
+      <td>{{data.name}}</td>
+      <!-- <td><h4 *ngFor="let skillddata.skillSetata of ">{{skilldata.itemName}}</h4></td> -->
+      <td> 
+        <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
+        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
+        </span>
+      </td>
+      <td>{{data.delivery}}</td>
+      <td>{{data.expectedEQA}}</td>
+      <td>
+        <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
+        <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
+        <span *ngIf="data.status=='Rejected'" class="label label-important">{{data.status}}</span>
+      </td>
+      <td>{{data.remarks}}</td>
+      <td>{{data.checklist}}</td>
+      <td>{{data.initiatedBy.TeamName}}</td>
+    </tr>
+  </tbody>
+  <!--Table body-->
+
+</table>
+<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+/>

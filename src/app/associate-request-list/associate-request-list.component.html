@@ -23,19 +23,23 @@
     <tr *ngFor="let data of NewRequest">
       <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
       <td>
-        <p class="text-primary">{{data.PBIID}}</p>
+        <p class="text-primary">{{data.pbiId}}</p>
       </td>
-      <td>{{data.Name}}</td>
-      <td>{{data.Skills}}</td>
-      <td>{{data.DeliveryDate}}</td>
-      <td>{{data.ExpectedIQADate}}</td>
+      <td>{{data.name}}</td>
+      <td> 
+        <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
+        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
+        </span>
+      </td>
+      <td>{{data.deliveryDate}}</td>
+      <td>{{data.expectedEQADate}}</td>
       <td>
-        <span *ngIf="data.Status=='Complete'" class="label label-success">{{data.Status}}</span>
-        <span *ngIf="data.Status=='New'" class="label label-warning">{{data.Status}}</span>
-        <span *ngIf="data.Status=='Reject'" class="label label-important">{{data.Status}}</span>
+        <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
+        <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
+        <span *ngIf="data.status=='In-progress'" class="label label-important">{{data.status}}</span>
       </td>
-      <td>{{data.Remarks}}</td>
-      <td>{{data.InitiatedBy}}</td>
+      <td>{{data.remarks}}</td>
+      <td>{{data.initiatedBy}}</td>
     </tr>
   </tbody>
   <!--Table body-->

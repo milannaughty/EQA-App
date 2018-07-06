@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserService } from '../_services/index';
+import { RequestService } from '../_services/index';
 
 @Component({
   selector: 'associate-new-request-list',
@@ -10,7 +10,7 @@ export class AssociateNewRequestListComponent implements OnInit {
   NewRequest: any;
   loading: boolean;
   @Input() currentUser: any;
-  constructor(private userService: UserService) { }
+  constructor(private requestService: RequestService) { }
 
   ngOnInit() {
     this.loadNewRequestForAssociate();
@@ -18,7 +18,8 @@ export class AssociateNewRequestListComponent implements OnInit {
 
   private loadNewRequestForAssociate() {
     this.loading = true;
-    this.userService.GetAssociateNewRequest(this.currentUser.id).subscribe(result => {
+    debugger;
+    this.requestService.getAssociateNewRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
       this.NewRequest = result;
     });

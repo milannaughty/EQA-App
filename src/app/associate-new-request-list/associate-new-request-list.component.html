@@ -22,14 +22,18 @@
   <tbody>
     <tr *ngFor="let data of NewRequest">
       <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
-      <td>{{data.PBIID}}</td>
-      <td>{{data.Name}}</td>
-      <td>{{data.Skills}}</td>
-      <td>{{data.DeliveryDate}}</td>
-      <td>{{data.ExpectedIQADate}}</td>
-      <td> <span class="label label-warning">{{data.Status}}</span></td>
-      <td>{{data.Remarks}}</td>
-      <td>{{data.InitiatedBy}}</td>
+      <td>{{data.pbiId}}</td>
+      <td>{{data.name}}</td>
+      <td> 
+        <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
+        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
+        </span>
+      </td>
+      <td>{{data.deliveryDate}}</td>
+      <td>{{data.expectedEQADate}}</td>
+      <td> <span class="label label-warning">{{data.status}}</span></td>
+      <td>{{data.remarks}}</td>
+      <td>{{data.initiatedBy}}</td>
       <td>
         <button class="btn btn-success btn-xs">
           <i class="fa fa-check"></i> Accept </button>

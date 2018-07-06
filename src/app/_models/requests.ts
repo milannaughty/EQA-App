@@ -3,9 +3,10 @@ export class Requests {
     pbiId: string;
     name: string;
     delivery: string;
-    expectedEQA: string;
+    expectedIQADate: string;
+    deliveryDate: string;
     status: string;
-    skills: JSON;
+    skillset: JSON;
     userIds: string;
     checklist: string;
     remarks: string;

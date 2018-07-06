@@ -12,21 +12,29 @@ export class HomeComponent implements OnInit {
     NewRequestCount: any;
     NewRequest: any;
     currentUser: User;
+    ActiveTabs: any;
     users: User[] = [];
     ActiveTab: any = 'Dashboard';
     ActionList: any = {
-        'EQANewRequests': 'EQA New Requests',
-        'EQASummary': 'EQA Summary',
+        'EQANewRequests': 'IQA New Requests',
+        'EQASummary': 'IQA Summary',
         'AssociateRequestDetail': 'Request Detail',
-        'InitiateEQARequest': 'Initiate EQA Request',
+        'InitiateEQARequest': 'Initiate IQA Request',
         'TeamEQARequest': 'Request History',
         'TeamRequestDetail': 'Request Detail',
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail'
     }
 
+    receiveMessage($event) {
+        this.ActiveTabs = $event
+    }
+
+    changeMessageEvent(mssgEvent) {
+        this.ActiveTab=mssgEvent.ActiveTabChildParam;
+    }
     constructor(private userService: UserService) {
-        console.log(localStorage.getItem('currentUser'))
+        console.log(localStorage.getItem('currentUser'));
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 

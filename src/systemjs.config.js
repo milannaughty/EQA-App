@@ -43,12 +43,14 @@
       '@angular/platform-browser': 'npm:@angular/platform-browser@5.0.3/bundles/platform-browser.umd.js',
       '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic@5.0.3/bundles/platform-browser-dynamic.umd.js',
       '@angular/router': 'npm:@angular/router@5.0.3/bundles/router.umd.js',
+      'ngx-smart-modal': 'node_modules/ngx-smart-modal/bundles/ngx-smart-modal.umd.js',
 
       // other libraries
       'rxjs':                      'npm:rxjs@5.2.0',
       'ts':                        'npm:plugin-typescript@5.2.7/lib/plugin.js',
       'tslib':                     'npm:tslib/tslib.js',
-      'typescript':                'npm:typescript@2.2.2/lib/typescript.js'
+      'typescript':                'npm:typescript@2.2.2/lib/typescript.js',
+      'jquery':                    'npm:jquery@3.1.1'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

@@ -161,3 +161,4 @@ AppPackages/
 # ignore objects and archives, anywhere in the tree.
 **/*.zip
 **/.vscode
+**/node_modules

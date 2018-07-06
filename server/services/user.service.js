@@ -15,24 +15,35 @@ service.getById = getById;
 service.create = create;
 service.update = update;
 service.delete = _delete;
+service.getPanelBySkills = getPanelBySkills;
 
 module.exports = service;
 
-function authenticate(username, password) {
+function authenticate(username, password, isPanel) {
     var deferred = Q.defer();
-
     db.users.findOne({ username: username }, function (err, user) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (user && bcrypt.compareSync(password, user.hash)) {
+            console.log(user);
             // authentication successful
-            deferred.resolve({
-                _id: user._id,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                token: jwt.sign({ sub: user._id }, config.secret)
-            });
+            console.log(isPanel);
+            console.log(user.isPanel);
+            if (isPanel == user.isPanel) {
+
+                deferred.resolve({
+                    _id: user._id,
+                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    isPanel: user.isPanel,
+                    isAdmin: user.isAdmin,
+                    teamName: user.teamName,
+                    token: jwt.sign({ sub: user._id }, config.secret)
+                });
+            } else {
+                deferred.reject("Incorrect role, please provide the valid credentials");
+            }
         } else {
             // authentication failed
             deferred.resolve();
@@ -175,6 +186,35 @@ function _delete(_id) {
 
             deferred.resolve();
         });
+
+    return deferred.promise;
+}
+
+function getPanelBySkills(skills) {
+    console.log("In getPanelBySkills :"+JSON.stringify(skills));
+    var deferred = Q.defer();
+    if (!(Array.isArray(skills.devSkillSet) && Array.isArray(skills.qaSkillSet) && (skills.devSkillSet.length > 0 || skills.qaSkillSet.length > 0))) {
+        deferred.resolve([]);
+    }
+    else {
+        db.users.find({ isPanel: true }).toArray(function (err, panel) {
+            debugger;
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            var result = []
+            var requestedDevSkill = skills.devSkillSet.map(x => x.itemName);
+            var requestedQaSkill = skills.qaSkillSet.map(x => x.itemName);
+            console.log(panel);
+            panel.map(function (p) {
+                console.log("-----------------------------------------");
+                console.log(p);
+                var panelSkills = p.panelType =='QA'? p.qaSkillList.map(x => x.itemName):p.skillSet.map(x => x.itemName);
+                var valid = panelSkills.some(x => (requestedDevSkill.includes(x) || requestedQaSkill.includes(x)))
+                if (valid)
+                    result.push(p)
+            })
+            deferred.resolve(result);
+        });
+    }
 
     return deferred.promise;
 }

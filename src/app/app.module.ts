@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import * as $ from 'jquery';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers/index';
@@ -11,8 +13,8 @@ import { routing } from './app.routing';
 
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { JwtInterceptor,JwtInterceptorProvider } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService } from './_services/index';
+import { JwtInterceptor, JwtInterceptorProvider } from './_helpers/index';
+import { AlertService, AuthenticationService, UserService, RequestService, ModalService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
@@ -28,6 +30,10 @@ import { AssociateRequestDetailComponent } from './associate-request-detail/asso
 import { AssociateRequestListComponent } from './associate-request-list/associate-request-list.component';
 import { TeamPanelListComponent } from './team-panel-list/team-panel-list.component';
 import { TeamPanelDetailComponent } from './team-panel-detail/team-panel-detail.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminRequestComponent } from './admin-team-request/admin-team-request.component';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
 
 @NgModule({
     imports: [
@@ -36,7 +42,8 @@ import { TeamPanelDetailComponent } from './team-panel-detail/team-panel-detail.
         HttpClientModule,
         routing,
         AngularMultiSelectModule,
-        NgDatepickerModule
+        NgDatepickerModule,
+        NgxSmartModalModule.forRoot()
     ],
     declarations: [
         AppComponent,
@@ -51,11 +58,16 @@ import { TeamPanelDetailComponent } from './team-panel-detail/team-panel-detail.
         AssociateRequestDetailComponent,
         AssociateRequestListComponent,
         TeamPanelListComponent,
-        TeamPanelDetailComponent
+        TeamPanelDetailComponent,
+        AdminDashboardComponent,
+        AdminRequestComponent,
+        AdminTeamRequestDetailsComponent
     ],
     providers: [
         AuthGuard,
         AlertService,
+        RequestService,
+        ModalService,
         AuthenticationService,
         JwtInterceptorProvider,
         UserService,

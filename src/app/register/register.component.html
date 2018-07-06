@@ -23,9 +23,21 @@
                         </select>
                     </div>
                     <div class="form-group" *ngIf="model.roleId !== 1">
-                        <label for="LoginAsId">Skills</label>
+                            <label for="LoginAsId">Panel Type</label>
+                            <select required id="PanelType" #Id="ngModel" class="hideLabel form-control" [(ngModel)]="model.panelType" name="PanelType">
+                                <option [ngValue]="k.Id" *ngFor="let k of panelTypeList">
+                                    {{k.Name}}
+                                </option>
+                            </select>
+                        </div>
+                    <div class="form-group" *ngIf="model.roleId !== 1 && model.panelType == 'Dev'">
+                        <label for="LoginAsId">Dev Skills</label>
                         <angular2-multiselect name="skillset" [data]="skillList" [(ngModel)]="model.skillSet" [settings]="dropdownSettings"></angular2-multiselect>
                     </div>
+                    <div class="form-group" *ngIf="model.roleId !== 1 && model.panelType == 'QA'">
+                            <label for="LoginAsId">QA Skills</label>
+                            <angular2-multiselect name="qaSkillList" [data]="qaSkillList" [(ngModel)]="model.qaSkillList" [settings]="dropdownSettings"></angular2-multiselect>
+                        </div>
                     <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }" *ngIf="model.roleId == 1">
                         <label for="teamName">Team Name</label>
                         <input type="text" class="form-control" name="teamName" [(ngModel)]="model.teamName" #teamName="ngModel" required />

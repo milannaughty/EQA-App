@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertService, RequestService } from '../_services/index';
 
 @Component({
   selector: 'app-team-new-request',
@@ -6,14 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./team-new-request.component.css']
 })
 export class TeamNewRequestComponent implements OnInit {
-
+  loading = false;
   model: any = {};
+  ActiveTabs: any = 'InitiateEQARequest';
+  @Output() messageEvent = new EventEmitter<any>();
   selectedSkills: number[];
   dropdownSettings = {};
   skillList: any;
+  qaSkillList:any;
   public deliveryDate: any = { date: new Date() };
   public expectedIQADate: any = { date: new Date() };
-  constructor() { }
+  constructor(
+    private router: Router,
+    private requestService: RequestService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
     this.skillList = [
@@ -33,14 +42,48 @@ export class TeamNewRequestComponent implements OnInit {
       { id: 14, itemName: 'C' },
       { id: 15, itemName: 'C++' },
       { id: 16, itemName: 'C#' },
-  ].sort((x, y) => x.itemName.localeCompare(y.itemName));
-  this.dropdownSettings = {
+    ].sort((x, y) => x.itemName.localeCompare(y.itemName));
+    this.qaSkillList = [
+      { id: 17, itemName: 'Web Service' },
+            { id: 18, itemName: 'API' },
+            { id: 19, itemName: 'Performance' },
+            { id: 20, itemName: 'Load ' },
+            { id: 21, itemName: 'SQL' },
+            { id: 22, itemName: 'Automation' },
+            { id: 23, itemName: 'Selenium' },
+            { id: 24, itemName: 'UFT' },
+            { id: 25, itemName: 'Mobile testing' },
+            { id: 26, itemName: 'Jmeter' },
+            { id: 27, itemName: 'SOAPUI and Postman' }
+    ].sort((x, y) => x.itemName.localeCompare(y.itemName));
+    this.dropdownSettings = {
       singleSelection: false,
       text: "Select Skillset",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       enableSearchFilter: true
-  };
+    };
+  }
+
+  createRequest() {
+    this.loading = true;
+    this.model.isPanel = this.model.roleId == 2;//2 is used for Panel registration, 1 is for Team
+    debugger;
+    var currentUser = localStorage.getItem('currentUser');
+    debugger;
+    var cUser=JSON.parse(currentUser);
+    this.model.initiatedBy = {ID:JSON.parse(currentUser)._id,TeamName:JSON.parse(currentUser).teamName}
+    this.requestService.create(this.model)
+      .subscribe(
+      data => {
+        this.alertService.success('Registration successful', true);
+        this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
+
+      },
+      error => {
+        this.alertService.error(error);
+        this.loading = false;
+      });
   }
 
 }

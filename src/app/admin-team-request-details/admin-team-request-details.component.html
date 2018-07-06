@@ -1,0 +1,111 @@
+<table> </table>
+<div class="container">
+  <h1>Request Detail</h1>
+  <div class="modal-body row">
+    <div class="col-md-6" text-center>
+      <!-- <form  > -->
+      <div>
+        <label for="pbiId ">PBI ID</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.pbiId}} " class="form-control ">
+        -->{{currentRequestData.pbiId}}
+      </div>
+
+      <div>
+        <label for="name ">Name</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.name}} " class="form-control "> -->
+        {{currentRequestData.name}}
+      </div>
+
+      <div>
+        <label for="skillSet">Dev SkillSet</label>
+        <div *ngFor="let skillSetObject of currentRequestData.skillSet ">
+          <span>
+                {{skillSetObject.itemName}}
+              </span>
+        </div>
+
+        <br>
+        <label for="skillSet">QA SkillSet</label>
+        <span *ngFor="let skillSetObject of currentRequestData.qaSkillSet ">
+            {{skillSetObject.itemName}}
+          </span>
+      </div>
+      <div>
+        <label for="deliveryDate ">Delivery Date</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}} " class="form-control "> -->
+        {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}
+      </div>
+
+      <div>
+        <label for="expectedIQADate ">Expected IQA Date</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}} -->
+        {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}
+      </div>
+
+      <div>
+        <label for="status ">Status</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.status }} " class="form-control "> -->
+        {{currentRequestData.status }}
+      </div>
+
+      <div>
+        <label for="checklist ">checklist</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.checklist }} " class="form-control "> -->
+        {{currentRequestData.checklist }}
+      </div>
+
+      <div>
+        <label for="remarks ">Remarks</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.remarks}} " class="form-control "> -->
+        {{currentRequestData.remarks}}
+      </div>
+
+      <div>
+        <label for="isPanel ">Panel</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.isPanel}} " class="form-control "> -->
+        {{currentRequestData.isPanel}}
+      </div>
+
+      <div>
+        <label for="initiatedBy ">Initiated By</label>
+        <!-- <input type="text " disabled value="{{currentRequestData.initiatedBy.TeamName}} " class="form-control "> -->
+        {{currentRequestData.initiatedBy.TeamName}}
+      </div>
+      <!-- </form> -->
+    </div>
+    <div class="col-md-6">
+      <h2>Select To Assign</h2>
+      <form (ngSubmit)="f.form.valid && assignSelectedUsers()" #f="ngForm">
+
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+          <input type="checkbox" class="custom-control-input" id="customControlInline">
+          <label class="custom-control-label" for="customControlInline">Dev user</label>
+          <input type="checkbox" class="custom-control-input" id="customControlInline">
+          <label class="custom-control-label" for="customControlInline">QA user</label>
+          <div *ngIf="isSkillLoaded==true">
+            <div class="form-group">
+              <label for="devSkillSetPanel">Dev Skills</label>
+              <angular2-multiselect name="devSkillSetPanel" [data]="devSkillSetPanel" [(ngModel)]="model.devSkillSetPanel" [settings]="devDropdownSettings"></angular2-multiselect>
+            </div>
+
+            <div class="form-group">
+              <label for="qaSkillSetPanel">QA Skills</label>
+              <angular2-multiselect name="qaSkillSetPanel" [data]="qaSkillSetPanel" [(ngModel)]="model.qaSkillSetPanel" [settings]="qaDropdownSettings"></angular2-multiselect>
+            </div>
+          </div>
+        </div>
+
+        <div style="align-content: center">
+          <button type="submit" class="btn btn-success ">Assign</button>
+          <button (click)="ShowRequestList()" class="btn btn-warning">Go Back</button>
+        </div>
+      </form>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

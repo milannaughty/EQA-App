@@ -10,4 +10,5 @@ export class User {
     status: string;
     skills: JSON;
     roles: string;
+    isAdmin:boolean;
 }
