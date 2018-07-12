@@ -198,7 +198,6 @@ function getPanelBySkills(skills) {
     }
     else {
         db.users.find({ isPanel: true }).toArray(function (err, panel) {
-            debugger;
             if (err) deferred.reject(err.name + ': ' + err.message);
             var result = []
             var requestedDevSkill = skills.devSkillSet.map(x => x.itemName);

@@ -12,7 +12,7 @@
             <li class="active">{{AdminActiveTab}}</li>
         </ol>
     </section>
-    <section class="content-header">
+    <!-- <section class="content-header">
         <ul class="breadcrumb">
             <li> Status: </li>
             <li>
@@ -55,11 +55,43 @@
                 <input type="Button" value="search" />
             </li>
         </ul>
-    </section>
+    </section> -->
 
     <!-- Main content -->
     <section class="content">
-        <div *ngIf="AdminActiveTab=='HOME'">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-2 breadcrumb">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div style="margin-left:2%">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" class="active">
+                                <a href="#" (click)="doAction('')">Home</a>
+                            </li>
+                            <li role="presentation" class="active">
+                                <a href="#" (click)="doAction('')">Home</a>
+                            </li>
+                            <li role="presentation" class="active">
+                                <a href="#" (click)="doAction('')">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-9 col-xs-9">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <admin-request-list *ngIf="ActiveTab===ActionList.AdminTeamRequest"></admin-request-list>
+                        <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
+                            (messageEvent)='ShowRequestList()'> </app-admin-team-request-details>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="AdminActiveTab==ActionList.AdminTeamRequest">
             <div class="row">
                 <div class="col-md-12">
                     <table style="width: 100%;max-width: 100%; margin: 20px " class="table-striped">
@@ -90,13 +122,13 @@
                                 <!-- <td><h4 *ngFor="let skillddata.skillSetata of ">{{skilldata.itemName}}</h4></td> -->
                                 <td>
                                     <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
-                    {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
-                    </span>
+                                        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
+                                    </span>
                                 </td>
                                 <td>
                                     <span *ngFor="let skilldata of data.qaSkillSet;let i=index; trackBy:trackByIndex">
-                        {{skilldata.itemName}}{{i === data.qaSkillSet.length - 1 ? '' : ', '}}
-                        </span>
+                                        {{skilldata.itemName}}{{i === data.qaSkillSet.length - 1 ? '' : ', '}}
+                                    </span>
                                 </td>
                                 <td>{{data.creationDate}}</td>
                                 <td>{{data.expectedIQADate}}</td>
@@ -119,9 +151,7 @@
         </div>
         <!-- Small boxes (Stat box) -->
 
-        <app-admin-team-request-details *ngIf="AdminActiveTab=='REQUEST_DETAIL'" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList()'>
-            REQUEST_DETAIL
-        </app-admin-team-request-details>
+
 
 
     </section>

@@ -17,7 +17,7 @@ export class AdminDashboardComponent implements OnInit {
   currentRequestData: any;
   NewRequest: Object;
   AssignEnabled: boolean = false;
-  public skillSetCount=0;
+  public skillSetCount = 0;
   OpenModal: boolean;
   closeResult: string;
 
@@ -26,15 +26,20 @@ export class AdminDashboardComponent implements OnInit {
 
   currentUser: User;
 
+  ActionList: any = {
+    'AdminTeamRequest': 'HOME',
+    'TeamRequestDetails': 'REQUEST_DETAIL'
+  }
+
   AdminActiveTab: any;
 
-  constructor(private requestService: RequestService, private userService : UserService) {
+  constructor(private requestService: RequestService, private userService: UserService) {
     console.log(localStorage.getItem('currentUser'));
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   ngOnInit() {
-    this.AdminActiveTab = 'HOME'
+    this.AdminActiveTab = this.ActionList.AdminTeamRequest;
     this.loadNewRequestForAdmin();
   }
 
@@ -49,11 +54,10 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   ShowRequestDetails(data) {
-    this.AdminActiveTab='REQUEST_DETAIL'
-    debugger;
-    this.currentRequestData =data;
-    var keys=Object.keys(this.currentRequestData.skillSet);
-    this.skillSetCount=keys.length;
+    this.AdminActiveTab = this.ActionList.TeamRequestDetails;
+    this.currentRequestData = data;
+    var keys = Object.keys(this.currentRequestData.skillSet);
+    this.skillSetCount = keys.length;
 
     //var panelList=this.userService.getPanelBySkills(this.currentRequestData.skillSet);
     // this.modalService.open(content).result.then((result) => {
@@ -63,7 +67,7 @@ export class AdminDashboardComponent implements OnInit {
     // });
   }
   ShowRequestList() {
-    this.AdminActiveTab='HOME';
+    this.AdminActiveTab = this.ActionList.TeamRequestDetails;;
     this.loadNewRequestForAdmin();
     // this.modalService.open(content).result.then((result) => {
     //   this.closeResult = `Closed with: ${result}`;
@@ -72,7 +76,7 @@ export class AdminDashboardComponent implements OnInit {
     // });
   }
 
-  public getSkillCountOfCurrentRequest(){
+  public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
   // openModal(id: string) {

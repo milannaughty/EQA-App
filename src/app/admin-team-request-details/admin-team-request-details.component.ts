@@ -33,7 +33,6 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
     console.log(this.isSkillLoaded)
     this.userService.getPanelBySkills(this.currentRequestData.skillSet, this.currentRequestData.qaSkillSet).subscribe(result => {
       this.isSkillLoaded = true
-      console.log(this.isSkillLoaded)
       var r = result as Object[];
       this.qaSkillSetPanel = r.filter(x => x['panelType'] == 'QA').map((x, i) => ({ id: x["_id"], itemName: x["username"] }));
       this.devSkillSetPanel = r.filter(x => x['panelType'] == 'Dev').map(x => ({ id: x["_id"], itemName: x["username"] }));
