@@ -1,77 +1,103 @@
 <table> </table>
 <div class="container">
-  <h1>Request Detail</h1>
+  
+<div class="HeaderClass">Request Detail</div>
   <div class="modal-body row">
     <div class="col-md-6" text-center>
       <!-- <form  > -->
-      <div>
-        <label for="pbiId ">PBI ID</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.pbiId}} " class="form-control ">
-        -->{{currentRequestData.pbiId}}
-      </div>
-
-      <div>
-        <label for="name ">Name</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.name}} " class="form-control "> -->
-        {{currentRequestData.name}}
-      </div>
-
-      <div>
-        <label for="skillSet">Dev SkillSet</label>
-        <div *ngFor="let skillSetObject of currentRequestData.skillSet ">
-          <span>
-                {{skillSetObject.itemName}}
+      <table class="fontFamily" style="width:70%">
+        <tr>
+          <td>
+            <label for="pbiId ">PBI ID</label>
+          </td>
+          <td>{{currentRequestData.pbiId}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="name ">Name</label>
+          </td>
+          <td> {{currentRequestData.name}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">Dev skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">QA skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="deliveryDate ">Delivery Date</label>
+          </td>
+          <td>
+            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="expectedIQADate ">Expected IQA Date</label>
+          </td>
+          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="status ">Status</label>
+          </td>
+          <td> {{currentRequestData.status }}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="checklist ">checklist</label>
+          </td>
+          <td> {{currentRequestData.checklist }}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="remarks ">Remarks</label>
+          </td>
+          <td> {{currentRequestData.remarks}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="initiatedBy ">Initiated By</label>
+          </td>
+          <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+        </tr>
+        <tr>
+            <td>
+              <label for="skillSet">Dev Panel</label>
+            </td>
+            <td>
+              <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
+                  {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
               </span>
-        </div>
+            </td>
+          </tr>
+          <tr>
+              <td>
+                <label for="skillSet">QA Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
+                    {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
+                </span>
+              </td>
+            </tr>
+      </table>
 
-        <br>
-        <label for="skillSet">QA SkillSet</label>
-        <span *ngFor="let skillSetObject of currentRequestData.qaSkillSet ">
-            {{skillSetObject.itemName}}
-          </span>
-      </div>
-      <div>
-        <label for="deliveryDate ">Delivery Date</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}} " class="form-control "> -->
-        {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}
-      </div>
 
-      <div>
-        <label for="expectedIQADate ">Expected IQA Date</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}} -->
-        {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}
-      </div>
-
-      <div>
-        <label for="status ">Status</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.status }} " class="form-control "> -->
-        {{currentRequestData.status }}
-      </div>
-
-      <div>
-        <label for="checklist ">checklist</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.checklist }} " class="form-control "> -->
-        {{currentRequestData.checklist }}
-      </div>
-
-      <div>
-        <label for="remarks ">Remarks</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.remarks}} " class="form-control "> -->
-        {{currentRequestData.remarks}}
-      </div>
-
-      <div>
-        <label for="isPanel ">Panel</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.isPanel}} " class="form-control "> -->
-        {{currentRequestData.isPanel}}
-      </div>
-
-      <div>
-        <label for="initiatedBy ">Initiated By</label>
-        <!-- <input type="text " disabled value="{{currentRequestData.initiatedBy.TeamName}} " class="form-control "> -->
-        {{currentRequestData.initiatedBy.TeamName}}
-      </div>
-      <!-- </form> -->
     </div>
     <div class="col-md-6">
       <h2>Select To Assign</h2>

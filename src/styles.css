@@ -147,3 +147,31 @@ pre {
   text-align: center;
   font-size: 12px;
   color: #fff; } */
+
+  .HeaderClass {
+    border: 1px solid gainsboro;
+    box-shadow: 1px 1px 1px grey;
+    padding-top: 3px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    width: 96%;
+    font-size: 18px;
+    font-family: calibri;
+    font-weight: bold;
+}
+
+.fontFamily{
+  font-family: calibri;
+  font-size: 16px;
+}
+
+.table-striped tbody tr:hover {
+  background: khaki;
+  color: black;
+  font-weight: normal;
+}
+.table-striped span{
+  cursor: pointer
+}

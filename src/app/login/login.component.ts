@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
-        debugger;
         if(this.model.loginAsId === 1){
             this.model.isPanel = false;
         }

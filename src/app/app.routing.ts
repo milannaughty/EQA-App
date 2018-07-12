@@ -11,6 +11,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'admin', component: AdminDashboardComponent },
+    { path: 'admin#', component: AdminDashboardComponent }
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

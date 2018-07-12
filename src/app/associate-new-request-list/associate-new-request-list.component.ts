@@ -18,7 +18,6 @@ export class AssociateNewRequestListComponent implements OnInit {
 
   private loadNewRequestForAssociate() {
     this.loading = true;
-    debugger;
     this.requestService.getAssociateNewRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
       this.NewRequest = result;

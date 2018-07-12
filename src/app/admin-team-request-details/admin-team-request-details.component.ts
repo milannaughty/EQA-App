@@ -57,7 +57,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   }
   ShowRequestList() {
     debugger;
-    this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
+    this.messageEvent.emit({ ActivateTab: 'HOME' });
   }
 
   //  getPanelUserBySkills(){
@@ -72,56 +72,28 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   //  }  
 
   assignSelectedUsers() {
+    console.log('In assignSelectedUsers start');
     debugger;
-    console.log('in assignSelectedUsers start');
     var testObj = new Array('1','2');
-    this.requestService.sendMail(testObj).subscribe(
-      res => {
-        debugger;
-        console.log('Updated requested completed.');
-        this.ShowRequestList()
-      },
-      err => {
-        console.log('Updated requested completed with error.');
-        console.log(err)
-        this.ShowRequestList()
-      }
-    );
-    console.log('after');
-    // var selectedQaSkills = new Array();
-    // var selectedDevSkills = new Array();
-    // if (this.model.devSkillSetPanel != undefined && this.model.devSkillSetPanel.length != 0) {
-    //   //update request as assigned to
-
-    //   this.model.devSkillSetPanel.forEach(
-    //     function (value, key) {
-    //       debugger;
-    //       console.log(key);
-    //       console.log(value);
-    //       selectedDevSkills.push(value);
-    //     }
-    //   );
-    // }
-    // if (this.model.qaSkillSetPanel != undefined && this.model.qaSkillSetPanel.length != 0) {
-    //   //update request as assigned to
-    //   this.model.qaSkillSetPanel.forEach(
-    //     function (value, key) {
-    //       debugger;
-    //       console.log(key);
-    //       console.log(value);
-    //       selectedQaSkills.push(value);
-    //     }
-    //   );
-    // }
+    // this.requestService.sendMail(testObj).subscribe(
+    //   res => {
+    //     console.log('Updated requested completed.');
+    //     this.ShowRequestList()
+    //   },
+    //   err => {
+    //     console.log('Updated requested completed with error.');
+    //     console.log(err)
+    //     this.ShowRequestList()
+    //   }
+    // );
     var requestDto = {
       "_id": this.currentRequestData._id,
-      "assidnedDevPanel": this.model.devSkillSetPanel,
-      "assidnedQaPanel": this.model.qaSkillSetPanel,
+      "assignedDevPanelList": this.model.devSkillSetPanel,
+      "assignedQAPanelList": this.model.qaSkillSetPanel,
       "status": "PanelAssigned"
     };
     this.requestService.updateRequest(requestDto).subscribe(
       res => {
-        debugger;
         console.log('Updated requested completed.');
         this.ShowRequestList()
       },

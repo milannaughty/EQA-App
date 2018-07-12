@@ -39,7 +39,6 @@ export class UserService {
         return this.http.get('/api/users/associateallrequest/' + _associateId);
     }
     getPanelBySkills(devSkillSet: any, qaSkillSet: any) {
-        debugger;
         var skills = { devSkillSet: devSkillSet, qaSkillSet: qaSkillSet }
         return this.http.post(appConfig.apiUrl + '/users/getPanelBySkills/', skills);
     }

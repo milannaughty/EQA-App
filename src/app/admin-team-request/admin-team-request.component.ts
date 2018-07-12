@@ -8,22 +8,34 @@ import { AlertService, RequestService } from '../_services/index';
   styleUrls: ['./admin-team-request.component.css']
 })
 export class AdminRequestComponent implements OnInit {
+  NewRequest: object;
+  currentUser: any;
   loading = false;
   model: any = {};
- 
+  @Output() messageEvent = new EventEmitter<any>();
+
   constructor(
-  //  private router: Router,
+    //  private router: Router,
     private requestService: RequestService,
     private alertService: AlertService
   ) { }
 
   ngOnInit() {
-    
+    this.loadNewRequestForAdmin();
   }
-
-  createRequest() {
+  private ShowRequestDetails(data) {
+    debugger;
+    console.log('Redirecting from request list to request detail view');
+    this.messageEvent.emit({ ActivateTab: 'REQUEST_DETAIL', data: data });
+  }
+  private loadNewRequestForAdmin() {
     this.loading = true;
-    
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    this.requestService.getAll().subscribe(result => {
+      this.loading = false;
+      var resultTemp = result;
+      this.NewRequest = result;
+    });
   }
 
 }

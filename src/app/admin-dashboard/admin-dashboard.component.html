@@ -60,20 +60,20 @@
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
-        <div class="row">
+        <div class="row bottomBorder minHeight350">
             <div class="col-lg-2 breadcrumb">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div style="margin-left:2%">
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="#" (click)="doAction('')">Home</a>
+                                <a href="admin#" (click)="doAction($event,'HOME')">Home</a>
                             </li>
-                            <li role="presentation" class="active">
-                                <a href="#" (click)="doAction('')">Home</a>
+                            <li role="presentation" >
+                                <a href="admin#" (click)="doAction('')">Home</a>
                             </li>
-                            <li role="presentation" class="active">
-                                <a href="#" (click)="doAction('')">Home</a>
+                            <li role="presentation" >
+                                <a href="admin#" (click)="doAction('')">Home</a>
                             </li>
                         </ul>
                     </div>
@@ -83,92 +83,13 @@
             <div class="col-lg-9 col-xs-9">
                 <!-- small box -->
                 <div class="small-box bg-green">
-                    <div class="inner">
-                        <admin-request-list *ngIf="ActiveTab===ActionList.AdminTeamRequest"></admin-request-list>
+                    <div class="inner minHeight350 LeftBorder">
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" (messageEvent)='ShowRequestDetails($event)'></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestList()'> </app-admin-team-request-details>
+                            (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
                     </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="AdminActiveTab==ActionList.AdminTeamRequest">
-            <div class="row">
-                <div class="col-md-12">
-                    <table style="width: 100%;max-width: 100%; margin: 20px " class="table-striped">
-
-                        <!--Table head-->
-                        <thead>
-                            <tr>
-                                <th class="th_cols">#</th>
-                                <th class="th_cols">PBI</th>
-                                <th class="th_cols">Name</th>
-                                <th class="th_cols">Dev Skill Set</th>
-                                <th class="th_cols">QA Skill Set</th>
-                                <th>Creation Date</th>
-                                <th>Expected IQA Date</th>
-                                <th>Status</th>
-                                <th>Remarks</th>
-                                <th>Initiated By</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of NewRequest">
-                                <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
-                                <td>
-                                    <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
-
-                                </td>
-                                <td>{{data.name}}</td>
-                                <!-- <td><h4 *ngFor="let skillddata.skillSetata of ">{{skilldata.itemName}}</h4></td> -->
-                                <td>
-                                    <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
-                                        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span *ngFor="let skilldata of data.qaSkillSet;let i=index; trackBy:trackByIndex">
-                                        {{skilldata.itemName}}{{i === data.qaSkillSet.length - 1 ? '' : ', '}}
-                                    </span>
-                                </td>
-                                <td>{{data.creationDate}}</td>
-                                <td>{{data.expectedIQADate}}</td>
-                                <td>
-                                    <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
-                                    <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
-                                    <span *ngIf="data.status=='Rejected'" class="label label-important">{{data.status}}</span>
-                                    <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
-                                </td>
-                                <td>{{data.remarks}}</td>
-                                <td>{{data.initiatedBy.TeamName}}</td>
-                            </tr>
-                        </tbody>
-                        <!--Table body-->
-                    </table>
-                </div>
-                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-                />
-            </div>
-        </div>
-        <!-- Small boxes (Stat box) -->
-
-
-
-
     </section>
-
-    <!-- <modal id="custom-modal-2">
-        <div class="modal">
-            <div class="modal-body">
-                <h1 style="height:1000px">A Tall Custom Modal!</h1>
-                <button (click)="closeModal('custom-modal-2');">Close</button>
-            </div>
-        </div>
-        <div class="modal-background"></div>
-    </modal> -->
-
-    <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
-
-    <!-- <hr> -->
-
-    <!-- <pre>{{closeResult}}</pre> -->
 </div>

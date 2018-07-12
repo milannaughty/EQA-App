@@ -1,10 +1,41 @@
 <div class="">
   <div class="container">
-    <div class="">
-      <div class="col-md-4 col-md-offset-4">
-        <h2>All New IQA Request</h2>
-       test
-      </div>
-    </div>
+    <div class="HeaderClass">IQA Requests</div>
+    <table  class="table-striped fontFamily" style="width: 95%">
+
+      <!--Table head-->
+      <thead>
+        <tr>
+          <th class="th_cols">#</th>
+          <th class="th_cols">PBI</th>
+          <th class="th_cols">Name</th>
+          <th>Request Date</th>
+          <th>Expected IQA Date</th>
+          <th>Status</th>
+          <th>Initiated By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of NewRequest">
+          <th scope="row" style="width: 5%">{{NewRequest.indexOf(data)+1}}</th>
+          <td style="width: 10%">
+            <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
+          </td>
+          <td style="width: 15%">{{data.name}}</td>
+          <td style="width: 15%">{{data.creationDate | date: 'dd MMM yyyy' }}</td>
+          <td style="width: 15%">{{data.expectedIQADate | date: 'dd MMM yyyy'}}</td>
+          <td style="width: 15%">
+            <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
+            <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
+            <span *ngIf="data.status=='Rejected'" class="label label-important">{{data.status}}</span>
+            <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
+          </td>
+          <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
+        </tr>
+      </tbody>
+      <!--Table body-->
+    </table>
   </div>
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+  />
 </div>
