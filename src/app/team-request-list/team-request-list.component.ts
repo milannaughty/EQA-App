@@ -20,7 +20,7 @@ export class TeamRequestListComponent implements OnInit {
   private loadNewRequestForAssociate() {
     debugger;
     this.loading = true;
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
     this.requestService.getTeamAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
       var resultTemp =result;

@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <h2>
-        Hi {{currentUser.username}}!</h2>
+        Hi {{currentUser.username | titlecase }}!</h2>
     <a [routerLink]="['/login']">Logout</a>
 </div>
 <div class="content-wrapper">

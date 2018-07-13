@@ -69,7 +69,7 @@ export class TeamNewRequestComponent implements OnInit {
     this.loading = true;
     this.model.isPanel = this.model.roleId == 2;//2 is used for Panel registration, 1 is for Team
     debugger;
-    var currentUser = localStorage.getItem('currentUser');
+    var currentUser = sessionStorage.getItem('currentUser');
     debugger;
     var cUser=JSON.parse(currentUser);
     this.model.initiatedBy = {ID:JSON.parse(currentUser)._id,TeamName:JSON.parse(currentUser).teamName}
