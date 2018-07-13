@@ -59,8 +59,8 @@ function updateRequest(requestParam) {
     //console.log(requestParam);
     var deferred = Q.defer();
     var set = {
-        'assidnedDevPanel': requestParam.assidnedDevPanel,
-        'assidnedQaPanel': requestParam.assidnedQaPanel,
+        'assignedDevPanelList': requestParam.assignedDevPanelList,
+        'assignedQAPanelList': requestParam.assignedQAPanelList,
         'status': requestParam.status,
     };
     db.request.update(
@@ -99,6 +99,7 @@ function updateReq(reqParam) {
     var deferred = Q.defer();
 
     // fields to update
+    console.log(reqParam);
     var set = reqParam;
     db.users.update(
         { _id: mongo.helper.toObjectID(reqParam._id) },
@@ -152,18 +153,19 @@ function getTeamReq(_id) {
 
 function getAssociateNerReq(_associateId) {
     var deferred = Q.defer();
-    db.request.find({ assignAssociateId: _associateId } && { status: "New" }).toArray(
+    var query = { $or: [ { "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId } ] ,$and: [{"status":"PanelAssigned"}]};
+    db.request.find(query).toArray(
         function (err, requests) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-
             deferred.resolve(requests);
         });
     return deferred.promise;
 }
 
 function getAssociateAllRequest(_associateId) {
+    var query = { $or: [ { "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId } ] };
     var deferred = Q.defer();
-    db.request.find({ assignAssociateId: _associateId }).toArray(
+    db.request.find(query).toArray(
         function (err, requests) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 
