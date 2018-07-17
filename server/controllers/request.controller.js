@@ -13,9 +13,24 @@ router.get('/team/:_id', getTeamReq);
 router.get('/associate/newrequests/:_id', getAssociateNerReq);
 router.get('/associate/:_id', getAssociateAllRequest);
 router.post('/sendMail', sendMail);
+router.put('/updateStatusOfRequest', updateStatusOfRequestInController);
 // router.get('/get');
 
 module.exports = router;
+
+function updateStatusOfRequestInController(request,response){
+    console.log("In start of updateStatusOfRequestInController method" );
+    console.log(request.body);
+        requestService.updateStatusOfRequest(request.body).then(
+            function(element){
+                console.log("updating request complete successfully");
+                response.status(200).send(element);
+            }
+        ).catch(function(err){
+            console.log("updating request complete successfully");
+            response.status(400).send(err);
+        })
+}
 
 function sendMail(req, res) {
     console.log('in sendMail function of RequestController Start ');

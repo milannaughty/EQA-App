@@ -32,11 +32,13 @@ export class UserService {
     }
 
     GetAssociateNewRequest(_associateId: number) {
-        return this.http.get('/api/users/associatenewrequest/' + _associateId);
+        console.log("GetAssociateNewRequest"+_associateId);
+        return this.http.get(appConfig.apiUrl +'/users/associatenewrequest/' + _associateId);
     }
 
     GetAssociateAllRequest(_associateId: number) {
-        return this.http.get('/api/users/associateallrequest/' + _associateId);
+        console.log("GetAssociateAllRequest"+_associateId);
+        return this.http.get(appConfig.apiUrl +'/users/associateallrequest/' + _associateId);
     }
     getPanelBySkills(devSkillSet: any, qaSkillSet: any) {
         var skills = { devSkillSet: devSkillSet, qaSkillSet: qaSkillSet }

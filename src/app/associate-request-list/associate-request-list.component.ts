@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { RequestService } from '../_services/index';
 @Component({
   selector: 'app-associate-request-list',
@@ -8,6 +8,7 @@ import { RequestService } from '../_services/index';
 export class AssociateRequestListComponent implements OnInit {
   NewRequest: Object;
   loading: boolean;
+  @Output() messageEvent = new EventEmitter<any>();
   @Input() currentUser: any;
   constructor(private requestService: RequestService) { }
 
@@ -16,6 +17,7 @@ export class AssociateRequestListComponent implements OnInit {
   }
 
   private loadNewRequestForAssociate() {
+    
     this.loading = true;
     this.requestService.getAssociateAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
@@ -23,4 +25,11 @@ export class AssociateRequestListComponent implements OnInit {
     });
   }
 
+  private ShowRequestDetails(data,showRemarkBox) {
+    console.log(data);
+    console.log('Redirecting from request list to request detail view');
+    data["showRemark"] = showRemarkBox;
+    debugger; 
+    this.messageEvent.emit({ ActivateTab: 'Request Detail', data: data });
+  }
 }

@@ -17,6 +17,7 @@ service.getAssociateNerReq = getAssociateNerReq;
 service.getAssociateAllRequest = getAssociateAllRequest;
 service.updateRequest = updateRequest;
 service.sendMail = sendMail;
+service.updateStatusOfRequest=updateStatusOfRequest;
 module.exports = service;
 
 function sendMail(reqParam) {
@@ -171,5 +172,33 @@ function getAssociateAllRequest(_associateId) {
 
             deferred.resolve(requests);
         });
+    return deferred.promise;
+}
+
+function updateStatusOfRequest(reqParam) {
+    console.log("Start of updateStatusOfRequest method in service ");
+    var deferred = Q.defer();
+    var set = {
+        'status': reqParam.status , 
+    };
+    if(reqParam.assignedDevPanelList !== undefined){
+        set['assignedDevPanelList'] = null;
+    }
+
+    if(reqParam.assignedQAPanelList !== undefined || reqParam.assignedQaPanelList !== undefined){
+        set['assignedQAPanelList'] = null;
+    }
+
+    console.log(reqParam.status);
+    db.request.update(
+        { _id: mongo.helper.toObjectID(reqParam.requestId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :'+JSON.stringify(err))
+            console.log('doc :'+JSON.stringify(doc))
+            deferred.resolve();
+        });
+
     return deferred.promise;
 }

@@ -19,6 +19,7 @@ export class RequestService {
     }
 
     getAssociateNewRequest(_associateId: string) {
+        console.log("in method getAssociateNewRequest ");
         return this.http.get(appConfig.apiUrl + '/requests/associate/newrequests/' + _associateId);
     }
  
@@ -36,6 +37,10 @@ export class RequestService {
     updateRequest(reqObj: object){
         //debugger;
         return this.http.put(appConfig.apiUrl + '/requests/updateRequest' , reqObj);
+    }
+    updateStatusOfRequest(reqObj: Object){
+        //debugger;
+        return this.http.put(appConfig.apiUrl + '/requests/updateStatusOfRequest' , reqObj);
     }
     sendMail(reqObj: object){
         console.log('in sendMail method of request Service'+reqObj);

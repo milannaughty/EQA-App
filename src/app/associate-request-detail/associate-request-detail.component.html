@@ -1,3 +1,119 @@
-<p>
-  associate-request-detail works!
-</p>
+<table> </table>
+<div class="container">
+  
+<div class="HeaderClass">Request Detail</div>
+
+  <div class="modal-body row">
+    <div class="col-md-6" text-center>
+      <!-- <form  > -->
+        <form >
+      <table class="fontFamily" style="width:100%">
+        <tr>
+          <td>
+            <label for="pbiId ">PBI ID</label>
+          </td>
+          <td>{{currentRequestData.pbiId}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="name ">Name</label>
+          </td>
+          <td> {{currentRequestData.name}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">Dev skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">QA skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="deliveryDate ">Delivery Date</label>
+          </td>
+          <td>
+            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="expectedIQADate ">Expected IQA Date</label>
+          </td>
+          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="status ">Status</label>
+          </td>
+          <td > {{currentRequestData.status }}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="checklist ">checklist</label>
+          </td>
+          <td> {{currentRequestData.checklist }}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="remarks ">Remarks</label>
+          </td>
+          <td> {{currentRequestData.remarks}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="initiatedBy ">Initiated By</label>
+          </td>
+          <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+        </tr>
+        <tr>
+            <td>
+              <label for="skillSet">Dev Panel</label>
+            </td>
+            <td>
+              <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
+                  {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+              <td>
+                <label for="skillSet">QA Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
+                    {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
+                </span>
+              </td>
+            </tr><br/>
+            <tr *ngIf="currentRequestData.showRemark">
+              <td >
+                <label for="RejectRemark " cols="30" rows="4">Reason for rejection</label>
+              </td>
+              <td><textarea  name=""  class="form-control" id="reasontext" cols="30" rows="4" required ></textarea></td>
+            </tr>
+            <br/>
+            <tr >
+               <td>
+                    <button type="submit" class="btn btn-success pull-right " (click)="SendRejectReason()" *ngIf="currentRequestData.showRemark">Reject</button>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px; ">Go Back</button>
+                </td>
+            </tr>
+      </table>
+        </form>
+    </div>
+  
+  </div>

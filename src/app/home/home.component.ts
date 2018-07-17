@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 
 export class HomeComponent implements OnInit {
+    currentRequestData: any;
     NewRequestCount: any;
     NewRequest: any;
     currentUser: User;
@@ -50,6 +51,8 @@ export class HomeComponent implements OnInit {
             this.NewRequestCount = result;
             this.NewRequestCount = Array.from(this.NewRequestCount).length;
         });
+        this.ActiveTab = this.ActionList.EQANewRequests;
+        this.ActiveTab = this.ActionList.EQASummary;
     }
 
     deleteUser(_id: string) {
@@ -62,6 +65,14 @@ export class HomeComponent implements OnInit {
     doAction(actionName: string) {
         this.ActiveTab = actionName;
     }
-
+    ShowRequestDetails(actionData){
+        debugger;
+        this.currentRequestData = actionData.data;
+        this.ActiveTab = actionData.ActivateTab;
+        
+    }
+    ShowRequestList(mssgEvent) {
+        this.ActiveTab = this.ActionList.EQANewRequests;;
+      }
 
 }
