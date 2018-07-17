@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
 import { UserService } from "../_services/user.service";
+import { Router } from '@angular/router';
 //import { ModalComponent } from '../_directives/index';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,9 +28,10 @@ export class AdminDashboardComponent implements OnInit {
     'TeamRequestDetails': 'REQUEST_DETAIL'
   }
 
-  constructor(private requestService: RequestService, private userService: UserService) {
-    console.log(localStorage.getItem('currentUser'));
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  constructor(private requestService: RequestService, private userService: UserService,private router: Router) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (!this.currentUser || !this.currentUser.isAdmin)
+      this.router.navigate(['/login']);
   }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class AdminDashboardComponent implements OnInit {
   public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
-  doAction(event,actionName) {
+  doAction(event, actionName) {
     this.AdminActiveTab = actionName;
   }
 }

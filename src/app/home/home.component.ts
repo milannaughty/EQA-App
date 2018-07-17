@@ -38,11 +38,15 @@ export class HomeComponent implements OnInit {
         this.ActiveTab = mssgEvent.ActiveTabChildParam;
     }
     constructor(private userService: UserService, private router: Router) {
-        let cachedUser = localStorage.getItem('currentUser');
+        let cachedUser = sessionStorage.getItem('currentUser');
         if (!cachedUser)
-            this.router.navigate(['/login'])
-        else
-            this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            this.router.navigate(['/login']);
+        else{
+            this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if(this.currentUser.isAdmin){
+                this.router.navigate(['/admin']);
+            }
+        }
     }
 
     ngOnInit() {
