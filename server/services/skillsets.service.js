@@ -20,6 +20,7 @@ skillSetService.getAllSkillSets=getAllSkillSets;
 skillSetService.getSkillsByType=getSkillsByType;
 skillSetService.getSkillSetsById=getSkillSetsById;
 skillSetService.getSkillsByName=getSkillsByName;
+skillSetService.createNewSkillSet=createNewSkillSet;
 
 module.exports = skillSetService;
 
@@ -92,5 +93,42 @@ function getSkillsByName(recievedParam){
         });
 
     console.log("End of getSkillsByName method of service");
+    return deferred.promise;
+}
+
+/**
+ * This method creates new SkillSet Object
+ * _id : auto generated id
+ * type : QA or Dev
+ * skillName : Actual skill name
+ * @param {SkillSet} reqParam 
+ */
+function createNewSkillSet(reqParam) {
+    var deferred = Q.defer();
+
+        // validate if already exist
+        db.skillSets.findOne(
+            { skillName: reqParam.skillName },
+            function (err, skillSet) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
+    
+                if (skillSet) {
+                    // username already exists
+                    deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
+                } else {
+                    createSkillSet();
+                }
+            });
+
+            function createSkillSet(){
+                db.skillSets.insert(
+                    reqParam,
+                    function (err, doc) {
+                        if (err) deferred.reject(err.name + ': ' + err.message);
+            
+                        deferred.resolve();
+                    });
+            }
+
     return deferred.promise;
 }
