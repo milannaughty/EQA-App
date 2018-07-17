@@ -27,4 +27,8 @@ export class SkillSetsService {
         return this.http.get<SkillSets>(appConfig.apiUrl + '/skillSets/getSkillSetByName?skillName='+skillName);
     }
 
+    postNewSkillSet(){
+        return this.http.get<SkillSets>(appConfig.apiUrl + '/skillSets/createNewSkillSet');
+    }
+
 }
