@@ -10,13 +10,5 @@ padding: 12px;
     text-align: center; 
 }
 
-.minHeight350 {
-    min-height: 350px;
-}
-.bottomBorder{
-    border-bottom: solid 1px gainsboro;
-}
-.LeftBorder{
-    border-left: solid 1px gainsboro;
-}
+
 

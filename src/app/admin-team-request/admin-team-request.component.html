@@ -22,12 +22,13 @@
             <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
           </td>
           <td style="width: 15%">{{data.name}}</td>
-          <td style="width: 15%">{{data.creationDate | date: 'dd MMM yyyy' }}</td>
-          <td style="width: 15%">{{data.expectedIQADate | date: 'dd MMM yyyy'}}</td>
+          <td style="width: 15%">{{data.creationDate?(data.creationDate | date: 'dd MMM yyyy'):'NA' }}</td>
+          <td style="width: 15%">{{data.expectedIQADate?(data.expectedIQADate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td style="width: 15%">
             <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
-            <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
-            <span *ngIf="data.status=='Rejected'" class="label label-important">{{data.status}}</span>
+            <span *ngIf="data.status=='New'" class="label label-default">{{data.status}}</span>
+            <span *ngIf="data.status=='InProgress'" class="label label-primary">{{data.status}}</span>
+            <span *ngIf="data.status=='Rejected'" class="label label-danger">{{data.status}}</span>
             <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
           </td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>

@@ -148,6 +148,16 @@ pre {
   font-size: 12px;
   color: #fff; } */
 
+.minHeight350 {
+    min-height: 350px;
+}
+.bottomBorder{
+    border-bottom: solid 1px gainsboro;
+}
+.LeftBorder{
+    border-left: solid 1px gainsboro;
+}
+
   .HeaderClass {
     border: 1px solid gainsboro;
     box-shadow: 1px 1px 1px grey;
@@ -174,4 +184,14 @@ pre {
 }
 .table-striped span{
   cursor: pointer
+}
+
+.table-striped tbody .label-primary  {
+  padding-left: 10px;
+  padding-right: 23px;
+}
+
+.table-striped tbody .label-default {
+  padding-left: 10px;
+  padding-right: 52px;
 }
