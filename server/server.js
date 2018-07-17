@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // routes
 app.use('/users', require('./controllers/users.controller'));
 app.use('/requests', require('./controllers/request.controller'));
-
+app.use('/skillSets',require('./controllers/skillSets.controller'));
 // error handler
 // app.use(function (err, req, res, next) {
 //     //res.header("Access-Control-Allow-Origin", "*")

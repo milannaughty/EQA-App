@@ -14,7 +14,7 @@ import { routing } from './app.routing';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor, JwtInterceptorProvider } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, RequestService, ModalService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, RequestService, ModalService, SkillSetsService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
@@ -67,6 +67,7 @@ import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/a
         AuthGuard,
         AlertService,
         RequestService,
+        SkillSetsService,
         ModalService,
         AuthenticationService,
         JwtInterceptorProvider,

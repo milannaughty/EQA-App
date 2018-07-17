@@ -3,3 +3,4 @@ export * from './authentication.service';
 export * from './user.service';
 export * from './request.service';
 export * from './modal.service';
+export * from './skillSets.service';
