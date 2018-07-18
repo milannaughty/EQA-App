@@ -178,18 +178,18 @@ function getAssociateAllRequest(_associateId) {
 function updateStatusOfRequest(reqParam) {
     console.log("Start of updateStatusOfRequest method in service ");
     var deferred = Q.defer();
-    var set = {
-        'status': reqParam.status , 
+    var  set = {
+        "status": reqParam.status,
+        "rejectReason":reqParam.rejectReason ,
     };
-    if(reqParam.assignedDevPanelList !== undefined){
-        set['assignedDevPanelList'] = null;
+    if(reqParam.assignedDevPanelList !== undefined)
+    {
+            set["assignedDevPanelList"] = null;
+    }
+    if(reqParam.assignedQAPanelList !== undefined){
+            set["assignedQAPanelList"] = null;
     }
 
-    if(reqParam.assignedQAPanelList !== undefined || reqParam.assignedQaPanelList !== undefined){
-        set['assignedQAPanelList'] = null;
-    }
-
-    console.log(reqParam.status);
     db.request.update(
         { _id: mongo.helper.toObjectID(reqParam.requestId) },
         { $set: set },
@@ -202,3 +202,4 @@ function updateStatusOfRequest(reqParam) {
 
     return deferred.promise;
 }
+
