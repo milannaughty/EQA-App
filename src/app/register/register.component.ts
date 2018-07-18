@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AlertService, UserService, SkillSetsService } from '../_services/index';
 import { SkillSets } from '../_models/SkillSets';
-// import { SkillSetsService} from '../_services/skillSets.service';
 // import { SkillSets } from '../_models/SkillSets';
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'register.component.html'
+    selector: 'app-register-component',
+    templateUrl: 'register.component.html',
+    styleUrls: ['./register-component.css']
 })
 
 export class RegisterComponent {
-    
     qaSkillList: any;
     model: any = {};
     loading = false;
@@ -21,6 +21,7 @@ export class RegisterComponent {
     selectedSkills: number[];
     dropdownSettings = {};
     skillList: any;
+    @Input() currentUser: any;
     constructor(
         private router: Router,
         private userService: UserService,
@@ -28,54 +29,22 @@ export class RegisterComponent {
         private skillSetsService: SkillSetsService) { }
 
     ngOnInit() {
-        debugger;
         this.model.roleId = 1;
-        this.roleList = [
-            {
-                "Id": 1,
-                "Name": "Team"
-            },
-            {
-                "Id": 2,
-                "Name": "Panel"
-            }]
-            this.panelTypeList = [
-                {
-                    "Id": 'Dev',
-                    "Name": "Dev"
-                },
-                {
-                    "Id": 'QA',
-                    "Name": "QA"
-                }]
-        
-        this.skillSetsService.getSkillSetsByType("Dev").subscribe(
-            devSkills =>{
-                 this.skillList=(devSkills as SkillSets[]).map(x=>({id:x["_id"],itemName:x["skillName"]}));
-                 this.skillList=this.skillList.sort((x, y) => x.itemName.localeCompare(y.itemName));
-            })
-         this.skillSetsService.getSkillSetsByType("Qa").subscribe(
-            qaSkillSet =>{
-                 this.qaSkillList=(qaSkillSet as SkillSets[]).map(x=>({id:x["_id"],itemName:x["skillName"]}));
-                 this.qaSkillList=this.qaSkillList.sort((x, y) => x.itemName.localeCompare(y.itemName));
-            })
-        this.dropdownSettings = {
-            singleSelection: false,
-            enableSearch:true,
-            text: "Select Skillsets",
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            enableSearchFilter: true,
-            minSelectionLimit:1 ,
-            primaryKey: "_id",
-            labelKey: "skillName"
-        };
-        
+        this.roleList = [{ "Id": 1, "Name": "Team" }, { "Id": 2, "Name": "Panel" }]
+        this.panelTypeList = [{ "Id": 'Dev', "Name": "Dev" }, { "Id": 'QA', "Name": "QA" }]
+        this.skillSetsService.getSkillSetsByType("Dev").subscribe(devSkills => { this.skillList = this.getFormattedSkillSet(devSkills); })
+        this.skillSetsService.getSkillSetsByType("Qa").subscribe(qaSkillSet => { this.qaSkillList = this.getFormattedSkillSet(qaSkillSet); })
+        this.dropdownSettings = { singleSelection: false, enableSearch: true, text: "Select Skillsets", selectAllText: 'Select All', unSelectAllText: 'UnSelect All', enableSearchFilter: true, minSelectionLimit: 1, primaryKey: "_id", labelKey: "skillName" };
     }
 
-    onDevSkillSelect(recievedItem){
+    getFormattedSkillSet(skillSet: any[]) {
+        var t = (skillSet as SkillSets[]).map(x => ({ id: x["_id"], itemName: x["skillName"] }));
+        t = t.sort((x, y) => x.itemName.localeCompare(y.itemName));
+        return t;
+    }
+    onDevSkillSelect(recievedItem) {
         debugger;
-        console.log("dev skill set selected "+recievedItem);
+        console.log("dev skill set selected " + recievedItem);
     }
 
     register() {

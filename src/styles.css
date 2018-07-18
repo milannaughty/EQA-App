@@ -195,3 +195,20 @@ pre {
   padding-left: 10px;
   padding-right: 52px;
 }
+
+body{
+  font-family: 'Roboto', sans-serif;
+}
+.form-control{
+  height: 41px;
+  box-shadow: none !important;
+  
+}
+.form-control:focus{
+  background: #e2e2e2;
+}
+.form-control, .btn{        
+      border-radius: 3px;
+ }
+
+  
