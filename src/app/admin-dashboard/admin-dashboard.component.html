@@ -67,10 +67,10 @@
                     <div style="margin-left:2%">
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="admin#" (click)="doAction($event,'HOME')">Home</a>
+                                <a href="admin#" (click)="doAction('HOME')">Home</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Panel</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction('')">Add Team</a>
@@ -102,6 +102,7 @@
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" (messageEvent)='ShowRequestDetails($event)'></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
+                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentUser]="currentUser"> </app-register-component>
                     </div>
                 </div>
             </div>

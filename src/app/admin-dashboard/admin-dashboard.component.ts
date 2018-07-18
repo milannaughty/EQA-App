@@ -25,7 +25,8 @@ export class AdminDashboardComponent implements OnInit {
 
   ActionList: any = {
     'AdminTeamRequest': 'HOME',
-    'TeamRequestDetails': 'REQUEST_DETAIL'
+    'TeamRequestDetails': 'REQUEST_DETAIL',
+    'AddPanel':'ADD_PANEL'
   }
 
   constructor(private requestService: RequestService, private userService: UserService,private router: Router) {
@@ -51,7 +52,8 @@ export class AdminDashboardComponent implements OnInit {
   public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
-  doAction(event, actionName) {
+  doAction( actionName) {
     this.AdminActiveTab = actionName;
+    
   }
 }
