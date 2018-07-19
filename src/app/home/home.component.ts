@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
         'AssociateRequestDetail': 'Request Detail',
         'InitiateEQARequest': 'Initiate IQA Request',
         'TeamEQARequest': 'Request History',
-        'TeamRequestDetail': 'Request Detail',
+        'TeamRequestDetail': 'Request Summary Detail',
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail'
     }
@@ -41,9 +41,9 @@ export class HomeComponent implements OnInit {
         let cachedUser = sessionStorage.getItem('currentUser');
         if (!cachedUser)
             this.router.navigate(['/login']);
-        else{
+        else {
             this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-            if(this.currentUser.isAdmin){
+            if (this.currentUser.isAdmin) {
                 this.router.navigate(['/admin']);
             }
         }
@@ -57,6 +57,7 @@ export class HomeComponent implements OnInit {
         });
         this.ActiveTab = this.ActionList.EQANewRequests;
         this.ActiveTab = this.ActionList.EQASummary;
+        this.ActiveTab = this.ActionList.TeamRequestDetail;
     }
 
     deleteUser(_id: string) {
@@ -69,14 +70,17 @@ export class HomeComponent implements OnInit {
     doAction(actionName: string) {
         this.ActiveTab = actionName;
     }
-    ShowRequestDetails(actionData){
+    ShowRequestDetails(actionData) {
         debugger;
         this.currentRequestData = actionData.data;
         this.ActiveTab = actionData.ActivateTab;
-        
+
     }
     ShowRequestList(mssgEvent) {
         this.ActiveTab = this.ActionList.EQANewRequests;;
-      }
-
+    }
+    ShowRequestList1(mssgEvent) {
+        debugger;   
+        this.ActiveTab = this.ActionList.TeamEQARequest;;
+    }
 }

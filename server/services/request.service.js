@@ -16,44 +16,11 @@ service.getTeamReq = getTeamReq;
 service.getAssociateNerReq = getAssociateNerReq;
 service.getAssociateAllRequest = getAssociateAllRequest;
 service.updateRequest = updateRequest;
-service.sendMail = sendMail;
+
 service.updateStatusOfRequest=updateStatusOfRequest;
 module.exports = service;
 
-function sendMail(reqParam) {
-    var deferred = Q.defer();
 
-    console.log('Email Sending started.')
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport({
-        host: '172.16.1.4', 
-        secureConnection: true,
-        transportProtocol:'smtp',
-        port: 25,
-        auth:false,
-        tls:false
-    });
-    var mailOptions = {
-        from: 'krishna.yaldi@nihilent.com', // sender address
-        to: '"Krishna Yaldi" <krishnayaldi@gmail.com>', // list of receivers
-        subject: 'Hello ✔', 
-        text: 'Sending Email Using Node JS?', // plain text body
-        html: '<b>Hello<br><br><br><p> This Mail is sended by using Node Js :)</b></p>'
-    };
-    
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log('error occured while sedning');
-             console.log(error);
-             deferred.reject();
-        }
-        console.log('Message sent:');
-        deferred.resolve();  // SUCCESS with message
-    });
-
-    return deferred.promise;
-}
 
 function updateRequest(requestParam) {
     console.log('in updateRequest service of Request Service:start');

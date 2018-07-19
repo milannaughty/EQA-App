@@ -81,9 +81,9 @@
                         <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary"  [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
                         <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList($event)'></app-associate-request-detail>
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest" (messageEvent)='changeMessageEvent($event)'></app-team-new-request>
-                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest"></app-team-request-list> 
+                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-team-request-list> 
                         <!-- <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" (messageEvent)='changeMessageEvent($event)'></app-team-request-list> -->
-                        <!-- <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail"></app-team-request-detail> -->
+                        <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
                         <app-team-panel-list *ngIf="ActiveTab===ActionList.PanelList"></app-team-panel-list>
                         <app-team-panel-detail *ngIf="ActiveTab===ActionList.PanelDetail"></app-team-panel-detail>
                     </div>

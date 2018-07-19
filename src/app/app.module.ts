@@ -34,6 +34,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminRequestComponent } from './admin-team-request/admin-team-request.component';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
+import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component';
 
 @NgModule({
     imports: [
@@ -61,7 +62,8 @@ import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/a
         TeamPanelDetailComponent,
         AdminDashboardComponent,
         AdminRequestComponent,
-        AdminTeamRequestDetailsComponent
+        AdminTeamRequestDetailsComponent,
+        AdminSkillSetComponent
     ],
     providers: [
         AuthGuard,

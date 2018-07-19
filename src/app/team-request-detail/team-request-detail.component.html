@@ -1,3 +1,115 @@
-<p>
-  team-request-detail works!
-</p>
+<table> </table>
+<div class="container">
+  
+<div class="HeaderClass" style="margin-left: 0px !important;">Request Detail</div>
+
+  <div class="modal-body row">
+    <div class="col-md-6" text-center>
+      <!-- <form  > -->
+        <form >
+      <table class="fontFamily" style="width:100%">
+        <tr>
+          <td>
+            <label for="pbiId ">PBI ID</label>
+          </td>
+          <td>{{currentRequestData.pbiId}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="name ">Name</label>
+          </td>
+          <td> {{currentRequestData.name}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">Dev skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">QA skill set</label>
+          </td>
+          <td>
+            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex">
+                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <!-- <td>
+            <label for="deliveryDate ">Delivery Date</label>
+          </td>
+          <td>
+            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+        </tr> -->
+        <tr>
+          <td>
+            <label for="expectedIQADate ">Expected IQA Date</label>
+          </td>
+          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="status ">Status</label>
+          </td>
+          <td > {{currentRequestData.status }}</td>
+        </tr>
+       <tr>
+           <td>
+            <label for="checklist ">Point of Contact</label>
+          </td>
+          <td> {{currentRequestData.pocEmail}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="remarks ">Project Manager</label>
+          </td>
+          <td> {{currentRequestData.pmEmail}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="remarks ">Delivery Account Manager</label>
+          </td>
+          <td> {{currentRequestData.damEmail}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label for="initiatedBy ">Initiated By</label>
+          </td>
+          <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+        </tr>
+        <tr>
+            <td>
+              <label for="skillSet">Dev Panel</label>
+            </td>
+            <td>
+              <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
+                  {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+              <td>
+                <label for="skillSet">QA Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
+                    {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
+                </span>
+              </td>
+            </tr>
+            <tr >
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button (click)="ShowRequestList1()" class="btn btn-warning style=margin-left:15px; ">Go Back</button>
+                </td>
+            </tr>
+      </table>
+        </form>
+    </div>
+  
+  </div>

@@ -89,7 +89,7 @@ function postNewSkillSetObjectToDB(request, response){
     // if(!request.query.hasOwnProperty("skillName")){
     //     response.status(400).send("Please use appropriate query parameter to fetch Skillsets");
     // }
-    console.log(request.body)
+   // console.log(request.body)
 
     var validatedMssage=validateSkillSetObjectBeforeCreatingNew(request.body);
     if(validatedMssage.length!=0){
