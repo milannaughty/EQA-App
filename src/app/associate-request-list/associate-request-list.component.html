@@ -24,8 +24,8 @@
             <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
           </td>
           <td style="width: 15%">{{data.name}}</td>
-          <td>{{data.deliveryDate}}</td>
-          <td>{{data.expectedEQADate}}</td>
+          <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
+          <td>{{data.expectedEQADate?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>
             <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
             <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>

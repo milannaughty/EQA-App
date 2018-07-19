@@ -15,49 +15,26 @@ export class AssociateNewRequestListComponent implements OnInit {
 
   ngOnInit() {
     this.loadNewRequestForAssociate();
-    
   }
+
   ClickAccept(id:string){
-    debugger;
     var requestDto = {
-      "currentUserId": this.currentUser._id,
-      "currentUserName" :this.currentUser.username,
       "requestId":id,
       "status": "InProgress"
     };
-    this.loading = true;
     this.requestService.updateStatusOfRequest(requestDto).subscribe(result => {
-    this.loading = false;
-    this.NewRequest = result;
+      this.loadNewRequestForAssociate()
     });
   }  
-
-  ClickReject(id:string){
-    debugger;
-    var requestDto = {
-      "currentUserId": this.currentUser._id,
-      "currentUserName" :this.currentUser.username,
-      "requestId":id,
-      "status": "Rejected"
-    };
-    if(this.currentUser.panelType=='Dev')
-      {
-        requestDto["assidnedDevPanel"]=null;
-      }
-      else{
-        requestDto["assidnedQaPanel"]=null;
-      }
-    this.requestService.updateStatusOfRequest(requestDto).subscribe(result => {
-      this.loadNewRequestForAssociate() 
-    });
-  }  
-
+  
   private ShowRequestDetails(data,showRemarkBox) {
     console.log(data);
     console.log('Redirecting from request list to request detail view');
     data["showRemark"] = showRemarkBox;
+    data["panelType"] = this.currentUser.panelType;
     this.messageEvent.emit({ ActivateTab: 'Request Detail', data: data });
   }
+
   private loadNewRequestForAssociate() {
     this.loading = true;
     this.requestService.getAssociateNewRequest(this.currentUser._id).subscribe(result => {
