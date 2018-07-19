@@ -73,11 +73,8 @@ export class HomeComponent implements OnInit {
     ShowRequestDetails(actionData) {
         debugger;
         this.currentRequestData = actionData.data;
-<<<<<<< HEAD
-=======
         this.currentRequestData["currentUser"]=this.currentUser;
         this.currentRequestData["prevActiveTab"]=this.ActiveTab;
->>>>>>> d6cb9a71c82070715f5cd11739c6983a8a59cf63
         this.ActiveTab = actionData.ActivateTab;
 
     }
