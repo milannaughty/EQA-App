@@ -48,7 +48,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   ShowRequestList() {
-    this.messageEvent.emit({ ActivateTab: 'HOME' });
+    this.messageEvent.emit({ ActivateTab: this.currentRequestData.prevActiveTab || 'HOME' });
   }
 
   OnSaveClick() {

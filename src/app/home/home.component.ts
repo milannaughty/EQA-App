@@ -72,10 +72,11 @@ export class HomeComponent implements OnInit {
     ShowRequestDetails(actionData){
         this.currentRequestData = actionData.data;
         this.currentRequestData["currentUser"]=this.currentUser;
+        this.currentRequestData["prevActiveTab"]=this.ActiveTab;
         this.ActiveTab = actionData.ActivateTab;
     }
     ShowRequestList(mssgEvent) {
-        this.ActiveTab = this.ActionList.EQANewRequests;;
+        this.ActiveTab = mssgEvent.ActivateTab;
     }
 
 }
