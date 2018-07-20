@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertService, RequestService } from '../_services/index';
+import { AlertService, RequestService, SkillSetsService } from '../_services/index';
+import { SkillSets } from '../_models';
 
 @Component({
   selector: 'app-team-new-request',
@@ -21,41 +22,23 @@ export class TeamNewRequestComponent implements OnInit {
   constructor(
     private router: Router,
     private requestService: RequestService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private skillSetsService: SkillSetsService
   ) { }
 
   ngOnInit() {
-    this.skillList = [
-      { id: 1, itemName: 'Java' },
-      { id: 2, itemName: 'Ruby' },
-      { id: 3, itemName: 'PHP' },
-      { id: 4, itemName: 'Python' },
-      { id: 5, itemName: 'SQL' },
-      { id: 6, itemName: 'ASP.NET' },
-      { id: 7, itemName: 'ASP.NET MVC' },
-      { id: 8, itemName: 'Web API' },
-      { id: 9, itemName: 'SQL Server' },
-      { id: 10, itemName: 'ASP.NET MVC' },
-      { id: 11, itemName: 'AWS' },
-      { id: 12, itemName: 'Node.js' },
-      { id: 13, itemName: 'Ruby on Rails' },
-      { id: 14, itemName: 'C' },
-      { id: 15, itemName: 'C++' },
-      { id: 16, itemName: 'C#' },
-    ].sort((x, y) => x.itemName.localeCompare(y.itemName));
-    this.qaSkillList = [
-      { id: 17, itemName: 'Web Service' },
-            { id: 18, itemName: 'API' },
-            { id: 19, itemName: 'Performance' },
-            { id: 20, itemName: 'Load ' },
-            { id: 21, itemName: 'SQL' },
-            { id: 22, itemName: 'Automation' },
-            { id: 23, itemName: 'Selenium' },
-            { id: 24, itemName: 'UFT' },
-            { id: 25, itemName: 'Mobile testing' },
-            { id: 26, itemName: 'Jmeter' },
-            { id: 27, itemName: 'SOAPUI and Postman' }
-    ].sort((x, y) => x.itemName.localeCompare(y.itemName));
+
+    this.skillSetsService.getSkillSetsByType("Dev").subscribe(
+      devSkills =>{
+           this.skillList=(devSkills as SkillSets[]).map(x=>({id:x["_id"],itemName:x["skillName"]}));
+           this.skillList=this.skillList.sort((x, y) => x.itemName.localeCompare(y.itemName));
+      })
+   this.skillSetsService.getSkillSetsByType("Qa").subscribe(
+      qaSkillSet =>{
+           this.qaSkillList=(qaSkillSet as SkillSets[]).map(x=>({id:x["_id"],itemName:x["skillName"]}));
+           this.qaSkillList=this.qaSkillList.sort((x, y) => x.itemName.localeCompare(y.itemName));
+      })
+
     this.dropdownSettings = {
       singleSelection: false,
       text: "Select Skillset",
@@ -65,13 +48,18 @@ export class TeamNewRequestComponent implements OnInit {
     };
   }
 
+
+  
   createRequest() {
+    debugger;
     this.loading = true;
     this.model.isPanel = this.model.roleId == 2;//2 is used for Panel registration, 1 is for Team
     debugger;
     var currentUser = sessionStorage.getItem('currentUser');
     debugger;
     var cUser=JSON.parse(currentUser);
+    this.model.status="New";
+    this.model.creationDate= new Date();
     this.model.initiatedBy = {ID:JSON.parse(currentUser)._id,TeamName:JSON.parse(currentUser).teamName}
     this.requestService.create(this.model)
       .subscribe(

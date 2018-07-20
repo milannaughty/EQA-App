@@ -66,7 +66,7 @@ function getSkillsByType(recievedParam){
 function getSkillSetsById(recievedParam) {
     console.log("Start of getSkillSetsById method of service");
     var deferred = Q.defer();
-    console.log(recievedParam._id);
+    //console.log(recievedParam._id);
     db.skillSets.findById(recievedParam._id, function (err, skill) {
         if (err) 
             deferred.reject(err.name + ': ' + err.message);

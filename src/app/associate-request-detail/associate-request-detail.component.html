@@ -45,26 +45,26 @@
             <label for="deliveryDate ">Delivery Date</label>
           </td>
           <td>
-            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+            {{currentRequestData.deliveryDate?(currentRequestData.deliveryDate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
             <label for="expectedIQADate ">Expected IQA Date</label>
           </td>
-          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+          <td> {{currentRequestData.expectedIQADate?(currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>
             <label for="status ">Status</label>
           </td>
           <td > {{currentRequestData.status }}</td>
-        </tr>
-        <tr>
+        </tr> -->
+        <!-- <tr>
           <td>
             <label for="checklist ">checklist</label>
           </td>
           <td> {{currentRequestData.checklist }}</td>
-        </tr>
+        </tr> -->
         <tr>
           <td>
             <label for="remarks ">Remarks</label>
@@ -96,21 +96,41 @@
                     {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
                 </span>
               </td>
-            </tr><br/>
-            <tr *ngIf="currentRequestData.showRemark">
+            </tr>
+            <tr>
+                <td>
+                  <label for="remarks ">Current Status</label>
+                </td>
+                <td> {{currentRequestData.status}}</td>
+              </tr>
+            <tr >
+              <td>
+                <label  for="status ">Update Status</label>
+              </td>
+              <td>
+               <select id="ddlStatus" name="ddlStatus" class="form-control" [(ngModel)]="model.selectedStatus"  [ngModelOptions]="{standalone: true}" (change)="onStatusChange($event)">
+                <option class="dropdown-item" [ngValue]="k.Id" *ngFor="let k of statusList">
+                  {{k.Name}}
+                </option>
+                </select>
+            </td>
+            </tr>
+            <br/>
+            <tr *ngIf="currentRequestData.showRemark" >
               <td >
                 <label for="RejectRemark " cols="30" rows="4">Reason for rejection</label>
               </td>
-              <td><textarea  name=""  class="form-control" id="reasontext" cols="30" rows="4" required ></textarea></td>
+              <td><textarea  name=""  class="form-control" [(ngModel)]="reasonText"  [ngModelOptions]="{standalone: true}" id="reasontext" cols="30" rows="4" required  autofocus ></textarea><span style="color:red">*</span></td>
             </tr>
             <br/>
             <tr >
-               <td>
-                    <button type="submit" class="btn btn-success pull-right " (click)="SendRejectReason()" *ngIf="currentRequestData.showRemark">Reject</button>
+                <td>
+                    <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px; pull-right">Home</button>
                 </td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px; ">Go Back</button>
+               <td >&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success form-control" (click)="OnSaveClick()" *ngIf="currentRequestData.showRemark || currentRequestData.showSaveButton">Save</button>
                 </td>
+                
             </tr>
       </table>
         </form>

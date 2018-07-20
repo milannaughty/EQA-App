@@ -2,16 +2,60 @@
   <div class="container">
     <div class="">
       <div class="col-md-4 col-md-offset-4">
-        <h2>New IQA Request</h2>
+        <h2>Initiate New IQA Request</h2>
         <form name="form" (ngSubmit)="f.form.valid && createRequest()" #f="ngForm" >
           <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
-            <label for="PBIId">PBIID</label>
-            <input type="text" class="form-control" name="pbiId" [(ngModel)]="model.pbiId" #pbiId="ngModel" />
+            <label for="name">Sprint Name</label>
+            <input type="text" class="form-control" 
+                  name="name" [(ngModel)]="model.name" required
+                  #name="ngModel" placeholder="Enter Sprint Name here..." />
           </div>
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" />
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="sprintStartDate">Sprint Start Date</label>
+              <input type="date" class="form-control" 
+                    name="sprintStartDate" [(ngModel)]="model.sprintStartDate" required
+                    #sprintStartDate="ngModel" placeholder="Select Sprint Start Date" />
+          </div>  
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="sprintEndDate">Sprint End Date</label>
+              <input type="date" class="form-control" 
+                    name="sprintEndDate" [(ngModel)]="model.sprintEndDate" required
+                    #sprintEndDate="ngModel" placeholder="Select Sprint Start Date" />
+          </div>                  
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="pbiId">PBI ID's</label>
+              <input type="text" class="form-control" 
+                    name="pbiId" [(ngModel)]="model.pbiId" required
+                    #pbiId="ngModel" placeholder="Enter PBI ID here, use comma(,) for seperating more than one ID's" />
           </div>
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+                <label for="expectedIQADate">Expected IQA Date</label>
+                <input type="date" class="form-control" 
+                      name="expectedIQADate" [(ngModel)]="model.expectedIQADate" required
+                      #expectedIQADate="ngModel" placeholder="Select delivery date for sprint" />
+          </div>  
+
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="pocEmail">Point Of Contact</label>
+              <input type="email" class="form-control" 
+                    name="pocEmail" [(ngModel)]="model.pocEmail" required
+                    #pocEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
+          </div> 
+
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="pmEmail">DAM email</label>
+              <input type="email" class="form-control" 
+                    name="pmEmail" [(ngModel)]="model.pmEmail" required
+                    #pmEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
+          </div> 
+
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
+              <label for="damEmail">DAM email</label>
+              <input type="email" class="form-control" 
+                    name="damEmail" [(ngModel)]="model.damEmail" required
+                    #damEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
+          </div>
+
           <div class="form-group" *ngIf="model.roleId !== 1">
             <label for="skillset">Dev Skills</label>
             <angular2-multiselect name="skillset" [data]="skillList" [(ngModel)]="model.skillSet" [settings]="dropdownSettings"></angular2-multiselect>
@@ -19,8 +63,9 @@
           <div class="form-group" *ngIf="model.roleId !== 1">
               <label for="qaSkillSet">QA Skills</label>
               <angular2-multiselect name="qaSkillSet" [data]="qaSkillList" [(ngModel)]="model.qaSkillSet" [settings]="dropdownSettings"></angular2-multiselect>
-            </div>
-          <div class="form-group" [ngClass]="{ 'overflow': visible, 'has-error': f.submitted && !deliveryDate.valid }">
+          </div>
+
+          <!-- <div class="form-group" [ngClass]="{ 'overflow': visible, 'has-error': f.submitted && !deliveryDate.valid }">
             <label for="deliveryDate">Delivery Date</label>
             <ng-datepicker name="deliveryDate" [(ngModel)]="model.deliveryDate"></ng-datepicker>
           </div>
@@ -48,7 +93,7 @@
             <label for="creationDate">Creation Date</label>
 
             <ng-datepicker name="creationDate" [(ngModel)]="model.creationDate"></ng-datepicker>
-          </div> 
+          </div>  -->
           <!-- <div class="form-group" [ngClass]="{ 'overflow': visible, 'has-error': f.submitted && !updatedDate.valid }">
             <label for="updatedDate">Update Date</label>
 

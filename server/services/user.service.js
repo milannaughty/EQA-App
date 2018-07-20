@@ -39,6 +39,7 @@ function authenticate(username, password, isPanel) {
                     isPanel: user.isPanel,
                     isAdmin: user.isAdmin,
                     teamName: user.teamName,
+                    panelType: user.panelType,
                     token: jwt.sign({ sub: user._id }, config.secret)
                 });
             } else {
