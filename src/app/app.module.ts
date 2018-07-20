@@ -36,6 +36,7 @@ import { AdminRequestComponent } from './admin-team-request/admin-team-request.c
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
 import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component';
+import { NospacePipe } from './nospace.pipe';
 
 @NgModule({
     imports: [
@@ -64,7 +65,8 @@ import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component
         AdminDashboardComponent,
         AdminRequestComponent,
         AdminTeamRequestDetailsComponent,
-        AdminTeamAddComponent
+        AdminTeamAddComponent,
+        NospacePipe
     ],
     providers: [
         AuthGuard,

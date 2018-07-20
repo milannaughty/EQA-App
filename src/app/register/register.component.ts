@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { AlertService, UserService, SkillSetsService } from '../_services/index';
 import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
@@ -19,9 +18,9 @@ export class RegisterComponent {
     panelTypeList: any;
     dropdownSettings = {};
     skillList: any;
-    constructor(private router: Router, private userService: UserService, 
+    constructor(private userService: UserService,
         private alertService: AlertService, private skillSetsService: SkillSetsService,
-    private datePipe : DatePipe) { }
+        private datePipe: DatePipe) { }
 
     ngOnInit() {
         this.panelTypeList = [{ "Id": 'Dev', "Name": "Dev" }, { "Id": 'QA', "Name": "QA" }];
@@ -40,7 +39,7 @@ export class RegisterComponent {
         this.loading = true;
         this.model.isPanel = true;
         this.model.AddedBy = { AdminUser: this.currentRequestData.currentUser.username };
-        this.model.AddedOn = this.datePipe.transform(new Date(),'dd-MMM-yyyy HH:MM:SS');
+        this.model.AddedOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
         //TODO : Autogenerate Password
         this.model.password = 'nihilent@123';
         this.userService.create(this.model).subscribe(
@@ -54,8 +53,8 @@ export class RegisterComponent {
                 this.loading = false;
             });
     }
-    clear(){
-        this.model.FName =this.model.LName = this.model.username = '';
-        this.model.skillList = this.model.qaSkillList =null;
+    clear() {
+        this.model.FName = this.model.LName = this.model.username = '';
+        this.model.skillList = this.model.qaSkillList = null;
     }
 }

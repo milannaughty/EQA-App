@@ -56,8 +56,6 @@ export class HomeComponent implements OnInit {
             this.NewRequestCount = Array.from(this.NewRequestCount).length;
         });
         this.ActiveTab = this.ActionList.EQANewRequests;
-        this.ActiveTab = this.ActionList.EQASummary;
-        this.ActiveTab = this.ActionList.TeamRequestDetail;
     }
 
     deleteUser(_id: string) {
