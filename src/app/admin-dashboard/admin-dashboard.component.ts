@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  currentRequestData: any;
+  currentRequestData: any = {};
   NewRequest: Object;
   AssignEnabled: boolean = false;
   skillSetCount = 0;
@@ -26,13 +26,17 @@ export class AdminDashboardComponent implements OnInit {
   ActionList: any = {
     'AdminTeamRequest': 'HOME',
     'TeamRequestDetails': 'REQUEST_DETAIL',
-    'AddPanel':'ADD_PANEL'
+    'AddPanel': 'ADD PANEL',
+    'AddTeam': 'ADD TEAM',
+    'AddSkill': 'ADD Skills'
   }
 
-  constructor(private requestService: RequestService, private userService: UserService,private router: Router) {
+  constructor(private requestService: RequestService, private userService: UserService, private router: Router) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!this.currentUser || !this.currentUser.isAdmin)
       this.router.navigate(['/login']);
+    else
+      this.currentRequestData["currentUser"] = this.currentUser;
   }
 
   ngOnInit() {
@@ -42,6 +46,7 @@ export class AdminDashboardComponent implements OnInit {
   ShowRequestDetails(data) {
     this.AdminActiveTab = data.ActivateTab || this.ActionList.TeamRequestDetails;
     this.currentRequestData = data.data || data;
+    this.currentRequestData["currentUser"] = this.currentUser;
     var keys = Object.keys(this.currentRequestData.skillSet);
     this.skillSetCount = keys.length;
   }
@@ -52,8 +57,7 @@ export class AdminDashboardComponent implements OnInit {
   public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
-  doAction( actionName) {
+  doAction(actionName) {
     this.AdminActiveTab = actionName;
-    
   }
 }

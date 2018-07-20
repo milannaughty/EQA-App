@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import * as $ from 'jquery';
 
 // used to create fake backend
@@ -34,6 +35,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminRequestComponent } from './admin-team-request/admin-team-request.component';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
+import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component';
 
 @NgModule({
     imports: [
@@ -61,7 +63,8 @@ import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/a
         TeamPanelDetailComponent,
         AdminDashboardComponent,
         AdminRequestComponent,
-        AdminTeamRequestDetailsComponent
+        AdminTeamRequestDetailsComponent,
+        AdminTeamAddComponent
     ],
     providers: [
         AuthGuard,
@@ -71,6 +74,7 @@ import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/a
         ModalService,
         AuthenticationService,
         JwtInterceptorProvider,
+        DatePipe,
         UserService,
         {
             provide: HTTP_INTERCEPTORS,

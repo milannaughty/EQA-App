@@ -30,8 +30,6 @@ export class AdminRequestComponent implements OnInit {
   }
   private loadNewRequestForAdmin() {
     this.loading = true;
-    debugger;
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
     this.requestService.getAll().subscribe(result => {
       this.loading = false;
       var resultTemp = result;

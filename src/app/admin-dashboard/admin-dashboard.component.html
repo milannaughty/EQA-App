@@ -73,10 +73,10 @@
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Team</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddTeam)">Add Team</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Skills</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddSkill)">Add Skills</a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction('')">Add Area</a>
@@ -102,7 +102,9 @@
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" (messageEvent)='ShowRequestDetails($event)'></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
-                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentUser]="currentUser"> </app-register-component>
+                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentRequestData]="currentRequestData"> </app-register-component>
+                        <app-admin-team-add *ngIf="AdminActiveTab== ActionList.AddTeam" [currentRequestData]="currentRequestData"> </app-admin-team-add>
+                        <!-- <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentUser]="currentUser"></app-admin-skill-set>  -->
                     </div>
                 </div>
             </div>
