@@ -40,7 +40,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.AdminActiveTab = this.ActionList.AddTeam;
+    this.AdminActiveTab = this.ActionList.AdminTeamRequest;
   }
 
   ShowRequestDetails(data) {

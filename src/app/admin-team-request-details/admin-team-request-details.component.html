@@ -23,9 +23,11 @@
             <label for="skillSet">Dev skill set</label>
           </td>
           <td>
-            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex">
+            <div style="word-wrap: break-word">
+            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex" >
                 {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
             </span>
+          </div>
           </td>
         </tr>
         <tr>
@@ -33,7 +35,7 @@
             <label for="skillSet">QA skill set</label>
           </td>
           <td>
-            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex">
+            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex" >
                 {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
             </span>
           </td>

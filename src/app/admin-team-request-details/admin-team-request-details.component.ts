@@ -74,7 +74,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   assignSelectedUsers() {
     console.log('In assignSelectedUsers start');
     debugger;
-    var testObj = new Array('1','2');
+    var testObj = new Array('1', '2');
     // this.requestService.sendMail(testObj).subscribe(
     //   res => {
     //     console.log('Updated requested completed.');
@@ -88,10 +88,14 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
     // );
     var requestDto = {
       "_id": this.currentRequestData._id,
-      "assignedDevPanelList": this.model.devSkillSetPanel,
-      "assignedQAPanelList": this.model.qaSkillSetPanel,
       "status": "PanelAssigned"
     };
+
+    if (this.model.devSkillSetPanel)
+      requestDto["assignedDevPanelList"] = this.model.devSkillSetPanel;
+    if (this.model.qaSkillSetPanel)
+      requestDto["assignedQAPanelList"] = this.model.qaSkillSetPanel;
+
     this.requestService.updateRequest(requestDto).subscribe(
       res => {
         console.log('Updated requested completed.');

@@ -1,6 +1,6 @@
 var config = require('config.json');
 var _ = require('lodash');
-var nodemailer= require('nodemailer');
+var nodemailer = require('nodemailer');
 var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
@@ -17,35 +17,38 @@ service.getAssociateNerReq = getAssociateNerReq;
 service.getAssociateAllRequest = getAssociateAllRequest;
 service.updateRequest = updateRequest;
 
-service.updateStatusOfRequest=updateStatusOfRequest;
+service.updateStatusOfRequest = updateStatusOfRequest;
 module.exports = service;
 
 
 
 function updateRequest(requestParam) {
-    console.log('in updateRequest service of Request Service:start');
+    console.log('UpdateRequest service started');
     //console.log(requestParam);
     var deferred = Q.defer();
-    var set = {
-        'assignedDevPanelList': requestParam.assignedDevPanelList,
-        'assignedQAPanelList': requestParam.assignedQAPanelList,
-        'status': requestParam.status,
-    };
+    var set = { 'status': requestParam.status, };
+
+    if (requestParam.assignedDevPanelList)
+        set["assignedDevPanelList"] = requestParam.assignedDevPanelList;
+    if (requestParam.assignedQAPanelList)
+        set["assignedQAPanelList"] = requestParam.assignedQAPanelList;
+
     db.request.update(
         { _id: mongo.helper.toObjectID(requestParam._id) },
         { $set: set },
         function (err, doc) {
-            if (err) { 
-                console.log('error while updaing request'); 
-                console.log(err); 
-                deferred.reject(err); }
+            if (err) {
+                console.log('error while updaing request');
+                console.log(err);
+                deferred.reject(err);
+            }
             else {
-                console.log(doc);
+                console.log('UpdateRequest service completed');
                 deferred.resolve();
             }
         }
     );
-    console.log('in updateRequest service of Request Service:end');
+    
     return deferred.promise;
 }
 
@@ -67,7 +70,6 @@ function updateReq(reqParam) {
     var deferred = Q.defer();
 
     // fields to update
-    console.log(reqParam);
     var set = reqParam;
     db.users.update(
         { _id: mongo.helper.toObjectID(reqParam._id) },
@@ -121,7 +123,7 @@ function getTeamReq(_id) {
 
 function getAssociateNerReq(_associateId) {
     var deferred = Q.defer();
-    var query = { $or: [ { "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId } ] ,$and: [{"status":"PanelAssigned"}]};
+    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": "PanelAssigned" }] };
     db.request.find(query).toArray(
         function (err, requests) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -131,7 +133,7 @@ function getAssociateNerReq(_associateId) {
 }
 
 function getAssociateAllRequest(_associateId) {
-    var query = { $or: [ { "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId } ] };
+    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }] };
     var deferred = Q.defer();
     db.request.find(query).toArray(
         function (err, requests) {
@@ -143,18 +145,17 @@ function getAssociateAllRequest(_associateId) {
 }
 
 function updateStatusOfRequest(reqParam) {
-    console.log("Start of updateStatusOfRequest method in service ");
+    console.log("UpdateStatusOfRequest method started");
     var deferred = Q.defer();
-    var  set = {
+    var set = {
         "status": reqParam.status,
-        "rejectReason":reqParam.rejectReason ,
+        "rejectReason": reqParam.rejectReason,
     };
-    if(reqParam.assignedDevPanelList !== undefined)
-    {
-            set["assignedDevPanelList"] = null;
+    if (reqParam.assignedDevPanelList !== undefined) {
+        set["assignedDevPanelList"] = null;
     }
-    if(reqParam.assignedQAPanelList !== undefined){
-            set["assignedQAPanelList"] = null;
+    if (reqParam.assignedQAPanelList !== undefined) {
+        set["assignedQAPanelList"] = null;
     }
 
     db.request.update(
@@ -162,8 +163,8 @@ function updateStatusOfRequest(reqParam) {
         { $set: set },
         function (err, doc) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-            console.log('Err :'+JSON.stringify(err))
-            console.log('doc :'+JSON.stringify(doc))
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
             deferred.resolve();
         });
 
