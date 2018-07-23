@@ -104,7 +104,7 @@
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
                         <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentRequestData]="currentRequestData"> </app-register-component>
                         <app-admin-team-add *ngIf="AdminActiveTab== ActionList.AddTeam" [currentRequestData]="currentRequestData"> </app-admin-team-add>
-                        <!-- <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentUser]="currentUser"></app-admin-skill-set>  -->
+                        <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentRequestData]="currentRequestData"></app-admin-skill-set>
                     </div>
                 </div>
             </div>

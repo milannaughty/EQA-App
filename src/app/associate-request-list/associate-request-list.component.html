@@ -27,10 +27,8 @@
           <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>{{data.expectedEQADate?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>
-            <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
-            <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
-            <span *ngIf="data.status=='In-progress'" class="label label-important">{{data.status}}</span>
-          </td>
+             <span class="label label-warning">{{data.status}}</span>
+          </td>            
           <td>{{data.remarks}}</td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
         </tr>

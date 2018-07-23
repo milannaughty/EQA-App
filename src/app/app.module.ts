@@ -37,7 +37,7 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
 import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component';
 import { NospacePipe } from './nospace.pipe';
-
+import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component'; 
 @NgModule({
     imports: [
         BrowserModule,
@@ -66,7 +66,8 @@ import { NospacePipe } from './nospace.pipe';
         AdminRequestComponent,
         AdminTeamRequestDetailsComponent,
         AdminTeamAddComponent,
-        NospacePipe
+        NospacePipe,
+        AdminSkillSetComponent
     ],
     providers: [
         AuthGuard,
