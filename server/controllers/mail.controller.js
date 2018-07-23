@@ -8,6 +8,7 @@ var mailUtilitiesServiceObject = require('../services/mailUtilities.service');
 
 router.post('/sendTestMail',sendTestMail);
 router.post('/sendMailToAdminAfterIQARequestInitiatedByTeam',sendMailToAdminAfterIQARequestInitiatedByTeam);
+router.post('/sendMailToPanelsAfterPanelsAssignedByAdmin',sendMailToPanelsAfterPanelsAssignedByAdmin);
 
 module.exports = router;
 
@@ -56,3 +57,27 @@ function sendMailToAdminAfterIQARequestInitiatedByTeam(request, res){
 console.log('at end of sendMailToAdminAfterIQARequestInitiatedByTeam At Controller');
 }
 
+function sendMailToPanelsAfterPanelsAssignedByAdmin(request, res){
+    console.log('in start of sendMailToPanelsAfterPanelsAssignedByAdmin At Controller');
+    var bodyObject=request.body;
+   
+    var fromMailId=bodyObject.fromPersonMailId;
+    var toPersonList=bodyObject.toPersonMailId;
+    var ccPersonList=bodyObject.ccPersonList;
+    var mailSubject=bodyObject.mailSubject;
+
+    var mailContent=mailTemplatesServiceObject.getMailTemplateToBeSentToPanelsAfterAssignmentOfPanelByAdmin(bodyObject);
+
+    mailServiceObject.sendMail(
+        fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
+        ).then(function (emailRes) {
+             console.log(emailRes);
+             console.log('in sendMailToPanelsAfterPanelsAssignedByAdmin function of MailController End');
+             res.json('success');
+         })
+         .catch(function (err) {
+             console.log('in sendMailToPanelsAfterPanelsAssignedByAdmin function of MailController End with error');
+             res.status(400).send(err);
+         });
+console.log('at end of sendMailToPanelsAfterPanelsAssignedByAdmin At Controller');
+}

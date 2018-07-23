@@ -60,7 +60,11 @@ export class TeamNewRequestComponent implements OnInit {
     var cUser = JSON.parse(currentUser);
     this.model.status = "New";
     this.model.creationDate = new Date();
-    this.model.initiatedBy = { ID: JSON.parse(currentUser)._id, TeamName: JSON.parse(currentUser).teamName }
+    this.model.initiatedBy = { ID: JSON.parse(currentUser)._id, 
+                              TeamName: JSON.parse(currentUser).teamName,
+                              PMEmail:JSON.parse(currentUser).PMEmail,
+                              POCEmail:JSON.parse(currentUser).POCEmail,
+                              DAMEmail:JSON.parse(currentUser).DAMEmail }
     this.requestService.create(this.model)
       .subscribe(
         data => {

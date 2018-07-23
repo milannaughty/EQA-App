@@ -12,4 +12,9 @@ export class EmailService {
     sendMailToAdminAfterIQARequestInitiatedByTeam(recievedObject) {
         return this.http.post(appConfig.apiUrl+'/mail/sendMailToAdminAfterIQARequestInitiatedByTeam',recievedObject);
     }
+
+    sendMailToPanelsAfterAssigningPanelToIQARequestByAdmin(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendMailToPanelsAfterPanelsAssignedByAdmin',recievedObject);
+    }
+    
 }    
