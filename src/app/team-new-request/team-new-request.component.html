@@ -35,27 +35,6 @@
                       #expectedIQADate="ngModel" placeholder="Select delivery date for sprint" />
           </div>  
 
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
-              <label for="pocEmail">Point Of Contact</label>
-              <input type="email" class="form-control" 
-                    name="pocEmail" [(ngModel)]="model.pocEmail" required
-                    #pocEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
-          </div> 
-
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
-              <label for="pmEmail">DAM email</label>
-              <input type="email" class="form-control" 
-                    name="pmEmail" [(ngModel)]="model.pmEmail" required
-                    #pmEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
-          </div> 
-
-          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pbiId.valid }">
-              <label for="damEmail">DAM email</label>
-              <input type="email" class="form-control" 
-                    name="damEmail" [(ngModel)]="model.damEmail" required
-                    #damEmail="ngModel" placeholder="Enter email trailing with @nihilent.com" />
-          </div>
-
           <div class="form-group" *ngIf="model.roleId !== 1">
             <label for="skillset">Dev Skills</label>
             <angular2-multiselect name="skillset" [data]="skillList" [(ngModel)]="model.skillSet" [settings]="dropdownSettings"></angular2-multiselect>

@@ -11,6 +11,7 @@ router.get('/current', getCurrent);
 router.put('/:_id', update);
 router.delete('/:_id', _delete);
 router.post('/getPanelBySkills', getPanelBySkills);
+router.get('/getUsersByRole', getUsersByRole);
 
 module.exports = router;
 
@@ -95,4 +96,23 @@ function getPanelBySkills(req, res) {
         .catch(function (err) {
             res.status(400).send(err);
         });
+}
+
+function getUsersByRole(req, res) {
+    console.log('Server : In getUsersByRole controller');
+    console.log(req.query);
+    if(!req.query.hasOwnProperty("roleName")){
+        response.status(400).send("Please use appropriate query parameter to fetch users by role");
+    }else{
+        userService.getUsersByRole(req.query.roleName)
+        .then(function (userList) {
+            res.json(userList);
+            console.log('Server : In getUsersByRole service completed');
+        })
+        .catch(function (err) {
+            console.log('Server : In getUsersByRole service completed with error '+JSON.stringify(err));
+            res.status(400).send(err);
+        });
+    }
+
 }

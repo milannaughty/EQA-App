@@ -15,7 +15,7 @@ import { routing } from './app.routing';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor, JwtInterceptorProvider } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, RequestService, ModalService, SkillSetsService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, RequestService, ModalService, SkillSetsService, EmailService } from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
@@ -79,6 +79,7 @@ import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.compon
         JwtInterceptorProvider,
         DatePipe,
         UserService,
+        EmailService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: JwtInterceptor,

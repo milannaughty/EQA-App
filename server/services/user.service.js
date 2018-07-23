@@ -16,7 +16,7 @@ service.create = create;
 service.update = update;
 service.delete = _delete;
 service.getPanelBySkills = getPanelBySkills;
-
+service.getUsersByRole=getUsersByRole;
 module.exports = service;
 
 function authenticate(username, password, isPanel) {
@@ -40,6 +40,9 @@ function authenticate(username, password, isPanel) {
                     isAdmin: user.isAdmin,
                     teamName: user.teamName,
                     panelType: user.panelType,
+                    PMEmail:user.PMEmail,
+                    POCEmail:user.POCEmail,
+                    DAMEmail:user.DAMEmail,
                     token: jwt.sign({ sub: user._id }, config.secret)
                 });
             } else {
@@ -216,5 +219,66 @@ function getPanelBySkills(skills) {
         });
     }
 
+    return deferred.promise;
+}
+
+function getUsersByRole(roleName){
+    console.log("in start of getUsersByRole in service");
+    var deferred = Q.defer();
+    var query;
+    if(roleName=='admin'){
+        query = {
+            "$and": [
+                {
+                    "isAdmin": {
+                        "$exists": true
+                    }
+                },
+                {
+                    "isAdmin": true
+                }
+            ]
+        };
+    }else if(roleName=='panel')   
+            {
+                query = {
+                    "$and": [
+                        {
+                            "isPanel": {
+                                "$exists": true
+                            }
+                        },
+                        {
+                            "isPanel": true
+                        }
+                    ]
+                };
+            }else if(roleName=='team'){
+                    query = {
+                        "$and": [
+                            {
+                                "isPanel": {
+                                    "$exists": true
+                                }
+                            },
+                            {
+                                "isPanel": false
+                            }
+                        ]
+                    };
+                }   
+              
+                console.log(JSON.stringify(query));
+
+    db.users.find(query).toArray(function (err, result) {
+        if (err) {
+            console.log("Error fetching Users for role "+roleName)
+            deferred.reject(err.name + ': ' + err.message);
+        }else{
+            console.log("Users fetched for role "+roleName)
+            deferred.resolve(result);
+        }
+    });
+    console.log("At end of getUsersByRole in service");
     return deferred.promise;
 }

@@ -12,7 +12,7 @@ var express = require('express');
 var router = express.Router();
 
 var skillsetsServiceObject = require('../services/skillsets.service');
-
+var utilitiesServiceObject = require('../services/utililties.service');
 /**
  * here you have to mention method name from controller it self
  */
@@ -110,7 +110,7 @@ function postNewSkillSetObjectToDB(request, response){
     function validateSkillSetObjectBeforeCreatingNew(receivedObject ){
         console.log("In start of validateSkillSetObjectBeforeCreatingNew method");
         var errorMessage ="";
-        var keys = getAllKeysOfJSON(receivedObject);
+        var keys = utilitiesServiceObject.getAllKeysOfJSON(receivedObject);
         if(keys.length!=2){
             errorMessage+="no. of key mismatch expected 2. found "+keys.length+" ";
         }
@@ -118,7 +118,7 @@ function postNewSkillSetObjectToDB(request, response){
             errorMessage+=" key skillName not found ";
         }
         if(keys.indexOf("type")<0){
-            errorMessage+=" key skillName not found ";
+            errorMessage+=" key type not found ";
         }
         // if(checkIfSkillSetAllreadyExists(receivedObject)){
         //     errorMessage+=" "+JSON.stringify(receivedObject)+" already exists ";
@@ -146,11 +146,5 @@ function checkIfSkillSetAllreadyExists(receivedObject){
 }
 
 
-function getAllKeysOfJSON(receivedObject) {
-    var obj = receivedObject;
-    var keys = [];
-    for (var k in obj)
-        keys.push(k);
-    return keys;
-}
+
     

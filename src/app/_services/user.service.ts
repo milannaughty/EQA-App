@@ -44,5 +44,9 @@ export class UserService {
         var skills = { devSkillSet: devSkillSet, qaSkillSet: qaSkillSet }
         return this.http.post(appConfig.apiUrl + '/users/getPanelBySkills/', skills);
     }
+    getAllUsersByRole(roleName: string) {
+        console.log("in getAllUsersByRole source role name is "+roleName);
+        return this.http.get<User[]>(appConfig.apiUrl +'/users/getUsersByRole?roleName=' + roleName);
+    }
 
 }
