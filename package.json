@@ -25,6 +25,8 @@
     "@types/jquery": "^3.3.1",
     "angular2-multiselect-dropdown": "^2.5.0",
     "core-js": "^2.4.1",
+    "datatables.net": "^1.10.19",
+    "datatables.net-bs4": "^1.10.19",
     "jquery": "^3.3.1",
     "ng2-datepicker": "^2.2.5",
     "ngx-smart-modal": "^6.0.0",

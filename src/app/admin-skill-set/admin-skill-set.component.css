@@ -1,4 +1,4 @@
-body {
+/* body {
     color: #404E67;
     background: #F5F7FA;
     font-family: 'Open Sans', sans-serif;
@@ -81,5 +81,33 @@ table.table .form-control.error {
 table.table td .add {
     display: none;
 }
+
+ */
+
+ table.table .form-control {
+    height: 32px;
+    line-height: 32px;
+    box-shadow: none;
+    border-radius: 2px;
+}
+
+ .skillTable {
+    margin-bottom: 20px;
+    border: 0.1px solid lightgrey;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    width: 421px;
+}
+
+.custom-select .custom-select-sm .form-control .form-control-sm{
+    height: auto;
+}
+
+
 
 
