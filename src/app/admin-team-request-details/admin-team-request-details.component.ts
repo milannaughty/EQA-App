@@ -84,22 +84,18 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
           ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
         }
         var toPersonList = "";
-        toPersonList += requestDto["assignedDevPanelList"].map(x => x.itemName).join(",");
+        toPersonList += requestDto["assignedDevPanelList"] ? requestDto["assignedDevPanelList"].map(x => x.itemName).join(",") : '';
         toPersonList += ",";
-        toPersonList += requestDto["assignedQAPanelList"].map(x => x.itemName).join(",");
+        toPersonList += requestDto["assignedQAPanelList"] ? requestDto["assignedQAPanelList"].map(x => x.itemName).join(",") : '';
 
         var toPersonNames = "";
+        if (requestDto["assignedDevPanelList"])
+          toPersonNames += requestDto["assignedDevPanelList"].map(x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase() + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)).join(', ');
 
-        toPersonNames += requestDto["assignedDevPanelList"].map(
-          x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase()
-            + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)
-        ).join(', ');
+        toPersonNames = toPersonNames ? toPersonNames + ", " : toPersonNames;
+        if (requestDto["assignedQAPanelList"])
+          toPersonNames += requestDto["assignedQAPanelList"].map(x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase() + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)).join(', ');
 
-        toPersonNames += ", ";
-        toPersonNames += requestDto["assignedQAPanelList"].map(
-          x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase()
-            + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)
-        ).join(', ');
         var teamName = this.currentRequestData.initiatedBy.TeamName;
 
         var mailSubject = "Panels are assigned for IQA Request Sprint " + this.currentRequestData.name;

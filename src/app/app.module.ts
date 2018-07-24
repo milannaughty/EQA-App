@@ -6,6 +6,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import * as $ from 'jquery';
 
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.fint';
+
+import { FusionChartsModule } from 'angular4-fusioncharts';
+FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers/index';
 
@@ -37,7 +43,8 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/admin-team-request-details.component';
 import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component';
 import { NospacePipe } from './nospace.pipe';
-import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component'; 
+import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component';
+import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component'; 
 @NgModule({
     imports: [
         BrowserModule,
@@ -46,6 +53,7 @@ import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.compon
         routing,
         AngularMultiSelectModule,
         NgDatepickerModule,
+        FusionChartsModule,
         NgxSmartModalModule.forRoot()
     ],
     declarations: [
@@ -67,7 +75,8 @@ import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.compon
         AdminTeamRequestDetailsComponent,
         AdminTeamAddComponent,
         NospacePipe,
-        AdminSkillSetComponent
+        AdminSkillSetComponent,
+        AdminHomePageComponent
     ],
     providers: [
         AuthGuard,

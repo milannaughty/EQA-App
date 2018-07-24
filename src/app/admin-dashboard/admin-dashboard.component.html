@@ -67,7 +67,7 @@
                     <div style="margin-left:2%">
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="admin#" (click)="doAction('HOME')">Home</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest)">Home</a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests</a>
@@ -111,6 +111,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">
+                        <app-admin-home-page *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" ></app-admin-home-page>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestNew" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestPending" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestInProgress" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
