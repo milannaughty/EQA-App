@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <h2>
-        Hi {{currentUser.username | titlecase }}!</h2>
+        Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</h2>
     <a [routerLink]="['/login']">Logout</a>
 </div>
 <div class="content-wrapper">
@@ -70,6 +70,18 @@
                                 <a href="admin#" (click)="doAction('HOME')">Home</a>
                             </li>
                             <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress)">In Progress Requests</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests</a>
+                            </li>
+                            <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
                             </li>
                             <li role="presentation">
@@ -99,7 +111,10 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" (messageEvent)='ShowRequestDetails($event)'></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestNew" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestPending" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestInProgress" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestCompleted" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
                         <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentRequestData]="currentRequestData"> </app-register-component>

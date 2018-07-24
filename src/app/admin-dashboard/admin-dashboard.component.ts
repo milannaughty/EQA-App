@@ -3,6 +3,7 @@ import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
 import { UserService } from "../_services/user.service";
 import { Router } from '@angular/router';
+import { adminConfig } from "../app.config";
 //import { ModalComponent } from '../_directives/index';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,14 +24,9 @@ export class AdminDashboardComponent implements OnInit {
   loading: boolean;
   currentUser: User;
 
-  ActionList: any = {
-    'AdminTeamRequest': 'HOME',
-    'TeamRequestDetails': 'REQUEST_DETAIL',
-    'AddPanel': 'ADD PANEL',
-    'AddTeam': 'ADD TEAM',
-    'AddSkill': 'ADD Skills'
-  }
-
+  ActionList = adminConfig.ActionList;
+  RequestStatus = adminConfig.RequestStatus;
+  
   constructor(private requestService: RequestService, private userService: UserService, private router: Router) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!this.currentUser || !this.currentUser.isAdmin)
@@ -51,7 +47,7 @@ export class AdminDashboardComponent implements OnInit {
     this.skillSetCount = keys.length;
   }
   ShowRequestList(mssgEvent) {
-    this.AdminActiveTab = this.ActionList.AdminTeamRequest;;
+    this.AdminActiveTab = mssgEvent.ActivateTab;
   }
 
   public getSkillCountOfCurrentRequest() {
@@ -59,5 +55,6 @@ export class AdminDashboardComponent implements OnInit {
   }
   doAction(actionName) {
     this.AdminActiveTab = actionName;
+    this.currentRequestData['CurrentActionName'] = actionName;
   }
 }

@@ -34,8 +34,8 @@ function authenticate(username, password, isPanel) {
                 deferred.resolve({
                     _id: user._id,
                     username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    FName: user.FName,
+                    LName: user.LName,
                     isPanel: user.isPanel,
                     isAdmin: user.isAdmin,
                     teamName: user.teamName,

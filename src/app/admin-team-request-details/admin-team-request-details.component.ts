@@ -22,15 +22,12 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   devSkillSetPanel: any;
   isSkillLoaded: boolean = false;
 
-  constructor(private userService: UserService, 
-              private requestService: RequestService,
-              private alertService: AlertService,
-              private emailService : EmailService) { }
+  constructor(private userService: UserService,
+    private requestService: RequestService,
+    private alertService: AlertService,
+    private emailService: EmailService) { }
 
   ngOnInit() {
-    /* this.userBySkills = this.userService.GetPanelBySkills(this.currentRequestData.skillSet);
-    console.log("users : "+this.userBySkills);
-    */
     this.ShowRequestDetails();
   }
   ShowRequestDetails() {
@@ -60,36 +57,11 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
     });
   }
   ShowRequestList() {
-    debugger;
-    this.messageEvent.emit({ ActivateTab: 'HOME' });
+    this.messageEvent.emit({ ActivateTab: this.currentRequestData.CurrentActionName });
   }
-
-  //  getPanelUserBySkills(){
-  //    debugger;
-  //     this.userService.getPanelBySkills(this.currentRequestData.skillSet).subscribe(result => {
-  //       this.userBySkills = result;
-  //       // this.loading = false;
-  //       // this.NewRequest = result;
-  //     });
-  //     //  this.userBySkills = this.userService.GetPanelBySkills(this.currentRequestData.skillSet);
-  //     //  return this.userBySkills;
-  //  }  
 
   assignSelectedUsers() {
     console.log('In assignSelectedUsers start');
-    debugger;
-    var testObj = new Array('1', '2');
-    // this.requestService.sendMail(testObj).subscribe(
-    //   res => {
-    //     console.log('Updated requested completed.');
-    //     this.ShowRequestList()
-    //   },
-    //   err => {
-    //     console.log('Updated requested completed with error.');
-    //     console.log(err)
-    //     this.ShowRequestList()
-    //   }
-    // );
     var requestDto = {
       "_id": this.currentRequestData._id,
       "status": "PanelAssigned"
@@ -102,36 +74,35 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
 
     this.requestService.updateRequest(requestDto).subscribe(
       res => {
-        debugger;
         console.log('Updated requested completed.');
         console.log('mail sending function starts here for Assigning QA and Dev to Request By admin');
         this.currentRequestData;
-        var ccPersonList = (this.currentRequestData.initiatedBy.DAMEmail ? this.currentRequestData.initiatedBy.DAMEmail + ',' : '') 
-                          + (this.currentRequestData.initiatedBy.PMEmail ? this.currentRequestData.initiatedBy.PMEmail + ',' : '')
-                          + (this.currentRequestData.initiatedBy.POCEmail ? this.currentRequestData.initiatedBy.POCEmail : '');
-            if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
-              ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
-            }
-        var toPersonList ="";
+        var ccPersonList = (this.currentRequestData.initiatedBy.DAMEmail ? this.currentRequestData.initiatedBy.DAMEmail + ',' : '')
+          + (this.currentRequestData.initiatedBy.PMEmail ? this.currentRequestData.initiatedBy.PMEmail + ',' : '')
+          + (this.currentRequestData.initiatedBy.POCEmail ? this.currentRequestData.initiatedBy.POCEmail : '');
+        if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
+          ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
+        }
+        var toPersonList = "";
         toPersonList += requestDto["assignedDevPanelList"].map(x => x.itemName).join(",");
-        toPersonList +=",";
+        toPersonList += ",";
         toPersonList += requestDto["assignedQAPanelList"].map(x => x.itemName).join(",");
 
-        var toPersonNames="";
+        var toPersonNames = "";
 
-        toPersonNames+= requestDto["assignedDevPanelList"].map(
-                 x => x.itemName.substring(0,x.itemName.indexOf('.',0)).charAt(0).toUpperCase() 
-                    + x.itemName.substring(0,x.itemName.indexOf('.',0)).slice(1)
-                  ).join(', ');    
-        
-        toPersonNames+=", ";          
-        toPersonNames+= requestDto["assignedQAPanelList"].map(
-                    x => x.itemName.substring(0,x.itemName.indexOf('.',0)).charAt(0).toUpperCase() 
-                       + x.itemName.substring(0,x.itemName.indexOf('.',0)).slice(1)
-                     ).join(', ');        
-        var teamName=this.currentRequestData.initiatedBy.TeamName;                      
-        
-        var mailSubject = "Panels are assigned for IQA Request Sprint "+this.currentRequestData.name;
+        toPersonNames += requestDto["assignedDevPanelList"].map(
+          x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase()
+            + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)
+        ).join(', ');
+
+        toPersonNames += ", ";
+        toPersonNames += requestDto["assignedQAPanelList"].map(
+          x => x.itemName.substring(0, x.itemName.indexOf('.', 0)).charAt(0).toUpperCase()
+            + x.itemName.substring(0, x.itemName.indexOf('.', 0)).slice(1)
+        ).join(', ');
+        var teamName = this.currentRequestData.initiatedBy.TeamName;
+
+        var mailSubject = "Panels are assigned for IQA Request Sprint " + this.currentRequestData.name;
         var mailObject = {
           "fromPersonName": appConfig.fromPersonName,
           "fromPersonMailId": appConfig.fromPersonMailId,
@@ -142,15 +113,15 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
           "mailContent": "",
           "teamName": teamName
         };
-        
+
         this.emailService.sendMailToPanelsAfterAssigningPanelToIQARequestByAdmin(mailObject)
-        .subscribe(result => {
-          debugger;
-          this.alertService.success('Mail sent to selected panel list', true);
+          .subscribe(result => {
+            debugger;
+            this.alertService.success('Mail sent to selected panel list', true);
           }, error => {
-          debugger;
-          this.alertService.error('Error while sending mail to selected panels', true);
-         });
+            debugger;
+            this.alertService.error('Error while sending mail to selected panels', true);
+          });
         console.log('mail sending function ends here for Assigning QA and Dev to Request By admin');
         this.ShowRequestList()
       },
