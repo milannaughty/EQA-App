@@ -10,7 +10,10 @@ export const adminConfig = {
         NEW:"New",
         PANEL_ASSIGNED: "PanelAssigned",
         IN_PROGRESS:'InProgress',
-        COMPLETED:'Completed'
+        COMPLETED:'Completed',
+        VERIFIED_BY_PANEL:'VerifiedByPanel',
+        VERIFIED_BY_TEAM:'VerifiedByTeam',
+
     },
     ActionList: {
         AdminTeamRequest: 'HOME',

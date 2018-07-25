@@ -157,6 +157,9 @@ function updateStatusOfRequest(reqParam) {
     if (reqParam.assignedQAPanelList !== undefined) {
         set["assignedQAPanelList"] = null;
     }
+    if (reqParam.CheckListDetails !== undefined) {
+        set["CheckListDetails"] = reqParam.CheckListDetails;
+    }
 
     db.request.update(
         { _id: mongo.helper.toObjectID(reqParam.requestId) },

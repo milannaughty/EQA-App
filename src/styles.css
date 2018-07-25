@@ -277,4 +277,16 @@ body{
   text-align: center;
 }
 
-  
+
+.marginTop15{
+  margin-top: 15px;
+}
+
+.marginBottom15{
+  margin-bottom: 15px;
+}
+ 
+.statusNew{
+  background-color: #7952B3;
+  color:white;
+}
