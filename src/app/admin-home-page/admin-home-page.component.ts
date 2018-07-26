@@ -45,7 +45,7 @@ export class AdminHomePageComponent implements OnInit {
           "caption": "IQA Request Summary",
           "subCaption": "",
           "numberprefix": "",
-          "theme": "fint"
+          "theme": "ocean"
         },
         "data": summaryData
       }

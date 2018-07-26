@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { AlertService, UserService, SkillSetsService } from '../_services/index';
+import { AlertService, UserService, SkillSetsService, EmailService } from '../_services/index';
 import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
+import { appConfig } from '../app.config';
 
 @Component({
     moduleId: module.id,
@@ -19,8 +20,10 @@ export class RegisterComponent {
     dropdownSettings = {};
     skillList: any;
     constructor(private userService: UserService,
-        private alertService: AlertService, private skillSetsService: SkillSetsService,
-        private datePipe: DatePipe) { }
+                private alertService: AlertService, 
+                private skillSetsService: SkillSetsService,
+                private datePipe: DatePipe,
+                private emailService: EmailService) { }
 
     ngOnInit() {
         this.panelTypeList = [{ "Id": 'Dev', "Name": "Dev" }, { "Id": 'QA', "Name": "QA" }];
@@ -36,6 +39,7 @@ export class RegisterComponent {
     }
 
     register() {
+        debugger;
         this.loading = true;
         this.model.isPanel = true;
         this.model.AddedBy = { AdminUser: this.currentRequestData.currentUser.username };
@@ -44,9 +48,51 @@ export class RegisterComponent {
         this.model.password = 'nihilent@123';
         this.userService.create(this.model).subscribe(
             data => {
+                debugger;
                 this.alertService.success('Registration successful', true);
                 //this.clear();
                 this.loading = false;
+
+                /**mail sending starts */
+                if(this.model.isPanel){//for panel
+                    debugger;
+                    var toPersonMailId=this.model.username;
+                    var initialPassword=appConfig.initialPassword;
+                    var panelType=this.model.panelType;
+          
+                    var toPersonName=toPersonMailId.substring(0,toPersonMailId.indexOf('.',0)).charAt(0).toUpperCase() 
+                                  + toPersonMailId.substring(0,toPersonMailId.indexOf('.',0)).slice(1);
+          
+                    
+                    var mailSubject="Assigned as "+panelType+" Panel for IQA Process"; 
+          
+                          var mailObject = {
+                          "fromPersonName": appConfig.fromPersonName,
+                          "fromPersonMailId": appConfig.fromPersonMailId,
+                          "toPersonName": toPersonName,
+                          "toPersonMailId": toPersonMailId,
+                          "ccPersonList": "",
+                          "mailSubject": mailSubject,
+                          "mailContent": "",
+                          "initialPassword" : initialPassword,
+                          "panelType" : panelType,
+                          };
+          
+                          this.emailService.sendInitialMailToPanel(mailObject).subscribe(
+                            success =>{
+                            //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
+                            console.log("mail sent to admin with rejection details");
+                            },err =>{
+                            //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
+                            console.log("Error while sending mail to admin with rejection details");
+                            }
+                            );
+          
+          
+                  }else{//for team
+                    debugger;
+                  } 
+                /**mail sending ends */
             },
             error => {
                 this.alertService.error(error.error);

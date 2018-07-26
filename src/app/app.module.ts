@@ -44,7 +44,8 @@ import { AdminTeamRequestDetailsComponent } from './admin-team-request-details/a
 import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component';
 import { NospacePipe } from './nospace.pipe';
 import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component';
-import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component'; 
+import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
+import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
         BrowserModule,
@@ -76,7 +77,8 @@ import { AdminHomePageComponent } from './admin-home-page/admin-home-page.compon
         AdminTeamAddComponent,
         NospacePipe,
         AdminSkillSetComponent,
-        AdminHomePageComponent
+        AdminHomePageComponent,
+        ResetUserPasswordComponent
     ],
     providers: [
         AuthGuard,

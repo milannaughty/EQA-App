@@ -72,13 +72,24 @@ function sendMail(
 
     var gmailTransporter = getGmailTransporter();
 
-    var mailOptions = {
-        from: fromMailId, // sender address
-        to: toPersonList, // list of receivers
-        cc: ccPersonList,
-        subject: mailSubject, 
-        html: mailContent
-    };
+    var mailOptions;
+    if(ccPersonList==undefined){
+        mailOptions= {
+            from: fromMailId, // sender address
+            to: toPersonList, // list of receivers
+            subject: mailSubject, 
+            html: mailContent
+        };
+    }else{
+        mailOptions= {
+            from: fromMailId, // sender address
+            to: toPersonList, // list of receivers
+            cc: ccPersonList,
+            subject: mailSubject, 
+            html: mailContent
+        };
+    }
+    
 
     gmailTransporter.sendMail(mailOptions, function (error, info) {
         if (error) {

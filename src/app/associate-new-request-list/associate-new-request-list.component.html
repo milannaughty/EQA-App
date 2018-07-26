@@ -30,7 +30,7 @@
           <td>{{data.remarks}}</td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
           <td>
-            <button class="btn btn-success btn-xs" (click)="ClickAccept(data._id)">
+            <button class="btn btn-success btn-xs" (click)="ClickAccept(data)">
               <i class="fa fa-check"></i> Accept </button>
             <button class="btn btn-danger btn-xs" (click)="ShowRequestDetails(data,true)">
               <i class="fa fa-trash-o"></i> Reject</button>

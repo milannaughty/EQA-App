@@ -16,5 +16,25 @@ export class EmailService {
     sendMailToPanelsAfterAssigningPanelToIQARequestByAdmin(recievedObject) {
         return this.http.post(appConfig.apiUrl+'/mail/sendMailToPanelsAfterPanelsAssignedByAdmin',recievedObject);
     }
+
+    sendMailToAdminsAfterIQARequestRejectedByPanel(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendMailToAdminsAfterIQARequestRejectedByPanel',recievedObject);
+    }
+
+    sendMailToPOCAfterIQARequestAcceptedByPanel(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendMailToPOCAfterIQARequestAcceptedByPanel',recievedObject);
+    } 
     
+    sendMailToPOCAfterIQARequestCompletedByPanel(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendMailToPOCAfterIQARequestCompletedByPanel',recievedObject);
+    }
+
+    sendInitialMailToPanel(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendInitialMailToPanel',recievedObject);
+    }     
+
+    sendInitialMailToTeam(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendInitialMailToTeam',recievedObject);
+    } 
+
 }    

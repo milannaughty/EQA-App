@@ -17,7 +17,47 @@ service.update = update;
 service.delete = _delete;
 service.getPanelBySkills = getPanelBySkills;
 service.getUsersByRole=getUsersByRole;
+service.resetUserPassword=resetUserPassword;
 module.exports = service;
+
+function resetUserPassword(username,oldPassword,newPassword){
+    console.log("At begining of resetPassword of UserService");
+    var deferred = Q.defer();
+    db.users.findOne({ username: username }, function (err, user) {
+        if (err) 
+            deferred.reject(err.name + ': ' + err.message + "No user with username : "+username+" found");
+
+        if (user && bcrypt.compareSync(oldPassword, user.hash)) {
+            //old password matched
+            console.log("resetPassword of UserService : password matched");
+            updateUser(user._id,newPassword);
+        }else{
+            //old password doesn't matched
+            console.log("resetPassword of UserService : password mismatch");
+            deferred.reject("old password didn't match");
+        }
+    }); 
+
+    function updateUser(_id,newPassword) {
+        console.log("At begining of inner updateUser function of resetPassword of UserService");
+        // fields to update
+        var set = {
+                hash:bcrypt.hashSync(newPassword, 10)
+        };
+        
+        db.users.update(
+            { _id: mongo.helper.toObjectID(_id) },
+            { $set: set },
+            function (err, doc) {
+                if (err) 
+                    deferred.reject(err.name + ': ' + err.message+" Error while updating password");
+                deferred.resolve("Password changed successfully");
+            });
+        console.log("At end of inner updateUser function of resetPassword of UserService");
+    }
+    console.log("At end of resetPassword of UserService");
+    return deferred.promise;   
+}
 
 function authenticate(username, password, isPanel) {
     var deferred = Q.defer();

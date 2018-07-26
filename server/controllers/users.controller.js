@@ -12,6 +12,7 @@ router.put('/:_id', update);
 router.delete('/:_id', _delete);
 router.post('/getPanelBySkills', getPanelBySkills);
 router.get('/getUsersByRole', getUsersByRole);
+router.post('/resetUserPassword', resetUserPassword);
 
 module.exports = router;
 
@@ -114,5 +115,33 @@ function getUsersByRole(req, res) {
             res.status(400).send(err);
         });
     }
+}
 
+
+function resetUserPassword(req, res) {
+    console.log('Server : In resetUserPassword controller');
+    console.log(req.body);
+
+    if(!req.body.hasOwnProperty("username")){
+        response.status(400).send("Please use appropriate query parameter to change password");
+    }else if(!req.body.hasOwnProperty("oldPassword")){
+        response.status(400).send("Please use appropriate query parameter to change password");
+    }else if(!req.body.hasOwnProperty("newPassword")){
+        response.status(400).send("Please use appropriate query parameter to change password");
+    }else{
+
+        var uname=req.body.username;
+        var oldPassword=req.body.oldPassword;
+        var newPassword=req.body.newPassword;
+
+        userService.resetUserPassword(uname,oldPassword,newPassword)
+        .then(function (userList) {
+            res.json(userList);
+            console.log('Server : In resetUserPassword service completed');
+        })
+        .catch(function (err) {
+            console.log('Server : In resetUserPassword service completed with error '+JSON.stringify(err));
+            res.status(400).send(err);
+        });
+    }
 }
