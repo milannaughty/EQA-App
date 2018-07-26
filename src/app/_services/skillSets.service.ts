@@ -31,5 +31,13 @@ export class SkillSetsService {
         console.log("in postNewSkillSet at client side : "+JSON.stringify(skillSet));
         return this.http.post<SkillSets>(appConfig.apiUrl + '/skillSets/createNewSkillSet',skillSet);
     }
+    updateSkillSetObjectToDB(reqObj: Object){
+        //debugger;
+        return this.http.put(appConfig.apiUrl + '/skillSets/updateSkillSet' , reqObj);
+    }
+    deleteSkillSet(_id: string) {
+        debugger;
+        return this.http.delete(appConfig.apiUrl + '/skillSets/deleteSkillSet?id=' + _id);
+    }
 
 }

@@ -21,7 +21,8 @@ skillSetService.getSkillsByType=getSkillsByType;
 skillSetService.getSkillSetsById=getSkillSetsById;
 skillSetService.getSkillsByName=getSkillsByName;
 skillSetService.createNewSkillSet=createNewSkillSet;
-
+skillSetService.updateSkillSet=updateSkillSet; 
+skillSetService.deleteSkillSet=deleteSkillSet;
 module.exports = skillSetService;
 
 /**
@@ -132,3 +133,57 @@ function createNewSkillSet(reqParam) {
 
     return deferred.promise;
 }
+
+function updateSkillSet(reqParam) {
+    console.log("UpdateSkillSet method started for checking similar");
+    var deferred = Q.defer();
+        // validate if already exist
+        db.skillSets.findOne(
+            { skillName: reqParam.skillName },
+            function (err, skillSet) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
+    
+                if (skillSet) {
+                    // username already exists
+                    deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
+                } else {
+                console.log("UpdateSkillSet method started");
+    var set = {
+        "skillName": reqParam.skillName,
+        "type": reqParam.type,
+        "modifiedBy": reqParam.modifiedBy,
+        "modifiedOn": reqParam.modifiedOn
+    };
+    console.log(reqParam);
+    console.log(reqParam.requestId);
+    db.skillSets.update(
+        { _id: mongo.helper.toObjectID(reqParam.requestId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve();
+        });
+    }
+});
+    return deferred.promise;
+}
+
+
+function deleteSkillSet(_id) {
+    console.log("deleteSkillSet method started");
+    var deferred = Q.defer();
+
+    db.skillSets.remove(
+        { _id: mongo.helper.toObjectID(_id) },
+        function (err) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+
+            deferred.resolve();
+        });
+        console.log("End of deleteSkillSet method of service");
+    return deferred.promise;
+}
+
+

@@ -94,20 +94,52 @@ table.table td .add {
  .skillTable {
     margin-bottom: 20px;
     border: 0.1px solid lightgrey;
+    width: 94%;
 }
 
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+.table>tbody>tr>td, .tbody>tr>th, .tfoot>tr>td, .tfoot>tr>th, .thead>tr>td, .thead>tr>th {
     padding: 8px;
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
     width: 421px;
 }
+.td>th{
+
+    padding: 0;
+    width: 451px;
+    text-align: center;
+}
 
 .custom-select .custom-select-sm .form-control .form-control-sm{
     height: auto;
 }
 
+.form-control {
+width: 100px;
 
+}
 
+#skillInput {
+    margin-left: 2px;
+    width: 197px;
+}
+
+#skillTypeInput {
+    margin-left: 58px;
+    width: 197px;
+}
+
+#btnAdd {
+    margin-left: 37px;
+    width: 154px;
+}
+.errorMsg{
+    color: red;
+    margin-left: 20px;
+}
+.successMsg {
+    color: green;
+    margin-left: 0px;
+}
 
