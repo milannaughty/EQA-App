@@ -2,6 +2,9 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { HomeComponent } from "../home/home.component";
 import { UserService } from "../_services/user.service";
 import { RequestService } from "../_services/request.service";
+import { appConfig } from '../app.config';
+import { EmailService } from '../_services/mail.service';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-associate-request-detail',
@@ -19,7 +22,10 @@ export class AssociateRequestDetailComponent implements OnInit {
   statusList: any=[];
   ddlId: number;
 
-  constructor(private userService: UserService, private requestService: RequestService) {
+  constructor(private userService: UserService,
+              private requestService: RequestService,
+              private emailService: EmailService,
+              private alertService: AlertService) {
 
   }
 
@@ -52,6 +58,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
+    debugger;
     var set = {
       "status": this.model.selectedStatus,
       "rejectReason": this.reasonText,
@@ -62,10 +69,156 @@ export class AssociateRequestDetailComponent implements OnInit {
     if (this.currentRequestData.panelType == 'QA' || this.currentRequestData.panelType == 'Qa')
       set["assignedQAPanelList"] = null;
 
+debugger;
+    this.requestService.updateStatusOfRequest(set).subscribe(
+      result => {
+                this.ShowRequestList();
+              debugger;  
+        var data=this.currentRequestData;                
+        if(set.status=="Rejected"){//code after rejection
+          var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '') 
+                        + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '')
+                        + (data.initiatedBy.POCEmail ? data.initiatedBy.POCEmail : '');
+          if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
+            ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
+          }
+          var toPerssonList="";    
+          this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+              debugger;
+              if (adminList instanceof Array)
+                toPerssonList = adminList.map(x => x.username).join(',');
+              else
+                toPerssonList = adminList["username"];
+              var currentUser = sessionStorage.getItem('currentUser');
+              var cUser = JSON.parse(currentUser);
+              var mailSubject="IQA Request [Sprint Name :"+data.name+"] Rejected by Panel "+cUser.username; 
+              
+              
+                var mailObject = {
+                  "fromPersonName": appConfig.fromPersonName,
+                  "fromPersonMailId": appConfig.fromPersonMailId,
+                  "toPersonName": "Admin",
+                  "toPersonMailId": toPerssonList,
+                  "ccPersonList": ccPersonList,
+                  "mailSubject": mailSubject,
+                  "mailContent": "",
+                  "sprintName" : data.name,
+                  "panelName" : cUser.username,
+                  "rejectReason" : set.rejectReason
+                };
 
-    this.requestService.updateStatusOfRequest(set).subscribe(result => {
-      this.ShowRequestList()
-    });
+                this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
+                  success =>{
+                      //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
+                      console.log("mail sent to admin with rejection details");
+                  },err =>{
+                    //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
+                    console.log("Error while sending mail to admin with rejection details");
+                  }
+                );
+
+              },err => {
+                console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+              });
+        }else if(set.status=="InProgress"){//code after acceptance
+
+              var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '') 
+                               + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '');
+              if (ccPersonList.lastIndexOf(',') != ccPersonList.length - 1) {
+                  ccPersonList +=','; 
+                }
+              
+              var toPerssonListAcceptance=data.initiatedBy.POCEmail ; 
+              var toPersonName=toPerssonListAcceptance.substring(0,toPerssonListAcceptance.indexOf('.',0)).charAt(0).toUpperCase() 
+                             + toPerssonListAcceptance.substring(0,toPerssonListAcceptance.indexOf('.',0)).slice(1);   
+              this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+              debugger;
+              if (adminList instanceof Array)
+                ccPersonList += adminList.map(x => x.username).join(',');
+              else
+                ccPersonList += adminList["username"];
+              var currentUser = sessionStorage.getItem('currentUser');
+              var cUser = JSON.parse(currentUser);
+
+              var mailSubject="IQA Request [Sprint Name :"+data.name+"] Accepted by Panel "+cUser.FName+" "+cUser.LName; 
+
+                var mailObject = {
+                  "fromPersonName": appConfig.fromPersonName,
+                  "fromPersonMailId": appConfig.fromPersonMailId,
+                  "toPersonName": toPersonName,
+                  "toPersonMailId": toPerssonListAcceptance,
+                  "ccPersonList": ccPersonList,
+                  "mailSubject": mailSubject,
+                  "mailContent": "",
+                  "sprintName" : data.name,
+                  "panelName" : cUser.username,
+                };
+
+                this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
+                  success =>{
+                      //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
+                      console.log("mail sent to admin with rejection details");
+                  },err =>{
+                    //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
+                    console.log("Error while sending mail to admin with rejection details");
+                  }
+                );
+
+              },err => {//error while fething admin role users
+                console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+              });
+        }//acceptance block ends here
+        if(set.status=="Completed"){//if panel has completed IQA request
+                var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '') 
+                                 + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '');
+                if (ccPersonList.lastIndexOf(',') != ccPersonList.length - 1) {
+                 ccPersonList +=','; 
+                }
+
+                var toPerssonListAcceptance=data.initiatedBy.POCEmail ; 
+                var toPersonName=toPerssonListAcceptance.substring(0,toPerssonListAcceptance.indexOf('.',0)).charAt(0).toUpperCase() 
+                        + toPerssonListAcceptance.substring(0,toPerssonListAcceptance.indexOf('.',0)).slice(1);   
+                this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+                debugger;
+                if (adminList instanceof Array)
+                ccPersonList += adminList.map(x => x.username).join(',');
+                else
+                ccPersonList += adminList["username"];
+                var currentUser = sessionStorage.getItem('currentUser');
+                var cUser = JSON.parse(currentUser);
+
+                var mailSubject="IQA Request [Sprint Name :"+data.name+"] Accepted by Panel "+cUser.FName+" "+cUser.LName; 
+
+                var mailObject = {
+                "fromPersonName": appConfig.fromPersonName,
+                "fromPersonMailId": appConfig.fromPersonMailId,
+                "toPersonName": toPersonName,
+                "toPersonMailId": toPerssonListAcceptance,
+                "ccPersonList": ccPersonList,
+                "mailSubject": mailSubject,
+                "mailContent": "",
+                "sprintName" : data.name,
+                "panelName" : cUser.username,
+                };
+
+                this.emailService.sendMailToPOCAfterIQARequestCompletedByPanel(mailObject).subscribe(
+                success =>{
+                //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
+                console.log("mail sent to admin with rejection details");
+                },err =>{
+                //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
+                console.log("Error while sending mail to admin with rejection details");
+                }
+                );
+
+                },err => {//error while fething admin role users
+                console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+                });
+        }//if panel has completed IQA request If block ends
+                
+      },err =>{
+        this.alertService.error('Error while rejecting IQA Request ',true);
+      });
   }
 
   populateStatusDropdown(){
