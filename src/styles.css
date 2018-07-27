@@ -186,14 +186,19 @@ pre {
   cursor: pointer
 }
 
+.table-striped tbody .label-warning  {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .table-striped tbody .label-primary  {
   padding-left: 10px;
-  padding-right: 23px;
+  padding-right: 30px;
 }
 
 .table-striped tbody .label-default {
   padding-left: 10px;
-  padding-right: 52px;
+  padding-right: 59px;
 }
 
 body{
@@ -287,6 +292,26 @@ body{
 }
  
 .statusNew{
-  background-color: #7952B3;
+  background-color: #009688b3;
   color:white;
+}
+.statusVerifiedByPanel{
+  background-color: #94df0ab3;
+  color:white;
+}
+
+.statusCompleted{
+  background-color: green !important;
+  padding-left: 10px;
+  padding-right: 28px;
+}
+
+.statusRejected{
+  background-color: black;
+  padding-left: 10px;
+  padding-right: 39px;
+}
+
+.skillFontStyle{
+  font-size:small;
 }

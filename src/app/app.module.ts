@@ -45,7 +45,9 @@ import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component
 import { NospacePipe } from './nospace.pipe';
 import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
-import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
+import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
+import { RequestStatusComponent } from './request-status/request-status.component';
+import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component'; 
 @NgModule({
     imports: [
         BrowserModule,
@@ -78,7 +80,9 @@ import { ResetUserPasswordComponent } from './reset-user-password/reset-user-pas
         NospacePipe,
         AdminSkillSetComponent,
         AdminHomePageComponent,
-        ResetUserPasswordComponent
+        ResetUserPasswordComponent,
+        RequestStatusComponent,
+        TeamChecklistFormComponent
     ],
     providers: [
         AuthGuard,

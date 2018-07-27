@@ -10,6 +10,8 @@ import { appConfig } from '../app.config';
   styleUrls: ['./team-new-request.component.css']
 })
 export class TeamNewRequestComponent implements OnInit {
+  dropdownSettingsQA: { singleSelection: boolean; text: string; selectAllText: string; unSelectAllText: string; enableSearchFilter: boolean; };
+  dropdownSettingsDEV: { singleSelection: boolean; text: string; selectAllText: string; unSelectAllText: string; enableSearchFilter: boolean; };
   loading = false;
   model: any = {};
   ActiveTabs: any = 'InitiateEQARequest';
@@ -42,9 +44,16 @@ export class TeamNewRequestComponent implements OnInit {
         this.qaSkillList = this.qaSkillList.sort((x, y) => x.itemName && x.itemName.localeCompare(y.itemName));
       })
 
-    this.dropdownSettings = {
+    this.dropdownSettingsDEV = {
       singleSelection: false,
-      text: "Select Skillset",
+      text: "Select Dev Skillset",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true
+    };
+    this.dropdownSettingsQA = {
+      singleSelection: false,
+      text: "Select QA Skillset",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       enableSearchFilter: true

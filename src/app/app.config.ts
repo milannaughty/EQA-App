@@ -14,6 +14,7 @@ export const adminConfig = {
         COMPLETED:'Completed',
         VERIFIED_BY_PANEL:'VerifiedByPanel',
         VERIFIED_BY_TEAM:'VerifiedByTeam',
+        REJECTED:'Rejected'
 
     },
     ActionList: {

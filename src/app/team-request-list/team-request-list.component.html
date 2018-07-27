@@ -1,57 +1,48 @@
 <div class="container">
   <div class="HeaderClass">IQA Request Summary</div>
 
-<table class="table table-striped">
+  <table class=" table-striped fontFamily" style="width: 95%">
 
-  <!--Table head-->
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>PBI</th>
-      <th>Name</th>
-      <!-- <th>Skill Set</th> -->
-      <th>Request Date</th>
-      <th>Expected IQA Date</th>
-      <th>Status</th>
-      <!-- <th>Remarks</th>
-      <th>Checklist</th> -->
-      <th>Initiated By</th>
-      <!-- <th>Creation Date</th>
-                                            <th>Last Update Date</th> -->
-    </tr>
-  </thead>
-  <!--Table head-->
+    <!--Table head-->
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>PBI</th>
+        <th>Name</th>
+        <th>Request Date</th>
+        <th>Expected IQA Date</th>
+        <th>Status</th>
+        <th>Initiated By</th>
+      </tr>
+    </thead>
+    <!--Table head-->
 
-  <!--Table body-->
-  <tbody>
-    <tr *ngFor="let data of NewRequest">
-      <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
-      <td>
-        <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
-      </td>
-      <td>{{data.name}}</td>
-      <!-- <td><h4 *ngFor="let skillddata.skillSetata of ">{{skilldata.itemName}}</h4></td> -->
-      <!-- <td> 
-        <span *ngFor="let skilldata of data.skillSet;let i=index; trackBy:trackByIndex">
-        {{skilldata.itemName}}{{i === data.skillSet.length - 1 ? '' : ', '}}
-        </span>
-      </td> -->
-      <td>{{data.creationDate | date : DATE_FMT}}</td>
-      <td>{{data.expectedIQADate | date : DATE_FMT}} </td>
-      <td>
-        <span *ngIf="data.status=='Completed'" class="label label-success">{{data.status}}</span>
-        <span *ngIf="data.status=='New'" class="label label-warning">{{data.status}}</span>
-        <span *ngIf="data.status=='Rejected'" class="label label-important">{{data.status}}</span>
-      </td>
-      <!-- <td>{{data.remarks}}</td>
-      <td>{{data.checklist}}</td> -->
-      <td>{{data.initiatedBy.TeamName}}</td>
-    </tr>
-  </tbody>
-  <!--Table body-->
+    <!--Table body-->
+    <tbody>
+      <tr *ngFor="let data of NewRequest">
+        <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
+        <td>
+          <span (click)="ShowRequestDetails(data)"  class="text-primary">{{data.pbiId}}</span>
+        </td>
+        <td>{{data.name}}</td>
+        <td>{{data.creationDate | date : DATE_FMT}}</td>
+        <td>{{data.expectedIQADate | date : DATE_FMT}} </td>
+        <td>
+            <app-request-status [status]="data.status"></app-request-status>
+            <!-- <span *ngIf="data.status=='Completed'" class="label statusCompleted">{{data.status}}</span>
+            <span *ngIf="data.status=='New'" class="label label-default statusNew">{{data.status}}</span>
+            <span *ngIf="data.status=='InProgress'" class="label label-primary">{{data.status}}</span>
+            <span *ngIf="data.status=='Rejected'" class="label statusRejected">{{data.status}}</span>
+            <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
+            <span *ngIf="data.status=='VerifiedByPanel'" class="label statusVerifiedByPanel">{{data.status}}</span> -->
+        </td>
+        <td>{{data.initiatedBy.TeamName}}</td>
+      </tr>
+    </tbody>
+    <!--Table body-->
 
-</table>
-<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-/>
+  </table>
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+  />
 
 </div>
