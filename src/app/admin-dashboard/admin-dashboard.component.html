@@ -1,7 +1,8 @@
 <div class="container-fluid">
     <h2>
         Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</h2>
-    <a [routerLink]="['/login']">Logout</a>
+    <a [routerLink]="['/login']">Logout</a> &nbsp;|&nbsp;
+    <!-- <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a> -->
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->

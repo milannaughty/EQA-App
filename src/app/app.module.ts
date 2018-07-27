@@ -48,6 +48,7 @@ import { AdminHomePageComponent } from './admin-home-page/admin-home-page.compon
 import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
 import { RequestStatusComponent } from './request-status/request-status.component';
 import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component'; 
+//import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
         BrowserModule,

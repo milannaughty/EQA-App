@@ -9,7 +9,8 @@
                     - <a (click)="deleteUser(user.id)">Delete</a>
                 </li>
             </ul> -->
-    <a [routerLink]="['/login']">Logout</a>
+            <a [routerLink]="['/login']">Logout</a> &nbsp;|&nbsp;
+            <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a>
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -90,6 +91,7 @@
                         <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
                         <app-team-panel-list *ngIf="ActiveTab===ActionList.PanelList"></app-team-panel-list>
                         <app-team-panel-detail *ngIf="ActiveTab===ActionList.PanelDetail"></app-team-panel-detail>
+                        <app-reset-user-password *ngIf="ActiveTab===ActionList.ResetPassword"></app-reset-user-password>
                     </div>
                 </div>
             </div>
