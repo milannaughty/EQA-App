@@ -49,4 +49,10 @@ export class UserService {
         return this.http.get<User[]>(appConfig.apiUrl +'/users/getUsersByRole?roleName=' + roleName);
     }
 
+    resetUserPassword(resetObject : any) {
+        console.log("in getAllUsersByRole source role name is "+resetObject);
+        return this.http.post(appConfig.apiUrl +'/users/resetUserPassword',resetObject);
+    }
+    
+
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../_models/index';
 import { UserService } from '../_services/index';
 import { Router } from '@angular/router';
+import { userConfig } from "../app.config"
 
 @Component({
     moduleId: module.id,
@@ -17,16 +18,7 @@ export class HomeComponent implements OnInit {
     ActiveTabs: any;
     users: User[] = [];
     ActiveTab: any = 'Dashboard';
-    ActionList: any = {
-        'EQANewRequests': 'IQA New Requests',
-        'EQASummary': 'IQA Summary',
-        'AssociateRequestDetail': 'Request Detail',
-        'InitiateEQARequest': 'Initiate IQA Request',
-        'TeamEQARequest': 'Request History',
-        'TeamRequestDetail': 'Request Summary Detail',
-        'PanelList': 'Panel List',
-        'PanelDetail': 'Panel Detail'
-    }
+    ActionList: any = userConfig.ActionList
 
     receiveMessage($event) {
         console.log('In receiveMessage Method');
@@ -71,8 +63,8 @@ export class HomeComponent implements OnInit {
     ShowRequestDetails(actionData) {
         debugger;
         this.currentRequestData = actionData.data;
-        this.currentRequestData["currentUser"]=this.currentUser;
-        this.currentRequestData["prevActiveTab"]=this.ActiveTab;
+        this.currentRequestData["currentUser"] = this.currentUser;
+        this.currentRequestData["prevActiveTab"] = this.ActiveTab;
         this.ActiveTab = actionData.ActivateTab;
 
     }
@@ -80,7 +72,7 @@ export class HomeComponent implements OnInit {
         this.ActiveTab = mssgEvent.ActivateTab;
     }
     ShowRequestList1(mssgEvent) {
-        debugger;   
+        debugger;
         this.ActiveTab = this.ActionList.TeamEQARequest;;
     }
 }

@@ -25,6 +25,7 @@ import { AlertService, AuthenticationService, UserService, RequestService, Modal
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
+import { ResetUserPasswordComponent } from './reset-user-password/index';
 
 //Third Party
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
@@ -45,7 +46,7 @@ import { AdminTeamAddComponent } from './admin-team-add/admin-team-add.component
 import { NospacePipe } from './nospace.pipe';
 import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
-import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
+//import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
         BrowserModule,
