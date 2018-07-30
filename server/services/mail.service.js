@@ -12,7 +12,7 @@ function getGmailTransporter(){
         service: 'gmail',
         auth: {
                  user: 'krishnayaldi@gmail.com',
-                 pass: 'kalyani123'
+                 pass: 'Krishna@123'
             }
     });
 }

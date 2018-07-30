@@ -37,4 +37,8 @@ export class EmailService {
         return this.http.post(appConfig.apiUrl+'/mail/sendInitialMailToTeam',recievedObject);
     } 
 
+    sendNewlyGeneratedPasswordToUserMailTo(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendNewlyGeneratedMailToUserForForgotPassword',recievedObject);
+    } 
+    
 }    
