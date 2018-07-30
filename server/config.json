@@ -1,5 +1,5 @@
 ﻿{
-    "connectionString": "mongodb://172.16.20.245:27017/eqa-app",
+    "connectionString": "mongodb://127.0.0.1:27017/eqa-app",
     "apiUrl": "http://172.16.20.245:4000",
     "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
 }
