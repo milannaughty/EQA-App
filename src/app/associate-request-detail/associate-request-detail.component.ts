@@ -92,10 +92,32 @@ export class AssociateRequestDetailComponent implements OnInit {
     else if (this.isCompleteRequestOperation) {
       var modelRdbSelectedItem = this.modelRdbSelectedItem;
       var isAnyChecklistItemOpen = modelRdbSelectedItem.some(x => x != undefined && x != null && x != 0)
-      set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.VERIFIED_BY_PANEL : adminConfig.RequestStatus.COMPLETED;
+      set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.UNDER_VERIFICATION : adminConfig.RequestStatus.COMPLETED;
       set['CheckListDetails'] = this.requestCheckListItem.map(x => ({ _Id: x._Id, status: modelRdbSelectedItem[x._Id] || 0 }));
       set['DevReviewComment'] = this.model.DevReviewComment;
       set['QAReviewComment'] = this.model.QAReviewComment;
+
+      var isDevPanel = this.currentRequestData.currentUser.panelType == 'Dev';
+      var qaReviewStatus = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.QAReviewStatus;
+      var devReviewStatus = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.DevReviewStatus;
+      var teamReviewStatus = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.TeamReviewStatus;
+      var teamReplyReviewComment = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.TeamReplyReviewComment;
+      var qaReviewComment = this.model.QAReviewComment;
+      var devReviewComment = this.model.DevReviewComment
+
+      if (isDevPanel)
+        devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL
+      else
+        qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL
+        
+      set["verificationStatus"] = { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
+        QAReviewStatus: qaReviewStatus,
+        DevReviewStatus: devReviewStatus,
+        QAReviewComment: qaReviewComment,
+        DevReviewComment: devReviewComment,
+        TeamReviewStatus: teamReviewStatus,
+        TeamReplyReviewComment: teamReplyReviewComment
+      }
     }
     debugger;
     this.requestService.updateStatusOfRequest(set).subscribe(
@@ -254,7 +276,7 @@ export class AssociateRequestDetailComponent implements OnInit {
     if (this.currentRequestData.status == 'PanelAssigned') {
       this.statusList.push({ "Id": "InProgress", "Name": "Accept" })
     }
-    else if (this.currentRequestData.status == 'InProgress' || adminConfig.RequestStatus.VERIFIED_BY_PANEL) {
+    else if (this.currentRequestData.status == 'InProgress' || adminConfig.RequestStatus.UNDER_VERIFICATION) {
       this.statusList.push({ "Id": "Completed", "Name": "Complete" })
     }
     this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })

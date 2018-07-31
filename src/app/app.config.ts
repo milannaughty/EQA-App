@@ -12,11 +12,13 @@ export const adminConfig = {
         PANEL_ASSIGNED: "PanelAssigned",
         IN_PROGRESS:'InProgress',
         COMPLETED:'Completed',
-        VERIFIED_BY_PANEL:'VerifiedByPanel',
+        VERIFIED_BY_DEV_PANEL:'VerifiedByDevPanel',
+        VERIFIED_BY_QA_PANEL:'VerifiedByQAPanel',
         VERIFIED_BY_TEAM:'VerifiedByTeam',
         REJECTED:'Rejected',
         CLOSE:'Close',
-        OPEN:'Open'
+        OPEN:'Open',
+        UNDER_VERIFICATION:'UnderVerification'
 
     },
     ActionList: {

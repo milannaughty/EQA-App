@@ -85,15 +85,15 @@
     <br>
     <hr>
     <div class="">
-      <strong>Review Comments :</strong>
+      <strong>Review Comments Panel:</strong>
       <table class="table-striped skillFontStyle">
         <tr>
           <td>Dev Panel</td>
-          <td>-->{{selectedRequestData.DevReviewComment || 'No Comments'}}</td>
+          <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.DevReviewComment) || 'No Comments'}}</td>
         </tr>
         <tr>
           <td>QA Panel</td>
-          <td>-->{{selectedRequestData.QAReviewComment || 'No Comments'}}</td>
+          <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.QAReviewComment) || 'No Comments'}}</td>
         </tr>
       </table>
       <div>

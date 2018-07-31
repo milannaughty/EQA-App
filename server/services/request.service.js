@@ -161,11 +161,14 @@ function updateStatusOfRequest(reqParam) {
     if (!utility.IsUndefined(reqParam.CheckListDetails)) {
         set["CheckListDetails"] = reqParam.CheckListDetails;
     }
-    if (!utility.IsUndefined(reqParam.DevReviewComment)) {
-        set["DevReviewComment"] = reqParam.DevReviewComment;
-    }
-    if (!utility.IsUndefined(reqParam.QAReviewComment)) {
-        set["QAReviewComment"] = reqParam.QAReviewComment;
+    // if (!utility.IsUndefined(reqParam.DevReviewComment)) {
+    //     set["DevReviewComment"] = reqParam.DevReviewComment;
+    // }
+    // if (!utility.IsUndefined(reqParam.QAReviewComment)) {
+    //     set["QAReviewComment"] = reqParam.QAReviewComment;
+    // }
+    if (!utility.IsUndefined(reqParam.verificationStatus)) {
+        set["verificationStatus"] = reqParam.verificationStatus;
     }
 
     db.request.update(

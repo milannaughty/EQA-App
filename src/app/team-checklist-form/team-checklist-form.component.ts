@@ -9,6 +9,7 @@ import { CommonUtil } from '../app.util'
   styleUrls: ['./team-checklist-form.component.css']
 })
 export class TeamChecklistFormComponent implements OnInit {
+  TeamReplyReviewComment: any;
   selectedRequestData: any;
   closeCheckListItem: { _Id: number; CheckListItem: string; Description: string; }[];
   openCheckListItem: { _Id: number; CheckListItem: string; Description: string; }[];
@@ -19,7 +20,6 @@ export class TeamChecklistFormComponent implements OnInit {
   result: Object;
   currentUser: any;
   modelChkList = [];
-  RequestStatus: any = adminConfig.RequestStatus;
 
   @Input() currentRequestData: any;
   @Output() messageEvent = new EventEmitter<any>();
@@ -34,14 +34,15 @@ export class TeamChecklistFormComponent implements OnInit {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
     this.requestService.getTeamAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
-      this.NewRequest = CommonUtil.GetFilteredRequestList(result, this.RequestStatus.VERIFIED_BY_PANEL);
+      var requestUnderVerifications = CommonUtil.GetFilteredRequestList(result, adminConfig.RequestStatus.UNDER_VERIFICATION);
+      this.NewRequest =  requestUnderVerifications;//.map(x => )
     });
   }
 
   private ShowCheckListDetails(data) {
     this.showCheckList = true;
     this.selectedRequestData = data;
-    debugger;//this.currentRequestData;
+    this.TeamReplyReviewComment = data.verificationStatus.TeamReplyReviewComment || ''
     var requestCheckListDetails = data.CheckListDetails;
     var filterData = CommonUtil.CheckListDetails.filter(x => {
       var y = requestCheckListDetails.filter(rchk => rchk._Id == x._Id)[0];
@@ -63,12 +64,12 @@ export class TeamChecklistFormComponent implements OnInit {
   private OnSaveClick() {
     var checkListDetails = this.selectedRequestData.CheckListDetails;
     this.modelChkList.map(function (status, id) {
-      checkListDetails = checkListDetails.map(rchk => {
+      var tempResultCheckListDetails = checkListDetails.map(rchk => {
         if (rchk && rchk._Id == id) {
           rchk["status"] = status ? 0 : 1;  //If status is true it means close checkbox is clicked
         }
+        return rchk;
       })
-      return;
     })
     //Check if any item is in open state
     if (this.selectedRequestData.CheckListDetails.some(x => x.status == 1)) {
@@ -76,11 +77,38 @@ export class TeamChecklistFormComponent implements OnInit {
       return;
     }
 
-    if (this.selectedRequestData.TeamReplyReviewComment) {
+    if (!this.TeamReplyReviewComment) {
       alert('You must enter review comment replay');
       return;
     }
-    debugger;
+
+    var qaReviewStatus = this.selectedRequestData.verificationStatus && this.selectedRequestData.verificationStatus.QAReviewStatus;
+    var devReviewStatus = this.selectedRequestData.verificationStatus && this.selectedRequestData.verificationStatus.DevReviewStatus;
+    var devReviewComment = this.selectedRequestData.verificationStatus && this.selectedRequestData.verificationStatus.DevReviewComment;
+    var qaReviewComment = this.selectedRequestData.verificationStatus && this.selectedRequestData.verificationStatus.QAReviewComment;
+
+    var updateAttributes = {
+      requestId: this.selectedRequestData._id,
+      status: adminConfig.RequestStatus.UNDER_VERIFICATION,
+      verificationStatus: { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
+        IsActionNeededByPanel:true,
+        QAReviewStatus: qaReviewStatus,
+        DevReviewStatus: devReviewStatus,
+        QAReviewComment: qaReviewComment,
+        DevReviewComment: devReviewComment,
+        TeamReviewStatus: adminConfig.RequestStatus.VERIFIED_BY_TEAM,
+        TeamReplyReviewComment: this.TeamReplyReviewComment,
+        TeamReviewDate: new Date()
+      }
+    };
+
+    this.requestService.updateStatusOfRequest(updateAttributes).subscribe(
+      result => {
+      },
+      err => {
+
+      });
+
   }
 }
 
