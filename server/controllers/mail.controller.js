@@ -14,10 +14,9 @@ router.post('/sendMailToPOCAfterIQARequestAcceptedByPanel',sendMailToPOCAfterIQA
 router.post('/sendMailToPOCAfterIQARequestCompletedByPanel',sendMailToPOCAfterIQARequestCompletedByPanel);
 router.post('/sendInitialMailToPanel',sendInitialMailToPanel);
 router.post('/sendInitialMailToTeam',sendInitialMailToTeam);
-
+router.post('/sendNewlyGeneratedMailToUserForForgotPassword',sendNewlyGeneratedMailToUserForForgotPassword);
 
 module.exports = router;
-
 
 function sendTestMail(req, res) {
     console.log('in sendTestMail function of MailController Start ');
@@ -214,4 +213,29 @@ function sendInitialMailToTeam(request, res){
              res.status(400).send(err);
          });
 console.log('at end of sendInitialMailToTeam At Controller');
+}
+
+function sendNewlyGeneratedMailToUserForForgotPassword(request, res){
+    console.log('in start of sendNewlyGeneratedMailToUserForForgotPassword At Controller');
+    var bodyObject=request.body;
+   
+    var fromMailId=bodyObject.fromPersonMailId;
+    var toPersonList=bodyObject.toPersonMailId;
+    var ccPersonList=bodyObject.ccPersonList;
+    var mailSubject=bodyObject.mailSubject;
+
+    var mailContent=mailTemplatesServiceObject.getMailTemplateTobeSentToUserAfterGeneratingNewPassword(bodyObject);
+
+    mailServiceObject.sendMail(
+        fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
+        ).then(function (emailRes) {
+             console.log(emailRes);
+             console.log('in sendNewlyGeneratedMailToUserForForgotPassword function of MailController End');
+             res.json('success');
+         })
+         .catch(function (err) {
+             console.log('in sendNewlyGeneratedMailToUserForForgotPassword function of MailController End with error');
+             res.status(400).send(err);
+         });
+console.log('at end of sendNewlyGeneratedMailToUserForForgotPassword At Controller');
 }

@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var userService = require('services/user.service');
+var utililtiesServiceObject = require('services/utililties.service');
 
 // routes
 router.post('/authenticate', authenticate);
@@ -13,8 +14,41 @@ router.delete('/:_id', _delete);
 router.post('/getPanelBySkills', getPanelBySkills);
 router.get('/getUsersByRole', getUsersByRole);
 router.post('/resetUserPassword', resetUserPassword);
+router.post('/forgotPassword', forgotPassword);
+router.get('/generateRandomPassword', generateRandomPassword);
+router.get('/getUserByUserName', getUserByUserName);
 
 module.exports = router;
+
+function getUserByUserName(req,res){
+    console.log("In generateRandomPassword of user controller");
+    if(req.query.userName==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+    userService.getUserByUserName(req.query.userName)
+        .then(function (users) {
+            console.log("In generateRandomPassword of user controller");
+            res.send(users);
+        })
+        .catch(function (err) {
+            console.log("In generateRandomPassword of user controller");
+            res.status(400).send(err);
+        });
+}
+
+function generateRandomPassword(req, res) {
+    console.log("In generateRandomPassword of user controller");
+    utililtiesServiceObject.generateRandomPassword()
+    .then(function (res) {
+        res.json(res);
+    })
+    .catch(function (err) {
+        res.status(400).send(err);
+    });
+        res.send(utililtiesServiceObject.generateRandomPassword());
+    }
+
+    
 
 function authenticate(req, res) {
     userService.authenticate(req.body.username, req.body.password, req.body.isPanel)
@@ -68,6 +102,7 @@ function getCurrent(req, res) {
 }
 
 function update(req, res) {
+    console.log("in update users controller"+ JSON.stringify(req.params));
     userService.update(req.params._id, req.body)
         .then(function () {
             res.json('success');
@@ -103,7 +138,7 @@ function getUsersByRole(req, res) {
     console.log('Server : In getUsersByRole controller');
     console.log(req.query);
     if(!req.query.hasOwnProperty("roleName")){
-        response.status(400).send("Please use appropriate query parameter to fetch users by role");
+        res.status(400).send("Please use appropriate query parameter to fetch users by role");
     }else{
         userService.getUsersByRole(req.query.roleName)
         .then(function (userList) {
@@ -120,7 +155,7 @@ function getUsersByRole(req, res) {
 
 function resetUserPassword(req, res) {
     console.log('Server : In resetUserPassword controller');
-    console.log(req.body);
+    //console.log(req.body);
 
     if(!req.body.hasOwnProperty("username")){
         response.status(400).send("Please use appropriate query parameter to change password");
@@ -144,4 +179,27 @@ function resetUserPassword(req, res) {
             res.status(400).send(err);
         });
     }
+}
+
+function forgotPassword(req, res) {
+    console.log('Server : In forgotPassword controller');
+    console.log(req.body);
+    if(!req.body.hasOwnProperty("username")){
+        response.status(400).send("Please use appropriate query parameter to change password");
+    }else{
+
+        var uname=req.body.username;
+        var password=req.body.newPassword;
+        
+        userService.generateNewPasswordIfForgotPassword(uname,password)
+        .then(function (userList) {
+            res.json(userList);
+            console.log('Server : In forgotPassword service completed');
+        })
+        .catch(function (err) {
+            console.log('Server : In forgotPassword service completed with error '+JSON.stringify(err));
+            res.status(400).send(err);
+        });
+    }
+    
 }

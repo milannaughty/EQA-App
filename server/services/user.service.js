@@ -18,7 +18,58 @@ service.delete = _delete;
 service.getPanelBySkills = getPanelBySkills;
 service.getUsersByRole=getUsersByRole;
 service.resetUserPassword=resetUserPassword;
+service.generateNewPasswordIfForgotPassword=generateNewPasswordIfForgotPassword;
+service.getUserByUserName=getUserByUserName;
+
 module.exports = service;
+
+function getUserByUserName(userName){
+    console.log("At begining of getUserByUserName of UserService");
+    var deferred = Q.defer();
+    db.users.findOne({ username: userName },
+        function(err,user){
+            if(err)
+                deferred.reject("Error : User not found with username "+userName);
+            else
+                deferred.resolve(user);
+        });
+    console.log("At end of getUserByUserName of UserService");
+    return deferred.promise;
+}
+
+function generateNewPasswordIfForgotPassword(username,newPassword){
+    console.log("At begining of resetPassword of UserService");
+    var deferred = Q.defer();
+    db.users.findOne({ username: username },
+        function(err,user){
+            if(err)
+                deferred.reject(err.name + ': ' + err.message + "No user with username : "+username+" found");
+            else{
+                updateUser(user._id,newPassword);
+                deferred.resolve("success : Password updated successfully. New password emailed to respective user.");
+            }
+        });
+
+        function updateUser(_id,newPassword) {
+            console.log("At begining of inner updateUser function of resetPassword of UserService");
+            // fields to update
+            var set = {
+                    hash:bcrypt.hashSync(newPassword, 10)
+            };
+            
+            db.users.update(
+                { _id: mongo.helper.toObjectID(_id) },
+                { $set: set },
+                function (err, doc) {
+                    if (err) 
+                        deferred.reject(err.name + ': ' + err.message+" Error while updating password");
+                    deferred.resolve("Password changed successfully");
+                });
+            console.log("At end of inner updateUser function of resetPassword of UserService");
+        }
+        
+    return deferred.promise;    
+}
 
 function resetUserPassword(username,oldPassword,newPassword){
     console.log("At begining of resetPassword of UserService");
@@ -178,13 +229,13 @@ function update(_id, userParam) {
         if (user.username !== userParam.username) {
             // username has changed so check if the new username is already taken
             db.users.findOne(
-                { username: userParam.username },
+                { _id: _id },
                 function (err, user) {
                     if (err) deferred.reject(err.name + ': ' + err.message);
 
                     if (user) {
                         // username already exists
-                        deferred.reject('Username "' + req.body.username + '" is already taken')
+                        deferred.reject('Username "' + userParam.username + '" is already taken')
                     } else {
                         updateUser();
                     }
@@ -306,7 +357,10 @@ function getUsersByRole(roleName){
                             }
                         ]
                     };
-                }   
+                }else{
+                    deferred.reject("No role found like "+roleName);
+                    return deferred.promise;
+                }  
               
                 console.log(JSON.stringify(query));
 
@@ -322,3 +376,4 @@ function getUsersByRole(roleName){
     console.log("At end of getUsersByRole in service");
     return deferred.promise;
 }
+

@@ -5,6 +5,11 @@ utilitiesService.getFirstNameFromEmail = getFirstNameFromEmail;
 utilitiesService.getLastNameFromEmail = getLastNameFromEmail;
 utilitiesService.IsNullOrUndefined = IsNullOrUndefined;
 utilitiesService.IsUndefined = IsUndefined;
+utilitiesService.getAllKeysOfJSON = getAllKeysOfJSON;
+utilitiesService.getFirstNameFromEmail = getFirstNameFromEmail;
+utilitiesService.getLastNameFromEmail = getLastNameFromEmail;
+utilitiesService.generateRandomPassword = generateRandomPassword;
+
 module.exports = utilitiesService;
 
 function getAllKeysOfJSON(receivedObject) {
@@ -31,4 +36,13 @@ function IsNullOrUndefined(obj) {
 
 function IsUndefined(obj) {
     return obj == undefined;
+
+}
+function getLastNameFromEmail(email) {
+    return email.substring(0, email.indexOf('@', 0)).split('.')[1].charAt(0).toUpperCase()
+        + email.substring(0, email.indexOf('@', 0)).split('.')[1].slice(1);
+}
+
+function generateRandomPassword() {
+    return Math.random().toString(36).slice(-8);
 }

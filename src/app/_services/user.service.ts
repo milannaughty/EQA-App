@@ -50,9 +50,21 @@ export class UserService {
     }
 
     resetUserPassword(resetObject : any) {
-        console.log("in getAllUsersByRole source role name is "+resetObject);
+        console.log("in resetUserPassword source role name is "+resetObject);
         return this.http.post(appConfig.apiUrl +'/users/resetUserPassword',resetObject);
     }
     
+    forgotPassword(resetObject : any) {
+        console.log("in forgotPassword source role name is "+resetObject);
+        return this.http.post(appConfig.apiUrl +'/users/forgotPassword',resetObject);
+    }
+ 
+    getRandomPassword() {
+        return this.http.get<User[]>(appConfig.apiUrl + '/users/generateRandomPassword');
+    }
 
+    getUserByUserName(userName) {
+        return this.http.get<User>(appConfig.apiUrl + '/users/getUserByUserName?userName='+userName);
+    }
+    
 }
