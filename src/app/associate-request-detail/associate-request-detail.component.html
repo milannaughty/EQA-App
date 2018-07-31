@@ -144,10 +144,11 @@
               <td>
                 <!-- Default unchecked -->
                 <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="1" name="rdbCheckListGroup_{{data._Id}}" checked>
+                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="1" name="rdbCheckListGroup_{{data._Id}}"
+                    checked>
                   <label class="custom-control-label" for="defaultUnchecked">Open</label>
 
-                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="0" name="rdbCheckListGroup_{{data._Id}}" >
+                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="0" name="rdbCheckListGroup_{{data._Id}}">
                   <label class="custom-control-label" for="defaultChecked">Close</label>
                 </div>
               </td>
@@ -156,6 +157,19 @@
           <!--Table body-->
 
         </table>
+        <br>
+        <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'Dev'">
+          <label for="ReviewDevComment " cols="30" rows="4">Review Comment</label>
+          <textarea type="textarea" class="form-control" [(ngModel)]="model.DevReviewComment" [ngModelOptions]="{standalone: true}" id="ReviewDevComment"
+            cols="30" rows="4" required>
+          </textarea>
+        </div>
+        <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'QA'">
+          <label for="ReviewQAComment " cols="30" rows="4">Review Comment</label>
+          <textarea type="textarea" class="form-control" [(ngModel)]="model.QAReviewComment" [ngModelOptions]="{standalone: true}" id="ReviewQAComment"
+            cols="30" rows="4" required>
+          </textarea>
+        </div>
       </div>
       <div class="col-md-6 marginTop15">
         <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px;">Home</button>

@@ -1,47 +1,140 @@
+<div class="container">
+  <div class="HeaderClass">Requests Under Verifications</div>
+  <div *ngIf="!showCheckList">
+    <table class=" table-striped fontFamily" style="width: 95%">
 
-<div class="">
-    <div class="container">
-      <div class="HeaderClass">IQA Request Under Verification</div>
-      <table  class="table-striped fontFamily" style="width: 95%">
-  
-        <!--Table head-->
-        <thead>
-          <tr>
-            <th class="th_cols">#</th>
-            <th class="th_cols">PBI</th>
-            <th class="th_cols">Name</th>
-            <th>Delivery Date</th>
-            <th>Expected IQA Date</th>
-            <th>Status</th>
-            <th>Remarks</th>
-            <th>Initiated By</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of NewRequest">
-            <th scope="row" style="width: 5%">{{NewRequest.indexOf(data)+1}}</th>
-            <td style="width: 10%">
-              <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
-            </td>
-            <td style="width: 15%">{{data.name}}</td>
-            <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
-            <td>{{data.expectedEQADate?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
-            <td>
-              <app-request-status [status]="data.status"></app-request-status>
-              <!-- <span *ngIf="data.status=='Completed'" class="label statusCompleted">{{data.status}}</span>
-              <span *ngIf="data.status=='New'" class="label label-default statusNew">{{data.status}}</span>
-              <span *ngIf="data.status=='InProgress'" class="label label-primary">{{data.status}}</span>
-              <span *ngIf="data.status=='Rejected'" class="label statusRejected">{{data.status}}</span>
-              <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
-              <span *ngIf="data.status=='VerifiedByPanel'" class="label statusVerifiedByPanel">{{data.status}}</span> -->
-            </td>            
-            <td>{{data.remarks}}</td>
-            <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
-          </tr>
-        </tbody>
-        <!--Table body-->
-      </table>
-    </div>
-    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-    />
+      <!--Table head-->
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>PBI</th>
+          <th>Name</th>
+          <th>Request Date</th>
+          <th>Expected IQA Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <!--Table head-->
+
+      <!--Table body-->
+      <tbody>
+        <tr *ngFor="let data of NewRequest">
+          <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
+          <td>
+            <span (click)="ShowRequestDetails(data)"  class="text-primary">{{data.pbiId}}</span>
+          </td>
+          <td>{{data.name}}</td>
+          <td>{{data.creationDate | date : DATE_FMT}}</td>
+          <td>{{data.expectedIQADate | date : DATE_FMT}} </td>
+          <td>
+            <app-request-status [status]="data.status"></app-request-status>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-xs" (click)="ShowCheckListDetails(data)">
+              <i class="fa fa-trash-o"></i> Review Checklist</button>
+          </td>
+        </tr>
+      </tbody>
+      <!--Table body-->
+
+    </table>
+
   </div>
+
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+  />
+  <div class="col-md-12" *ngIf="showCheckList">
+    <div class="noteFontStyle">***Please close all the checklist item in order to complete IQA Request</div>
+    <br>
+    <strong>Open CheckList Items</strong>
+    <hr>
+    <table class="table-striped skillFontStyle" style="width: 90%; ">
+
+      <!--Table head-->
+      <thead>
+        <tr>
+          <th>#Item</th>
+          <th>CheckList Item</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <!--Table head-->
+
+      <!--Table body-->
+      <tbody>
+        <tr *ngFor="let data of openCheckListItem">
+          <th scope="row">{{openCheckListItem.indexOf(data)+1}}</th>
+          <td>{{data.CheckListItem}}</td>
+          <td>{{data.Description}}</td>
+          <td>
+            <app-request-status [status]="data.status"></app-request-status>
+          </td>
+          <td>
+            <div class="custom-control custom-radio">
+              <input type="checkbox" class="custom-control-input" [(ngModel)]="modelChkList[data._Id]" [value]="1" name="rdbCheckListGroup_{{data._Id}}"
+                checked>
+              <label class="custom-control-label" for="defaultUnchecked">Close</label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <!--Table body-->
+    </table>
+    <br>
+    <hr>
+    <div class="">
+      <strong>Review Comments :</strong>
+      <table class="table-striped skillFontStyle">
+        <tr>
+          <td>Dev Panel</td>
+          <td>-->{{selectedRequestData.DevReviewComment || 'No Comments'}}</td>
+        </tr>
+        <tr>
+          <td>QA Panel</td>
+          <td>-->{{selectedRequestData.QAReviewComment || 'No Comments'}}</td>
+        </tr>
+      </table>
+      <div>
+        <div class="width50per">
+          <label for="ReviewReplyComment " cols="30" rows="4">Reply Review Comments :</label>
+          <textarea type="textarea" class="form-control" [(ngModel)]="TeamReplyReviewComment" [ngModelOptions]="{standalone: true}"
+             cols="30" rows="4" required>
+              </textarea>
+          <div class="marginTop15">
+            <button type="submit" class="btn btn-success" (click)="OnSaveClick()">Save</button>
+            <button type="submit" class="btn btn-info" (click)="OnCancelClick()">Cancel</button>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div *ngIf="openCheckListItem.length == 0" class="">No close status checklist item.</div>
+    <br>
+    <strong>Close CheckList Items</strong>
+    <hr>
+    <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="closeCheckListItem.length > 0">
+      <thead>
+        <tr>
+          <th>#Item</th>
+          <th>CheckList Item</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of closeCheckListItem">
+          <th scope="row">{{closeCheckListItem.indexOf(data)+1}}</th>
+          <td>{{data.CheckListItem}}</td>
+          <td>{{data.Description}}</td>
+          <td>
+            <app-request-status [status]="data.status"></app-request-status>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="closeCheckListItem.length == 0" class="">No open status checklist items.</div>
+  </div>
+</div>

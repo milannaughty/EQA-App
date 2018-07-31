@@ -26,7 +26,6 @@ export class AssociateRequestListComponent implements OnInit {
   }
 
   private ShowRequestDetails(data,showRemarkBox) {
-    console.log(data);
     console.log('Redirecting from request list to request detail view');
     data["showRemark"] = showRemarkBox;
     this.messageEvent.emit({ ActivateTab: 'Request Detail', data: data });

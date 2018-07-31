@@ -48,7 +48,7 @@ function updateRequest(requestParam) {
             }
         }
     );
-    
+
     return deferred.promise;
 }
 
@@ -146,19 +146,26 @@ function getAssociateAllRequest(_associateId) {
 
 function updateStatusOfRequest(reqParam) {
     console.log("UpdateStatusOfRequest method started");
+    var utility = require('./utililties.service');
     var deferred = Q.defer();
     var set = {
         "status": reqParam.status,
         "rejectReason": reqParam.rejectReason,
     };
-    if (reqParam.assignedDevPanelList !== undefined) {
+    if (!utility.IsUndefined(reqParam.assignedDevPanelList)) {
         set["assignedDevPanelList"] = null;
     }
-    if (reqParam.assignedQAPanelList !== undefined) {
+    if (!utility.IsUndefined(reqParam.assignedQAPanelList)) {
         set["assignedQAPanelList"] = null;
     }
-    if (reqParam.CheckListDetails !== undefined) {
+    if (!utility.IsUndefined(reqParam.CheckListDetails)) {
         set["CheckListDetails"] = reqParam.CheckListDetails;
+    }
+    if (!utility.IsUndefined(reqParam.DevReviewComment)) {
+        set["DevReviewComment"] = reqParam.DevReviewComment;
+    }
+    if (!utility.IsUndefined(reqParam.QAReviewComment)) {
+        set["QAReviewComment"] = reqParam.QAReviewComment;
     }
 
     db.request.update(

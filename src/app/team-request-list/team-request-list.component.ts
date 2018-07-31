@@ -7,7 +7,6 @@ import { RequestService } from '../_services/index';
   styleUrls: ['./team-request-list.component.css']
 })
 export class TeamRequestListComponent implements OnInit {
-  static readonly DATE_FMT = 'dd/MMM/yyyy';
   NewRequest: Object;
   loading: boolean;
   result: Object;

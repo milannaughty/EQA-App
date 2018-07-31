@@ -14,7 +14,9 @@ export const adminConfig = {
         COMPLETED:'Completed',
         VERIFIED_BY_PANEL:'VerifiedByPanel',
         VERIFIED_BY_TEAM:'VerifiedByTeam',
-        REJECTED:'Rejected'
+        REJECTED:'Rejected',
+        CLOSE:'Close',
+        OPEN:'Open'
 
     },
     ActionList: {
@@ -40,6 +42,7 @@ export const userConfig = {
         'TeamRequestDetail': 'Request Summary Detail',
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail',
-        'ResetPassword': 'RESET PASSWORD'
+        'ResetPassword': 'RESET PASSWORD',
+        'TeamCheckList':'CHECKLIST REVIEW'
     }
 };

@@ -6,6 +6,7 @@ import { appConfig } from '../app.config';
 import { EmailService } from '../_services/mail.service';
 import { AlertService } from '../_services/alert.service';
 import { adminConfig } from "../app.config";
+import { CommonUtil } from '../app.util';
 
 @Component({
   selector: 'app-associate-request-detail',
@@ -93,6 +94,8 @@ export class AssociateRequestDetailComponent implements OnInit {
       var isAnyChecklistItemOpen = modelRdbSelectedItem.some(x => x != undefined && x != null && x != 0)
       set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.VERIFIED_BY_PANEL : adminConfig.RequestStatus.COMPLETED;
       set['CheckListDetails'] = this.requestCheckListItem.map(x => ({ _Id: x._Id, status: modelRdbSelectedItem[x._Id] || 0 }));
+      set['DevReviewComment'] = this.model.DevReviewComment;
+      set['QAReviewComment'] = this.model.QAReviewComment;
     }
     debugger;
     this.requestService.updateStatusOfRequest(set).subscribe(
@@ -260,14 +263,7 @@ export class AssociateRequestDetailComponent implements OnInit {
 
   PopulateCheckList() {
     //TODO:: Fetch data from database
-    this.requestCheckListItem = [
-      { _Id: 1, CheckListItem: 'Commenting & Documentatio', Description: 'Code needs to be properly documented and only keep the necessary commented code.' },
-      { _Id: 2, CheckListItem: 'Consistent indentation', Description: 'Use tools like sonar qube for code review.' },
-      { _Id: 3, CheckListItem: 'Consistent naming scheme', Description: 'Follow the consistent naming standards all over application.' },
-      { _Id: 4, CheckListItem: 'Code reusability', Description: 'Code duplication should be avoided wherever possible. Try to reuse the existing code.' },
-      { _Id: 5, CheckListItem: 'Limit the length of functions', Description: 'Don’t put too much code into single function. Try to make multiple functions as per logical grouping of code.' },
-      { _Id: 6, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' },
-      { _Id: 7, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' }]
+    this.requestCheckListItem = CommonUtil.CheckListDetails;
   }
 
 }
