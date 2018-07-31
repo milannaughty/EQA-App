@@ -94,8 +94,8 @@ export class AssociateRequestDetailComponent implements OnInit {
       var isAnyChecklistItemOpen = modelRdbSelectedItem.some(x => x != undefined && x != null && x != 0)
       set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.UNDER_VERIFICATION : adminConfig.RequestStatus.COMPLETED;
       set['CheckListDetails'] = this.requestCheckListItem.map(x => ({ _Id: x._Id, status: modelRdbSelectedItem[x._Id] || 0 }));
-      set['DevReviewComment'] = this.model.DevReviewComment;
-      set['QAReviewComment'] = this.model.QAReviewComment;
+      //set['DevReviewComment'] = this.model.DevReviewComment;
+      //set['QAReviewComment'] = this.model.QAReviewComment;
 
       var isDevPanel = this.currentRequestData.currentUser.panelType == 'Dev';
       var qaReviewStatus = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.QAReviewStatus;
@@ -109,7 +109,7 @@ export class AssociateRequestDetailComponent implements OnInit {
         devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL
       else
         qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL
-        
+
       set["verificationStatus"] = { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
         QAReviewStatus: qaReviewStatus,
         DevReviewStatus: devReviewStatus,

@@ -49,7 +49,9 @@
     <br>
     <strong>Open CheckList Items</strong>
     <hr>
-    <table class="table-striped skillFontStyle" style="width: 90%; ">
+    <div *ngIf="!isAnyOpenCheckListItem" class="">No checklist item in open state.</div>
+    
+    <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="isAnyOpenCheckListItem" >
 
       <!--Table head-->
       <thead>
@@ -103,14 +105,14 @@
              cols="30" rows="4" required>
               </textarea>
           <div class="marginTop15">
-            <button type="submit" class="btn btn-success" (click)="OnSaveClick()">Save</button>
+            <button type="submit" class="btn btn-success" (click)="OnSaveClick()"  [disabled]="!isAnyOpenCheckListItem">Save</button>
             <button type="submit" class="btn btn-info" (click)="OnCancelClick()">Cancel</button>
           </div>
         </div>
         <hr>
       </div>
     </div>
-    <div *ngIf="openCheckListItem.length == 0" class="">No close status checklist item.</div>
+    
     <br>
     <strong>Close CheckList Items</strong>
     <hr>

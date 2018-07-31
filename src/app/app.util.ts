@@ -1,3 +1,4 @@
+import swal from "sweetalert2"
 export class CommonUtil {
 
     static CheckListDetails = [
@@ -11,5 +12,13 @@ export class CommonUtil {
 
     static GetFilteredRequestList(requestList, status) {
         return requestList.filter(x => x.status == status)
+    }
+
+    static ShowSuccessAlert(msg) {
+        swal('success', msg, 'success')
+    }
+
+    static ShowErrorAlert(msg) {
+        swal('error', msg, 'error')
     }
 }

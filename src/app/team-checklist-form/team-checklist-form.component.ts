@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RequestService } from '../_services/request.service';
 import { adminConfig, userConfig } from '../app.config';
 import { CommonUtil } from '../app.util'
+import sweetalert from 'sweetalert2';
 
 @Component({
   selector: 'app-team-checklist-form',
@@ -9,6 +10,7 @@ import { CommonUtil } from '../app.util'
   styleUrls: ['./team-checklist-form.component.css']
 })
 export class TeamChecklistFormComponent implements OnInit {
+  isAnyOpenCheckListItem: boolean;
   TeamReplyReviewComment: any;
   selectedRequestData: any;
   closeCheckListItem: { _Id: number; CheckListItem: string; Description: string; }[];
@@ -35,7 +37,7 @@ export class TeamChecklistFormComponent implements OnInit {
     this.requestService.getTeamAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
       var requestUnderVerifications = CommonUtil.GetFilteredRequestList(result, adminConfig.RequestStatus.UNDER_VERIFICATION);
-      this.NewRequest =  requestUnderVerifications;//.map(x => )
+      this.NewRequest = requestUnderVerifications;//.map(x => )
     });
   }
 
@@ -55,6 +57,7 @@ export class TeamChecklistFormComponent implements OnInit {
 
     this.closeCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Close');
     this.openCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Open');
+    this.isAnyOpenCheckListItem = this.openCheckListItem.length > 0;
   }
 
   private OnCancelClick() {
@@ -78,7 +81,8 @@ export class TeamChecklistFormComponent implements OnInit {
     }
 
     if (!this.TeamReplyReviewComment) {
-      alert('You must enter review comment replay');
+      //alert();
+      CommonUtil.ShowSuccessAlert('You must enter review comment replay')
       return;
     }
 
@@ -90,8 +94,9 @@ export class TeamChecklistFormComponent implements OnInit {
     var updateAttributes = {
       requestId: this.selectedRequestData._id,
       status: adminConfig.RequestStatus.UNDER_VERIFICATION,
+      CheckListDetails: this.selectedRequestData.CheckListDetails,
       verificationStatus: { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
-        IsActionNeededByPanel:true,
+        IsActionNeededByPanel: true,
         QAReviewStatus: qaReviewStatus,
         DevReviewStatus: devReviewStatus,
         QAReviewComment: qaReviewComment,
@@ -104,9 +109,10 @@ export class TeamChecklistFormComponent implements OnInit {
 
     this.requestService.updateStatusOfRequest(updateAttributes).subscribe(
       result => {
+        CommonUtil.ShowSuccessAlert('Review comments are closed successfully. Waiting for Panel Approval')
       },
       err => {
-
+        CommonUtil.ShowErrorAlert('Error occured. Please contact your service provider');
       });
 
   }
