@@ -3,6 +3,7 @@ import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
 import { AlertService, EmailService } from '../_services';
 import { appConfig } from '../app.config';
+import swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-reset-user-password',
@@ -31,6 +32,16 @@ export class ResetUserPasswordComponent implements OnInit {
 
   }
 
+  ShowSuccessAlert(msg) {
+    swal('success', msg, 'success')
+    } 
+
+    ErrorAlert(error) {
+      swal({
+      type: 'error',
+      title: error,
+      })
+      } 
 
   forgotPassword() {
     
@@ -108,9 +119,11 @@ export class ResetUserPasswordComponent implements OnInit {
     this.userService.resetUserPassword(resetObject).subscribe(
       success => {
         console.log("password reseted successfully.");
+        this.ShowSuccessAlert("Password reseted successfully, please login with new password.");
         this.alertService.success("Password reseted successfully, please login with new password.");
         this.router.navigate(['/login']);
       }, error => {
+        this.ErrorAlert("Error while resetting password "+error.error);
         console.log("Error while reseting password" + error);
       });
 
