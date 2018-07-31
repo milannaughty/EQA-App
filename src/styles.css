@@ -290,6 +290,11 @@ body{
 .marginBottom15{
   margin-bottom: 15px;
 }
+
+.width50per
+{
+  width: 50% !important
+}
  
 .statusNew{
   background-color: #009688b3;
@@ -317,7 +322,7 @@ body{
 }
 	
 #DataTables_Table_0_filter {
-  margin-left: 92px;
+  margin-left: 91px;
 }
 
 .pagination {
@@ -326,4 +331,12 @@ body{
   margin-top: 0px;
   border-radius: 4px;
   margin-left: 4px;
+}
+
+.noteFontStyle{
+    font-style: oblique;
+    color: goldenrod;
+    font-size: 15px;
+    font-variant: all-petite-caps;
+    font-family: monospace;
 }

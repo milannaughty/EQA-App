@@ -4,3 +4,5 @@
 <span *ngIf="status==RequestStatus.REJECTE" class="label statusRejected">{{status}}</span>
 <span *ngIf="status==RequestStatus.PANEL_ASSIGNED" class="label label-warning">{{status}}</span>
 <span *ngIf="status==RequestStatus.VERIFIED_BY_PANEL" class="label statusVerifiedByPanel">{{status}}</span>
+<span *ngIf="status==RequestStatus.OPEN" class="label label-danger">{{status}}</span>
+<span *ngIf="status==RequestStatus.CLOSE" class="label statusCompleted">{{status}}</span>

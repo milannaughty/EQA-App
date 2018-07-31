@@ -27,12 +27,7 @@
           <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>{{data.expectedEQADate?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>
-            <span *ngIf="data.status=='Completed'" class="label statusCompleted">{{data.status}}</span>
-            <span *ngIf="data.status=='New'" class="label label-default statusNew">{{data.status}}</span>
-            <span *ngIf="data.status=='InProgress'" class="label label-primary">{{data.status}}</span>
-            <span *ngIf="data.status=='Rejected'" class="label statusRejected">{{data.status}}</span>
-            <span *ngIf="data.status=='PanelAssigned'" class="label label-warning">{{data.status}}</span>
-            <span *ngIf="data.status=='VerifiedByPanel'" class="label statusVerifiedByPanel">{{data.status}}</span>
+              <app-request-status [status]="data.status"></app-request-status>
           </td>            
           <td>{{data.remarks}}</td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
