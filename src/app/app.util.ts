@@ -22,6 +22,10 @@ export class CommonUtil {
         swal('error', msg, 'error')
     }
 
+    static ShowInfoAlert(msg) {
+        swal('Attention!!', msg, 'info')
+    }
+
     static getNthIndexOfString(string, subString, index) {
         return string.split(subString, index).join(subString).length;
      } 
