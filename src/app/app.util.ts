@@ -21,4 +21,8 @@ export class CommonUtil {
     static ShowErrorAlert(msg) {
         swal('error', msg, 'error')
     }
+
+    static getNthIndexOfString(string, subString, index) {
+        return string.split(subString, index).join(subString).length;
+     } 
 }
