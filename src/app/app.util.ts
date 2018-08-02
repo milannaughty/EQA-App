@@ -35,6 +35,10 @@ export class CommonUtil {
         return string.split(subString, index).join(subString).length;
     }
 
+}
+
+export class EmailManager {
+
     /**
      * This method is used to get comma seprated list of email ids
      * @param arrayObject 
@@ -42,7 +46,6 @@ export class CommonUtil {
     static GetCommaSepratedEmailIDs(arrayObject: string[]) {
         return arrayObject.filter(x => { if (x) return x; }).join(',')
     }
-
 
     /**
      * Method returns email subject line for reject IQA request operation
@@ -61,7 +64,7 @@ export class CommonUtil {
         var userNameList;
         if (commaSepratedEmailIds.indexOf(',') > -1) {
             userNameList = commaSepratedEmailIds.split(',').map(function (emailItem) {
-                emailItem = emailItem.split('@')[0].replace('.', ' ');
+                return emailItem.split('@')[0].replace('.', ' ');
             }).join(',');
         }
         else {
@@ -69,4 +72,5 @@ export class CommonUtil {
         }
         return userNameList;
     }
+
 }
