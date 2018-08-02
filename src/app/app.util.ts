@@ -22,9 +22,15 @@ export class CommonUtil {
         swal('error', msg, 'error')
     }
 
-    static ShowInfoAlert(msg) {
-        swal('Attention!!', msg, 'info')
+    static ShowInfoAlert(title, htmlContent) {
+        swal({
+            type: 'info',
+            html: htmlContent,
+            showCloseButton: true,
+            title: title
+        })
     }
+
     /**
      * 
      * @param string 
@@ -35,9 +41,47 @@ export class CommonUtil {
         return string.split(subString, index).join(subString).length;
     }
 
+    static GetTabularData(csString, maxColumns, headername) {
+        debugger;
+        var result = "";
+        var data = csString.split(',');
+        result += "<table class='table'><tbody>";
+        var dataIndex = 0;
+        var ele = "";
+        var rowNum = 1;
+        while (dataIndex < data.length) {//data iterating loop
+
+            var colNum = 1;
+            if (rowNum % 2 == 0)
+                result += "<tr class='active'>";
+            else
+                result += "<tr class='active'>";
+
+            while (colNum <= maxColumns) {//loop for maxColumns
+
+                if (dataIndex >= data.length) {//empty TD's at the end
+                    result += "<td> </td>";
+                } else {
+                    ele = data[dataIndex];
+                    result += "<td>" + ele + "</td>";
+                }
+
+                dataIndex++;
+                colNum++;
+            }//loop for maxColumns 
+            result += "</tr>";
+            rowNum++;
+        }//data iterating loop
+        result += "<tbody></table>";
+
+        return result;
+    }
+
+
 }
 
 export class EmailManager {
+    
 
     /**
      * This method is used to get comma seprated list of email ids

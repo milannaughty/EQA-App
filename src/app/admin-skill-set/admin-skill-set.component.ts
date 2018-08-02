@@ -34,7 +34,7 @@ export class AdminSkillSetComponent implements OnInit {
 
   swaConfirmConfig: any = {
     title: 'Are you sure?',
-    text: "You wont to delete this!",
+    text: "You want to delete this!",
     type: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',

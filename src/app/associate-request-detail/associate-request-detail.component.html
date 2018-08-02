@@ -164,20 +164,21 @@
           <table class="table-striped skillFontStyle">
             <tr>
               <td>Dev Panel</td>
-              <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.DevReviewComment) ||
-                'No Comments'}}</td>
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.DevReviewComment) || 'No
+                Comments'}}</td>
             </tr>
             <tr>
               <td>QA Panel</td>
-              <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.QAReviewComment) ||
-                'No Comments'}}</td>
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.QAReviewComment) || 'No
+                Comments'}}</td>
+            </tr>
+            <tr>
+              <td>Team Replay</td>
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.TeamReplyReviewComment) || 'No
+                Comments'}}</td>
             </tr>
           </table>
         </div>
-
-        <br>
-
-        <br>
         <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'Dev'">
           <label for="ReviewDevComment " cols="30" rows="4">Review Comment</label>
           <textarea type="textarea" class="form-control" [(ngModel)]="model.DevReviewComment" [ngModelOptions]="{standalone: true}"
