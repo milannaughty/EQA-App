@@ -35,11 +35,11 @@ export class CommonUtil {
         return string.split(subString, index).join(subString).length;
     }
 
-    static getTabularData(csString, maxColumns, headername) {
+    static GetTabularData(csString, maxColumns, headername) {
         debugger;
         var result = "";
         var data = csString.split(',');
-        result += "<table class='table'><thead><th colspan='" + maxColumns + "'>" + headername + "</th></thead><tbody>";
+        result += "<table class='table'><tbody>";
         var dataIndex = 0;
         var ele = "";
         var rowNum = 1;
