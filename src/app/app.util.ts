@@ -25,8 +25,48 @@ export class CommonUtil {
     static ShowInfoAlert(msg) {
         swal('Attention!!', msg, 'info')
     }
-
+    /**
+     * 
+     * @param string 
+     * @param subString 
+     * @param index 
+     */
     static getNthIndexOfString(string, subString, index) {
         return string.split(subString, index).join(subString).length;
-     } 
+    }
+
+    /**
+     * This method is used to get comma seprated list of email ids
+     * @param arrayObject 
+     */
+    static GetCommaSepratedEmailIDs(arrayObject: string[]) {
+        return arrayObject.filter(x => { if (x) return x; }).join(',')
+    }
+
+
+    /**
+     * Method returns email subject line for reject IQA request operation
+     * @param sprintName 
+     * @param rejectedByPanelName 
+     */
+    static GetRejectRequestSubjectLine(sprintName: string, rejectedByPanelName: string) {
+        return `IQA Team | IQA Request Rejected For Sprint ${sprintName} By Panel ${rejectedByPanelName}`;
+    }
+
+    /**
+     * Method returns single or multiple User name(s) in comma separated list
+     * @param commaSepratedEmailIds 
+     */
+    static GetUserNameFromCommaSepratedEmailIds(commaSepratedEmailIds: string) {
+        var userNameList;
+        if (commaSepratedEmailIds.indexOf(',')) {
+            userNameList = commaSepratedEmailIds.split(',').map(function (emailItem) {
+                emailItem = emailItem.split('@')[0].replace('.', ' ');
+            }).join(',');
+        }
+        else {
+            userNameList = commaSepratedEmailIds.split('@')[0].replace('.', ' ');
+        }
+        return userNameList;
+    }
 }
