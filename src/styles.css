@@ -340,3 +340,35 @@ body{
     font-variant: all-petite-caps;
     font-family: monospace;
 }
+
+.tt-uppercase {
+  text-transform: uppercase !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+.fs-body2 {
+  font-size: 1.15384615rem !important;
+}
+.mb16 {
+  margin-bottom: 10px !important;
+  margin-top: 10px !important;
+}
+.fc-orange-500 {
+  color: #f2720c !important;
+}
+.ff-slab {
+  font-family: 'Roboto Slab',serif;
+  font-weight: bold;
+}
+.fw-bold {
+  font-weight: 700 !important;
+}
+.fs-title {
+  font-size: 1.61538462rem !important;
+}
+.mb24 {
+  margin-bottom: 24px !important;
+}
+

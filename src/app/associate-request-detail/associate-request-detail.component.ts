@@ -76,7 +76,6 @@ export class AssociateRequestDetailComponent implements OnInit {
 
   OnSaveClick() {
 
-    debugger;
     var set = {
       "status": this.model.selectedStatus,
       "requestId": this.currentRequestData._id
@@ -286,6 +285,9 @@ export class AssociateRequestDetailComponent implements OnInit {
   PopulateCheckList() {
     //TODO:: Fetch data from database
     this.requestCheckListItem = CommonUtil.CheckListDetails;
+    //debugger;
+    //this.currentRequestData.CheckListDetails.map(x => { this.modelRdbSelectedItem[x._Id] = x.status == 1 })
+
   }
 
 }

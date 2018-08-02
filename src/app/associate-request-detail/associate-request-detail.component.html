@@ -119,7 +119,7 @@
         </table>
       </div>
       <div class="col-md-12" *ngIf="showCheckList">
-        <div>***Please update the checklist before completing IQA Request</div>
+        <div class="noteFontStyle">***Please update the checklist before completing IQA Request</div>
         <br>
         <table class="table table-striped skillFontStyle" style="width: 90%;border: 1px solid gainsboro;  ">
 
@@ -158,16 +158,36 @@
 
         </table>
         <br>
+        <hr>
+        <div class="">
+          <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Panel Review Comments :</div>
+          <table class="table-striped skillFontStyle">
+            <tr>
+              <td>Dev Panel</td>
+              <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.DevReviewComment) ||
+                'No Comments'}}</td>
+            </tr>
+            <tr>
+              <td>QA Panel</td>
+              <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.QAReviewComment) ||
+                'No Comments'}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <br>
+
+        <br>
         <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'Dev'">
           <label for="ReviewDevComment " cols="30" rows="4">Review Comment</label>
-          <textarea type="textarea" class="form-control" [(ngModel)]="model.DevReviewComment" [ngModelOptions]="{standalone: true}" id="ReviewDevComment"
-            cols="30" rows="4" required>
+          <textarea type="textarea" class="form-control" [(ngModel)]="model.DevReviewComment" [ngModelOptions]="{standalone: true}"
+            id="ReviewDevComment" cols="30" rows="4" required>
           </textarea>
         </div>
         <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'QA'">
           <label for="ReviewQAComment " cols="30" rows="4">Review Comment</label>
-          <textarea type="textarea" class="form-control" [(ngModel)]="model.QAReviewComment" [ngModelOptions]="{standalone: true}" id="ReviewQAComment"
-            cols="30" rows="4" required>
+          <textarea type="textarea" class="form-control" [(ngModel)]="model.QAReviewComment" [ngModelOptions]="{standalone: true}"
+            id="ReviewQAComment" cols="30" rows="4" required>
           </textarea>
         </div>
       </div>

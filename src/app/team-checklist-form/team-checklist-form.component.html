@@ -45,11 +45,11 @@
   <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
   />
   <div class="col-md-12" *ngIf="showCheckList">
-    <div class="noteFontStyle">***Please close all the checklist item in order to complete IQA Request</div>
+    <div class="noteFontStyle" *ngIf="isAnyOpenCheckListItem">***Please close all the checklist item in order to complete IQA Request</div>
     <br>
-    <strong>Open CheckList Items</strong>
+    <strong class="fw-bold fc-orange-500 tt-uppercase mb16">Open CheckList Items</strong>
     <hr>
-    <div *ngIf="!isAnyOpenCheckListItem" class="">No checklist item in open state.</div>
+    <div *ngIf="!isAnyOpenCheckListItem" class="fs-title ff-slab fw-bold mb16">No checklist item in open state.</div>
     
     <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="isAnyOpenCheckListItem" >
 
@@ -87,7 +87,7 @@
     <br>
     <hr>
     <div class="">
-      <strong>Review Comments Panel:</strong>
+      <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Panel Review Comments :</div>
       <table class="table-striped skillFontStyle">
         <tr>
           <td>Dev Panel</td>
@@ -100,7 +100,7 @@
       </table>
       <div>
         <div class="width50per">
-          <label for="ReviewReplyComment " cols="30" rows="4">Reply Review Comments :</label>
+          <label for="ReviewReplyComment " cols="30" rows="4" class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Reply Review Comments :</label>
           <textarea type="textarea" class="form-control" [(ngModel)]="TeamReplyReviewComment" [ngModelOptions]="{standalone: true}"
              cols="30" rows="4" required>
               </textarea>
@@ -114,7 +114,7 @@
     </div>
     
     <br>
-    <strong>Close CheckList Items</strong>
+    <strong class="fw-bold fc-orange-500 tt-uppercase mb16">Close CheckList Items</strong>
     <hr>
     <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="closeCheckListItem.length > 0">
       <thead>
