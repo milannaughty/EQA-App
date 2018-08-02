@@ -59,7 +59,7 @@ export class CommonUtil {
      */
     static GetUserNameFromCommaSepratedEmailIds(commaSepratedEmailIds: string) {
         var userNameList;
-        if (commaSepratedEmailIds.indexOf(',')) {
+        if (commaSepratedEmailIds.indexOf(',') > -1) {
             userNameList = commaSepratedEmailIds.split(',').map(function (emailItem) {
                 emailItem = emailItem.split('@')[0].replace('.', ' ');
             }).join(',');
