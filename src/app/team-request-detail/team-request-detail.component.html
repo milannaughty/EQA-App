@@ -7,85 +7,86 @@
     <div class="col-md-8" text-center>
       <!-- <form  > -->
       <form>
-        <table class="fontFamily" style="width:100%">
-          <tr>
-            <td>
-              <label for="pbiId ">PBI ID</label>
-            </td>
-            <td>{{currentRequestData.pbiId}}</td>
-          </tr>
-          <tr>
-            <td>
-              <label for="name ">Name</label>
-            </td>
-            <td> {{currentRequestData.name}}</td>
-          </tr>
-          <tr>
-            <td>
-              <label for="skillSet">Dev skill set</label>
-            </td>
-            <td>
-              <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex" class="skillFontStyle">
-                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="skillSet">QA skill set</label>
-            </td>
-            <td>
-              <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex" class="skillFontStyle">
-                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
-              </span>
-            </td>
-          </tr>
+        <div *ngIf="isSkillLoaded">
+          <table class="fontFamily" style="width:100%">
+            <tr>
+              <td>
+                <label for="pbiId ">PBI ID</label>
+              </td>
+              <td>{{currentRequestData.pbiId}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="name ">Name</label>
+              </td>
+              <td> {{currentRequestData.name}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="skillSet">Dev skill set</label>
+              </td>
+              <td>
+                <span>{{devSkillSet}}</span>
+                <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See More skill</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="skillSet">QA skill set</label>
+              </td>
+              <td>
+                <span>{{qaSkillSet}}</span>
+                <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See More skill</a>
+              </td>
+            </tr>
 
-          <tr>
-            <td>
-              <label for="expectedIQADate ">Expected IQA Date</label>
-            </td>
-            <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
-          </tr>
-          <tr>
-            <td>
-              <label for="status ">Status</label>
-            </td>
-            <td>
-              <app-request-status [status]="currentRequestData.status"></app-request-status>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="initiatedBy ">Initiated By</label>
-            </td>
-            <td> {{currentRequestData.initiatedBy.TeamName}}</td>
-          </tr>
-          <tr>
-            <td>
-              <label for="skillSet">Dev Panel</label>
-            </td>
-            <td>
-              <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
+            <tr>
+              <td>
+                <label for="expectedIQADate ">Expected IQA Date</label>
+              </td>
+              <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="status ">Status</label>
+              </td>
+              <td>
+                <app-request-status [status]="currentRequestData.status"></app-request-status>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="initiatedBy ">Initiated By</label>
+              </td>
+              <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="skillSet">Dev Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
                 {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
               </span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="skillSet">QA Panel</label>
-            </td>
-            <td>
-              <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="skillSet">QA Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
                 {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
               </span>
-            </td>
-          </tr>
-        </table>
-        <div style="align-content: center">
+              </td>
+            </tr>
+          </table>
+          <div style="align-content: center; margin-top: 15px;">
             <!-- <button type="submit" class="btn btn-success ">Assign</button> -->
-            <button (click)="ShowRequestList1()" class="btn btn-warning">Go Back</button>
+            <button (click)="ShowRequestList1()" class="btn btn-warning">Home</button>
           </div>
+        </div>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
       </form>
     </div>
 

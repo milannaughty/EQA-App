@@ -76,13 +76,13 @@ export class TeamChecklistFormComponent implements OnInit {
     })
     //Check if any item is in open state
     if (this.selectedRequestData.CheckListDetails.some(x => x.status == 1)) {
-      alert('You must close all open check list items.');
+      CommonUtil.ShowInfoAlert('Attention', 'You must close all open check list items.');
       return;
     }
 
     if (!this.TeamReplyReviewComment) {
       //alert();
-      CommonUtil.ShowSuccessAlert('You must enter review comment replay')
+      CommonUtil.ShowInfoAlert('Attention', 'You must enter review comment replay')
       return;
     }
 
@@ -110,6 +110,7 @@ export class TeamChecklistFormComponent implements OnInit {
     this.requestService.updateStatusOfRequest(updateAttributes).subscribe(
       result => {
         CommonUtil.ShowSuccessAlert('Review comments are closed successfully. Waiting for Panel Approval')
+        this.showCheckList = false;
       },
       err => {
         CommonUtil.ShowErrorAlert('Error occured. Please contact your service provider');

@@ -4,6 +4,7 @@ import { AlertService, RequestService, SkillSetsService, UserService } from '../
 import { SkillSets } from '../_models';
 import { EmailService } from '../_services/mail.service';
 import { appConfig } from '../app.config';
+import { CommonUtil } from '../app.util';
 @Component({
   selector: 'app-team-new-request',
   templateUrl: './team-new-request.component.html',
@@ -69,65 +70,62 @@ export class TeamNewRequestComponent implements OnInit {
     var cUser = JSON.parse(currentUser);
     this.model.status = "New";
     this.model.creationDate = new Date();
-    this.model.initiatedBy = { ID: JSON.parse(currentUser)._id, 
-                              TeamName: JSON.parse(currentUser).teamName,
-                              PMEmail:JSON.parse(currentUser).PMEmail,
-                              POCEmail:JSON.parse(currentUser).POCEmail,
-                              DAMEmail:JSON.parse(currentUser).DAMEmail }
+    this.model.initiatedBy = {
+      ID: cUser._id,
+      TeamName: cUser.teamName,
+      PMEmail: cUser.PMEmail,
+      POCEmail: cUser.POCEmail,
+      DAMEmail: cUser.DAMEmail
+    }
     this.requestService.create(this.model)
       .subscribe(
-        data => {
+      data => {
+        /**sTART */
+        console.log('Request saved')
+        var toPersonArr: any;
+
+        this.userService.getAllUsersByRole("admin").subscribe(adminList => {
           debugger;
-          /**sTART */
-          console.log('Request saved')
-          var currentUser = sessionStorage.getItem('currentUser');
-          var cUser = JSON.parse(currentUser);
-          var toPersonArr: any;
+          if (adminList instanceof Array)
+            toPersonArr = adminList.map(x => x.username).join(',');
+          else
+            toPersonArr = adminList["username"];
+          var ccPersonList = (cUser.DAMEmail ? cUser.DAMEmail + ',' : '') + (cUser.PMEmail ? cUser.PMEmail + ',' : '') + (cUser.POCEmail ? cUser.POCEmail : '');
+          if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
+            ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
+          }
 
-          this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-            debugger;
-            if (adminList instanceof Array)
-              toPersonArr = adminList.map(x => x.username).join(',');
-            else
-              toPersonArr = adminList["username"];
-            var ccPersonList = (cUser.DAMEmail ? cUser.DAMEmail + ',' : '') + (cUser.PMEmail ? cUser.PMEmail + ',' : '') + (cUser.POCEmail ? cUser.POCEmail : '');
-            if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
-              ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
-            }
+          var mailSubject = "IQA Team | " + cUser.teamName + " has initiated IQA request for Sprint " + this.model.name;
+          var mailObject = {
+            fromPersonName: appConfig.fromPersonName,
+            fromPersonMailId: appConfig.fromPersonMailId,
+            toPersonName: "Admin",
+            toPersonMailId: toPersonArr,
+            ccPersonList: ccPersonList,
+            mailSubject: mailSubject,
+            mailContent: "",
+            teamName: cUser.teamName
+          };
 
-            var mailSubject = "[Test Mail] : " + cUser.teamName + " has initiated IQA request for Sprint " + this.model.name;
-            var mailObject = {
-              "fromPersonName": appConfig.fromPersonName,
-              "fromPersonMailId": appConfig.fromPersonMailId,
-              "toPersonName": "Admin",
-              "toPersonMailId": toPersonArr,
-              "ccPersonList": ccPersonList,
-              "mailSubject": mailSubject,
-              "mailContent": "",
-              "teamName": cUser.teamName
-            };
-
-            this.emailService.sendMailToAdminAfterIQARequestInitiatedByTeam(mailObject)
-              .subscribe(result => {
-                debugger;
-                this.alertService.success('IQA Request initiated successfully, Email send to PM,DAM & POC.', true);
-                this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
-              }, error => {
-                debugger;
-                this.alertService.success('IQA Request initiated successfully, unable to send email', true);
-                this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
-              });
-          }, error => {
-            this.alertService.success('IQA Request initiated successfully, unable to send email', true);
-            this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
-          });
-          //END 
-
-        },
-        error => {
-          this.alertService.error(error);
-          this.loading = false;
+          this.emailService.sendMailToAdminAfterIQARequestInitiatedByTeam(mailObject)
+            .subscribe(result => {
+              CommonUtil.ShowSuccessAlert('IQA Request initiated successfully, Email send to PM,DAM & POC.');
+              this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
+            }, error => {
+              CommonUtil.ShowSuccessAlert('IQA Request initiated successfully, unable to send email');
+              this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
+            });
+        }, error => {
+          CommonUtil.ShowSuccessAlert('IQA Request initiated successfully, unable to send email');
+          this.messageEvent.emit({ ActiveTabChildParam: 'Request History' });
         });
+        //END 
+
+      },
+      error => {
+        this.alertService.error(error);
+        this.loading = false;
+      });
   }
 
 
