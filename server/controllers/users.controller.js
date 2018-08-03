@@ -17,7 +17,7 @@ router.post('/resetUserPassword', resetUserPassword);
 router.post('/forgotPassword', forgotPassword);
 router.get('/generateRandomPassword', generateRandomPassword);
 router.get('/getUserByUserName', getUserByUserName);
-
+router.get('/:_id', getById);
 module.exports = router;
 
 function getUserByUserName(req,res){
@@ -116,6 +116,17 @@ function _delete(req, res) {
     userService.delete(req.params._id)
         .then(function () {
             res.json('success');
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getById(req, res) {
+    console.log("In start of User COntroller GetBYID method");
+    userService.getById(req.params._id)
+        .then(function (user) {
+            res.send(user);
         })
         .catch(function (err) {
             res.status(400).send(err);

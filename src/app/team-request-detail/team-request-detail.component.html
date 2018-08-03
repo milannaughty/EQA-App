@@ -65,8 +65,8 @@
                 <label for="skillSet">Dev Panel</label>
               </td>
               <td>
-                <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
-                {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
+                <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
+               <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
               </span>
               </td>
             </tr>
@@ -75,8 +75,8 @@
                 <label for="skillSet">QA Panel</label>
               </td>
               <td>
-                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
-                {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
+                <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
+                <a (click)="showUserDeatail()">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
               </span>
               </td>
             </tr>

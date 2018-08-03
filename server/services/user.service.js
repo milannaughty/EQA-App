@@ -166,16 +166,19 @@ function getAll() {
 }
 
 function getById(_id) {
+    console.log("in start of getById method of UserService");
     var deferred = Q.defer();
 
     db.users.findById(_id, function (err, user) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (user) {
+            console.log("in end user found of getById method of UserService");
             // return user (without hashed password)
             deferred.resolve(_.omit(user, 'hash'));
         } else {
             // user not found
+            console.log("in end not found of getById method of UserService");
             deferred.resolve();
         }
     });

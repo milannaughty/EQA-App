@@ -117,4 +117,13 @@ export class EmailManager {
         return userNameList;
     }
 
+        static getFirstNameFromEmail(email) {
+        return email.substring(0, email.indexOf('@', 0)).split('.')[0].charAt(0).toUpperCase()
+        + email.substring(0, email.indexOf('@', 0)).split('.')[0].slice(1);
+        }
+        static getLastNameFromEmail(email) {
+        return email.substring(0, email.indexOf('@', 0)).split('.')[1].charAt(0).toUpperCase()
+        + email.substring(0, email.indexOf('@', 0)).split('.')[1].slice(1);
+        }
+
 }
