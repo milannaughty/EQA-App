@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { RequestService, UserService, EmailService } from '../_services/index';
 import { appConfig } from '../app.config';
+import { CommonUtil } from '../app.util';
 
 @Component({
   selector: 'associate-new-request-list',
@@ -66,20 +67,23 @@ export class AssociateNewRequestListComponent implements OnInit {
                         success =>{
                             //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
                             console.log("mail sent to admin with rejection details");
+                            CommonUtil.ShowSuccessAlert("IQA Request updated successfully, mail sent to admin with rejection details");
                         },err =>{
                           //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                          console.log("Error while sending mail to admin with rejection details");
+                          CommonUtil.ShowErrorAlert("IQA Request updated successfully, failed to send mail to admin");
                         }
                       );
 
                     },err => {//error while fething admin role users
                       console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+                      CommonUtil.ShowErrorAlert("IQA Request updated successfully, failed to send mail to admin");
                     });
 
 
             /** sending mail ends */
           },err => {
                 console.log("Error while accepting IQA request ");
+                CommonUtil.ShowErrorAlert("Error while accepting IQA request");
           });
       }  
   

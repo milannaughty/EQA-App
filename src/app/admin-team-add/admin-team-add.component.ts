@@ -4,6 +4,7 @@ import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
 import { NospacePipe } from '../nospace.pipe';
 import { appConfig } from '../app.config';
+import { CommonUtil } from '../app.util';
 
 @Component({
   selector: 'app-admin-team-add',
@@ -36,8 +37,8 @@ export class AdminTeamAddComponent implements OnInit {
     this.model.username = new NospacePipe().transform(this.model.teamName.toLowerCase());
     this.userService.create(this.model).subscribe(
       data => {
-        debugger;
-        this.alertService.success('Registration successful', true);
+        //debugger;
+        //this.alertService.success('Registration successful', true);
         //this.clear();
         this.loading = false;
         debugger;
@@ -69,15 +70,18 @@ export class AdminTeamAddComponent implements OnInit {
               this.emailService.sendInitialMailToTeam(mailObject).subscribe(
                 success =>{
                 //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
+                CommonUtil.ShowSuccessAlert("Registration succussfull, mail sent to team POC,PM & DAM");
                 console.log("mail sent to admin with rejection details");
                 },err =>{
                 //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
                 console.log("Error while sending mail to admin with rejection details");
-                }
+                CommonUtil.ShowErrorAlert("Registration succussfull, but error occured while sending mail to team POC,PM & DAM");
+              }
                 );
       },
       error => {
-        this.alertService.error(error.error);
+        CommonUtil.ShowErrorAlert(error.error);
+        //this.alertService.error(error.error);
         this.loading = false;
       });
   }

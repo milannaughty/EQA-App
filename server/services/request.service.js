@@ -152,13 +152,13 @@ function updateStatusOfRequest(reqParam) {
         "status": reqParam.status,
         "rejectReason": reqParam.rejectReason,
     };
-    if (!utility.IsUndefined(reqParam.assignedDevPanelList)) {
+    if (reqParam.assignedDevPanelList !== undefined) {
         set["assignedDevPanelList"] = null;
     }
-    if (!utility.IsUndefined(reqParam.assignedQAPanelList)) {
+    if (reqParam.assignedQAPanelList !== undefined) {
         set["assignedQAPanelList"] = null;
     }
-    if (!utility.IsUndefined(reqParam.CheckListDetails)) {
+    if (reqParam.CheckListDetails !== undefined) {
         set["CheckListDetails"] = reqParam.CheckListDetails;
     }
     // if (!utility.IsUndefined(reqParam.DevReviewComment)) {
@@ -170,7 +170,8 @@ function updateStatusOfRequest(reqParam) {
     if (!utility.IsUndefined(reqParam.verificationStatus)) {
         set["verificationStatus"] = reqParam.verificationStatus;
     }
-
+    console.log('Before Updating the request')
+    console.log(set);
     db.request.update(
         { _id: mongo.helper.toObjectID(reqParam.requestId) },
         { $set: set },

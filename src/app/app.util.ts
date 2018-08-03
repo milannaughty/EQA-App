@@ -81,7 +81,7 @@ export class CommonUtil {
 }
 
 export class EmailManager {
-    
+
 
     /**
      * This method is used to get comma seprated list of email ids
@@ -98,6 +98,24 @@ export class EmailManager {
      */
     static GetRejectRequestSubjectLine(sprintName: string, rejectedByPanelName: string) {
         return `IQA Team | IQA Request Rejected For Sprint ${sprintName} By Panel ${rejectedByPanelName}`;
+    }
+
+    /**
+     * Method returns email subject line for accepted IQA request operation
+     * @param sprintName 
+     * @param rejectedByPanelName 
+     */
+    static GetRequestAcceptSubjectLine(sprintName: string, acceptedByPanelName: string) {
+        return `IQA Team | IQA Request Accepted For Sprint ${sprintName} By Panel ${acceptedByPanelName}`;
+    }
+
+    /**
+     * Method returns email subject line for  IQA request completed operation 
+     * @param sprintName 
+     * @param rejectedByPanelName 
+     */
+    static GetIQACompletedSubjectLine(sprintName: string, acceptedByPanelName: string) {
+        return `IQA Team | IQA Completed For Requested Sprint ${sprintName} By Panel ${acceptedByPanelName}`;
     }
 
     /**

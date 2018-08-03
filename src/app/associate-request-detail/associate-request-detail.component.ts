@@ -6,7 +6,7 @@ import { appConfig } from '../app.config';
 import { EmailService } from '../_services/mail.service';
 import { AlertService } from '../_services/alert.service';
 import { adminConfig } from "../app.config";
-import { CommonUtil } from '../app.util';
+import { CommonUtil, EmailManager } from '../app.util';
 
 @Component({
   selector: 'app-associate-request-detail',
@@ -75,13 +75,14 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
-
+    debugger;
     var set = {
       "status": this.model.selectedStatus,
       "requestId": this.currentRequestData._id
     };
 
     if (this.isRejectRequestOperation) {
+      debugger;
       set["rejectReason"] = this.reasonText;
       if (this.currentRequestData.currentUser.panelType == 'Dev')
         set["assignedDevPanelList"] = null;
@@ -121,28 +122,18 @@ export class AssociateRequestDetailComponent implements OnInit {
     debugger;
     this.requestService.updateStatusOfRequest(set).subscribe(
       result => {
-        this.ShowRequestList();
-        debugger;
         var data = this.currentRequestData;
-        if (set.status == "Rejected") {//code after rejection
-          var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '')
-            + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '')
-            + (data.initiatedBy.POCEmail ? data.initiatedBy.POCEmail : '');
-          if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
-            ccPersonList = ccPersonList.substring(0, ccPersonList.length - 1);
-          }
+        debugger;
+        if (this.isRejectRequestOperation) {//code after rejection
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail, data.initiatedBy.POCEmail])
           var toPerssonList = "";
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-            debugger;
             if (adminList instanceof Array)
-              toPerssonList = adminList.map(x => x.username).join(',');
+              toPerssonList = EmailManager.GetCommaSepratedEmailIDs(adminList.map(x => x.username)); //Pass list of admin user name's i.e email id's
             else
               toPerssonList = adminList["username"];
-            var currentUser = sessionStorage.getItem('currentUser');
-            var cUser = JSON.parse(currentUser);
-            var mailSubject = "IQA Request [Sprint Name :" + data.name + "] Rejected by Panel " + cUser.username;
 
-
+            var mailSubject = EmailManager.GetRejectRequestSubjectLine(data.name, this.currentRequestData.currentUser.username);
             var mailObject = {
               "fromPersonName": appConfig.fromPersonName,
               "fromPersonMailId": appConfig.fromPersonMailId,
@@ -152,46 +143,40 @@ export class AssociateRequestDetailComponent implements OnInit {
               "mailSubject": mailSubject,
               "mailContent": "",
               "sprintName": data.name,
-              "panelName": cUser.username,
+              "panelName": this.currentRequestData.currentUser.username,
               "rejectReason": this.reasonText
             };
 
-
+            console.log('Mail Object: Request Rejected');
+            console.log(mailObject)
             this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
               success => {
-                //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("mail sent to admin with rejection details");
+                CommonUtil.ShowInfoAlert("Request Rejected", "Mail sent to admin with rejection details");
+                this.ShowRequestList();
               }, err => {
-                //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("Error while sending mail to admin with rejection details");
+                CommonUtil.ShowSuccessAlert("Request Rejected successfully. Error while sending mail to admin with rejection details");
+                this.ShowRequestList();
               }
             );
 
           }, err => {
-            console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+            CommonUtil.ShowSuccessAlert("Request Rejected successfully. Error while sending mail to admin with rejection details : for fetching admin details");
+            this.ShowRequestList();
           });
-        } else if (set.status == "InProgress") {//code after acceptance
+        }
+        else if (set.status == "InProgress") {//code after acceptance
 
-          var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '')
-            + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '');
-          if (ccPersonList.lastIndexOf(',') != ccPersonList.length - 1) {
-            ccPersonList += ',';
-          }
-
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
-          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase()
-            + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
+          var toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonListAcceptance);
+
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-            debugger;
             if (adminList instanceof Array)
-              ccPersonList += adminList.map(x => x.username).join(',');
+              ccPersonList += ',' + EmailManager.GetCommaSepratedEmailIDs(adminList.map(x => x.username));
             else
-              ccPersonList += adminList["username"];
-            var currentUser = sessionStorage.getItem('currentUser');
-            var cUser = JSON.parse(currentUser);
+              ccPersonList += ',' + adminList["username"];
 
-            var mailSubject = "IQA Request [Sprint Name :" + data.name + "] Accepted by Panel " + cUser.FName + " " + cUser.LName;
-
+            var mailSubject = EmailManager.GetRequestAcceptSubjectLine(data.name, this.currentRequestData.currentUser.FName + " " + this.currentRequestData.currentUser.LName);
             var mailObject = {
               "fromPersonName": appConfig.fromPersonName,
               "fromPersonMailId": appConfig.fromPersonMailId,
@@ -201,43 +186,37 @@ export class AssociateRequestDetailComponent implements OnInit {
               "mailSubject": mailSubject,
               "mailContent": "",
               "sprintName": data.name,
-              "panelName": cUser.username,
+              "panelName": this.currentRequestData.currentUser.username,
             };
-
+            console.log('Mail Object: Request Accpeted');
+            console.log(mailObject)
             this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
               success => {
-                //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("mail sent to admin with rejection details");
+                CommonUtil.ShowInfoAlert("Request Accepted","IQA Request for sprint name " + data.name + " is accepted");
+                this.ShowRequestList();
               }, err => {
-                //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("Error while sending mail to admin with rejection details");
+                CommonUtil.ShowSuccessAlert("Request Accepted successfully. Error while sending mail.");
+                this.ShowRequestList();
               }
             );
 
           }, err => {//error while fething admin role users
-            console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+            CommonUtil.ShowSuccessAlert("Request Accepted successfully, Error while sending mail to admin with rejection details : for fetching admin details");
+            this.ShowRequestList();
           });
         }//acceptance block ends here
         if (set.status == "Completed") {//if panel has completed IQA request
-          var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '')
-            + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '');
-          if (ccPersonList.lastIndexOf(',') != ccPersonList.length - 1) {
-            ccPersonList += ',';
-          }
-
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
-          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase()
-            + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
+          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-            debugger;
-            if (adminList instanceof Array)
-              ccPersonList += adminList.map(x => x.username).join(',');
-            else
-              ccPersonList += adminList["username"];
-            var currentUser = sessionStorage.getItem('currentUser');
-            var cUser = JSON.parse(currentUser);
 
-            var mailSubject = "IQA Request [Sprint Name :" + data.name + "] Accepted by Panel " + cUser.FName + " " + cUser.LName;
+            if (adminList instanceof Array)
+              ccPersonList += ',' + adminList.map(x => x.username).join(',');
+            else
+              ccPersonList += ',' + adminList["username"];
+
+            var mailSubject = EmailManager.GetIQACompletedSubjectLine(data.name, this.currentRequestData.currentUser.FName + " " + this.currentRequestData.currentUser.LName);
 
             var mailObject = {
               "fromPersonName": appConfig.fromPersonName,
@@ -248,26 +227,29 @@ export class AssociateRequestDetailComponent implements OnInit {
               "mailSubject": mailSubject,
               "mailContent": "",
               "sprintName": data.name,
-              "panelName": cUser.username,
+              "panelName": this.currentRequestData.currentUser.username,
             };
-
+            console.log('Mail Object: Request Completed');
+            console.log(mailObject)
             this.emailService.sendMailToPOCAfterIQARequestCompletedByPanel(mailObject).subscribe(
               success => {
-                //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("mail sent to admin with rejection details");
+                CommonUtil.ShowSuccessAlert("IQA Request completed for sprint name " + data.name);
+                this.ShowRequestList();
               }, err => {
-                //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                console.log("Error while sending mail to admin with rejection details");
+                CommonUtil.ShowSuccessAlert("IQA Request Completed successfully. Email not send to respective team and administration");
+                this.ShowRequestList();
               }
             );
 
           }, err => {//error while fething admin role users
-            console.log("Error while sending mail to admin with rejection details : for fetching admin details");
+            CommonUtil.ShowSuccessAlert("IQA Request Completed successfully. Error while fetching admin details");
+            this.ShowRequestList();
           });
         }//if panel has completed IQA request If block ends
 
       }, err => {
-        this.alertService.error('Error while rejecting IQA Request ', true);
+        CommonUtil.ShowErrorAlert('Error while rejecting IQA Request ');
+        this.ShowRequestList();
       });
   }
 

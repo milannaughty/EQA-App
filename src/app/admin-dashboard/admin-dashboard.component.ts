@@ -54,7 +54,6 @@ export class AdminDashboardComponent implements OnInit {
     return this.skillSetCount;
   }
   doAction(actionName) {
-    debugger;
     this.AdminActiveTab = actionName;
     this.currentRequestData['CurrentActionName'] = actionName;
   }

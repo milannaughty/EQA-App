@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertService, EmailService } from '../_services';
 import { appConfig } from '../app.config';
 import swal from 'sweetalert2'; 
+import { CommonUtil } from '../app.util';
 
 @Component({
   selector: 'app-reset-user-password',
@@ -86,20 +87,21 @@ export class ResetUserPasswordComponent implements OnInit {
 
               this.emailService.sendNewlyGeneratedPasswordToUserMailTo(mailObject).subscribe(
                 res => {
-                  console.log("mail sent successfully");
+                  CommonUtil.ShowSuccessAlert("Password reseted successfully, new password is sent to your.");
                 }, err => {
-                  console.log("Error while sending mail");
+                  CommonUtil.ShowErrorAlert("Error while reseting password, request you to try again later");
                 }
               );
-
-              this.alertService.success("Password reseted successfully, please login with new password.");
+              //this.alertService.success("Password reseted successfully, please login with new password.");
               this.router.navigate(['/login']);
             }, error => {
-              console.log("Error while reseting password" + error);
+              console.log("Error while reseting password, request you to try again" + error);
+              CommonUtil.ShowErrorAlert("Error while reseting password, request you to try again later");
             });
 
         }, err => {
           console.log("Error while fetching user from DB" + err);
+          CommonUtil.ShowErrorAlert("Error while reseting password, request you to try again later");
         });
         /**Generating password ends */
 
@@ -120,7 +122,7 @@ export class ResetUserPasswordComponent implements OnInit {
       success => {
         console.log("password reseted successfully.");
         this.ShowSuccessAlert("Password reseted successfully, please login with new password.");
-        this.alertService.success("Password reseted successfully, please login with new password.");
+       // this.alertService.success("Password reseted successfully, please login with new password.");
         this.router.navigate(['/login']);
       }, error => {
         this.ErrorAlert("Error while resetting password "+error.error);
