@@ -5,6 +5,7 @@ import { RequestService } from "../_services/request.service";
 import { appConfig } from '../app.config';
 import { EmailService } from "../_services/mail.service";
 import { AlertService } from '../_services/alert.service';
+import { CommonUtil } from '../app.util';
 
 @Component({
   moduleId: module.id,
@@ -113,10 +114,12 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
         this.emailService.sendMailToPanelsAfterAssigningPanelToIQARequestByAdmin(mailObject)
           .subscribe(result => {
             debugger;
-            this.alertService.success('Mail sent to selected panel list', true);
+            CommonUtil.ShowSuccessAlert('Request successfully assigned to Selected panels and Mail sent to selected panel list');
+            //this.alertService.success('Mail sent to selected panel list', true);
           }, error => {
             debugger;
-            this.alertService.error('Error while sending mail to selected panels', true);
+            CommonUtil.ShowErrorAlert('Request successfully assigned to Selected panels and Error while sending Mail to selected panel list');
+            //this.alertService.error('Error while sending mail to selected panels', true);
           });
         console.log('mail sending function ends here for Assigning QA and Dev to Request By admin');
         this.ShowRequestList()
@@ -124,6 +127,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
       err => {
         console.log('Updated requested completed with error.');
         console.log(err)
+        CommonUtil.ShowErrorAlert('Error while assigning request to panel.');
         this.ShowRequestList()
       }
     );

@@ -3,6 +3,7 @@ import { AlertService, UserService, SkillSetsService, EmailService } from '../_s
 import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
 import { appConfig } from '../app.config';
+import { CommonUtil } from '../app.util';
 
 @Component({
     moduleId: module.id,
@@ -49,7 +50,7 @@ export class RegisterComponent {
         this.userService.create(this.model).subscribe(
             data => {
                 debugger;
-                this.alertService.success('Registration successful', true);
+               // this.alertService.success('Registration successful', true);
                 //this.clear();
                 this.loading = false;
 
@@ -81,10 +82,12 @@ export class RegisterComponent {
                           this.emailService.sendInitialMailToPanel(mailObject).subscribe(
                             success =>{
                             //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                            console.log("mail sent to admin with rejection details");
+                            CommonUtil.ShowSuccessAlert("Panel Added successfully, mail sent to "+toPersonMailId);
+                            console.log("Panel Added successfully, mail sent to "+toPersonMailId);
                             },err =>{
                             //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                            console.log("Error while sending mail to admin with rejection details");
+                            console.log("Panel Added successfully, erroe while sendign mail to "+toPersonMailId+" "+JSON.stringify(err));
+                            CommonUtil.ShowErrorAlert("Panel Added successfully, erroe while sendign mail to "+toPersonMailId);
                             }
                             );
           
@@ -95,7 +98,9 @@ export class RegisterComponent {
                 /**mail sending ends */
             },
             error => {
-                this.alertService.error(error.error);
+                //this.alertService.error(error.error);
+                console.log("Error while adding new panel with "+this.model.username);
+                CommonUtil.ShowErrorAlert("Error while adding new Panel"+error.error);
                 this.loading = false;
             });
     }

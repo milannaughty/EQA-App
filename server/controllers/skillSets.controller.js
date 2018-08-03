@@ -117,7 +117,7 @@ function postNewSkillSetObjectToDB(request, response){
         var errorMessage ="";
         var keys = utilitiesServiceObject.getAllKeysOfJSON(receivedObject);
         if(keys.length!=4){
-            errorMessage+="no. of key mismatch expected 2. found "+keys.length+" ";
+            errorMessage+="no. of key mismatch expected 4. found "+keys.length+" ";
         }
         if(keys.indexOf("skillName") < 0){
             errorMessage+=" key skillName not found ";
