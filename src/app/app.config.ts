@@ -27,6 +27,7 @@ export const adminConfig = {
         AdminTeamRequestPending: 'PANEL ASSIGNED REQUESTS',
         AdminTeamRequestInProgress: 'IQA REQUEST IN PROGRESS',
         AdminTeamRequestCompleted: 'IQA COMPLETED REQUESTS',
+        AdminTeamRequestRejected: 'IQA REJECTED REQUESTS',
         TeamRequestDetails: 'REQUEST_DETAIL',
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',
