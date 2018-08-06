@@ -19,7 +19,7 @@
           <td> {{currentRequestData.name}}</td>
         </tr>
         <tr>
-          <td>
+          <!-- <td>
             <label for="skillSet">Dev skill set</label>
           </td>
           <td>
@@ -38,6 +38,22 @@
             <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex" >
                 {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
             </span>
+          </td> -->
+          <td>
+            <label for="skillSet">Dev skill set</label>
+          </td>
+          <td>
+            <span>{{devSkillSet}}</span>
+            <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See More skill</a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">QA skill set</label>
+          </td>
+          <td>
+            <span>{{qaSkillSet}}</span>
+            <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See More skill</a>
           </td>
         </tr>
         <tr>
@@ -78,7 +94,7 @@
           <td> {{currentRequestData.initiatedBy.TeamName}}</td>
         </tr>
         <tr>
-            <td>
+            <!-- <td>
               <label for="skillSet">Dev Panel</label>
             </td>
             <td>
@@ -95,6 +111,25 @@
                 <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
                     {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
                 </span>
+              </td> -->
+
+              <td>
+                <label for="skillSet">Dev Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
+               <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
+              </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="skillSet">QA Panel</label>
+              </td>
+              <td>
+                <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
+                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
+              </span>
               </td>
             </tr>
       </table>
