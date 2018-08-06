@@ -1,10 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { HomeComponent } from "../home/home.component";
+
 import { UserService } from "../_services/user.service";
 import { RequestService } from "../_services/request.service";
 import { appConfig } from '../app.config';
 import { EmailService } from '../_services/mail.service';
-import { AlertService } from '../_services/alert.service';
 import { adminConfig } from "../app.config";
 import { CommonUtil, EmailManager } from '../app.util';
 
@@ -31,8 +30,7 @@ export class AssociateRequestDetailComponent implements OnInit {
 
   constructor(private userService: UserService,
     private requestService: RequestService,
-    private emailService: EmailService,
-    private alertService: AlertService) {
+    private emailService: EmailService) {
 
   }
 
