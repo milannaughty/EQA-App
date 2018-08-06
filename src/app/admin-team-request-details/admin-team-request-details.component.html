@@ -1,7 +1,7 @@
 <table> </table>
 <div class="container">
-  
-<div class="HeaderClass">Request Detail</div>
+
+  <div class="HeaderClass">Request Detail</div>
   <div class="modal-body row">
     <div class="col-md-6" text-center>
       <!-- <form  > -->
@@ -19,26 +19,6 @@
           <td> {{currentRequestData.name}}</td>
         </tr>
         <tr>
-          <!-- <td>
-            <label for="skillSet">Dev skill set</label>
-          </td>
-          <td>
-            <div style="word-wrap: break-word">
-            <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex" >
-                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
-            </span>
-          </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="skillSet">QA skill set</label>
-          </td>
-          <td>
-            <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex" >
-                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
-            </span>
-          </td> -->
           <td>
             <label for="skillSet">Dev skill set</label>
           </td>
@@ -61,13 +41,13 @@
             <label for="deliveryDate ">Delivery Date</label>
           </td>
           <td>
-            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+            {{currentRequestData.deliveryDate?(currentRequestData.deliveryDate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
             <label for="expectedIQADate ">Expected IQA Date</label>
           </td>
-          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+          <td> {{currentRequestData.expectedIQADate?(currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
@@ -94,49 +74,28 @@
           <td> {{currentRequestData.initiatedBy.TeamName}}</td>
         </tr>
         <tr>
-            <!-- <td>
-              <label for="skillSet">Dev Panel</label>
-            </td>
-            <td>
-              <span *ngFor="let skilldata of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
-                  {{skilldata.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
-              </span>
-            </td>
-          </tr>
-          <tr>
-              <td>
-                <label for="skillSet">QA Panel</label>
-              </td>
-              <td>
-                <span *ngFor="let skilldata of currentRequestData.assignedQAPanelList;let i=index; trackBy:trackByIndex">
-                    {{skilldata.itemName}}{{i === currentRequestData.assignedQAPanelList.length - 1 ? '' : ', '}}
-                </span>
-              </td> -->
-
-              <td>
-                <label for="skillSet">Dev Panel</label>
-              </td>
-              <td>
-                <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
+          <td>
+            <label for="skillSet">Dev Panel</label>
+          </td>
+          <td>
+            <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
-              </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="skillSet">QA Panel</label>
-              </td>
-              <td>
-                <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="skillSet">QA Panel</label>
+          </td>
+          <td>
+            <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
                 <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
               </span>
-              </td>
-            </tr>
+          </td>
+        </tr>
       </table>
-
-
     </div>
-    <div class="col-md-4" >
+    <div class="col-md-4">
       <h2>Select To Assign</h2>
       <form (ngSubmit)="f.form.valid && assignSelectedUsers()" #f="ngForm">
 
