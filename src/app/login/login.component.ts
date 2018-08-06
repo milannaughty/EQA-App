@@ -51,10 +51,12 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.username, this.model.password, this.model.isPanel)
             .subscribe(
             data => {
+                debugger;
                 this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
                 this.router.navigate(this.currentUser.isAdmin ? ['admin'] : ['home']);
             },
             error => {
+                debugger;
                 this.alertService.error(JSON.stringify(error.error));
                 this.loading = false;
             });

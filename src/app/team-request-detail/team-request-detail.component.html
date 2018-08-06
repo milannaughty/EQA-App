@@ -27,7 +27,7 @@
               </td>
               <td>
                 <span>{{devSkillSet}}</span>
-                <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See More skill</a>
+                <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See more</a>
               </td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
               </td>
               <td>
                 <span>{{qaSkillSet}}</span>
-                <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See More skill</a>
+                <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See more</a>
               </td>
             </tr>
 
@@ -76,7 +76,7 @@
               </td>
               <td>
                 <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
-                <a (click)="showUserDeatail()">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
+                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
               </span>
               </td>
             </tr>
