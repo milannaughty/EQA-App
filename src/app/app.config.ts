@@ -1,6 +1,6 @@
 export const appConfig = {
     apiUrl: 'http://localhost:4000',
-    connectionString: "mongodb://localhost:27017/eqa-app",
+    connectionString: "mongodb://172.16.250.132:27017/eqa-app",
     fromPersonName: "Team IQA",
     fromPersonMailId: "iqaTeamMailId",
     initialPassword: 'nihilent@123'
@@ -28,6 +28,7 @@ export const adminConfig = {
         AdminTeamRequestInProgress: 'IQA REQUEST IN PROGRESS',
         AdminTeamRequestCompleted: 'IQA COMPLETED REQUESTS',
         AdminTeamRequestRejected: 'IQA REJECTED REQUESTS',
+        AdminTeamRequestUnderVerification:'IQA REQUESTS UNDER VERIFICATION',
         TeamRequestDetails: 'REQUEST_DETAIL',
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',

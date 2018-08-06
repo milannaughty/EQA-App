@@ -75,14 +75,12 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
-    debugger;
     var set = {
       "status": this.model.selectedStatus,
       "requestId": this.currentRequestData._id
     };
 
     if (this.isRejectRequestOperation) {
-      debugger;
       set["rejectReason"] = this.reasonText;
       if (this.currentRequestData.currentUser.panelType == 'Dev')
         set["assignedDevPanelList"] = null;
@@ -103,14 +101,15 @@ export class AssociateRequestDetailComponent implements OnInit {
       var teamReviewStatus = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.TeamReviewStatus;
       var teamReplyReviewComment = this.currentRequestData.verificationStatus && this.currentRequestData.verificationStatus.TeamReplyReviewComment;
       var qaReviewComment = this.model.QAReviewComment;
-      var devReviewComment = this.model.DevReviewComment
+      var devReviewComment = this.model.DevReviewComment;
 
       if (isDevPanel)
         devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL
       else
         qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL
 
-      set["verificationStatus"] = { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
+      set["verificationStatus"] = { 
+        //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
         QAReviewStatus: qaReviewStatus,
         DevReviewStatus: devReviewStatus,
         QAReviewComment: qaReviewComment,
@@ -119,11 +118,9 @@ export class AssociateRequestDetailComponent implements OnInit {
         TeamReplyReviewComment: teamReplyReviewComment
       }
     }
-    debugger;
     this.requestService.updateStatusOfRequest(set).subscribe(
       result => {
         var data = this.currentRequestData;
-        debugger;
         if (this.isRejectRequestOperation) {//code after rejection
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail, data.initiatedBy.POCEmail])
           var toPerssonList = "";

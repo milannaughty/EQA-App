@@ -54,6 +54,9 @@ export class AdminRequestComponent implements OnInit {
         case this.AdminActionList.AdminTeamRequestRejected:
           result = this.GetFilteredData(result, this.RequestStatus.REJECTED);
           break;
+          case this.AdminActionList.AdminTeamRequestUnderVerification:
+          result = this.GetFilteredData(result, this.RequestStatus.UNDER_VERIFICATION);
+          break;
         default:
           break;
       }
