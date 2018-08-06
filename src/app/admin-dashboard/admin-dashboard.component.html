@@ -86,6 +86,9 @@
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests</a>
                             </li>
                             <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification</a>
+                            </li>
+                            <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
                             </li>
                             <li role="presentation">
@@ -121,6 +124,7 @@
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestInProgress" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestCompleted" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestRejected" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestUnderVerification" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
                         <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentRequestData]="currentRequestData"> </app-register-component>
