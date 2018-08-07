@@ -47,17 +47,17 @@ export class AdminRequestComponent implements OnInit {
   GetRequestedStatus(currentAction) {
     switch (currentAction) {
       case this.AdminActionList.AdminTeamRequestNew:
-        return this.RequestStatus.NEW
+        return this.RequestStatus.NEW.DBStatus;
       case this.AdminActionList.AdminTeamRequestPending:
-        return this.RequestStatus.PANEL_ASSIGNED
+        return this.RequestStatus.PANEL_ASSIGNED.DBStatus;
       case this.AdminActionList.AdminTeamRequestInProgress:
-        return this.RequestStatus.IN_PROGRESS
+        return this.RequestStatus.IN_PROGRESS.DBStatus;
       case this.AdminActionList.AdminTeamRequestCompleted:
-        return this.RequestStatus.COMPLETED
+        return this.RequestStatus.COMPLETED.DBStatus;
       case this.AdminActionList.AdminTeamRequestRejected:
-        return this.RequestStatus.REJECTED;
+        return this.RequestStatus.REJECTED.DBStatus;
       case this.AdminActionList.AdminTeamRequestUnderVerification:
-        return this.RequestStatus.UNDER_VERIFICATION
+        return this.RequestStatus.UNDER_VERIFICATION.DBStatus;
       default:
         break;
     }

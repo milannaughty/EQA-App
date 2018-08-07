@@ -36,7 +36,7 @@ export class TeamChecklistFormComponent implements OnInit {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
     this.requestService.getTeamAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
-      var requestUnderVerifications = CommonUtil.GetFilteredRequestList(result, adminConfig.RequestStatus.UNDER_VERIFICATION);
+      var requestUnderVerifications = CommonUtil.GetFilteredRequestList(result, adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
       this.NewRequest = requestUnderVerifications;//.map(x => )
     });
   }
@@ -93,7 +93,7 @@ export class TeamChecklistFormComponent implements OnInit {
 
     var updateAttributes = {
       requestId: this.selectedRequestData._id,
-      status: adminConfig.RequestStatus.UNDER_VERIFICATION,
+      status: adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus,
       CheckListDetails: this.selectedRequestData.CheckListDetails,
       verificationStatus: { //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
         IsActionNeededByPanel: true,
@@ -101,7 +101,7 @@ export class TeamChecklistFormComponent implements OnInit {
         DevReviewStatus: devReviewStatus,
         QAReviewComment: qaReviewComment,
         DevReviewComment: devReviewComment,
-        TeamReviewStatus: adminConfig.RequestStatus.VERIFIED_BY_TEAM,
+        TeamReviewStatus: adminConfig.RequestStatus.VERIFIED_BY_TEAM.DBStatus,
         TeamReplyReviewComment: this.TeamReplyReviewComment,
         TeamReviewDate: new Date()
       }

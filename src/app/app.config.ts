@@ -8,17 +8,17 @@ export const appConfig = {
 
 export const adminConfig = {
     RequestStatus: {
-        NEW: "New",
-        PANEL_ASSIGNED: "PanelAssigned",
-        IN_PROGRESS:'InProgress',
-        COMPLETED:'Completed',
-        VERIFIED_BY_DEV_PANEL:'VerifiedByDevPanel',
-        VERIFIED_BY_QA_PANEL:'VerifiedByQAPanel',
-        VERIFIED_BY_TEAM:'VerifiedByTeam',
-        REJECTED:'Rejected',
-        CLOSE:'Close',
-        OPEN:'Open',
-        UNDER_VERIFICATION:'UnderVerification'
+        NEW: { DBStatus: 'New', DisplayStatus: 'New Request' },
+        PANEL_ASSIGNED: { DBStatus: "PanelAssigned", DisplayStatus: "Panel Assigned" },
+        IN_PROGRESS: { DBStatus: 'InProgress', DisplayStatus: 'Req. Inprogress' },
+        COMPLETED:  { DBStatus: 'Completed', DisplayStatus: 'IQA Completed' },
+        VERIFIED_BY_DEV_PANEL:{ DBStatus: 'VerifiedByDevPanel', DisplayStatus: 'Verified By Dev Panel' } ,
+        VERIFIED_BY_QA_PANEL: { DBStatus: 'VerifiedByQAPanel', DisplayStatus: 'Verified By QA Panel' },
+        VERIFIED_BY_TEAM: { DBStatus: 'VerifiedByTeam', DisplayStatus: 'Verified By Team' },
+        REJECTED: { DBStatus: 'Rejected', DisplayStatus: 'Req. Rejected' },
+        CLOSE: 'Close',
+        OPEN: 'Open',
+        UNDER_VERIFICATION: { DBStatus: 'UnderVerification', DisplayStatus: 'Under Review' }
 
     },
     ActionList: {
@@ -28,7 +28,7 @@ export const adminConfig = {
         AdminTeamRequestInProgress: 'IQA REQUEST IN PROGRESS',
         AdminTeamRequestCompleted: 'IQA COMPLETED REQUESTS',
         AdminTeamRequestRejected: 'IQA REJECTED REQUESTS',
-        AdminTeamRequestUnderVerification:'IQA REQUESTS UNDER VERIFICATION',
+        AdminTeamRequestUnderVerification: 'IQA REQUESTS UNDER VERIFICATION',
         TeamRequestDetails: 'REQUEST_DETAIL',
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',
@@ -47,6 +47,6 @@ export const userConfig = {
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail',
         'ResetPassword': 'RESET PASSWORD',
-        'TeamCheckList':'CHECKLIST REVIEW'
+        'TeamCheckList': 'CHECKLIST REVIEW'
     }
 };

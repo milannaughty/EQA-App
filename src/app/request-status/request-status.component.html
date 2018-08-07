@@ -1,9 +1,9 @@
-<span *ngIf="status==RequestStatus.COMPLETED" class="label statusCompleted">{{status}}</span>
-<span *ngIf="status==RequestStatus.NEW" class="label label-default statusNew">{{status}}</span>
-<span *ngIf="status==RequestStatus.IN_PROGRESS" class="label label-primary">{{status}}</span>
-<span *ngIf="status==RequestStatus.REJECTED" class="label statusRejected">{{status}}</span>
-<span *ngIf="status==RequestStatus.PANEL_ASSIGNED" class="label label-warning">{{status}}</span>
+<span *ngIf="status==RequestStatus.COMPLETED.DBStatus" class="label statusCompleted">{{RequestStatus.COMPLETED.DisplayStatus}}</span>
+<span *ngIf="status==RequestStatus.NEW.DBStatus" class="label label-default statusNew">{{RequestStatus.NEW.DisplayStatus}}</span>
+<span *ngIf="status==RequestStatus.IN_PROGRESS.DBStatus" class="label label-primary statusInProgress">{{RequestStatus.IN_PROGRESS.DisplayStatus}}</span>
+<span *ngIf="status==RequestStatus.REJECTED.DBStatus" class="label statusRejected">{{RequestStatus.REJECTED.DisplayStatus}}</span>
+<span *ngIf="status==RequestStatus.PANEL_ASSIGNED.DBStatus" class="label label-warning statusPanelAssigned">{{RequestStatus.PANEL_ASSIGNED.DisplayStatus}}</span>
 <span *ngIf="status==RequestStatus.VERIFIED_BY_PANEL" class="label statusVerifiedByPanel">{{status}}</span>
 <span *ngIf="status==RequestStatus.OPEN" class="label label-danger">{{status}}</span>
 <span *ngIf="status==RequestStatus.CLOSE" class="label statusCompleted">{{status}}</span>
-<span *ngIf="status==RequestStatus.UNDER_VERIFICATION" class="label statusVerifiedByPanel">{{status}}</span>
+<span *ngIf="status==RequestStatus.UNDER_VERIFICATION.DBStatus" class="label statusVerifiedByPanel">{{RequestStatus.UNDER_VERIFICATION.DisplayStatus}}</span>

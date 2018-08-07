@@ -88,7 +88,7 @@ export class AssociateRequestDetailComponent implements OnInit {
     else if (this.isCompleteRequestOperation) {
       var modelRdbSelectedItem = this.modelRdbSelectedItem;
       var isAnyChecklistItemOpen = modelRdbSelectedItem.some(x => x != undefined && x != null && x != 0)
-      set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.UNDER_VERIFICATION : adminConfig.RequestStatus.COMPLETED;
+      set.status = isAnyChecklistItemOpen ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
       set['CheckListDetails'] = this.requestCheckListItem.map(x => ({ _Id: x._Id, status: modelRdbSelectedItem[x._Id] || 0 }));
       //set['DevReviewComment'] = this.model.DevReviewComment;
       //set['QAReviewComment'] = this.model.QAReviewComment;
@@ -102,9 +102,9 @@ export class AssociateRequestDetailComponent implements OnInit {
       var devReviewComment = this.model.DevReviewComment;
 
       if (isDevPanel)
-        devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL
+        devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL.DBStatus
       else
-        qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL
+        qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL.DBStatus
 
       set["verificationStatus"] = { 
         //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
@@ -252,7 +252,7 @@ export class AssociateRequestDetailComponent implements OnInit {
     if (this.currentRequestData.status == 'PanelAssigned') {
       this.statusList.push({ "Id": "InProgress", "Name": "Accept" })
     }
-    else if (this.currentRequestData.status == 'InProgress' || adminConfig.RequestStatus.UNDER_VERIFICATION) {
+    else if (this.currentRequestData.status == 'InProgress' || adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {
       this.statusList.push({ "Id": "Completed", "Name": "Complete" })
     }
     this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })

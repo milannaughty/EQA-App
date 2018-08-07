@@ -299,22 +299,33 @@ body{
 .statusNew{
   background-color: #009688b3;
   color:white;
+  padding-right: 20px !important;
 }
 .statusVerifiedByPanel{
   background-color: #94df0ab3;
   color:white;
+  padding-left: 10px;
+  padding-right: 16px;
 }
 
 .statusCompleted{
   background-color: green !important;
   padding-left: 10px;
-  padding-right: 28px;
+  padding-right: 10px;
 }
 
 .statusRejected{
   background-color: black;
   padding-left: 10px;
-  padding-right: 39px;
+  padding-right: 18px;
+}
+
+.statusInProgress{
+  padding-right: 9px !important;
+}
+
+.statusPanelAssigned{
+  padding-right: 12px !important;
 }
 
 .skillFontStyle{
