@@ -41,13 +41,13 @@
             <label for="deliveryDate ">Delivery Date</label>
           </td>
           <td>
-            {{currentRequestData.deliveryDate | date: 'dd/MM/yyyy'}}</td>
+            {{currentRequestData.deliveryDate?(currentRequestData.deliveryDate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
             <label for="expectedIQADate ">Expected IQA Date</label>
           </td>
-          <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+          <td> {{currentRequestData.expectedIQADate?(currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
@@ -78,8 +78,8 @@
             <label for="skillSet">Dev Panel</label>
           </td>
           <td>
-            <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;">
-              <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
+            <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
+               <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
             </span>
           </td>
         </tr>
@@ -89,13 +89,11 @@
           </td>
           <td>
             <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
-              <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
-            </span>
+                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
+              </span>
           </td>
         </tr>
       </table>
-
-
     </div>
     <div class="col-md-4">
       <h2>Select To Assign</h2>
@@ -121,11 +119,5 @@
         </div>
       </form>
     </div>
-
-
-
-
-
-
   </div>
 </div>
