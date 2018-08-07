@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AlertService, UserService, SkillSetsService, EmailService } from '../_services/index';
+import { UserService, SkillSetsService, EmailService } from '../_services/index';
 import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
 import { appConfig } from '../app.config';
@@ -21,10 +21,9 @@ export class RegisterComponent {
     dropdownSettings = {};
     skillList: any;
     constructor(private userService: UserService,
-                private alertService: AlertService, 
-                private skillSetsService: SkillSetsService,
-                private datePipe: DatePipe,
-                private emailService: EmailService) { }
+        private skillSetsService: SkillSetsService,
+        private datePipe: DatePipe,
+        private emailService: EmailService) { }
 
     ngOnInit() {
         this.panelTypeList = [{ "Id": 'Dev', "Name": "Dev" }, { "Id": 'QA', "Name": "QA" }];
@@ -49,58 +48,49 @@ export class RegisterComponent {
         this.model.password = 'nihilent@123';
         this.userService.create(this.model).subscribe(
             data => {
-                debugger;
-               // this.alertService.success('Registration successful', true);
-                //this.clear();
                 this.loading = false;
 
                 /**mail sending starts */
-                if(this.model.isPanel){//for panel
-                    debugger;
-                    var toPersonMailId=this.model.username;
-                    var initialPassword=appConfig.initialPassword;
-                    var panelType=this.model.panelType;
-          
-                    var toPersonName=toPersonMailId.substring(0,toPersonMailId.indexOf('.',0)).charAt(0).toUpperCase() 
-                                  + toPersonMailId.substring(0,toPersonMailId.indexOf('.',0)).slice(1);
-          
-                    
-                    var mailSubject="Assigned as "+panelType+" Panel for IQA Process"; 
-          
-                          var mailObject = {
-                          "fromPersonName": appConfig.fromPersonName,
-                          "fromPersonMailId": appConfig.fromPersonMailId,
-                          "toPersonName": toPersonName,
-                          "toPersonMailId": toPersonMailId,
-                          "ccPersonList": "",
-                          "mailSubject": mailSubject,
-                          "mailContent": "",
-                          "initialPassword" : initialPassword,
-                          "panelType" : panelType,
-                          };
-          
-                          this.emailService.sendInitialMailToPanel(mailObject).subscribe(
-                            success =>{
-                            //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                            CommonUtil.ShowSuccessAlert("Panel Added successfully, mail sent to "+toPersonMailId);
-                            console.log("Panel Added successfully, mail sent to "+toPersonMailId);
-                            },err =>{
-                            //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                            console.log("Panel Added successfully, erroe while sendign mail to "+toPersonMailId+" "+JSON.stringify(err));
-                            CommonUtil.ShowErrorAlert("Panel Added successfully, erroe while sendign mail to "+toPersonMailId);
-                            }
-                            );
-          
-          
-                  }else{//for team
-                    debugger;
-                  } 
+                if (this.model.isPanel) {//for panel
+                    var toPersonMailId = this.model.username;
+                    var initialPassword = appConfig.initialPassword;
+                    var panelType = this.model.panelType;
+
+                    var toPersonName = toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).charAt(0).toUpperCase()
+                        + toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).slice(1);
+
+
+                    var mailSubject = "Assigned as " + panelType + " Panel for IQA Process";
+
+                    var mailObject = {
+                        "fromPersonName": appConfig.fromPersonName,
+                        "fromPersonMailId": appConfig.fromPersonMailId,
+                        "toPersonName": toPersonName,
+                        "toPersonMailId": toPersonMailId,
+                        "ccPersonList": "",
+                        "mailSubject": mailSubject,
+                        "mailContent": "",
+                        "initialPassword": initialPassword,
+                        "panelType": panelType,
+                    };
+
+                    this.emailService.sendInitialMailToPanel(mailObject).subscribe(
+                        success => {
+                            CommonUtil.ShowSuccessAlert("Panel Added successfully, mail sent to " + toPersonMailId);
+                        }, err => {
+                            CommonUtil.ShowInfoAlert("Success","Panel Added successfully, erroe while sendign mail to " + toPersonMailId);
+                        }
+                    );
+
+
+                } else {//for team
+                }
                 /**mail sending ends */
             },
             error => {
                 //this.alertService.error(error.error);
-                console.log("Error while adding new panel with "+this.model.username);
-                CommonUtil.ShowErrorAlert("Error while adding new Panel"+error.error);
+                console.log("Error while adding new panel with " + this.model.username);
+                CommonUtil.ShowErrorAlert("Error while adding new Panel" + error.error);
                 this.loading = false;
             });
     }

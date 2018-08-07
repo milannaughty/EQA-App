@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertService, RequestService } from '../_services/index';
+import {  RequestService } from '../_services/index';
 import { adminConfig } from "../app.config";
 
 @Component({
@@ -21,8 +21,7 @@ export class AdminRequestComponent implements OnInit {
 
   constructor(
     //  private router: Router,
-    private requestService: RequestService,
-    private alertService: AlertService
+    private requestService: RequestService
   ) { }
 
   ngOnInit() {
@@ -37,35 +36,31 @@ export class AdminRequestComponent implements OnInit {
     this.loading = true;
     this.requestService.getAll().subscribe(result => {
       this.loading = false;
-
-      switch (this.currentRequestData["CurrentActionName"]) {
-        case this.AdminActionList.AdminTeamRequestNew:
-          result = this.GetFilteredData(result, this.RequestStatus.NEW)
-          break;
-        case this.AdminActionList.AdminTeamRequestPending:
-          result = this.GetFilteredData(result, this.RequestStatus.PANEL_ASSIGNED);
-          break;
-        case this.AdminActionList.AdminTeamRequestInProgress:
-          result = this.GetFilteredData(result, this.RequestStatus.IN_PROGRESS);
-          break;
-        case this.AdminActionList.AdminTeamRequestCompleted:
-          result = this.GetFilteredData(result, this.RequestStatus.COMPLETED);
-          break;
-        case this.AdminActionList.AdminTeamRequestRejected:
-          result = this.GetFilteredData(result, this.RequestStatus.REJECTED);
-          break;
-          case this.AdminActionList.AdminTeamRequestUnderVerification:
-          result = this.GetFilteredData(result, this.RequestStatus.UNDER_VERIFICATION);
-          break;
-        default:
-          break;
-      }
-      this.NewRequest = result;
+      this.NewRequest = this.GetFilteredData(result, this.GetRequestedStatus(this.currentRequestData["CurrentActionName"]))
     });
   }
 
   GetFilteredData(data, status) {
     return data.filter(x => x.status == status)
+  }
+
+  GetRequestedStatus(currentAction) {
+    switch (currentAction) {
+      case this.AdminActionList.AdminTeamRequestNew:
+        return this.RequestStatus.NEW
+      case this.AdminActionList.AdminTeamRequestPending:
+        return this.RequestStatus.PANEL_ASSIGNED
+      case this.AdminActionList.AdminTeamRequestInProgress:
+        return this.RequestStatus.IN_PROGRESS
+      case this.AdminActionList.AdminTeamRequestCompleted:
+        return this.RequestStatus.COMPLETED
+      case this.AdminActionList.AdminTeamRequestRejected:
+        return this.RequestStatus.REJECTED;
+      case this.AdminActionList.AdminTeamRequestUnderVerification:
+        return this.RequestStatus.UNDER_VERIFICATION
+      default:
+        break;
+    }
   }
 
 }
