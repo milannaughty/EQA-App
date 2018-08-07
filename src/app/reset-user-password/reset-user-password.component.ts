@@ -51,7 +51,11 @@ export class ResetUserPasswordComponent implements OnInit {
         var user: any;
         var toPersonNameEmailId: string;
         this.userService.getUserByUserName(this.model.username).subscribe(result => {
-
+          if(result==null){
+            CommonUtil.ShowErrorAlert("No user found with username like <b>"+this.model.username+"</b><BR>Make sure you entered correct username");
+            this.router.navigate(['/login']);
+          }else{
+            
           user = result;
           var ccPersonList;
           if (user.isPanel != undefined && user.isPanel) {
@@ -98,6 +102,7 @@ export class ResetUserPasswordComponent implements OnInit {
               console.log("Error while reseting password, request you to try again" + error);
               CommonUtil.ShowErrorAlert("Error while reseting password, request you to try again later");
             });
+          }
 
         }, err => {
           console.log("Error while fetching user from DB" + err);
