@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../_services/request.service';
+import { CommonUtil } from '../app.util';
 
 @Component({
   selector: 'app-admin-home-page',
@@ -37,7 +38,7 @@ export class AdminHomePageComponent implements OnInit {
         return p;
       }, {});
       var summaryData = Object.keys(counts).map(k => {
-        return { label: k, value: counts[k] };
+        return { label: CommonUtil.GetDisplayStatus(k), value: counts[k] };
       });
 
       this.dataSource = {
