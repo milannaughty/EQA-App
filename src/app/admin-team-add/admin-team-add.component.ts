@@ -39,13 +39,10 @@ export class AdminTeamAddComponent implements OnInit {
       data => {
         //debugger;
         //this.alertService.success('Registration successful', true);
-        //this.clear();
-        this.loading = false;
+        this.clearTeamForm();
         debugger;
         var toPersonMailId=this.model.POCEmail;
         var initialPassword=appConfig.initialPassword;
-
-  
         var ccPersonList = (this.model.DAMEmail ? this.model.DAMEmail + ',' : '') 
                        + (this.model.PMEmail ? this.model.PMEmail + ',' : '');
            if (ccPersonList.lastIndexOf(',') == ccPersonList.length - 1) {
@@ -69,10 +66,12 @@ export class AdminTeamAddComponent implements OnInit {
 
               this.emailService.sendInitialMailToTeam(mailObject).subscribe(
                 success =>{
+                  this.loading = false;
                 //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
                 CommonUtil.ShowSuccessAlert("Registration succussfull, mail sent to team POC,PM & DAM");
                 console.log("mail sent to admin with rejection details");
                 },err =>{
+                  this.loading = false;
                 //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
                 console.log("Error while sending mail to admin with rejection details");
                 CommonUtil.ShowErrorAlert("Registration succussfull, but error occured while sending mail to team POC,PM & DAM");
@@ -85,5 +84,14 @@ export class AdminTeamAddComponent implements OnInit {
         this.loading = false;
       });
   }
+
+clearTeamForm(){
+  debugger;
+  this.model.teamName="";
+  this.model.PMEmail="";
+  this.model.DAMEmail="";
+  this.model.POCEmail="";
+  this.model.username="";
+ }
 
 }
