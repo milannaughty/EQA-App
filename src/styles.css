@@ -441,3 +441,9 @@ width: auto;
 .swal2-popup .swal2-title {
   text-transform: capitalize !important;
 }
+
+/** Customizing Boostrap*/
+
+.badge{
+  background: crimson !important;
+}

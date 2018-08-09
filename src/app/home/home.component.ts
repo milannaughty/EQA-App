@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../_models/index';
-import { UserService } from '../_services/index';
+import { RequestService } from '../_services/index';
 import { Router } from '@angular/router';
-import { userConfig } from "../app.config"
+import { userConfig, adminConfig } from "../app.config"
 
 @Component({
     moduleId: module.id,
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
         console.log('In receiveMessage Method');
         this.ActiveTab = mssgEvent.ActiveTabChildParam;
     }
-    constructor(private userService: UserService, private router: Router) {
+    constructor(private requestService: RequestService, private router: Router) {
         let cachedUser = sessionStorage.getItem('currentUser');
         if (!cachedUser)
             this.router.navigate(['/login']);
@@ -43,20 +43,30 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         console.log('In ngOnInit Method');
-        this.userService.GetAssociateNewRequest(this.currentUser.id).subscribe(result => {
-            this.NewRequestCount = result;
-            this.NewRequestCount = Array.from(this.NewRequestCount).length;
-        });
-        this.ActiveTab = this.ActionList.EQANewRequests;
+        if (this.currentUser["isPanel"]) {
+            this.requestService.getPanelRequestCountWithStatus(this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus).subscribe(result => {
+                this.NewRequestCount = result;
+                debugger;
+                this.NewRequestCount = Array.from(this.NewRequestCount).length;
+            });
+        }
+        else {
+            // this.requestService.getAssociateNewRequest(this.currentUser["_id"]).subscribe(result => {
+            //     this.NewRequestCount = result;
+            //     debugger;
+            //     this.NewRequestCount = Array.from(this.NewRequestCount).length;
+            //});
+
+            //TODO : show count for team request
+        }
+        //this.ActiveTab = this.ActionList.EQANewRequests;
     }
 
     deleteUser(_id: string) {
         // this.userService.delete(_id).subscribe(() => { this.loadAllUsers() });
     }
 
-    private loadAllUsers() {
-        this.userService.getAll().subscribe(users => { this.users = users; });
-    }
+
     doAction(actionName: string) {
         this.ActiveTab = actionName;
     }

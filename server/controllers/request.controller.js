@@ -14,6 +14,9 @@ router.get('/associate/newrequests/:_id', getAssociateNerReq);
 router.get('/associate/:_id', getAssociateAllRequest);
 // router.post('/sendMail', sendMail);
 router.put('/updateStatusOfRequest', updateStatusOfRequestInController);
+
+router.get('/associate/request/', getPanelRequestWithStatus);
+router.get('/associate/requestcount/', getPanelRequestCountWithStatus);
 // router.get('/get');
 
 module.exports = router;
@@ -131,4 +134,30 @@ function getAssociateAllRequest(req, res) {
             res.status(400).send(err);
         })
 
+}
+
+function getPanelRequestWithStatus(req, res) {
+    console.log('GetPanelRequestWithStatus start');
+    requestService.getPanelRequestWithStatus(req.params._associateId,req.params.requestStatus)
+        .then(function (requests) {
+           // console.log(requests);
+           console.log('GetPanelRequestWithStatus end');
+            res.send(requests);
+        })
+        .catch(function (err) {
+            console.log('GetPanelRequestWithStatus end with error');
+            res.status(400).send(err);
+        });
+}
+function getPanelRequestCountWithStatus(req, res) {
+    console.log('GetPanelRequestCountWithStatus start');
+    requestService.getPanelRequestCountWithStatus(req.params._associateId,req.params.requestStatus)
+        .then(function (requests) {
+           console.log('GetPanelRequestCountWithStatus end');
+            res.send(requests);
+        })
+        .catch(function (err) {
+            console.log('GetPanelRequestCountWithStatus end with error');
+            res.status(400).send(err);
+        });
 }

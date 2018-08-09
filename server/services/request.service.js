@@ -18,6 +18,8 @@ service.getAssociateAllRequest = getAssociateAllRequest;
 service.updateRequest = updateRequest;
 
 service.updateStatusOfRequest = updateStatusOfRequest;
+service.getPanelRequestWithStatus = getPanelRequestWithStatus;
+service.getPanelRequestCountWithStatus = getPanelRequestCountWithStatus;
 module.exports = service;
 
 
@@ -136,6 +138,30 @@ function getAssociateAllRequest(_associateId) {
     var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }] };
     var deferred = Q.defer();
     db.request.find(query).toArray(
+        function (err, requests) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+
+            deferred.resolve(requests);
+        });
+    return deferred.promise;
+}
+
+function getPanelRequestWithStatus(_associateId,_requestStatus) {
+    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": _requestStatus }] };
+    var deferred = Q.defer();
+    db.request.find(query).toArray(
+        function (err, requests) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+
+            deferred.resolve(requests);
+        });
+    return deferred.promise;
+}
+
+function getPanelRequestCountWithStatus(_associateId,_requestStatus) {
+    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": _requestStatus }] };
+    var deferred = Q.defer();
+    db.request.find(query).count().toArray(
         function (err, requests) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 

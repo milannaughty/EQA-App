@@ -13,7 +13,7 @@ export class RequestService {
     getAll() {
         return this.http.get<Requests[]>(appConfig.apiUrl + '/requests');
     }
- 
+
     create(user: Requests) {
         return this.http.post(appConfig.apiUrl + '/requests/create', user);
     }
@@ -22,7 +22,7 @@ export class RequestService {
         console.log("in method getAssociateNewRequest ");
         return this.http.get(appConfig.apiUrl + '/requests/associate/newrequests/' + _associateId);
     }
- 
+
     delete(_id: string) {
         return this.http.delete(appConfig.apiUrl + '/requests/' + _id);
     }
@@ -31,19 +31,41 @@ export class RequestService {
         return this.http.get(appConfig.apiUrl + '/requests/team/' + _userId);
     }
 
-    getAssociateAllRequest(_associateId: string){
+    getAssociateAllRequest(_associateId: string) {
         return this.http.get(appConfig.apiUrl + '/requests/associate/' + _associateId);
     }
-    updateRequest(reqObj: object){
+    updateRequest(reqObj: object) {
         //debugger;
-        return this.http.put(appConfig.apiUrl + '/requests/updateRequest' , reqObj);
+        return this.http.put(appConfig.apiUrl + '/requests/updateRequest', reqObj);
     }
-    updateStatusOfRequest(reqObj: Object){
+    updateStatusOfRequest(reqObj: Object) {
         //debugger;
-        return this.http.put(appConfig.apiUrl + '/requests/updateStatusOfRequest' , reqObj);
+        return this.http.put(appConfig.apiUrl + '/requests/updateStatusOfRequest', reqObj);
     }
-    sendMail(reqObj: object){
-        console.log('in sendMail method of request Service'+reqObj);
+    sendMail(reqObj: object) {
+        console.log('in sendMail method of request Service' + reqObj);
         return this.http.post(appConfig.apiUrl + '/requests/sendMail', reqObj);
     }
+
+    //** This method returns the set of request with corresposnding status */
+    getPanelRequestWithStatus(_associateId: string, requestStatus: string) {
+        console.log("in method getAssociateNewRequest ");
+        return this.http.get(appConfig.apiUrl + '/requests/associate/request/', {
+            params: {
+                _associateId: _associateId,
+                requestStatus: requestStatus
+            }
+        });
+    }
+
+    getPanelRequestCountWithStatus(_associateId: string, requestStatus: string) {
+        console.log("GetPanelRequestCountWithStatus started");
+        return this.http.get(appConfig.apiUrl + '/requests/associate/requestcount/', {
+            params: {
+                _associateId: _associateId,
+                requestStatus: requestStatus
+            }
+        });
+    }
+
 }
