@@ -18,6 +18,7 @@ router.post('/forgotPassword', forgotPassword);
 router.get('/generateRandomPassword', generateRandomPassword);
 router.get('/getUserByUserName', getUserByUserName);
 router.get('/:_id', getById);
+router.post('/updatePanelObsoluteStatus',updatePanelObsoluteStatus)
 module.exports = router;
 
 function getUserByUserName(req,res){
@@ -111,6 +112,30 @@ function update(req, res) {
             res.status(400).send(err);
         });
 }
+
+function updatePanelObsoluteStatus(req,res){
+    console.log("In start of updatePanelObsoluteStatusInController method" );
+    bodyObject=req.body;
+    if(bodyObject.panelId==null || bodyObject.panelId==undefined)
+        {
+            console.log("panelId is undefined");
+            res.status(400).send("PanelId is Undefined");
+            console.log("panelId is undefined");
+        }
+        else{
+    console.log(bodyObject);
+    userService.updatePanelObsoluteStatus(bodyObject).then(
+            function(element){
+                console.log("updating Panel complete successfully");
+                res.status(200).send(element);
+            }
+        ).catch(function(err){
+            console.log("updating Panel complete successfully");
+            res.status(400).send(err);
+        })
+    }
+}
+
 
 function _delete(req, res) {
     userService.delete(req.params._id)

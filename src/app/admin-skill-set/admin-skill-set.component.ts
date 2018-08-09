@@ -26,6 +26,7 @@ export class AdminSkillSetComponent implements OnInit {
   panelTypeList: any;
   dropdownSettings = {};
   loading = false;
+  tblloading = false;
   saveButtonCaption: string = 'Add Skill';
   skillMassage: any;
   isError: boolean;
@@ -62,16 +63,16 @@ export class AdminSkillSetComponent implements OnInit {
     this.dropdownSettings = { singleSelection: false, enableSearch: true, text: "Select Skillsets", selectAllText: 'Select All', unSelectAllText: 'UnSelect All', enableSearchFilter: true, minSelectionLimit: 1, primaryKey: "_id", labelKey: "skillName" };
     this.skillSetsService.getSkillSetsByType("Dev").subscribe(devSkills => { this.skillList = this.getFormattedSkillSet(devSkills); })
     this.skillSetsService.getSkillSetsByType("Qa").subscribe(qaSkillSet => { this.qaSkillList = this.getFormattedSkillSet(qaSkillSet); })
-
   }
-
   getAllSkillOnLoad() {
+    this.tblloading = true;
     this.skillSetsService.getAllSkillSets().subscribe(
       devSkills => {
         this.skillSets = (devSkills as SkillSets[]);
         this.chRef.detectChanges();
         const table: any = $('table');
         this.dataTable = table.DataTable();
+        this.tblloading = false;
       }
     )
   }
@@ -84,7 +85,7 @@ export class AdminSkillSetComponent implements OnInit {
     this.model.createdBy = this.currentRequestData.currentUser.username;
     this.model.createdOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
     if (this.saveButtonCaption == 'Add Skill') {
-      this.loading=true;
+      this.loading = true;
       this.skillSetsService.postNewSkillSet(this.model).subscribe(
         result => {
           this.saveButtonCaption = 'Add Skill';
@@ -102,7 +103,7 @@ export class AdminSkillSetComponent implements OnInit {
           this.loading = false;
         });
     } else if (this.saveButtonCaption == 'Update Changes') {
-      this.loading=true;
+      this.loading = true;
       var set = {
         "skillName": this.model.skillName,
         "type": this.model.type,
@@ -124,7 +125,7 @@ export class AdminSkillSetComponent implements OnInit {
           this.isError = true;
           this.skillMassage = error.error;
           this.ErrorAlert(this.skillMassage);
-          this.loading = false;          
+          this.loading = false;
         });
     }
   }
@@ -179,14 +180,12 @@ export class AdminSkillSetComponent implements OnInit {
       }
     })
   }
-
   ErrorAlert(error) {
     swal({
       type: 'error',
       title: error,
     })
   }
-
   ShowSuccessAlert(msg) {
     swal('success', msg, 'success')
   }

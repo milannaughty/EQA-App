@@ -20,6 +20,7 @@ service.getUsersByRole=getUsersByRole;
 service.resetUserPassword=resetUserPassword;
 service.generateNewPasswordIfForgotPassword=generateNewPasswordIfForgotPassword;
 service.getUserByUserName=getUserByUserName;
+service.updatePanelObsoluteStatus=updatePanelObsoluteStatus;
 
 module.exports = service;
 
@@ -108,6 +109,27 @@ function resetUserPassword(username,oldPassword,newPassword){
     }
     console.log("At end of resetPassword of UserService");
     return deferred.promise;   
+}
+
+function updatePanelObsoluteStatus(reqBody) {
+    console.log("updatePanelObsoluteStatus method started for checking similar");
+    var deferred = Q.defer();
+    console.log("updatePanelObsoluteStatus method started");
+    var set = {
+        "obsolute": reqBody.obsolute,
+    };
+    console.log(reqBody);
+    console.log(reqBody.panelId);
+    db.users.update(
+        { _id: mongo.helper.toObjectID(reqBody.panelId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve();
+        });
+    return deferred.promise;
 }
 
 function authenticate(username, password, isPanel) {
