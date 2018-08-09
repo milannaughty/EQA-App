@@ -84,9 +84,9 @@ export class AdminSkillSetComponent implements OnInit {
     this.model.createdBy = this.currentRequestData.currentUser.username;
     this.model.createdOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
     if (this.saveButtonCaption == 'Add Skill') {
+      this.loading=true;
       this.skillSetsService.postNewSkillSet(this.model).subscribe(
         result => {
-          this.loading = true;
           this.saveButtonCaption = 'Add Skill';
           console.log(result);
           this.clear();
@@ -99,8 +99,10 @@ export class AdminSkillSetComponent implements OnInit {
           this.isError = true;
           this.skillMassage = error.error;
           this.ErrorAlert(this.skillMassage);
+          this.loading = false;
         });
     } else if (this.saveButtonCaption == 'Update Changes') {
+      this.loading=true;
       var set = {
         "skillName": this.model.skillName,
         "type": this.model.type,
@@ -112,7 +114,6 @@ export class AdminSkillSetComponent implements OnInit {
         result => {
           console.log(result);
           this.isError = false;
-          this.loading = true;
           this.skillMassage = "Skill updated successfully.";
           this.ShowSuccessAlert(this.skillMassage);
           this.loading = false;
@@ -123,6 +124,7 @@ export class AdminSkillSetComponent implements OnInit {
           this.isError = true;
           this.skillMassage = error.error;
           this.ErrorAlert(this.skillMassage);
+          this.loading = false;          
         });
     }
   }

@@ -32,7 +32,8 @@ export const adminConfig = {
         TeamRequestDetails: 'REQUEST_DETAIL',
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',
-        AddSkill: 'ADD Skills'
+        AddSkill: 'ADD Skills',
+        PanelList: 'PANEL LIST'
     }
 };
 

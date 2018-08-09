@@ -342,8 +342,15 @@ body{
   margin-top: 0px;
   border-radius: 4px;
   margin-left: 4px;
+  margin-right: 43px;
 }
-
+.dataTables_wrapper .col-sm-12.col-md-5{
+width: auto;
+}
+.dataTables_wrapper .col-sm-12.col-md-7{
+  width: auto;
+  float: right;
+  }
 .noteFontStyle{
     font-style: oblique;
     color: goldenrod;

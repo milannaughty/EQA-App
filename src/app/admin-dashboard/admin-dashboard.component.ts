@@ -40,6 +40,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   ShowRequestDetails(data) {
+    debugger;
     this.AdminActiveTab = data.ActivateTab || this.ActionList.TeamRequestDetails;
     this.currentRequestData = data.data || data;
     this.currentRequestData["currentUser"] = this.currentUser;

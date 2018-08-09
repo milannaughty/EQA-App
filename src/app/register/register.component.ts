@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserService, SkillSetsService, EmailService } from '../_services/index';
 import { SkillSets } from '../_models/SkillSets';
 import { DatePipe } from '@angular/common';
-import { appConfig } from '../app.config';
+import { appConfig, adminConfig } from '../app.config';
 import { CommonUtil } from '../app.util';
 
 @Component({
@@ -13,6 +13,8 @@ import { CommonUtil } from '../app.util';
 })
 
 export class RegisterComponent {
+    AdminActiveTab: any;
+    @Output() messageEvent = new EventEmitter<any>();
     @Input() currentRequestData: any;
     qaSkillList: any;
     model: any = {};
@@ -48,7 +50,7 @@ export class RegisterComponent {
         this.model.password = 'nihilent@123';
         this.userService.create(this.model).subscribe(
             data => {
-                this.loading = false;
+                debugger;
 
                 /**mail sending starts */
                 if (this.model.isPanel) {//for panel
@@ -76,12 +78,15 @@ export class RegisterComponent {
 
                     this.emailService.sendInitialMailToPanel(mailObject).subscribe(
                         success => {
-                            CommonUtil.ShowSuccessAlert("Panel Added successfully, mail sent to " + toPersonMailId);
+                            this.loading = false;
+                            CommonUtil.ShowSuccessAlert("Panel Created Successfully, mail sent to " + toPersonMailId);
+                            debugger;
+                            this.ShowRequestDetails();
                         }, err => {
-                            CommonUtil.ShowInfoAlert("Success","Panel Added successfully, erroe while sendign mail to " + toPersonMailId);
+                            this.loading = false;
+                            CommonUtil.ShowInfoAlert("Success", "Panel Created Successfully, erroe while sendign mail to " + toPersonMailId);
                         }
                     );
-
 
                 } else {//for team
                 }
@@ -97,5 +102,10 @@ export class RegisterComponent {
     clear() {
         this.model.FName = this.model.LName = this.model.username = '';
         this.model.skillList = this.model.qaSkillList = null;
+    }
+    ShowRequestDetails() {
+        console.log('Redirecting from request list to request detail view');
+        //data["CurrentActionName"] = this.currentRequestData["CurrentActionName"];
+        this.messageEvent.emit({ ActivateTab: adminConfig.ActionList.PanelList });
     }
 }

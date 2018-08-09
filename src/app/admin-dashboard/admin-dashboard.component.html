@@ -101,7 +101,7 @@
                                 <a href="admin#" (click)="doAction('')">Add Area</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Action1</a>
+                                <a href="admin#" (click)="doAction(ActionList.PanelList)">Panel List</a>
                              </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction('')">Add Action2</a>
@@ -127,9 +127,10 @@
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestUnderVerification" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
-                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" [currentRequestData]="currentRequestData"> </app-register-component>
+                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"> </app-register-component>
                         <app-admin-team-add *ngIf="AdminActiveTab== ActionList.AddTeam" [currentRequestData]="currentRequestData"> </app-admin-team-add>
                         <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentRequestData]="currentRequestData"></app-admin-skill-set>
+                        <app-team-panel-list *ngIf="AdminActiveTab===ActionList.PanelList" ></app-team-panel-list>
                     </div>
                 </div>
             </div>

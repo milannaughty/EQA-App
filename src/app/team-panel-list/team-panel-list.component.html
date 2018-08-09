@@ -1,3 +1,61 @@
-<p>
-  team-panel-list works!
-</p>
+
+<div class="">
+  <div class="container">
+    <div class="HeaderClass">Panel List</div>
+    <table  class="table-striped fontFamily" style="width: 95%">
+
+      <!--Table head-->
+      <thead>
+        <tr>
+          <th class="th_cols">#</th>
+          <th class="th_cols">Name</th>
+          <th>Username</th>
+          <th>PanelType</th>
+          <th>SkillSet</th>
+          <th>AddedBy</th>
+          <th>AddedOn</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of allPanel">
+          <th scope="row" style="width: 5%">{{allPanel.indexOf(data)+1}}</th>
+          <td style="width: 10%">
+            {{data.FName}} {{data.LName}}
+          </td>
+          <td style="width: 15%">{{data.username}}</td>
+          <td>{{data.panelType}}</td>
+          <td>
+            <div *ngIf="data.panelType=='Dev'">
+                {{data.skillSet[0].itemName}} 
+                <div *ngIf="data.skillSet.length>1">
+                    <a (click)="SkillAlert(data.skillSet)">See {{data.skillSet.length-1}} more skills</a>
+                </div>
+            </div>
+            <div *ngIf="data.panelType=='QA'">
+                {{data.qaSkillList[0].itemName}}
+                <div *ngIf="data.qaSkillList.length>1">
+                    <a (click)="SkillAlert(data.qaSkillList)">See {{data.qaSkillList.length-1}} more skills</a>
+                </div>
+                
+            </div>
+          </td>
+          <td> <span *ngIf="data.AddedBy==null"  >N.A.</span>
+            <span *ngIf="data.AddedBy!=null" 
+            >{{data.AddedBy.AdminUser}}</span>
+          </td>
+          <td style="width: 15%">{{data.AddedOn?(data.AddedOn | date: 'dd MMM yyyy'):'NA'}}</td>
+          <td>
+            <button class="btn btn-success btn-xs" (click)="ClickAccept(data)">
+              <i class="fa fa-check"></i> Edit </button>
+            <button class="btn btn-danger btn-xs" (click)="ShowRequestDetails(data,true)">
+              <i class="fa fa-trash-o"></i> Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      <!--Table body-->
+    </table>
+  </div>
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+  />
+</div>
