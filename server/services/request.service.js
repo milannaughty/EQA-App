@@ -146,7 +146,7 @@ function getAssociateAllRequest(_associateId) {
     return deferred.promise;
 }
 
-function getPanelRequestWithStatus(_associateId,_requestStatus) {
+function getPanelRequestWithStatus(_associateId, _requestStatus) {
     var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": _requestStatus }] };
     var deferred = Q.defer();
     db.request.find(query).toArray(
@@ -158,15 +158,28 @@ function getPanelRequestWithStatus(_associateId,_requestStatus) {
     return deferred.promise;
 }
 
-function getPanelRequestCountWithStatus(_associateId,_requestStatus) {
-    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": _requestStatus }] };
-    var deferred = Q.defer();
-    db.request.find(query).count().toArray(
-        function (err, requests) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
+function getPanelRequestCountWithStatus(_associateId, _requestStatus) {
+    console.log("in start of getPanelRequestCountWithStatus at Service");
+    var query = { $or: [
+                        { "assignedDevPanelList.id": _associateId}
+                        ,{ "assignedQAPanelList.id": _associateId}
+                    ], "status": _requestStatus  };
+console.log(query);
+        //             query = { $or: 
+        // [{ "assignedDevPanelList.id": "5b5576a589df945d682bc1b3" },
+        //  { "assignedQAPanelList.id": "5b5576a589df945d682bc1b3" }]
+        //  , "status": "PanelAssigned" };
 
-            deferred.resolve(requests);
-        });
+    var deferred = Q.defer();
+    db.request.count(query,
+        function (err, doc) {
+            console.log("in count");
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve(doc);
+        })
+
     return deferred.promise;
 }
 

@@ -44,10 +44,12 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         console.log('In ngOnInit Method');
         if (this.currentUser["isPanel"]) {
-            this.requestService.getPanelRequestCountWithStatus(this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus).subscribe(result => {
-                this.NewRequestCount = result;
+            this.requestService.getPanelRequestCountWithStatus
+            (this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus)
+            .subscribe(result => {
+                this.NewRequestCount = result["count"];
+            },err => {
                 debugger;
-                this.NewRequestCount = Array.from(this.NewRequestCount).length;
             });
         }
         else {

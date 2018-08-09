@@ -26,7 +26,9 @@ export class AdminDashboardComponent implements OnInit {
 
   ActionList = adminConfig.ActionList;
   RequestStatus = adminConfig.RequestStatus;
-  
+  newRequestCount: any;
+  underReviewRequestCount: any;
+
   constructor(private requestService: RequestService, private userService: UserService, private router: Router) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!this.currentUser || !this.currentUser.isAdmin)
@@ -37,6 +39,22 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.AdminActiveTab = this.ActionList.AdminTeamRequest;
+    this.requestService.getAll().subscribe(result => {
+      this.loading = false;
+      var counts = result.reduce((p, c) => {
+        var name = c.status;
+        if (!p.hasOwnProperty(name)) {
+          p[name] = 0;
+        }
+        p[name]++;
+        return p;
+      }, {});
+      var summaryData = Object.keys(counts).map(k => {
+        return { status: k, count: counts[k] };
+      });
+      this.newRequestCount = summaryData.filter(x=>x.status==adminConfig.RequestStatus.NEW.DBStatus)[0].count;
+      // this.underReviewRequestCount = summaryData.filter(x=>x.status==adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus)[0].count;
+    })
   }
 
   ShowRequestDetails(data) {

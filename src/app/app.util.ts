@@ -152,6 +152,15 @@ export class EmailManager {
     }
 
     /**
+     * Method returns email subject line for  IQA request completed operation 
+     * @param sprintName 
+     * @param rejectedByPanelName 
+     */
+    static GetIQARequestUpdatedSubjectLine(sprintName: string, acceptedByPanelName: string) {
+        return `IQA Team | IQA Request updated For Requested Sprint ${sprintName} By Panel ${acceptedByPanelName}`;
+    }
+
+    /**
      * Method returns single or multiple User name(s) in comma separated list
      * @param commaSepratedEmailIds 
      */

@@ -60,12 +60,8 @@ export class RequestService {
 
     getPanelRequestCountWithStatus(_associateId: string, requestStatus: string) {
         console.log("GetPanelRequestCountWithStatus started");
-        return this.http.get(appConfig.apiUrl + '/requests/associate/requestcount/', {
-            params: {
-                _associateId: _associateId,
-                requestStatus: requestStatus
-            }
-        });
+        return this.http.get(appConfig.apiUrl +
+             '/requests/associate/requestcount/'+_associateId+'?requestStatus='+requestStatus);
     }
 
 }

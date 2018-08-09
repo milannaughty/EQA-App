@@ -71,7 +71,7 @@
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest)">Home</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests <span class="badge">7</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests <span class="badge" *ngIf="newRequestCount">{{newRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.</a>
@@ -86,7 +86,7 @@
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>

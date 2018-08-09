@@ -159,7 +159,7 @@ export class AssociateRequestDetailComponent implements OnInit {
             this.ShowRequestList();
           });
         }
-        else if (set.status == "InProgress") {//code after acceptance
+        else if (set.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus ) {//code after acceptance
 
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
@@ -200,7 +200,7 @@ export class AssociateRequestDetailComponent implements OnInit {
             this.ShowRequestList();
           });
         }//acceptance block ends here
-        if (set.status == "Completed") {//if panel has completed IQA request
+        if (set.status == adminConfig.RequestStatus.COMPLETED.DBStatus ) {//if panel has completed IQA request
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
           var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
@@ -243,7 +243,7 @@ export class AssociateRequestDetailComponent implements OnInit {
         }//if panel has completed IQA request If block ends
 
       }, err => {
-        CommonUtil.ShowErrorAlert('Error while rejecting IQA Request ');
+        CommonUtil.ShowErrorAlert('Error while updating IQA Request ');
         this.ShowRequestList();
       });
   }
