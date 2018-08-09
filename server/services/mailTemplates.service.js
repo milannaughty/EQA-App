@@ -8,6 +8,7 @@ mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel=g
 mailTemplatesService.getMailTemplateToBeSendFirstMailToPanel=getMailTemplateToBeSendFirstMailToPanel;
 mailTemplatesService.getMailTemplateToBeSendFirstMailToTeam=getMailTemplateToBeSendFirstMailToTeam;
 mailTemplatesService.getMailTemplateTobeSentToUserAfterGeneratingNewPassword=getMailTemplateTobeSentToUserAfterGeneratingNewPassword;
+mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel=getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel;
 
 module.exports = mailTemplatesService;
 
@@ -54,8 +55,8 @@ function getMailTemplateToBeSentToAdminAfterRequestRejctedByPanel(valuesToBeRepl
  */
 function getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel(valuesToBeReplaced){
     var email=valuesToBeReplaced.panelName;
-    var firstName=  utilitiesServiceObject.getFirstNameFromEmail(valuesToBeReplaced.email);
-    var lastName=  utilitiesServiceObject.getFirstNameFromEmail(valuesToBeReplaced.email);                  
+    var firstName=  utilitiesServiceObject.getFirstNameFromEmail(email);
+    var lastName=  utilitiesServiceObject.getLastNameFromEmail(email);                  
     
     var mailContent=`<b>Hello ${valuesToBeReplaced.toPersonName},<br><p> IQA request ${valuesToBeReplaced.sprintName} is accepted by ${firstName} ${lastName} . Request you to cordinate with ${firstName} ${lastName} for further IQA process. feel free to contact panel with email ${valuesToBeReplaced.panelName} </b></p>`;
     mailContent+=getIQAMailSignature(undefined);
@@ -67,8 +68,8 @@ function getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel(valuesToBeRep
  */
 function getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel(valuesToBeReplaced){
     var email=valuesToBeReplaced.panelName;
-    var firstName=  utilitiesServiceObject.getFirstNameFromEmail(valuesToBeReplaced.email);
-    var lastName=  utilitiesServiceObject.getFirstNameFromEmail(valuesToBeReplaced.email);
+    var firstName=  utilitiesServiceObject.getFirstNameFromEmail(email);
+    var lastName=  utilitiesServiceObject.getLastNameFromEmail(email);
     
     var mailContent=`<b>Hello ${valuesToBeReplaced.toPersonName},<br><p>This is to inform you IQA request ${valuesToBeReplaced.sprintName} is completed by ${firstName} ${lastName}.</b></p>`;
     mailContent+=getIQAMailSignature(undefined);
