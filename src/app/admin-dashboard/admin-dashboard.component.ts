@@ -16,6 +16,8 @@ import { adminConfig } from "../app.config";
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  rejectRequestCount: any;
+  summaryData: { status: string; count: any; }[];
   currentRequestData: any = {};
   NewRequest: Object;
   AssignEnabled: boolean = false;
@@ -49,22 +51,29 @@ export class AdminDashboardComponent implements OnInit {
         p[name]++;
         return p;
       }, {});
-      var summaryData = Object.keys(counts).map(k => {
-        return { status: k, count: counts[k] };
-      });
-      this.newRequestCount = summaryData.filter(x=>x.status==adminConfig.RequestStatus.NEW.DBStatus)[0].count;
-      // this.underReviewRequestCount = summaryData.filter(x=>x.status==adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus)[0].count;
+      this.summaryData = Object.keys(counts).map(k => { return { status: k, count: counts[k] }; });
+      this.ShowRequestCounts();
     })
   }
 
+  ShowRequestCounts() {
+    this.newRequestCount = this.GetCount(adminConfig.RequestStatus.NEW.DBStatus);
+    this.underReviewRequestCount = this.GetCount(adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
+    this.rejectRequestCount = this.GetCount(adminConfig.RequestStatus.REJECTED.DBStatus);
+  }
+  GetCount(DBRequestStatus) {
+    return this.summaryData.filter(x => x.status == DBRequestStatus)[0].count;
+  }
+
   ShowRequestDetails(data) {
-    debugger;
+    this.ShowRequestCounts();
     this.AdminActiveTab = data.ActivateTab || this.ActionList.TeamRequestDetails;
     this.currentRequestData = data.data || data;
     this.currentRequestData["currentUser"] = this.currentUser;
     var keys = Object.keys(this.currentRequestData.skillSet);
     this.skillSetCount = keys.length;
   }
+
   ShowRequestList(mssgEvent) {
     this.AdminActiveTab = mssgEvent.ActivateTab;
   }

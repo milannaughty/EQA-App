@@ -13,59 +13,14 @@
             <li class="active">{{AdminActiveTab}}</li>
         </ol>
     </section>
-    <!-- <section class="content-header">
-        <ul class="breadcrumb">
-            <li> Status: </li>
-            <li>
-                <select>
-                <option value="select">select</option>
-                <option value="volvo">New</option>
-                <option value="saab">In-progress</option>
-                <option value="mercedes">Completed</option>
-                <option value="audi">Pending</option>
-                </select>
-            </li>
-            <li> Months </li>
-            <li>
-                <select>
-                    <option value="select">select</option>                    
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>                    
-                </select>
-            </li>
-            <li>Team </li>
-            <li>
-                <select>
-                    <option value="All">All</option>
-                    <option value="PayU">PayU</option>
-                    <option value="SelfCare">SelfCare</option>                                        
-                    <option value="Evolution">Evolution</option>                                        
-               </select>
-            </li>
-            <li>
-                <input type="Button" value="search" />
-            </li>
-        </ul>
-    </section> -->
-
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
         <div class="row bottomBorder minHeight350">
-            <div class="col-lg-2 breadcrumb">
+            <div class="col-lg-2 breadcrumb" style="width:18% !important">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
-                    <div style="margin-left:2%">
+                    <div style="margin-left:2%;">
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest)">Home</a>
@@ -83,7 +38,7 @@
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests <span class="badge" *ngIf="rejectRequestCount">{{rejectRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span></a>
