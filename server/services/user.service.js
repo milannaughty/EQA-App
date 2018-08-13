@@ -314,18 +314,19 @@ function getPanelBySkills(skills) {
     console.log("In getPanelBySkills :"+JSON.stringify(skills));
     var deferred = Q.defer();
     if (!(Array.isArray(skills.devSkillSet) && Array.isArray(skills.qaSkillSet) && (skills.devSkillSet.length > 0 || skills.qaSkillSet.length > 0))) {
+        console.log("Returning : []");
         deferred.resolve([]);
     }
     else {
+        
         db.users.find({ isPanel: true }).toArray(function (err, panel) {
             if (err) deferred.reject(err.name + ': ' + err.message);
             var result = []
             var requestedDevSkill = skills.devSkillSet.map(x => x.itemName);
             var requestedQaSkill = skills.qaSkillSet.map(x => x.itemName);
-            console.log(panel);
             panel.map(function (p) {
-                console.log("-----------------------------------------");
-                console.log(p);
+                console.log("---------------PANEL------------------");
+                console.log(p.FName +' '+p.LName);
                 var panelSkills = p.panelType =='QA'? p.qaSkillList.map(x => x.itemName):p.skillSet.map(x => x.itemName);
                 var valid = panelSkills.some(x => (requestedDevSkill.includes(x) || requestedQaSkill.includes(x)))
                 if (valid)

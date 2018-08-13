@@ -238,4 +238,34 @@ export class EmailManager {
         });
 
     }
+
+    static teamDetailInfo(data) {
+        
+                var imgURL = this.getRandomImageUrl();
+                var swal_html = `<div class="card">
+                    <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                    <div class="avatar">
+                    
+                    <img src="${imgURL}" alt="">
+                       
+                    </div>
+                    <div class="content">
+                    <div> <table>
+                    <tr><td class="teamcss">Area :-</td><td class="team1css">${ data.area} </td></tr>
+                    <tr><td class="teamcss">PMEmail :-</td><td class="team1css">${ data.PMEmail}</td></tr>
+                    <tr><td class="teamcss">POCEmail :-</td><td class="team1css">${ data.POCEmail}</td></tr>
+                    <tr><td class="teamcss">Created By:-</td><td class="team1css">${ data.AddedBy.AdminUser}</td></tr>
+                    <tr><td class="teamcss">Created on:-</td><td class="team1css">${ data.AddedOn}</td></tr>
+                    <tr><td class="teamcss"><button type="button" class="btn btn-success" (click)="test();">Message</button></td><td class="team1css"><button type="button" class="btn btn-info pull-left">Cancel</button></td></tr>
+                    </table ></div>   
+                    </div>
+                </div>`
+                swal({
+                    title: EmailManager.GetUserNameFromCommaSepratedEmailIds(data.teamName),
+                    html: swal_html,
+                    showCancelButton: false,
+                    showConfirmButton: false
+                });
+        
+            }
 }

@@ -162,7 +162,7 @@ function getPanelBySkills(req, res) {
     console.log('Server : In getPanelBySkills service');
     userService.getPanelBySkills(req.body)
         .then(function (panelList) {
-            res.json(panelList);
+            res.send(panelList);
             console.log('Server : In getPanelBySkills service completed');
         })
         .catch(function (err) {

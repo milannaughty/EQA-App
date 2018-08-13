@@ -90,7 +90,7 @@
             <td>
               <label for="remarks ">Current Status</label>
             </td>
-            <td> {{currentRequestData.status}}</td>
+            <td><app-request-status [status]="currentRequestData.status"></app-request-status></td>
           </tr>
           <tr>
             <td>

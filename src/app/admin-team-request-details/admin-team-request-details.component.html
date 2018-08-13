@@ -23,8 +23,8 @@
             <label for="skillSet">Dev skill set</label>
           </td>
           <td>
-            <span>{{devSkillSet}}</span>
-            <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See more</a>
+            <span class="skillFontStyle">{{devSkillSet}}</span>
+            <a *ngIf="isDevSkillMore" (click)="ShowSkillPopup('Dev')">...See more</a>
           </td>
         </tr>
         <tr>
@@ -32,8 +32,8 @@
             <label for="skillSet">QA skill set</label>
           </td>
           <td>
-            <span>{{qaSkillSet}}</span>
-            <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See more</a>
+            <span class="skillFontStyle">{{qaSkillSet}}</span>
+            <a *ngIf="isQaSkillMore" (click)="ShowSkillPopup('QA')">...See more</a>
           </td>
         </tr>
         <tr>
@@ -53,25 +53,13 @@
           <td>
             <label for="status ">Status</label>
           </td>
-          <td> {{currentRequestData.status }}</td>
-        </tr>
-        <tr>
-          <td>
-            <label for="checklist ">checklist</label>
-          </td>
-          <td> {{currentRequestData.checklist }}</td>
-        </tr>
-        <tr>
-          <td>
-            <label for="remarks ">Remarks</label>
-          </td>
-          <td> {{currentRequestData.remarks}}</td>
+          <td><app-request-status [status]="currentRequestData.status"></app-request-status></td>
         </tr>
         <tr>
           <td>
             <label for="initiatedBy ">Initiated By</label>
           </td>
-          <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+          <td><a (click)="getTeamDetails(currentRequestData.initiatedBy.ID)"> {{currentRequestData.initiatedBy.TeamName}}</a></td>
         </tr>
         <tr>
           <td>

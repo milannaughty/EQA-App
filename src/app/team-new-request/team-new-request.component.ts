@@ -70,6 +70,8 @@ export class TeamNewRequestComponent implements OnInit {
     var cUser = JSON.parse(currentUser);
     this.model.status = "New";
     this.model.creationDate = new Date();
+    this.model.skillSet = this.model.skillSet || [];
+    this.model.qaSkillSet= this.model.qaSkillSet || [];
     this.model.initiatedBy = {
       ID: cUser._id,
       TeamName: cUser.teamName,

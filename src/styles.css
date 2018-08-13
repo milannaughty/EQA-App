@@ -447,3 +447,17 @@ width: auto;
 .badge{
   background: crimson !important;
 }
+
+
+/**teamdetails popup   */
+.teamcss {
+  padding: 7px;
+  font-size: 14px;
+  float: left;
+}
+
+.team1css {
+  font-size: 14px;
+  float: right;
+  padding: 7px;
+}
