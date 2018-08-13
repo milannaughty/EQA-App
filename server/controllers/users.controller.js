@@ -18,7 +18,8 @@ router.post('/forgotPassword', forgotPassword);
 router.get('/generateRandomPassword', generateRandomPassword);
 router.get('/getUserByUserName', getUserByUserName);
 router.get('/:_id', getById);
-router.post('/updatePanelStatus',updatePanelStatus)
+router.post('/updatePanelStatus',updatePanelStatus);
+router.post('/panelSoftDelete',panelSoftDelete);
 module.exports = router;
 
 function getUserByUserName(req,res){
@@ -135,8 +136,31 @@ function updatePanelStatus(req,res){
         })
     }
 }
-
-
+function panelSoftDelete(req,res){
+    console.log("In start of panelSoftDeleteInController method" );
+    bodyObject=req.body;
+    console.log(bodyObject.panelId);
+    if(bodyObject.panelId==null || bodyObject.panelId==undefined)
+        {
+            console.log("panelId is undefined");
+            res.status(400).send("PanelId is Undefined");
+        }else if(bodyObject.isDeleted==null || bodyObject.isDeleted==undefined)
+        {
+            console.log("isDeleted is undefined");
+            res.status(400).send("iaDeleted is Undefined");
+        }else{
+    console.log(bodyObject);
+    userService.panelSoftDelete(bodyObject).then(
+            function(element){
+                console.log("deleting Panel complete successfully");
+                res.status(200).send(element);
+            }
+        ).catch(function(err){
+            console.log("deleting Panel complete successfully");
+            res.status(400).send(err);
+        })
+    }
+}
 function _delete(req, res) {
     userService.delete(req.params._id)
         .then(function () {

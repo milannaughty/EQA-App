@@ -75,9 +75,15 @@ export class TeamPanelListComponent implements OnInit {
         this.loading = false;
       });
   }
-  deletePanelDetails(data){
-    this.userService.delete(data._id).subscribe(
+  deletePanelDetails(id){
+    debugger;
+    var set = {
+      "isDeleted": true,
+      "panelId": id
+    };
+    this.userService.panelSoftDelete(set).subscribe(
       result => {
+        debugger;
         this.loading = true;
         CommonUtil.ShowSuccessAlert("Panel Deleted Successfully.");
         this.loading = false;

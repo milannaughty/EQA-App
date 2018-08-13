@@ -21,6 +21,7 @@ service.resetUserPassword=resetUserPassword;
 service.generateNewPasswordIfForgotPassword=generateNewPasswordIfForgotPassword;
 service.getUserByUserName=getUserByUserName;
 service.updatePanelStatus=updatePanelStatus;
+service.panelSoftDelete=panelSoftDelete;
 
 module.exports = service;
 
@@ -131,7 +132,26 @@ function updatePanelStatus(reqBody) {
         });
     return deferred.promise;
 }
-
+function panelSoftDelete(reqBody) {
+    console.log("panelSoftDelete method started for checking similar");
+    var deferred = Q.defer();
+    console.log("panelSoftDelete method started");
+    var set = {
+        "isDeleted": reqBody.isDeleted,
+    };
+    console.log(reqBody);
+    console.log(reqBody.panelId);
+    db.users.update(
+        { _id: mongo.helper.toObjectID(reqBody.panelId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve();
+        });
+    return deferred.promise;
+}
 function authenticate(username, password, isPanel) {
     var deferred = Q.defer();
     db.users.findOne({ username: username }, function (err, user) {

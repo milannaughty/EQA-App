@@ -46,7 +46,7 @@
           </td>
           <td style="width: 15%">{{data.AddedOn?(data.AddedOn | date: 'dd MMM yyyy'):'NA'}}</td>
           <td>
-              <button class="btn btn-danger btn-xs" (click)="deletePanelDetails(data)">
+              <button class="btn btn-danger btn-xs" (click)="deletePanelDetails(data._id)">
                   <i class="fa fa-trash-o"></i> Delete</button>
               <button class="btn btn-success btn-xs" *ngIf="data.isObsolute" (click)="UpdatePanelStatus(data._id,false)">
                   <i class="fa fa-check"></i>Make Active</button>
