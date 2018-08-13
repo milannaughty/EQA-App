@@ -20,7 +20,7 @@ service.getUsersByRole=getUsersByRole;
 service.resetUserPassword=resetUserPassword;
 service.generateNewPasswordIfForgotPassword=generateNewPasswordIfForgotPassword;
 service.getUserByUserName=getUserByUserName;
-service.updatePanelObsoluteStatus=updatePanelObsoluteStatus;
+service.updatePanelStatus=updatePanelStatus;
 
 module.exports = service;
 
@@ -111,10 +111,10 @@ function resetUserPassword(username,oldPassword,newPassword){
     return deferred.promise;   
 }
 
-function updatePanelObsoluteStatus(reqBody) {
-    console.log("updatePanelObsoluteStatus method started for checking similar");
+function updatePanelStatus(reqBody) {
+    console.log("updatePanelStatus method started for checking similar");
     var deferred = Q.defer();
-    console.log("updatePanelObsoluteStatus method started");
+    console.log("updatePanelStatus method started");
     var set = {
         "obsolute": reqBody.obsolute,
     };

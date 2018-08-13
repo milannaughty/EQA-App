@@ -18,7 +18,7 @@ router.post('/forgotPassword', forgotPassword);
 router.get('/generateRandomPassword', generateRandomPassword);
 router.get('/getUserByUserName', getUserByUserName);
 router.get('/:_id', getById);
-router.post('/updatePanelObsoluteStatus',updatePanelObsoluteStatus)
+router.post('/updatePanelStatus',updatePanelStatus)
 module.exports = router;
 
 function getUserByUserName(req,res){
@@ -113,8 +113,8 @@ function update(req, res) {
         });
 }
 
-function updatePanelObsoluteStatus(req,res){
-    console.log("In start of updatePanelObsoluteStatusInController method" );
+function updatePanelStatus(req,res){
+    console.log("In start of updatePanelStatusInController method" );
     bodyObject=req.body;
     if(bodyObject.panelId==null || bodyObject.panelId==undefined)
         {
@@ -124,7 +124,7 @@ function updatePanelObsoluteStatus(req,res){
         }
         else{
     console.log(bodyObject);
-    userService.updatePanelObsoluteStatus(bodyObject).then(
+    userService.updatePanelStatus(bodyObject).then(
             function(element){
                 console.log("updating Panel complete successfully");
                 res.status(200).send(element);

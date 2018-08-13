@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { RequestService, UserService, EmailService } from '../_services/index';
+import { RequestService, UserService } from '../_services/index';
 import { appConfig } from '../app.config';
 import { CommonUtil, EmailManager } from '../app.util';
 
@@ -20,9 +20,7 @@ export class TeamPanelListComponent implements OnInit {
   obsoluteFlag: boolean = false;
   addedBy: any;
   isMakeActive: boolean = false;
-  constructor(private requestService: RequestService,
-    private userService: UserService,
-    private emailService: EmailService) { }
+  constructor(private requestService: RequestService, private userService: UserService) { }
 
   ngOnInit() {
     debugger;
@@ -30,6 +28,7 @@ export class TeamPanelListComponent implements OnInit {
   }
 
   getAllPanelList() {
+    this.loading=true;
     this.userService.getAllUsersByRole("panel").subscribe(result => {
       console.log(result);
       this.allPanel = result.map(x => {
@@ -40,6 +39,7 @@ export class TeamPanelListComponent implements OnInit {
         x["isObsolute"] = x["obsolute"] == true
         return x;
       });
+      this.loading=false;
       console.log(this.allPanel.obsolute);
 
     }, err => {
@@ -54,38 +54,12 @@ export class TeamPanelListComponent implements OnInit {
     CommonUtil.ShowInfoAlert('Panel Skills', htmlContent);
   }
 
-  hidePanelDetails(data) {
-    this.obsoluteFlag = true;
-    debugger;
+  UpdatePanelStatus(id, isObsolute) {
     var set = {
-      "obsolute": this.obsoluteFlag,
-      "panelId": data._id
+      "obsolute": isObsolute,
+      "panelId": id
     };
-    this.userService.updatePanelObsoluteStatus(set).subscribe(
-      result => {
-        this.loading = true;
-        debugger;
-        console.log(result);
-        CommonUtil.ShowSuccessAlert("Panel Updated Successfully.");
-        this.getAllPanelList();
-        this.loading = false;
-      },
-      error => {
-        debugger;
-        this.loading = true;
-        CommonUtil.ShowErrorAlert(error.error);
-        this.loading = false;
-      });
-  }
-
-  ActivePanelDetails(data){
-    this.obsoluteFlag = false;
-    debugger;
-    var set = {
-      "obsolute": this.obsoluteFlag,
-      "panelId": data._id
-    };
-    this.userService.updatePanelObsoluteStatus(set).subscribe(
+    this.userService.UpdatePanelStatus(set).subscribe(
       result => {
         this.loading = true;
         debugger;
@@ -101,7 +75,6 @@ export class TeamPanelListComponent implements OnInit {
         this.loading = false;
       });
   }
-
   deletePanelDetails(data){
     this.userService.delete(data._id).subscribe(
       result => {

@@ -26,9 +26,9 @@ export class UserService {
     update(user: User) {
         return this.http.put(appConfig.apiUrl + '/users/' + user.id, user);
     }
-    updatePanelObsoluteStatus(reqObj: Object){
+    UpdatePanelStatus(reqObj: Object){
         debugger;
-        return this.http.post(appConfig.apiUrl + '/users/updatePanelObsoluteStatus' , reqObj);
+        return this.http.post(appConfig.apiUrl + '/users/UpdatePanelStatus' , reqObj);
     }
 
     delete(_id: number) {

@@ -461,3 +461,10 @@ width: auto;
   float: right;
   padding: 7px;
 }
+
+.loading{
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  width: 50px;
+}
