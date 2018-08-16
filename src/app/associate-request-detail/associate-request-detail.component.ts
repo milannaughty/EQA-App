@@ -27,6 +27,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   statusList: any = [];
   ddlId: number;
   showCheckList: boolean;
+  showLoadingIcon : boolean = false;
 
   constructor(private userService: UserService,
     private requestService: RequestService,
@@ -73,6 +74,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
+    this.showLoadingIcon=true;
     var set = {
       "status": this.model.selectedStatus,
       "requestId": this.currentRequestData._id
@@ -299,16 +301,19 @@ export class AssociateRequestDetailComponent implements OnInit {
               this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
                 result =>{
                   CommonUtil.ShowSuccessAlert("Request updated successfully, mail sent to respective team.");
-                  this.ShowRequestList()
+                  this.showLoadingIcon=false;
+                  this.ShowRequestList();
                 },err =>{
                   CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
-                  this.ShowRequestList()
+                  this.showLoadingIcon=false;
+                  this.ShowRequestList();
                 }
               );
 
           },err =>{
             CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
-            this.ShowRequestList()
+            this.showLoadingIcon=false;
+            this.ShowRequestList();
           });
   
           //mail Object ends
