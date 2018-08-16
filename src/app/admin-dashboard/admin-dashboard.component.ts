@@ -16,6 +16,9 @@ import { adminConfig } from "../app.config";
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  completedRequestCount: any;
+  inProgressRequestCount: any;
+  assignedRequestCount: any;
   rejectRequestCount: any;
   summaryData: { status: string; count: any; }[];
   currentRequestData: any = {};
@@ -60,6 +63,9 @@ export class AdminDashboardComponent implements OnInit {
     this.newRequestCount = this.GetCount(adminConfig.RequestStatus.NEW.DBStatus);
     this.underReviewRequestCount = this.GetCount(adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
     this.rejectRequestCount = this.GetCount(adminConfig.RequestStatus.REJECTED.DBStatus);
+    this.assignedRequestCount = this.GetCount(adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus);
+    this.inProgressRequestCount = this.GetCount(adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+    this.completedRequestCount = this.GetCount(adminConfig.RequestStatus.COMPLETED.DBStatus);
   }
   GetCount(DBRequestStatus) {
     var arr = this.summaryData.filter(x => x.status == DBRequestStatus);

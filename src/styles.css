@@ -456,6 +456,10 @@ width: auto;
   float: left;
 }
 
+li > a > span {
+  float: right;
+}
+
 .team1css {
   font-size: 14px;
   float: right;

@@ -29,13 +29,13 @@
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests <span class="badge" *ngIf="newRequestCount">{{newRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.<span class="badge" *ngIf="assignedRequestCount">{{assignedRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress)">In Progress Requests</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress)">In Progress Requests<span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests<span class="badge" *ngIf="completedRequestCount">{{completedRequestCount}}</span></a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests <span class="badge" *ngIf="rejectRequestCount">{{rejectRequestCount}}</span></a>
