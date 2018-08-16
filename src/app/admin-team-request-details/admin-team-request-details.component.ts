@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard.component";
 import { UserService } from "../_services/user.service";
 import { RequestService } from "../_services/request.service";
-import { appConfig } from '../app.config';
+import { appConfig, adminConfig } from '../app.config';
 import { EmailService } from "../_services/mail.service";
 import { CommonUtil, EmailManager } from '../app.util';
 
@@ -28,6 +28,8 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   isSkillLoaded: boolean = false;
   isDevSkillMore: boolean;
   isQaSkillMore: boolean;
+  verificationStatus: any;
+  isUnderVerification: boolean;
 
   constructor(private userService: UserService,
     private requestService: RequestService,
@@ -95,6 +97,10 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true
       };
+      if(this.currentRequestData.verificationStatus!=undefined){
+      this.isUnderVerification = this.currentRequestData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      this.verificationStatus = this.currentRequestData.verificationStatus;
+      }
     });
   }
   ShowRequestList() {

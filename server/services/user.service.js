@@ -389,7 +389,7 @@ function getUsersByRole(roleName){
                             "isPanel": true
                         }
                     ]
-                };
+                  };
             }else if(roleName=='team'){
                     query = {
                         "$and": [

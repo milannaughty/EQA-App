@@ -31,7 +31,9 @@ export class TeamPanelListComponent implements OnInit {
     this.loading=true;
     this.userService.getAllUsersByRole("panel").subscribe(result => {
       console.log(result);
-      this.allPanel = result.map(x => {
+      debugger;
+     var activePanelList= result.filter(x => !x["isDeleted"]);
+      this.allPanel = activePanelList.map(x => {
         if (x["AddedBy"])
           x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
         

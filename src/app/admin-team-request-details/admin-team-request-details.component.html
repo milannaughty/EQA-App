@@ -23,7 +23,7 @@
             <label for="skillSet">Dev skill set</label>
           </td>
           <td>
-            <span class="skillFontStyle">{{devSkillSet}}</span>
+            <span class="skillFontStyle1">{{devSkillSet}}</span>
             <a *ngIf="isDevSkillMore" (click)="ShowSkillPopup('Dev')">...See more</a>
           </td>
         </tr>
@@ -32,7 +32,7 @@
             <label for="skillSet">QA skill set</label>
           </td>
           <td>
-            <span class="skillFontStyle">{{qaSkillSet}}</span>
+            <span class="skillFontStyle1">{{qaSkillSet}}</span>
             <a *ngIf="isQaSkillMore" (click)="ShowSkillPopup('QA')">...See more</a>
           </td>
         </tr>
@@ -81,6 +81,22 @@
               </span>
           </td>
         </tr>
+        <tr *ngIf="isUnderVerification">
+            <td>
+              <label for="devComment">Dev Review Status</label>
+            </td>
+            <td>
+                {{verificationStatus.DevReviewStatus}}
+            </td>
+          </tr>
+          <tr *ngIf="isUnderVerification">
+              <td>
+                <label for="devComment">Dev Comment</label>
+              </td>
+              <td>
+                  {{verificationStatus.DevReviewComment}}
+              </td>
+            </tr>
       </table>
     </div>
     <div class="col-md-4">

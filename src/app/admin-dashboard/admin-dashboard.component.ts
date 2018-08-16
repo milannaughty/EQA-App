@@ -62,7 +62,8 @@ export class AdminDashboardComponent implements OnInit {
     this.rejectRequestCount = this.GetCount(adminConfig.RequestStatus.REJECTED.DBStatus);
   }
   GetCount(DBRequestStatus) {
-    return this.summaryData.filter(x => x.status == DBRequestStatus)[0].count;
+    var arr = this.summaryData.filter(x => x.status == DBRequestStatus);
+    if (arr && arr.length > 0) return arr[0].count; return 0;
   }
 
   ShowRequestDetails(data) {
