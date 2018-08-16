@@ -74,6 +74,7 @@ function validateMailContentBeforeSendingMail(reqParameter){
     * @param {it expects rowSeperator[i.e. 4th parameter] seperated string} csString 
     * @param {Number of max columns that has to formed} maxColumns 
     * @param {It has single header} headername 
+    * @param {it is sub headers string seperated with rowSeperator} subHeaders
     * @param {it is a special character with which you wan't to seperate incoming string[i.e. 1st parameter]  } rowSeperator 
     */
    function getTabularData(csString, maxColumns, headername,subHeaders,rowSeperator) {
