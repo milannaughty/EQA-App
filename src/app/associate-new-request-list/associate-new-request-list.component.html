@@ -13,7 +13,6 @@
           <th>Delivery Date</th>
           <th>Expected IQA Date</th>
           <th>Status</th>
-          <th>Remarks</th>
           <th>Initiated By</th>
         </tr>
       </thead>
@@ -24,10 +23,9 @@
             <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
           </td>
           <td style="width: 15%">{{data.name}}</td>
-          <td>{{data.deliveryDate}}</td>
-          <td>{{data.expectedEQADate}}</td>
+          <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
+          <td>{{data.expectedEQADate ?(data.expectedEQADate | date: 'dd MMM yyyy'):'NA'}}</td>
           <td> <span class="label label-warning">{{data.status}}</span></td>
-          <td>{{data.remarks}}</td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
           <td>
             <button class="btn btn-success btn-xs" (click)="ClickAccept(data)">

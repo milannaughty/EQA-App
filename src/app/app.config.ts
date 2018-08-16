@@ -39,7 +39,7 @@ export const adminConfig = {
 
 export const userConfig = {
     ActionList: {
-        'EQANewRequests': 'IQA New Requests',
+        'EQANewRequests': 'Assigned Request',
         'EQASummary': 'IQA Summary',
         'AssociateRequestDetail': 'Request Detail',
         'InitiateEQARequest': 'Initiate IQA Request',

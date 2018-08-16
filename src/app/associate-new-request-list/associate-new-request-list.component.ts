@@ -99,6 +99,7 @@ export class AssociateNewRequestListComponent implements OnInit {
     this.loading = true;
     this.requestService.getAssociateNewRequest(this.currentUser._id).subscribe(result => {
     this.loading = false;
+    debugger;
     this.NewRequest = result;
     });
   }

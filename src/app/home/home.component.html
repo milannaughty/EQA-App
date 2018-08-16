@@ -46,11 +46,18 @@
                                     <a href="#" (click)="doAction(ActionList.EQASummary)">{{ActionList.EQASummary}}</a>
                                 </li>
                                 <li role="presentation">
+                                        <a href="#" (click)="doAction('Action Two')">Req. Under Verification</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#" (click)="doAction('Action Two')">IQA Completed Requests</a>
+                                    </li>
+                                <li role="presentation">
                                     <a href="#" (click)="doAction('Action One')">Action One</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction('Action Two')">Action Two</a>
                                 </li>
+                                
                             </ul>
                         </div>
                         <div *ngIf="!currentUser.isPanel">
