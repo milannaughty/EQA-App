@@ -80,10 +80,10 @@ function validateMailContentBeforeSendingMail(reqParameter){
     debugger;
     var result = "";
     var data = csString.split(rowSeperator);
-    result += `<table border='1px'><thead>
+    result += `<table border='1'><thead>
                 <tr>
                     <th colspan='${maxColumns}'>${headername}</th>
-                <tr>`;
+                </tr>`;
             if(maxColumns>1){
                 var headerData=subHeaders.split(rowSeperator);
                 var headerIndex=0;
