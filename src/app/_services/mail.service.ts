@@ -29,6 +29,10 @@ export class EmailService {
         return this.http.post(appConfig.apiUrl+'/mail/sendMailToPOCAfterIQARequestCompletedByPanel',recievedObject);
     }
 
+    sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(recievedObject) {
+        return this.http.post(appConfig.apiUrl+'/mail/sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel',recievedObject);
+    }
+
     sendInitialMailToPanel(recievedObject) {
         return this.http.post(appConfig.apiUrl+'/mail/sendInitialMailToPanel',recievedObject);
     }     

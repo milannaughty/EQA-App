@@ -1,4 +1,5 @@
 var utilitiesServiceObject = require('./utililties.service');
+var mailUtilitiesServiceObject = require('./mailUtilities.service');
 var mailTemplatesService = {};
 
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestInitiatedByTeam=getMailTemplateToBeSentToAdminAfterRequestInitiatedByTeam;
@@ -9,6 +10,7 @@ mailTemplatesService.getMailTemplateToBeSendFirstMailToPanel=getMailTemplateToBe
 mailTemplatesService.getMailTemplateToBeSendFirstMailToTeam=getMailTemplateToBeSendFirstMailToTeam;
 mailTemplatesService.getMailTemplateTobeSentToUserAfterGeneratingNewPassword=getMailTemplateTobeSentToUserAfterGeneratingNewPassword;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel=getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel;
+mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel=getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel;
 
 module.exports = mailTemplatesService;
 
@@ -51,7 +53,7 @@ function getMailTemplateToBeSentToAdminAfterRequestRejctedByPanel(valuesToBeRepl
 }
 /**
  * this method generates template for mail to be send after Accepted by Panel
- * @param {requestObject.sprintName && requestObject.panelName && requestObject.rejectReason} valuesToBeReplaced 
+ * @param {requestObject.sprintName && requestObject.panelName} valuesToBeReplaced 
  */
 function getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel(valuesToBeReplaced){
     var email=valuesToBeReplaced.panelName;
@@ -64,7 +66,7 @@ function getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel(valuesToBeRep
 }
 /**
  * this method generates template for mail to be send after IQA Request Completed by Panel
- * @param {requestObject.sprintName && requestObject.panelName && requestObject.rejectReason} valuesToBeReplaced 
+ * @param {requestObject.sprintName && requestObject.panelName} valuesToBeReplaced 
  */
 function getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel(valuesToBeReplaced){
     var email=valuesToBeReplaced.panelName;
@@ -72,6 +74,26 @@ function getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel(valuesToBeRe
     var lastName=  utilitiesServiceObject.getLastNameFromEmail(email);
     
     var mailContent=`<b>Hello ${valuesToBeReplaced.toPersonName},<br><p>This is to inform you IQA request ${valuesToBeReplaced.sprintName} is completed by ${firstName} ${lastName}.</b></p>`;
+    mailContent+=getIQAMailSignature(undefined);
+    return mailContent;
+}
+
+/**
+ * this method generates template for mail to be send after IQA Request made under verification by Panel
+ * @param {requestObject.sprintName && requestObject.panelName && requestObject.toPersonName && requestObject.panelComments && requestObject.checkListDetails} valuesToBeReplaced 
+ */
+function getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel(valuesToBeReplaced){
+    var email=valuesToBeReplaced.panelName;
+    var firstName=  utilitiesServiceObject.getFirstNameFromEmail(email);
+    var lastName=  utilitiesServiceObject.getLastNameFromEmail(email);
+    
+    var mailContent=`<b>Hello ${valuesToBeReplaced.toPersonName},<br><p>This is to inform you IQA request for ${valuesToBeReplaced.sprintName} is reviewed by ${firstName} ${lastName}.</b></p>`;
+    mailContent+=`Please find below comments and open checklist items<BR><HR>
+                  <B> Panel Comments : </B> ${valuesToBeReplaced.panelComments}`
+    
+    mailContent+=mailUtilitiesServiceObject.getTabularData(valuesToBeReplaced.checkListDetails,2,'Checklists Details','Checklist Item|Status','|');
+
+    mailContent+='<BR><b>Request you to take neccessary action</b><BR><HR>';
     mailContent+=getIQAMailSignature(undefined);
     return mailContent;
 }

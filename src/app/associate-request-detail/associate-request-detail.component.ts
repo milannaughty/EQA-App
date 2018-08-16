@@ -242,6 +242,80 @@ export class AssociateRequestDetailComponent implements OnInit {
           });
         }//if panel has completed IQA request If block ends
 
+        if(set.status==adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus){//request status under verification starts
+          //checklist details starts
+          //this.showCheckList = true;
+          //this.selectedRequestData = data;
+          //this.TeamReplyReviewComment = data.verificationStatus.TeamReplyReviewComment || ''
+          var requestCheckListDetails = set["CheckListDetails"];
+          var filterData = CommonUtil.CheckListDetails.filter(x => {
+            var y = requestCheckListDetails.filter(rchk => rchk._Id == x._Id)[0];
+            if (y) {
+              x["status"] = y.status == 0 ? 'Close' : 'Open';
+              return x;
+            }
+            return;
+          });
+      
+          var closeCheckListItems = filterData.filter(x => x["status"] != undefined && x["status"] == 'Close');
+          var openCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Open');
+      
+     
+          var openString=openCheckListItem.map(x => x.CheckListItem).join('|Open|')+"|Open";
+          var closeString=closeCheckListItems.map(x => x.CheckListItem).join('|Close|')+"|Close";
+          var comments='';
+          if(isDevPanel)
+            comments=set["verificationStatus"]?set["verificationStatus"].DevReviewComment?set["verificationStatus"].DevReviewComment:'':'';
+          else
+            comments=set["verificationStatus"]?set["verificationStatus"].QAReviewComment?set["verificationStatus"].QAReviewComment:'':'';
+          //checklist details ends
+
+          //mail Object starts
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
+          var toPerssonListAcceptance = data.initiatedBy.POCEmail;
+          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
+          var mailSubject = EmailManager.GetIQARequestUpdatedSubjectLine(data.name, this.currentRequestData.currentUser.FName + " " + this.currentRequestData.currentUser.LName);
+          this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+
+            if (adminList instanceof Array)
+              ccPersonList += ',' + adminList.map(x => x.username).join(',');
+            else
+              ccPersonList += ',' + adminList["username"];
+
+              var mailObject = {
+                "fromPersonName": appConfig.fromPersonName,
+                "fromPersonMailId": appConfig.fromPersonMailId,
+                "toPersonName": toPersonName,
+                "toPersonMailId": toPerssonListAcceptance,
+                "ccPersonList": ccPersonList,
+                "mailSubject": mailSubject,
+                "mailContent": "",
+                "sprintName": data.name,
+                "panelName": this.currentRequestData.currentUser.username,
+                "panelComments":comments,
+                "checkListDetails": openString +"|"+closeString
+              }
+    
+              this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
+                result =>{
+                  CommonUtil.ShowSuccessAlert("Request updated successfully, mail sent to respective team.");
+                  this.ShowRequestList()
+                },err =>{
+                  CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
+                  this.ShowRequestList()
+                }
+              );
+
+          },err =>{
+            CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
+            this.ShowRequestList()
+          });
+  
+          //mail Object ends
+
+        }//request status under verification ends
+        
+
       }, err => {
         CommonUtil.ShowErrorAlert('Error while updating IQA Request ');
         this.ShowRequestList();

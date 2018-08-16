@@ -2,8 +2,11 @@ import swal from "sweetalert2"
 import { adminConfig } from "./app.config";
 export class CommonUtil {
 
+    /**
+     * WARNING : DO NOT PUT COMMA(,) in any of checklist item or description 
+     * */
     static CheckListDetails = [
-        { _Id: 1, CheckListItem: 'Commenting & Documentatio', Description: 'Code needs to be properly documented and only keep the necessary commented code.' },
+        { _Id: 1, CheckListItem: 'Commenting & Documentation', Description: 'Code needs to be properly documented and only keep the necessary commented code.' },
         { _Id: 2, CheckListItem: 'Consistent indentation', Description: 'Use tools like sonar qube for code review.' },
         { _Id: 3, CheckListItem: 'Consistent naming scheme', Description: 'Follow the consistent naming standards all over application.' },
         { _Id: 4, CheckListItem: 'Code reusability', Description: 'Code duplication should be avoided wherever possible. Try to reuse the existing code.' },
@@ -156,8 +159,8 @@ export class EmailManager {
      * @param sprintName 
      * @param rejectedByPanelName 
      */
-    static GetIQARequestUpdatedSubjectLine(sprintName: string, acceptedByPanelName: string) {
-        return `IQA Team | IQA Request updated For Requested Sprint ${sprintName} By Panel ${acceptedByPanelName}`;
+    static GetIQARequestUpdatedSubjectLine(sprintName: string, updatedByPanelName: string) {
+        return `IQA Team | IQA Request updated For Requested Sprint ${sprintName} By Panel ${updatedByPanelName}`;
     }
 
     /**

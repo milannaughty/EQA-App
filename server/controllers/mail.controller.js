@@ -15,6 +15,8 @@ router.post('/sendMailToPOCAfterIQARequestCompletedByPanel', sendMailToPOCAfterI
 router.post('/sendInitialMailToPanel', sendInitialMailToPanel);
 router.post('/sendInitialMailToTeam', sendInitialMailToTeam);
 router.post('/sendNewlyGeneratedMailToUserForForgotPassword', sendNewlyGeneratedMailToUserForForgotPassword);
+router.post('/sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel', sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel);
+
 
 module.exports = router;
 
@@ -147,7 +149,7 @@ function sendMailToPOCAfterIQARequestCompletedByPanel(request, res) {
     var ccPersonList = bodyObject.ccPersonList;
     var mailSubject = bodyObject.mailSubject;
 
-    var mailContent = mailTemplatesServiceObject.getMailTemplateToBeSentToAdminAfterRequestAcceptedByPanel(bodyObject);
+    var mailContent = mailTemplatesServiceObject.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel(bodyObject);
 
     mailServiceObject.sendMail(
         fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
@@ -163,7 +165,30 @@ function sendMailToPOCAfterIQARequestCompletedByPanel(request, res) {
     console.log('at end of sendMailToPOCAfterIQARequestCompletedByPanel At Controller');
 }
 
+function sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(request, res) {
+    console.log('in start of sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel At Controller');
+    var bodyObject = request.body;
 
+    var fromMailId = bodyObject.fromPersonMailId;
+    var toPersonList = bodyObject.toPersonMailId;
+    var ccPersonList = bodyObject.ccPersonList;
+    var mailSubject = bodyObject.mailSubject;
+
+    var mailContent = mailTemplatesServiceObject.getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel(bodyObject);
+
+    mailServiceObject.sendMail(
+        fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
+    ).then(function (emailRes) {
+        console.log(emailRes);
+        console.log('in sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel function of MailController End');
+        res.json('success');
+    })
+        .catch(function (err) {
+            console.log('in sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel function of MailController End with error');
+            res.status(400).send(err);
+        });
+    console.log('at end of sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel At Controller');
+}
 
 function sendInitialMailToPanel(request, res) {
     console.log('in start of sendInitialMailToPanel At Controller');
@@ -239,3 +264,5 @@ function sendNewlyGeneratedMailToUserForForgotPassword(request, res) {
         });
     console.log('at end of sendNewlyGeneratedMailToUserForForgotPassword At Controller');
 }
+
+
