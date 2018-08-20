@@ -106,12 +106,10 @@
         <div class="custom-control custom-checkbox my-1 mr-sm-2">
           <div *ngIf="isSkillLoaded">
             <div class="form-group">
-              <label for="devSkillSetPanel">Dev Panels</label>
               <angular2-multiselect name="devSkillSetPanel" [data]="devSkillSetPanel" [(ngModel)]="model.devSkillSetPanel" [settings]="devDropdownSettings"></angular2-multiselect>
             </div>
 
             <div class="form-group">
-              <label for="qaSkillSetPanel">QA Panels</label>
               <angular2-multiselect name="qaSkillSetPanel" [data]="qaSkillSetPanel" [(ngModel)]="model.qaSkillSetPanel" [settings]="qaDropdownSettings"></angular2-multiselect>
             </div>
           </div>

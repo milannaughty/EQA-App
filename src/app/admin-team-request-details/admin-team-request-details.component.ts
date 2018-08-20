@@ -85,7 +85,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
       }
       this.devDropdownSettings = {
         singleSelection: true,
-        text: "Select Panel",
+        text: "Select Dev Panel",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true
@@ -93,7 +93,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
 
       this.qaDropdownSettings = {
         singleSelection: true,
-        text: "Select Panel",
+        text: "Select QA Panel",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true
