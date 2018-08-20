@@ -1,16 +1,23 @@
 <div class="container-fluid">
-    <h2 *ngIf="currentUser.isPanel"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</h2>
-    <h2 *ngIf="!currentUser.isPanel"> Hello Team {{currentUser.teamName | titlecase }}!!</h2>
-    <!-- <p>You're logged in with Angular 2!!</p>
-            <h3>All registered users:</h3>
-            <ul>
-                <li *ngFor="let user of users">
-                    {{user.username}} ({{user.firstName}} {{user.lastName}})
-                    - <a (click)="deleteUser(user.id)">Delete</a>
-                </li>
-            </ul> -->
-    <a [routerLink]="['/login']">Logout</a> &nbsp;|&nbsp;
-    <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a>
+    <div class="row">
+        <div class="col-xs-9">
+            <h3 *ngIf="currentUser.isPanel"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</h3>
+            <h3 *ngIf="!currentUser.isPanel"> Hello Team {{currentUser.teamName | titlecase }}!!</h3>
+            <!-- <p>You're logged in with Angular 2!!</p>
+                <h3>All registered users:</h3>
+                <ul>
+                    <li *ngFor="let user of users">
+                        {{user.username}} ({{user.firstName}} {{user.lastName}})
+                        - <a (click)="deleteUser(user.id)">Delete</a>
+                    </li>
+                </ul> -->
+        </div>
+        <div class="col-xs-3 text-right">
+            <a (click)="doAction(ActionList.ResetPassword)" class="logout-link">Reset Password</a>
+            &nbsp;|&nbsp;
+            <a [routerLink]="['/login']" class="logout-link">Logout</a>
+        </div>
+    </div>
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -23,10 +30,10 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row bottomBorder minHeight350">
-            <div class="col-lg-2 breadcrumb">
+            <div class="col-lg-3 col-sm-3 col-xs-12 breadcrumb left-nav">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div style="margin-left:2%">
@@ -46,18 +53,18 @@
                                     <a href="#" (click)="doAction(ActionList.EQASummary)">{{ActionList.EQASummary}}</a>
                                 </li>
                                 <li role="presentation">
-                                        <a href="#" (click)="doAction('Action Two')">Req. Under Verification</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#" (click)="doAction('Action Two')">IQA Completed Requests</a>
-                                    </li>
+                                    <a href="#" (click)="doAction('Action Two')">Req. Under Verification</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction('Action Two')">IQA Completed Requests</a>
+                                </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction('Action One')">Action One</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction('Action Two')">Action Two</a>
                                 </li>
-                                
+
                             </ul>
                         </div>
                         <div *ngIf="!currentUser.isPanel">
@@ -85,7 +92,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-9 col-xs-9">
+            <div class="col-lg-9 col-sm-9  col-xs-12 right-body">
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">

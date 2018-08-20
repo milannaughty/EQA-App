@@ -1,8 +1,14 @@
 <div class="container-fluid">
-    <h2>
-        Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</h2>
-    <a [routerLink]="['/login']">Logout</a> &nbsp;|&nbsp;
-    <!-- <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a> -->
+    <div class="row">
+        <div class="col-xs-9">
+            <h3>
+                Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</h3>
+        </div>
+        <div class="col-xs-3 text-right">
+            <a [routerLink]="['/login']" class="logout-link">Logout</a>
+            <!-- <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a> -->
+        </div>
+    </div>
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -14,34 +20,46 @@
         </ol>
     </section>
     <!-- Main content -->
-    <section class="content">
+    <section class="content container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row bottomBorder minHeight350">
-            <div class="col-lg-2 breadcrumb" style="width:18% !important">
+            <div class="col-lg-3 col-sm-3 col-xs-12 breadcrumb left-nav">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
-                    <div style="margin-left:2%;">
+                    <div>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest)">Home</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests <span class="badge" *ngIf="newRequestCount">{{newRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests
+                                    <span class="badge" *ngIf="newRequestCount">{{newRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.<span class="badge" *ngIf="assignedRequestCount">{{assignedRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.
+                                    <span class="badge" *ngIf="assignedRequestCount">{{assignedRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress)">In Progress Requests<span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress)">In Progress Requests
+                                    <span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests<span class="badge" *ngIf="completedRequestCount">{{completedRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests
+                                    <span class="badge" *ngIf="completedRequestCount">{{completedRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests <span class="badge" *ngIf="rejectRequestCount">{{rejectRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests
+                                    <span class="badge" *ngIf="rejectRequestCount">{{rejectRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span></a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification
+                                    <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span>
+                                </a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
@@ -57,7 +75,7 @@
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.PanelList)">Panel List</a>
-                             </li>
+                            </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction('')">Add Action2</a>
                             </li>
@@ -69,23 +87,29 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-9 col-xs-9">
+            <div class="col-lg-9 col-sm-9  col-xs-12 right-body">
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">
-                        <app-admin-home-page *ngIf="AdminActiveTab===ActionList.AdminTeamRequest" ></app-admin-home-page>
+                        <app-admin-home-page *ngIf="AdminActiveTab===ActionList.AdminTeamRequest"></app-admin-home-page>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestNew" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestPending" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestInProgress" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestCompleted" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestRejected" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
-                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestUnderVerification" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestPending" (messageEvent)='ShowRequestDetails($event)'
+                            [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestInProgress" (messageEvent)='ShowRequestDetails($event)'
+                            [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestCompleted" (messageEvent)='ShowRequestDetails($event)'
+                            [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestRejected" (messageEvent)='ShowRequestDetails($event)'
+                            [currentRequestData]="currentRequestData"></admin-request-list>
+                        <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestUnderVerification" (messageEvent)='ShowRequestDetails($event)'
+                            [currentRequestData]="currentRequestData"></admin-request-list>
                         <app-admin-team-request-details *ngIf="AdminActiveTab== ActionList.TeamRequestDetails" [currentRequestData]="currentRequestData"
                             (messageEvent)='ShowRequestList($event)'> </app-admin-team-request-details>
-                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"> </app-register-component>
+                        <app-register-component *ngIf="AdminActiveTab== ActionList.AddPanel" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData">
+                        </app-register-component>
                         <app-admin-team-add *ngIf="AdminActiveTab== ActionList.AddTeam" [currentRequestData]="currentRequestData"> </app-admin-team-add>
                         <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentRequestData]="currentRequestData"></app-admin-skill-set>
-                        <app-team-panel-list *ngIf="AdminActiveTab===ActionList.PanelList" ></app-team-panel-list>
+                        <app-team-panel-list *ngIf="AdminActiveTab===ActionList.PanelList"></app-team-panel-list>
                     </div>
                 </div>
             </div>
