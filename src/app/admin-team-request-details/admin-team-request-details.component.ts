@@ -30,6 +30,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   isQaSkillMore: boolean;
   verificationStatus: any;
   isUnderVerification: boolean;
+  loading = false;
 
   constructor(private userService: UserService,
     private requestService: RequestService,
@@ -84,7 +85,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
       }
       this.devDropdownSettings = {
         singleSelection: true,
-        text: "Select Panel",
+        text: "Select Dev Panel",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true
@@ -92,22 +93,25 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
 
       this.qaDropdownSettings = {
         singleSelection: true,
-        text: "Select Panel",
+        text: "Select QA Panel",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
         enableSearchFilter: true
       };
-      if(this.currentRequestData.verificationStatus!=undefined){
-      this.isUnderVerification = this.currentRequestData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
-      this.verificationStatus = this.currentRequestData.verificationStatus;
+      if (this.currentRequestData.verificationStatus != undefined) {
+        this.isUnderVerification = this.currentRequestData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+        this.verificationStatus = this.currentRequestData.verificationStatus;
       }
     });
   }
   ShowRequestList() {
+    this.loading = true;
     this.messageEvent.emit({ ActivateTab: this.currentRequestData.CurrentActionName });
+    this.loading = false;
   }
 
   assignSelectedUsers() {
+    debugger;
     console.log('In assignSelectedUsers start');
     var requestDto = {
       "_id": this.currentRequestData._id,
@@ -118,9 +122,10 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
       requestDto["assignedDevPanelList"] = this.model.devSkillSetPanel;
     if (this.model.qaSkillSetPanel)
       requestDto["assignedQAPanelList"] = this.model.qaSkillSetPanel;
-
+    this.loading = true;
     this.requestService.updateRequest(requestDto).subscribe(
       res => {
+
         console.log('Updated requested completed.');
         console.log('mail sending function starts here for Assigning QA and Dev to Request By admin');
         this.currentRequestData;
@@ -165,6 +170,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
             CommonUtil.ShowInfoAlert('Panel Assigned', 'Request successfully assigned to Selected panels and Error while sending Mail to selected panel list');
             this.ShowRequestList();
           });
+        this.loading = false;
       },
       err => {
         console.log('Updated requested completed with error.');

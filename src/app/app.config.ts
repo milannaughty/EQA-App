@@ -9,7 +9,7 @@ export const appConfig = {
 export const adminConfig = {
     RequestStatus: {
         NEW: { DBStatus: 'New', DisplayStatus: 'New Request' },
-        PANEL_ASSIGNED: { DBStatus: "PanelAssigned", DisplayStatus: "Panel Assigned" },
+        PANEL_ASSIGNED: { DBStatus: "PanelAssigned", DisplayStatus: "Pending" },
         IN_PROGRESS: { DBStatus: 'InProgress', DisplayStatus: 'Req. Inprogress' },
         COMPLETED:  { DBStatus: 'Completed', DisplayStatus: 'IQA Completed' },
         VERIFIED_BY_DEV_PANEL:{ DBStatus: 'VerifiedByDevPanel', DisplayStatus: 'Verified By Dev Panel' } ,
