@@ -253,7 +253,7 @@ export class EmailManager {
                        
                     </div>
                     <div class="content">
-                    <div> <table>
+                    <div> <table style="width:100%">
                     <tr><td class="teamcss">Area :-</td><td class="team1css">${ data.area} </td></tr>
                     <tr><td class="teamcss">PMEmail :-</td><td class="team1css">${ data.PMEmail}</td></tr>
                     <tr><td class="teamcss">POCEmail :-</td><td class="team1css">${ data.POCEmail}</td></tr>

@@ -16,6 +16,8 @@ import swal from 'sweetalert2';
 export class AdminSkillSetComponent implements OnInit {
   model: any = {};
   skillSets: any;
+  deleteIndex: number;
+  undateIndex: number;
   skillTypeList: { "Id": string; "Name": string; }[];
   @Input() currentRequestData: any;
   @Input() CurrentUser: any;
@@ -117,9 +119,15 @@ export class AdminSkillSetComponent implements OnInit {
           this.isError = false;
           this.skillMassage = "Skill updated successfully.";
           this.ShowSuccessAlert(this.skillMassage);
+          var temp = this.dataTable.row(this.undateIndex-1).data();
+              temp[1] = this.model.skillName;
+              temp[2] = this.model.type;
+              this.dataTable.row(this.undateIndex).data(temp);//.draw();
+              
           this.loading = false;
           this.clear();
           this.saveButtonCaption = 'Add Skill';
+          
         },
         error => {
           this.isError = true;
@@ -130,15 +138,17 @@ export class AdminSkillSetComponent implements OnInit {
     }
   }
 
-  editSkillDetail(data) {
+  editSkillDetail(data, i) {
+    this.undateIndex = i;
     console.log('Redirecting from request list to request detail view');
     this.model.skillName = data.skillName;
     this.model.type = data.type;
     this.model._id = data._id;
-    this.saveButtonCaption = 'Update Changes';
+    this.saveButtonCaption = 'Update Changes';   
   }
 
-  deleteSkillDetail(data) {
+  deleteSkillDetail(data, i) {
+    this.deleteIndex = i;
     this.loading = true;
     this.ShowDeleteConfirmation(data);
     this.loading = false;
@@ -154,6 +164,8 @@ export class AdminSkillSetComponent implements OnInit {
         this.isError = false;
         this.skillMassage = "Skill deleted successfully.";
         this.ShowSuccessAlert(this.skillMassage);
+        //this.skillSets.splice(this.deleteIndex, 1);
+        this.dataTable.row(this.deleteIndex).remove().draw();
       },
       error => {
         this.isError = true;
@@ -175,8 +187,7 @@ export class AdminSkillSetComponent implements OnInit {
   ShowDeleteConfirmation(data) {
     swal(this.swaConfirmConfig).then((result) => {
       if (result.value) {
-        debugger;
-        this.PerformDeleteOperation(data)
+        this.PerformDeleteOperation(data);
       }
     })
   }

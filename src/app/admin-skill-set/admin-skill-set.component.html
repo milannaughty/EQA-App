@@ -22,7 +22,7 @@
 <div><br/></div>
     <div class="col-md-8">
             <img *ngIf="tblloading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-                <table class="skillTable table-hover table-striped fontFamily" cellspacing="0">
+                <table class="skillTable table-hover table-striped fontFamily" id="skillDataTable" cellspacing="0" data-page-length='10'>
                     <thead>
                         <tr>
                             <th style="text-align: center">#</th>
@@ -32,13 +32,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let client of skillSets">
+                        <tr *ngFor="let client of skillSets; let i = index">
                                 <th scope="row" style="width: 10%; text-align: center">{{skillSets.indexOf(client)+1}}</th>
                             <td style="width:300px">{{client.skillName}}</td>
                             <td style="width: 198px">{{client.type}}</td>
                             <td>
-                                <a (click)="editSkillDetail(client)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a (click)="deleteSkillDetail(client)" class="delete"><i class="glyphicon glyphicon-remove" title="Delete"></i></a>
+                                <a (click)="editSkillDetail(client, i)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a (click)="deleteSkillDetail(client, i)" class="delete"><i class="glyphicon glyphicon-remove" title="Delete"></i></a>
                             </td>
                         </tr>
                     </tbody>

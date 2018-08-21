@@ -94,7 +94,7 @@ table.table td .add {
  .skillTable {
     margin-bottom: 20px;
     border: 0.1px solid lightgrey;
-    width: 94%;
+    width: 100%;
 }
 
 .table>tbody>tr>td, .tbody>tr>th, .tfoot>tr>td, .tfoot>tr>th, .thead>tr>td, .thead>tr>th {
