@@ -16,6 +16,7 @@ import swal from 'sweetalert2';
 export class AdminSkillSetComponent implements OnInit {
   model: any = {};
   skillSets: any;
+  rowIndex: number;
   deleteIndex: number;
   undateIndex: number;
   skillTypeList: { "Id": string; "Name": string; }[];
@@ -119,15 +120,15 @@ export class AdminSkillSetComponent implements OnInit {
           this.isError = false;
           this.skillMassage = "Skill updated successfully.";
           this.ShowSuccessAlert(this.skillMassage);
-          var temp = this.dataTable.row(this.undateIndex-1).data();
-              temp[1] = this.model.skillName;
-              temp[2] = this.model.type;
-              this.dataTable.row(this.undateIndex).data(temp);//.draw();
-              
+          var temp = this.dataTable.row(this.rowIndex).data();
+          temp[1] = this.model.skillName;
+          temp[2] = this.model.type;
+          this.dataTable.row(this.rowIndex).data(temp);//.draw();
+
           this.loading = false;
           this.clear();
           this.saveButtonCaption = 'Add Skill';
-          
+
         },
         error => {
           this.isError = true;
@@ -139,21 +140,37 @@ export class AdminSkillSetComponent implements OnInit {
   }
 
   editSkillDetail(data, i) {
+    this.findIndex(data);
     this.undateIndex = i;
     console.log('Redirecting from request list to request detail view');
     this.model.skillName = data.skillName;
     this.model.type = data.type;
     this.model._id = data._id;
-    this.saveButtonCaption = 'Update Changes';   
+    this.saveButtonCaption = 'Update Changes';
   }
 
   deleteSkillDetail(data, i) {
+    this.findIndex(data);
     this.deleteIndex = i;
     this.loading = true;
     this.ShowDeleteConfirmation(data);
     this.loading = false;
   }
-
+  
+  findIndex(data) {
+    var dd = this.dataTable, CurData = data.skillName, a = [];
+    for (let i = 0; i < dd.data().length; i++) {
+      a.push(dd.data()[i]);
+    }
+    var p = 0, m;
+    a.map(function (e) {
+      p++;
+      if (e.indexOf(CurData) > 0) {
+        m = p;
+      }
+    })
+    this.rowIndex = m - 1;
+  }
   PerformDeleteOperation(data) {
     var set = {
       "requestId": data._id
@@ -165,7 +182,7 @@ export class AdminSkillSetComponent implements OnInit {
         this.skillMassage = "Skill deleted successfully.";
         this.ShowSuccessAlert(this.skillMassage);
         //this.skillSets.splice(this.deleteIndex, 1);
-        this.dataTable.row(this.deleteIndex).remove().draw();
+        this.dataTable.row(this.rowIndex).remove().draw();
       },
       error => {
         this.isError = true;

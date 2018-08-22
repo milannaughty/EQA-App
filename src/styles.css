@@ -355,7 +355,12 @@ width: auto;
     font-variant: all-petite-caps;
     font-family: monospace;
 }
-
+#skillDataTable_filter{
+  float: right;
+}
+h2.swal2-title{
+  font-weight: normal !important;
+}
 .tt-uppercase {
   text-transform: uppercase !important;
 }
