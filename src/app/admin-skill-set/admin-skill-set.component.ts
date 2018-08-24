@@ -98,6 +98,7 @@ export class AdminSkillSetComponent implements OnInit {
           this.skillMassage = "Skill add successfully.";
           this.ShowSuccessAlert(this.skillMassage);
           this.loading = false;
+          this.getAllSkillOnLoad();
         },
         error => {
           this.isError = true;
