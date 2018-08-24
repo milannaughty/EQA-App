@@ -124,11 +124,9 @@ export class AdminSkillSetComponent implements OnInit {
           temp[1] = this.model.skillName;
           temp[2] = this.model.type;
           this.dataTable.row(this.rowIndex).data(temp);//.draw();
-
           this.loading = false;
           this.clear();
           this.saveButtonCaption = 'Add Skill';
-
         },
         error => {
           this.isError = true;

@@ -516,11 +516,11 @@ app{
 }
 
 .data-table{
-  margin: 12px 0;
+  margin: 6px 0 !important;
   width: 100%;
 }
 .dataTables_wrapper{
-  margin-top: 20px;
+  margin-top: 16px;
 }
 .dataTables_length label{
   width: 100%;
@@ -535,4 +535,7 @@ app{
 .dataTables_filter label{
   width: 100%;
   text-align: right;
+}
+.table-condensed.data-table td,.table-condensed.data-table th {
+  padding: 5px !important;
 }
