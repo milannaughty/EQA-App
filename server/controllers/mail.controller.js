@@ -4,7 +4,7 @@ var router = express.Router();
 
 var mailServiceObject = require('../services/mail.service');
 var mailTemplatesServiceObject = require('../services/mailTemplates.service');
-var mailUtilitiesServiceObject = require('../services/mailUtilities.service');
+var mailUtilities = require('../services/mailUtilities.service');
 
 router.post('/sendTestMail', sendTestMail);
 router.post('/sendMailToAdminAfterIQARequestInitiatedByTeam', sendMailToAdminAfterIQARequestInitiatedByTeam);
@@ -19,6 +19,9 @@ router.post('/sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel', sendMai
 
 
 module.exports = router;
+
+//Declarations
+fromMailAddress = mailUtilities.GetFromMailID();
 
 function sendTestMail(req, res) {
     console.log('in sendTestMail function of MailController Start ');
@@ -217,28 +220,24 @@ function sendInitialMailToPanel(request, res) {
 
 function sendInitialMailToTeam(request, res) {
     console.log('in start of sendInitialMailToTeam At Controller');
-    var bodyObject = request.body;
+    var mailObj = request.body;
+    var mailContent = mailTemplatesServiceObject.getMailTemplateToBeSendFirstMailToTeam(mailObj);
+    sendMail(mailObj.toPersonMailId, mailObj.ccPersonList, mailObj.mailSubject, mailContent, res)
+}
 
-    var fromMailId = bodyObject.fromPersonMailId;
-    var toPersonList = bodyObject.toPersonMailId;
-    var ccPersonList = bodyObject.ccPersonList;
-    var mailSubject = bodyObject.mailSubject;
-
-    var mailContent = mailTemplatesServiceObject.getMailTemplateToBeSendFirstMailToTeam(bodyObject);
-
-    mailServiceObject.sendMail(
-        fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
-    ).then(function (emailRes) {
-        console.log(emailRes);
-        console.log('in sendInitialMailToTeam function of MailController End');
-        res.json('success');
-    })
+function sendMail(to, cc, subject, body, res) {
+    mailServiceObject.sendMail(fromMailAddress, to, cc, subject, body)
+        .then(function (emailRes) {
+            console.log('Email Sent.');
+            res.json('success');
+        })
         .catch(function (err) {
-            console.log('in sendInitialMailToTeam function of MailController End with error');
+            console.log('Error in email sending :' + JSON.stringify(err));
             res.status(400).send(err);
         });
-    console.log('at end of sendInitialMailToTeam At Controller');
 }
+
+
 
 function sendNewlyGeneratedMailToUserForForgotPassword(request, res) {
     console.log('in start of sendNewlyGeneratedMailToUserForForgotPassword At Controller');
