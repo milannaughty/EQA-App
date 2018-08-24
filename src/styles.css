@@ -514,3 +514,25 @@ app{
     width: 45em !important
   }
 }
+
+.data-table{
+  margin: 12px 0;
+  width: 100%;
+}
+.dataTables_wrapper{
+  margin-top: 20px;
+}
+.dataTables_length label{
+  width: 100%;
+}
+
+.dataTables_length label select, .dataTables_filter label input{
+  display: inline-block;
+  width: auto;
+  margin-left: 2px;
+}
+
+.dataTables_filter label{
+  width: 100%;
+  text-align: right;
+}
