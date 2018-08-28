@@ -4,7 +4,7 @@ import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
 import { Router } from '@angular/router';
 import { userConfig, adminConfig } from "../app.config"
-
+import * as $ from 'jquery';
 @Component({
     moduleId: module.id,
     templateUrl: 'home.component.html'
@@ -40,7 +40,9 @@ export class HomeComponent implements OnInit {
             }
         }
     }
-
+    navToggle(){
+        $(".breadcrumb.left-nav").toggleClass("open");
+      }
     ngOnInit() {
         console.log('In ngOnInit Method');
         if (this.currentUser["isPanel"]) {

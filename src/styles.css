@@ -539,3 +539,35 @@ app{
 .table-condensed.data-table td,.table-condensed.data-table th {
   padding: 5px !important;
 }
+.pos-rel{
+  position: relative;
+}
+.left-nav-toggle{
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  color: #666;
+  cursor: pointer;
+}
+.left-nav-toggle{
+  display: none;
+}
+@media all and (max-width: 767px){
+  .breadcrumb.left-nav{
+    z-index: 10;
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    transform: translate(-250px, 0);
+    transition: transform 0.3s ease;
+  }
+  .breadcrumb.left-nav.open{
+    transform: translate(0px, 0);
+  }
+  .left-nav-toggle{
+    display: inline-block;
+  }
+  .minHeight350.LeftBorder{
+    border: none;
+  }
+}

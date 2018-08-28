@@ -12,12 +12,13 @@
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header pos-rel">
         <ol class="breadcrumb">
             <li>
                 <span class="glyphicon glyphicon-home"></span> Home</li>
             <li class="active">{{AdminActiveTab}}</li>
         </ol>
+        <span (click)="navToggle()" class="glyphicon left-nav-toggle glyphicon-th-list pull-right"></span>
     </section>
     <!-- Main content -->
     <section class="content container-fluid">

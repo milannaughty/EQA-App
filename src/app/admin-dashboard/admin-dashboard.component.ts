@@ -4,6 +4,7 @@ import { RequestService } from '../_services/index';
 import { UserService } from "../_services/user.service";
 import { Router } from '@angular/router';
 import { adminConfig } from "../app.config";
+import * as $ from 'jquery';
 //import { ModalComponent } from '../_directives/index';
 // import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -91,5 +92,8 @@ export class AdminDashboardComponent implements OnInit {
   doAction(actionName) {
     this.AdminActiveTab = actionName;
     this.currentRequestData['CurrentActionName'] = actionName;
+  }
+  navToggle(){
+    $(".breadcrumb.left-nav").toggleClass("open");
   }
 }
