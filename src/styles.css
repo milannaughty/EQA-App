@@ -487,7 +487,7 @@ app{
   padding-top: 20px;
   display: inline-block;
 }
-@media all and (min-width: 1366px){
+@media all and (min-width: 1024px){
   .row.bottomBorder.minHeight350{
     display: flex;
   }
@@ -505,7 +505,6 @@ app{
     display: inline-flex;
   }
   .LeftBorder{
-    padding-left: 15px;
     float: left;
     width: 100%;
     height: 100%;
@@ -513,8 +512,26 @@ app{
   .swal2-popup{
     width: 45em !important
   }
+  .HeaderClass + .table-responsive, app-admin-skill-set .table-responsive{
+    overflow-x: hidden;
+  }
 }
 
+.LeftBorder{
+  padding-left: 15px;
+}
+
+.data-skillset tbody tr td:first-child{
+  text-align: center;
+  font-weight: bold;
+}
+
+@media all and (max-width: 768px){
+  .LeftBorder{
+    border: none;
+    padding-left: 0;
+  }
+}
 .data-table{
   margin: 6px 0 !important;
   width: 100%;

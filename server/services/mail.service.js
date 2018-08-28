@@ -1,30 +1,30 @@
-var nodemailer= require('nodemailer');
+var nodemailer = require('nodemailer');
 var Q = require('q');
 
 var mailSendingService = {};
 
-mailSendingService.sendTestMail=sendTestMail;
-mailSendingService.sendMail=sendMail;
+mailSendingService.sendTestMail = sendTestMail;
+mailSendingService.sendMail = sendMail;
 module.exports = mailSendingService;
 
-function getGmailTransporter(){
+function getGmailTransporter() {
     return nodemailer.createTransport({
         service: 'gmail',
         auth: {
-                 user: 'krishnayaldi@gmail.com',
-                 pass: 'Krishna@123'
-            }
+            user: 'jaydipjadhav26@gmail.com',
+            pass: '9766160907'
+        }
     });
 }
 
-function getNihilentMailTransporter(){
+function getNihilentMailTransporter() {
     return nodemailer.createTransport({
-        host: '172.16.1.4', 
+        host: '172.16.1.4',
         secureConnection: true,
-        transportProtocol:'smtp',
+        transportProtocol: 'smtp',
         port: 25,
-        auth:false,
-        tls:false
+        auth: false,
+        tls: false
     });
 }
 
@@ -37,22 +37,22 @@ function sendTestMail(reqParam) {
 
     var gmailTransporter = getGmailTransporter();
 
-    var mailContent=reqParam.mailContent;
+    var mailContent = reqParam.mailContent;
 
     var mailOptions = {
         from: 'krishna.yaldi@nihilent.com', // sender address
         to: '"Krishna Yaldi" <krishna.yaldi@nihilent.com>', // list of receivers
-        subject: reqParam.mailSubject, 
+        subject: reqParam.mailSubject,
         text: 'Sending Email Using Node JS?sd', // plain text body
         html: mailContent
     };
-    
+
     // send mail with defined transport object
     gmailTransporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log('error occured while sedning');
-             console.log(error);
-             deferred.reject();
+            console.log(error);
+            deferred.reject();
         }
         console.log('Message sent:');
         deferred.resolve();  // SUCCESS with message
@@ -61,45 +61,28 @@ function sendTestMail(reqParam) {
     return deferred.promise;
 }
 
-function sendMail(
-    fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
-){
-    console.log('in start of sendMail in service');
+function sendMail(fromMailId, toPersonList, ccPersonList, mailSubject, mailContent) {
+    console.log('Sending Mail...');
     var deferred = Q.defer();
 
     // create reusable transporter's object using the default SMTP transport
-    var nihilentTransporter = getNihilentMailTransporter();
-
+    //var nihilentTransporter = getNihilentMailTransporter();
     var gmailTransporter = getGmailTransporter();
-
-    var mailOptions;
-    if(ccPersonList==undefined){
-        mailOptions= {
-            from: fromMailId, // sender address
-            to: toPersonList, // list of receivers
-            subject: mailSubject, 
-            html: mailContent
-        };
-    }else{
-        mailOptions= {
-            from: fromMailId, // sender address
-            to: toPersonList, // list of receivers
-            cc: ccPersonList,
-            subject: mailSubject, 
-            html: mailContent
-        };
-    }
-    
-
+    var mailOptions = {
+        from: fromMailId, // sender address
+        to: toPersonList || '', // list of receivers
+        cc: ccPersonList || '',
+        subject: mailSubject,
+        html: mailContent
+    };
     gmailTransporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log('error occured while sedning mail from sendMail in service : '+error);
-             deferred.reject();
-        }else{
+            console.log('error occured while sedning mail from sendMail in service : ' + error);
+            deferred.reject();
+        } else {
             console.log('Message sent: successfully from sendMail in service');
             deferred.resolve();  // SUCCESS with message
         }
     });
-    console.log('in start of sendMail in service');
     return deferred.promise;
 }

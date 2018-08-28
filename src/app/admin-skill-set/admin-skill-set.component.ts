@@ -93,12 +93,24 @@ export class AdminSkillSetComponent implements OnInit {
         result => {
           this.saveButtonCaption = 'Add Skill';
           console.log(result);
-          this.clear();
           this.isError = false;
           this.skillMassage = "Skill add successfully.";
           this.ShowSuccessAlert(this.skillMassage);
           this.loading = false;
-          this.getAllSkillOnLoad();
+          let tdata = this.dataTable;
+          let DataRows = this.dataTable.data().length - 1;
+          let getKLastRow = tdata.data()[DataRows];
+          let rowNo = parseInt(getKLastRow[0])+1;
+          this.dataTable.row.add( [
+            rowNo,
+            this.model.skillName,
+            this.model.type,
+            `<a (click)="editSkillDetail(client, i)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a (click)="deleteSkillDetail(client, i)" class="delete"><i class="glyphicon glyphicon-remove"
+                    title="Delete"></i></a>`
+        ] ).draw( false );
+        this.clear();
         },
         error => {
           this.isError = true;

@@ -95,10 +95,10 @@ export class CommonUtil {
         </div>`
     }
 
-/**
- * Method to return display status for given corresponding db status
- * @param DBStatus 
- */
+    /**
+     * Method to return display status for given corresponding db status
+     * @param DBStatus 
+     */
     static GetDisplayStatus(DBStatus) {
         var requestCollection = adminConfig.RequestStatus;
         switch (DBStatus) {
@@ -118,6 +118,9 @@ export class CommonUtil {
 
 export class EmailManager {
 
+    static EmailAction = {
+        TEAM_ADDED:'TEAM_ADDED'
+    }
 
     /**
      * This method is used to get comma seprated list of email ids
@@ -161,6 +164,15 @@ export class EmailManager {
      */
     static GetIQARequestUpdatedSubjectLine(sprintName: string, updatedByPanelName: string) {
         return `IQA Team | IQA Request updated For Requested Sprint ${sprintName} By Panel ${updatedByPanelName}`;
+    }
+
+    /**
+    * Method returns email subject line for  IQA request completed operation 
+    * @param sprintName 
+    * @param rejectedByPanelName 
+    */
+    static GetTeamAddedSubjectLine(teamName: string) {
+        return `IQA Team | Team ${teamName} registered as Team for IQA Process"`;
     }
 
     /**
@@ -243,9 +255,9 @@ export class EmailManager {
     }
 
     static teamDetailInfo(data) {
-        
-                var imgURL = this.getRandomImageUrl();
-                var swal_html = `<div class="card">
+
+        var imgURL = this.getRandomImageUrl();
+        var swal_html = `<div class="card">
                     <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
                     <div class="avatar">
                     
@@ -263,12 +275,12 @@ export class EmailManager {
                     </table ></div>   
                     </div>
                 </div>`
-                swal({
-                    title: EmailManager.GetUserNameFromCommaSepratedEmailIds(data.teamName),
-                    html: swal_html,
-                    showCancelButton: false,
-                    showConfirmButton: false
-                });
-        
-            }
+        swal({
+            title: EmailManager.GetUserNameFromCommaSepratedEmailIds(data.teamName),
+            html: swal_html,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
+
+    }
 }
