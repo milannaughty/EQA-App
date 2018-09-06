@@ -92,6 +92,7 @@ export class AdminDashboardComponent implements OnInit {
   doAction(actionName) {
     this.AdminActiveTab = actionName;
     this.currentRequestData['CurrentActionName'] = actionName;
+    $(".breadcrumb.left-nav").removeClass("open");
   }
   navToggle(){
     $(".breadcrumb.left-nav").toggleClass("open");

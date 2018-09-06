@@ -159,8 +159,9 @@ pre {
 }
 
   .HeaderClass {
-    border: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
     box-shadow: 1px 1px 1px grey;
+    box-shadow: none;
     padding-top: 3px;
     padding-bottom: 2px;
     padding-left: 5px;
@@ -168,6 +169,7 @@ pre {
     font-size: 18px;
     font-family: calibri;
     font-weight: bold;
+    color: #337ab7;
 }
 
 .fontFamily{
@@ -531,6 +533,31 @@ app{
     border: none;
     padding-left: 0;
   }
+  .mobmt2{
+    margin-top:20px; 
+    float: left;
+  }
+  .mobmt1{
+    margin-top:10px; 
+  }
+  .breadcrumb{
+    padding-left: 35px;
+  }
+  .skillContainer{
+    width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+  }
+  .skillContainer input, .skillContainer select{
+    width:100% !important;
+    margin-left: 0 !important;
+  }
+  .dataTables_filter .form-control-sm{
+    width: 70%;
+    margin-right: 20px;
+    margin-top: 20px;
+	}
 }
 .data-table{
   margin: 6px 0 !important;
@@ -561,13 +588,20 @@ app{
 }
 .left-nav-toggle{
   position: absolute;
-  right: 9px;
+  left: 9px;
   top: 9px;
   color: #666;
   cursor: pointer;
 }
 .left-nav-toggle{
   display: none;
+}
+.jumbotron.login{
+  background: none;
+  border-bottom: 1px solid #ddd;
+}
+.martop3{
+  margin-top: 30px;
 }
 @media all and (max-width: 767px){
   .breadcrumb.left-nav{
@@ -577,10 +611,12 @@ app{
     height: 100%;
     transform: translate(-250px, 0);
     transition: transform 0.3s ease;
+    padding: 0;
   }
   .breadcrumb.left-nav.open{
     transform: translate(0px, 0);
   }
+  
   .left-nav-toggle{
     display: inline-block;
   }

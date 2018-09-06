@@ -11,8 +11,8 @@ export class AdminHomePageComponent implements OnInit {
   loading: boolean;
 
   id = 'chart1';
-  width = 600;
-  height = 400;
+  width = "100%";
+  //height = 400;
   type = 'column2d';
   dataFormat = 'json';
   dataSource;
@@ -43,10 +43,11 @@ export class AdminHomePageComponent implements OnInit {
 
       this.dataSource = {
         "chart": {
-          "caption": "IQA Request Summary",
+          "caption": "", //IQA Request Summary
           "subCaption": "",
           "numberprefix": "",
-          "theme": "ocean"
+          "theme": "fusion",
+          "animateClockwise": "1"
         },
         "data": summaryData
       }
