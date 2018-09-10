@@ -27,7 +27,17 @@ export class AssociateRequestDetailComponent implements OnInit {
   statusList: any = [];
   ddlId: number;
   showCheckList: boolean;
-  showLoadingIcon : boolean = false;
+  showLoadingIcon: boolean = false;
+  checkPointType;
+  findings;
+  ariaOfFinding;
+  savarity;
+  futureImpact;
+  proposedAction;
+  panelComment;
+  teamComment;
+  status;
+  reviewItem:boolean=true;
 
   constructor(private userService: UserService,
     private requestService: RequestService,
@@ -42,7 +52,15 @@ export class AssociateRequestDetailComponent implements OnInit {
     this.PopulateCheckList();
     // this.reasonText = `${this.currentRequestData.currentUser.FName} ${this.currentRequestData.currentUser.LName} has rejected IQA request on ${Date.now() }`
   }
+  callReviewItem(){
+  this.reviewItem = !this.reviewItem;
+}
+saveReviewItem(){
 
+}
+cancelReviewItem(){
+
+}
   onStatusChange(event) {
     this.isRejectRequestOperation = this.model.selectedStatus == "Rejected";
     this.isCompleteRequestOperation = this.model.selectedStatus == "Completed";
@@ -74,7 +92,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
-    this.showLoadingIcon=true;
+    this.showLoadingIcon = true;
     var set = {
       "status": this.model.selectedStatus,
       "requestId": this.currentRequestData._id
@@ -108,7 +126,7 @@ export class AssociateRequestDetailComponent implements OnInit {
       else
         qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL.DBStatus
 
-      set["verificationStatus"] = { 
+      set["verificationStatus"] = {
         //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
         QAReviewStatus: qaReviewStatus,
         DevReviewStatus: devReviewStatus,
@@ -161,7 +179,7 @@ export class AssociateRequestDetailComponent implements OnInit {
             this.ShowRequestList();
           });
         }
-        else if (set.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus ) {//code after acceptance
+        else if (set.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus) {//code after acceptance
 
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
@@ -189,7 +207,7 @@ export class AssociateRequestDetailComponent implements OnInit {
             console.log(mailObject)
             this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
               success => {
-                CommonUtil.ShowInfoAlert("Request Accepted","IQA Request for sprint name " + data.name + " is accepted");
+                CommonUtil.ShowInfoAlert("Request Accepted", "IQA Request for sprint name " + data.name + " is accepted");
                 this.ShowRequestList();
               }, err => {
                 CommonUtil.ShowSuccessAlert("Request Accepted successfully. Error while sending mail.");
@@ -202,7 +220,7 @@ export class AssociateRequestDetailComponent implements OnInit {
             this.ShowRequestList();
           });
         }//acceptance block ends here
-        if (set.status == adminConfig.RequestStatus.COMPLETED.DBStatus ) {//if panel has completed IQA request
+        if (set.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {//if panel has completed IQA request
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
           var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
@@ -244,7 +262,7 @@ export class AssociateRequestDetailComponent implements OnInit {
           });
         }//if panel has completed IQA request If block ends
 
-        if(set.status==adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus){//request status under verification starts
+        if (set.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
           //checklist details starts
           //this.showCheckList = true;
           //this.selectedRequestData = data;
@@ -258,18 +276,18 @@ export class AssociateRequestDetailComponent implements OnInit {
             }
             return;
           });
-      
+
           var closeCheckListItems = filterData.filter(x => x["status"] != undefined && x["status"] == 'Close');
           var openCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Open');
-      
-     
-          var openString=openCheckListItem.map(x => x.CheckListItem).join('|Open|')+"|Open";
-          var closeString=closeCheckListItems.map(x => x.CheckListItem).join('|Close|')+"|Close";
-          var comments='';
-          if(isDevPanel)
-            comments=set["verificationStatus"]?set["verificationStatus"].DevReviewComment?set["verificationStatus"].DevReviewComment:'':'';
+
+
+          var openString = openCheckListItem.map(x => x.CheckListItem).join('|Open|') + "|Open";
+          var closeString = closeCheckListItems.map(x => x.CheckListItem).join('|Close|') + "|Close";
+          var comments = '';
+          if (isDevPanel)
+            comments = set["verificationStatus"] ? set["verificationStatus"].DevReviewComment ? set["verificationStatus"].DevReviewComment : '' : '';
           else
-            comments=set["verificationStatus"]?set["verificationStatus"].QAReviewComment?set["verificationStatus"].QAReviewComment:'':'';
+            comments = set["verificationStatus"] ? set["verificationStatus"].QAReviewComment ? set["verificationStatus"].QAReviewComment : '' : '';
           //checklist details ends
 
           //mail Object starts
@@ -284,42 +302,42 @@ export class AssociateRequestDetailComponent implements OnInit {
             else
               ccPersonList += ',' + adminList["username"];
 
-              var mailObject = {
-                "fromPersonName": appConfig.fromPersonName,
-                "fromPersonMailId": appConfig.fromPersonMailId,
-                "toPersonName": toPersonName,
-                "toPersonMailId": toPerssonListAcceptance,
-                "ccPersonList": ccPersonList,
-                "mailSubject": mailSubject,
-                "mailContent": "",
-                "sprintName": data.name,
-                "panelName": this.currentRequestData.currentUser.username,
-                "panelComments":comments,
-                "checkListDetails": openString +"|"+closeString
-              }
-    
-              this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
-                result =>{
-                  CommonUtil.ShowSuccessAlert("Request updated successfully, mail sent to respective team.");
-                  this.showLoadingIcon=false;
-                  this.ShowRequestList();
-                },err =>{
-                  CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
-                  this.showLoadingIcon=false;
-                  this.ShowRequestList();
-                }
-              );
+            var mailObject = {
+              "fromPersonName": appConfig.fromPersonName,
+              "fromPersonMailId": appConfig.fromPersonMailId,
+              "toPersonName": toPersonName,
+              "toPersonMailId": toPerssonListAcceptance,
+              "ccPersonList": ccPersonList,
+              "mailSubject": mailSubject,
+              "mailContent": "",
+              "sprintName": data.name,
+              "panelName": this.currentRequestData.currentUser.username,
+              "panelComments": comments,
+              "checkListDetails": openString + "|" + closeString
+            }
 
-          },err =>{
+            this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
+              result => {
+                CommonUtil.ShowSuccessAlert("Request updated successfully, mail sent to respective team.");
+                this.showLoadingIcon = false;
+                this.ShowRequestList();
+              }, err => {
+                CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
+                this.showLoadingIcon = false;
+                this.ShowRequestList();
+              }
+            );
+
+          }, err => {
             CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
-            this.showLoadingIcon=false;
+            this.showLoadingIcon = false;
             this.ShowRequestList();
           });
-  
+
           //mail Object ends
 
         }//request status under verification ends
-        
+
 
       }, err => {
         CommonUtil.ShowErrorAlert('Error while updating IQA Request ');

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef } from '@angular/core';
 
 import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
@@ -18,8 +18,9 @@ export class HomeComponent implements OnInit {
     ActiveTabs: any;
     users: User[] = [];
     ActiveTab: any = 'Dashboard';
-    ActionList: any = userConfig.ActionList
-
+    ActionList: any = userConfig.ActionList;
+    el: ElementRef;
+    navOpen:boolean=false;
     receiveMessage($event) {
         console.log('In receiveMessage Method');
         this.ActiveTabs = $event
@@ -29,7 +30,8 @@ export class HomeComponent implements OnInit {
         console.log('In receiveMessage Method');
         this.ActiveTab = mssgEvent.ActiveTabChildParam;
     }
-    constructor(private requestService: RequestService, private router: Router) {
+    constructor(private requestService: RequestService, private router: Router,el: ElementRef) {
+        this.el = el; 
         let cachedUser = sessionStorage.getItem('currentUser');
         if (!cachedUser)
             this.router.navigate(['/login']);
@@ -40,9 +42,6 @@ export class HomeComponent implements OnInit {
             }
         }
     }
-    navToggle(){
-        $(".breadcrumb.left-nav").toggleClass("open");
-      }
     ngOnInit() {
         console.log('In ngOnInit Method');
         if (this.currentUser["isPanel"]) {
@@ -71,8 +70,11 @@ export class HomeComponent implements OnInit {
     }
 
 
-    doAction(actionName: string) {
+    doAction(actionName: string,e) {
         this.ActiveTab = actionName;
+        $(".nav-pills li").removeClass("active")
+        var e=e;
+        e.target.parentElement.setAttribute("class","active");
     }
     ShowRequestDetails(actionData) {
         debugger;
@@ -88,5 +90,9 @@ export class HomeComponent implements OnInit {
     ShowRequestList1(mssgEvent) {
         debugger;
         this.ActiveTab = this.ActionList.TeamEQARequest;;
-    }
+    }   
+    navToggle(){
+        this.navOpen= !this.navOpen;
+        console.log(this.navOpen);
+      }
 }
