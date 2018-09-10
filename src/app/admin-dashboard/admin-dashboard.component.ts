@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef } from '@angular/core';
 import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
 import { UserService } from "../_services/user.service";
@@ -29,13 +29,15 @@ export class AdminDashboardComponent implements OnInit {
   AdminActiveTab: any;
   loading: boolean;
   currentUser: User;
-
+  el: ElementRef;
+  navOpen:boolean=false;
   ActionList = adminConfig.ActionList;
   RequestStatus = adminConfig.RequestStatus;
   newRequestCount: any;
   underReviewRequestCount: any;
 
-  constructor(private requestService: RequestService, private userService: UserService, private router: Router) {
+  constructor(private requestService: RequestService, private userService: UserService, private router: Router,el: ElementRef) {
+    this.el = el; 
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!this.currentUser || !this.currentUser.isAdmin)
       this.router.navigate(['/login']);
@@ -95,12 +97,20 @@ export class AdminDashboardComponent implements OnInit {
   public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
-  doAction(actionName) {
+  doAction(actionName,e) {
     this.AdminActiveTab = actionName;
     this.currentRequestData['CurrentActionName'] = actionName;
-    $(".breadcrumb.left-nav").removeClass("open");
+    $(".nav-pills li").removeClass("active")
+    var e=e;
+    e.target.parentElement.setAttribute("class","active");
   }
+<<<<<<< HEAD
   navToggle() {
     $(".breadcrumb.left-nav").toggleClass("open");
+=======
+  navToggle(){
+    this.navOpen= !this.navOpen;
+    console.log(this.navOpen);
+>>>>>>> 4ceeb311cd87de6eaa73d306d8ca766e9583e728
   }
 }

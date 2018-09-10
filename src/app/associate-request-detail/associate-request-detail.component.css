@@ -1,5 +1,14 @@
-.btn{
-    width: 130px;
+.form-add-review lable, .form-add-review textarea, .form-add-review select{
+    width: 100%;
+}
+.form-add-review .form-group{
+    margin-top: 12px;
+    min-height: 74px;
+    padding-right: 0;
+}
+.form-add-review textarea{
+    resize: vertical;
+    max-height: 54px;
 }
 
 .btn[disabled]{

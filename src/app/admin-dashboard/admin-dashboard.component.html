@@ -1,10 +1,12 @@
-<div class="container-fluid">
+<div class="container-fluid top-header">
     <div class="row">
-        <div class="col-xs-9">
-            <h3>
-                Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</h3>
+        <div class="col-xs-6 col-sm-9">
+            <h3 class="user-name">
+                <span title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!</span>
+                <span (click)="navToggle()" class="glyphicon glyphicon-th-list cur-pointer"></span>
+            </h3>
         </div>
-        <div class="col-xs-3 text-right">
+        <div class="col-xs-6 col-sm-3 text-right">
             <a [routerLink]="['/login']" class="logout-link">Logout</a>
             <!-- <a (click)="doAction(ActionList.ResetPassword)">Reset Password</a> -->
         </div>
@@ -12,76 +14,78 @@
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header pos-rel">
-        <ol class="breadcrumb">
-            <li>
-                <span class="glyphicon glyphicon-home"></span> Home</li>
-            <li class="active">{{AdminActiveTab}}</li>
-        </ol>
-        <span (click)="navToggle()" class="glyphicon left-nav-toggle glyphicon-th-list pull-right"></span>
-    </section>
     <!-- Main content -->
     <section class="content container-fluid">
         <!-- Small boxes (Stat box) -->
-        <div class="row bottomBorder minHeight350">
-            <div class="col-lg-3 col-sm-3 col-xs-12 breadcrumb left-nav">
+        <div class="row bottomBorder minHeight350" [ngClass]="{'nav-open':navOpen}">
+            <div class="col-lg-3 col-sm-3 col-xs-12 left-nav">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest)">Home</a>
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequest, $event)">Home</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew)">IQA New Requests
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestNew, $event)">IQA New Requests
                                     <span class="badge" *ngIf="newRequestCount">{{newRequestCount}}</span>
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending)">Panel Assigned Req.
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestPending, $event)">Panel Assigned Req.
                                     <span class="badge" *ngIf="assignedRequestCount">{{assignedRequestCount}}</span>
                                 </a>
                             </li>
                             <li role="presentation">
+<<<<<<< HEAD
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestSummary)">Request Summary
                                     <span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span>
                                 </a>
                             </li>
                             <!-- <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted)">IQA Completed Requests
+=======
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestInProgress, $event)">In Progress Requests
+                                    <span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestCompleted, $event)">IQA Completed Requests
+>>>>>>> 4ceeb311cd87de6eaa73d306d8ca766e9583e728
                                     <span class="badge" *ngIf="completedRequestCount">{{completedRequestCount}}</span>
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected)">IQA Rejected Requests
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestRejected, $event)">IQA Rejected Requests
                                     <span class="badge" *ngIf="rejectRequestCount">{{rejectRequestCount}}</span>
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification)">Req. Under Verification
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification, $event)">Req. Under
+                                    Verification
                                     <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span>
                                 </a>
                             </li> -->
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AddPanel)">Add Panel</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddPanel, $event)">Add Panel</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AddTeam)">Add Team</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddTeam, $event)">Add Team</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" #myDiv id="AddSkills" (click)="doAction(ActionList.AddSkill)">Add Skills</a>
+                                <a href="admin#" #myDiv id="AddSkills" (click)="doAction(ActionList.AddSkill, $event)">Add Skills</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Area</a>
+                                <a href="admin#" (click)="doAction('', $event)">Add Area</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.PanelList)">Panel List</a>
+                                <a href="admin#" (click)="doAction(ActionList.PanelList, $event)">Panel List</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">Add Action2</a>
+                                <a href="admin#" (click)="doAction('', $event)">Add Action2</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('')">IQA CheckList</a>
+                                <a href="admin#" (click)="doAction('', $event)">IQA CheckList</a>
                             </li>
                         </ul>
                     </div>
@@ -92,6 +96,13 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">
+                        <section class="content-header pos-rel">
+                            <ol class="breadcrumb">
+                                <li>
+                                    <span class="glyphicon glyphicon-home"></span> Home</li>
+                                <li class="active">{{AdminActiveTab}}</li>
+                            </ol>
+                        </section>
                         <app-admin-home-page *ngIf="AdminActiveTab===ActionList.AdminTeamRequest"></app-admin-home-page>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestNew" (messageEvent)='ShowRequestDetails($event)' [currentRequestData]="currentRequestData"></admin-request-list>
                         <admin-request-list *ngIf="AdminActiveTab===ActionList.AdminTeamRequestPending" (messageEvent)='ShowRequestDetails($event)'

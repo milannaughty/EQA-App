@@ -1,8 +1,11 @@
-<div class="container-fluid">
+<div class="container-fluid top-header">
     <div class="row">
-        <div class="col-xs-9">
-            <h3 *ngIf="currentUser.isPanel"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</h3>
-            <h3 *ngIf="!currentUser.isPanel"> Hello Team {{currentUser.teamName | titlecase }}!!</h3>
+        <div class="col-xs-6 col-sm-9">
+            <h3 class="user-name">
+                <span *ngIf="currentUser.isPanel" title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</span>
+                <span *ngIf="!currentUser.isPanel"  title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hello Team {{currentUser.teamName | titlecase }}!!</span>
+                <span (click)="navToggle()" class="glyphicon glyphicon-th-list cur-pointer"></span>
+            </h3>
             <!-- <p>You're logged in with Angular 2!!</p>
                 <h3>All registered users:</h3>
                 <ul>
@@ -12,7 +15,7 @@
                     </li>
                 </ul> -->
         </div>
-        <div class="col-xs-3 text-right">
+        <div class="col-xs-6 col-sm-3 text-right">
             <a (click)="doAction(ActionList.ResetPassword)" class="logout-link">Reset Password</a>
             &nbsp;|&nbsp;
             <a [routerLink]="['/login']" class="logout-link">Logout</a>
@@ -21,49 +24,41 @@
 </div>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header pos-rel">
-        <ol class="breadcrumb">
-            <li>
-                <span class="glyphicon glyphicon-home"></span> Home</li>
-            <li class="active">{{ActiveTab}}</li>
-        </ol>
-        <span (click)="navToggle()" class="glyphicon left-nav-toggle glyphicon-th-list pull-right"></span>
-    </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
         <!-- Small boxes (Stat box) -->
-        <div class="row bottomBorder minHeight350">
-            <div class="col-lg-3 col-sm-3 col-xs-12 breadcrumb left-nav">
+        <div class="row bottomBorder minHeight350" [ngClass]="{'nav-open':navOpen}">
+            <div class="col-lg-3 col-sm-3 col-xs-12 left-nav">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
-                    <div style="margin-left:2%">
+                    <div>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="#" (click)="doAction('')">Home</a>
+                                <a href="#" (click)="doAction('',$event)">Home</a>
                             </li>
                         </ul>
                         <div *ngIf="currentUser.isPanel">
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.EQANewRequests)">{{ActionList.EQANewRequests}}
+                                    <a href="#" (click)="doAction(ActionList.EQANewRequests, $event)">{{ActionList.EQANewRequests}}
                                         <span *ngIf="NewRequestCount" class="badge">{{NewRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.EQASummary)">{{ActionList.EQASummary}}</a>
+                                    <a href="#" (click)="doAction(ActionList.EQASummary, $event)">{{ActionList.EQASummary}}</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction('Action Two')">Req. Under Verification</a>
+                                    <a href="#" (click)="doAction('Action Two', $event)">Req. Under Verification</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction('Action Two')">IQA Completed Requests</a>
+                                    <a href="#" (click)="doAction('Action Two', $event)">IQA Completed Requests</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction('Action One')">Action One</a>
+                                    <a href="#" (click)="doAction('Action One', $event)">Action One</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction('Action Two')">Action Two</a>
+                                    <a href="#" (click)="doAction('Action Two', $event)">Action Two</a>
                                 </li>
 
                             </ul>
@@ -76,7 +71,8 @@
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.InitiateEQARequest)">{{ActionList.InitiateEQARequest}} </a>
+                                    <a href="#" (click)="doAction(ActionList.InitiateEQARequest)">{{ActionList.InitiateEQARequest}}
+                                    </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.TeamEQARequest)">{{ActionList.TeamEQARequest}}</a>
@@ -97,6 +93,15 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner minHeight350 LeftBorder">
+
+                        <section class="content-header pos-rel">
+                            <ol class="breadcrumb">
+                                <li>
+                                    <span class="glyphicon glyphicon-home"></span> Home</li>
+                                <li class="active">{{ActiveTab}}</li>
+                            </ol>
+                        </section>
+
                         <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
                         <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
                         <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail" [currentRequestData]="currentRequestData"

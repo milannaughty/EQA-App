@@ -486,7 +486,7 @@ app{
   width: 100%;
 }
 .logout-link{
-  padding-top: 20px;
+  padding-top: 15px;
   display: inline-block;
 }
 @media all and (min-width: 1024px){
@@ -496,6 +496,7 @@ app{
   .right-body{
     display: inline-flex;
     width: 100%;
+    min-height: 500px;
   }
 
   .right-body > div.small-box, .left-nav > div.small-box{
@@ -586,16 +587,6 @@ app{
 .pos-rel{
   position: relative;
 }
-.left-nav-toggle{
-  position: absolute;
-  left: 9px;
-  top: 9px;
-  color: #666;
-  cursor: pointer;
-}
-.left-nav-toggle{
-  display: none;
-}
 .jumbotron.login{
   background: none;
   border-bottom: 1px solid #ddd;
@@ -603,8 +594,81 @@ app{
 .martop3{
   margin-top: 30px;
 }
+
+/*theme css */
+.top-header{
+  background: #337ab7;
+  color: #fff;
+}
+
+.user-name{
+  margin: 12px 0;
+  font-size: 20px;
+}
+
+.top-header a, .top-header a.logout-link{
+color:#fff;
+}
+.breadcrumb{
+  background: none;
+  padding-left: 0;
+  margin: 6px 0;
+}
+.left-nav{
+	margin-bottom: 6px;
+	padding: 0;
+}
+
+.left-nav .nav-pills>li>a{
+  border-radius: 0px;
+  border-left: 5px solid #fff!important;
+  color: #337ab7 !important;
+  padding-left: 10px;
+}
+
+
+.left-nav .nav-pills>li>a:hover{
+  border-left: 5px solid #eee!important;
+}
+
+.left-nav .nav-pills>li.active>a{
+  border-left: 5px solid #337ab7 !important;
+  background-color: #eee !important; 
+}
+
+.nav-stacked>li {
+  margin-top: 2px;
+}
+
+.right-body{
+  padding-left: 0;
+}
+.nav-pills>.active>a>.badge{
+	color:#fff;
+}
+.cur-pointer{
+  cursor: pointer;
+}
+
+.user-name .glyphicon {
+  font-size: 16px;
+  padding: 2px 12px;
+}
+
+.user-name span {
+  max-width: 210px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-name span:first-child {
+  min-width: 200px;
+}
+/*theme css end*/
+
 @media all and (max-width: 767px){
-  .breadcrumb.left-nav{
+  .left-nav{
     z-index: 10;
     position: absolute;
     width: 250px;
@@ -612,15 +676,36 @@ app{
     transform: translate(-250px, 0);
     transition: transform 0.3s ease;
     padding: 0;
+    background: #fff;
+    border-right: 1px solid #ddd;
   }
-  .breadcrumb.left-nav.open{
+  .nav-open .left-nav{
     transform: translate(0px, 0);
-  }
-  
-  .left-nav-toggle{
-    display: inline-block;
   }
   .minHeight350.LeftBorder{
     border: none;
   }
+  .user-name span {
+    font-size: 16px;
+	  max-width: 100px;
 }
+.user-name span:first-child {
+  min-width: 110px;
+}
+.top-header .text-right{
+    padding: 0;
+    padding-right: 6px;
+  }
+}
+
+@media all and (min-width: 768px){
+  .nav-open .left-nav{
+    /* transform: translate(-250px, 0); */
+    display: none;
+  }
+  .left-nav{
+    transition: 0.2s linear;
+    display: inline-flex;
+  }
+}
+

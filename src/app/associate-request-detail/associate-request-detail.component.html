@@ -4,11 +4,11 @@
   <div class="HeaderClass">Request Detail</div>
 
   <div class="modal-body row">
-
+    <!-- table-striped table table-condensed fontFamily data-table -->
     <!-- <form  > -->
     <form>
-      <div class="col-md-8" *ngIf="!showCheckList" text-center>
-        <table class="fontFamily" style="width:100%">
+      <div class="col-md-10" *ngIf="!showCheckList" text-center style="padding-left: 0">
+        <table class="table-striped table table-condensed fontFamily data-table">
           <tr>
             <td>
               <label for="pbiId ">PBI ID</label>
@@ -120,7 +120,7 @@
       <div class="col-md-12" *ngIf="showCheckList">
         <div class="noteFontStyle">***Please update the checklist before completing IQA Request</div>
         <br>
-        <table class="table table-striped skillFontStyle" style="width: 90%;border: 1px solid gainsboro;  ">
+        <table class="table table-striped skillFontStyle">
 
           <!--Table head-->
           <thead>
@@ -157,8 +157,69 @@
 
         </table>
         <hr>
-        <button href="#" class="btn btn-sm btn-danger">
+        <button class="btn btn-sm btn-danger" (click)="callReviewItem()">
           <span class="glyphicon glyphicon-plus"></span> Add Review Item</button>
+        <br>
+
+        <div class="form-inline form-add-review" [ngClass]="{ 'hide': reviewItem}">
+          <div class="row">
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="findings">Findings</label>
+              <textarea class="form-control" name="findings"> </textarea>
+            </div>
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="futureImpact">Future Impact</label>
+              <textarea class="form-control" name="futureImpact"> </textarea>
+            </div>
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="proposedAction">Proposed Action</label>
+              <textarea class="form-control" name="proposedAction"> </textarea>
+            </div>
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="panelComment">Panel Comment</label>
+              <textarea class="form-control" name="panelComment"> </textarea>
+            </div>
+            <!-- <div class="form-group col-sm-3 col-xs-6">
+              <label for="teamComment">Team Comment</label>
+              <textarea class="form-control" name="teamComment"> </textarea>
+            </div> -->
+
+            <div class="form-group col-sm-2 col-xs-6">
+              <label for="ariaOfFinding">Aria Of Finding</label>
+              <select class="form-control" name="ariaOfFinding">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-2 col-xs-6">
+              <label for="savarity">Savarity</label>
+              <select class="form-control" name="savarity">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-2 col-xs-6">
+              <label for="checkPointType">Check Point Type</label>
+              <select class="form-control" name="checkPointType">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-2 col-xs-6">
+              <label for="status">Status</label>
+              <select class="form-control" name="status">
+                <option>Open</option>
+                <option>Close</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-3 col-xs-6">
+              <br>
+              <a class="btn btn-info" (click)="saveReviewItem()">Save</a>
+              &nbsp;
+              <a class="btn btn-link" (click)="cancelReviewItem()">Cancel</a>
+            </div>
+          </div>
+        </div>
         <br>
         <hr>
         <div class="">
@@ -166,14 +227,14 @@
           <table class="table-striped skillFontStyle">
             <tr>
               <td>Dev Panel</td>
-              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.DevReviewComment) || 'No
-                Comments'}}
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.DevReviewComment)
+                || 'No Comments'}}
               </td>
             </tr>
             <tr>
               <td>QA Panel</td>
-              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.QAReviewComment) || 'No
-                Comments'}}
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.QAReviewComment) ||
+                'No Comments'}}
               </td>
             </tr>
             <tr>
@@ -199,10 +260,10 @@
       </div>
       <div class="col-md-6 marginTop15">
         <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px;">Home</button>
-        <button type="submit" class="btn btn-success form-control" (click)="OnSaveClick()" *ngIf="currentRequestData.showRemark || currentRequestData.showSaveButton">Save</button>
+        <button type="submit" class="btn btn-success" (click)="OnSaveClick()" *ngIf="currentRequestData.showRemark || currentRequestData.showSaveButton">Save</button>
         <img *ngIf="showLoadingIcon" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
         />
-        <button type="submit" class="btn btn-info form-control" (click)="OnCancelClick()" *ngIf="showCheckList">Cancel</button>
+        <button type="submit" class="btn btn-info" (click)="OnCancelClick()" *ngIf="showCheckList">Cancel</button>
       </div>
     </form>
 
