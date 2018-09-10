@@ -62,16 +62,22 @@ export class AdminDashboardComponent implements OnInit {
 
   ShowRequestCounts() {
     this.newRequestCount = this.GetCount(adminConfig.RequestStatus.NEW.DBStatus);
-    this.underReviewRequestCount = this.GetCount(adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
-    this.rejectRequestCount = this.GetCount(adminConfig.RequestStatus.REJECTED.DBStatus);
     this.assignedRequestCount = this.GetCount(adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus);
-    this.inProgressRequestCount = this.GetCount(adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
-    this.completedRequestCount = this.GetCount(adminConfig.RequestStatus.COMPLETED.DBStatus);
+    this.inProgressRequestCount = this.GetCount('ALL');
   }
   GetCount(DBRequestStatus) {
-    var arr = this.summaryData.filter(x => x.status == DBRequestStatus);
+    var sum=0;
+    var arr = [];
+    if ('ALL' == DBRequestStatus){
+      arr = this.summaryData.filter(x => x.status == adminConfig.RequestStatus.REJECTED.DBStatus || x.status == adminConfig.RequestStatus.COMPLETED.DBStatus || x.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus || x.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+    arr.map(function(DBRequestStatus){ sum+=DBRequestStatus.count});
+    return sum;
+  }
+    else{
+      arr = this.summaryData.filter(x => x.status == DBRequestStatus);
     if (arr && arr.length > 0) return arr[0].count; return 0;
   }
+}
 
   ShowRequestDetails(data) {
     this.ShowRequestCounts();
@@ -94,7 +100,7 @@ export class AdminDashboardComponent implements OnInit {
     this.currentRequestData['CurrentActionName'] = actionName;
     $(".breadcrumb.left-nav").removeClass("open");
   }
-  navToggle(){
+  navToggle() {
     $(".breadcrumb.left-nav").toggleClass("open");
   }
 }

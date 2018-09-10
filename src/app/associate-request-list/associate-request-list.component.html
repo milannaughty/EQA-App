@@ -13,7 +13,6 @@
           <th>Delivery Date</th>
           <th>Expected IQA Date</th>
           <th>Status</th>
-          <th>Remarks</th>
           <th>Initiated By</th>
         </tr>
       </thead>
@@ -29,7 +28,6 @@
           <td>
               <app-request-status [status]="data.status"></app-request-status>
           </td>            
-          <td>{{data.remarks}}</td>
           <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
         </tr>
       </tbody>

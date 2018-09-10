@@ -88,7 +88,7 @@ function updateReq(reqParam) {
 function getAllReq() {
     var deferred = Q.defer();
 
-    db.request.find().toArray(function (err, requests) {
+    db.request.find().sort( { creationDate: -1 } ).toArray(function (err, requests) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(requests);

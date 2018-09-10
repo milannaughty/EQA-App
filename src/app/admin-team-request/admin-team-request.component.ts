@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import {  RequestService } from '../_services/index';
+import { RequestService } from '../_services/index';
 import { adminConfig } from "../app.config";
 import * as $ from 'jquery';
 import 'datatables.net';
@@ -23,7 +23,7 @@ export class AdminRequestComponent implements OnInit {
   RequestStatus = adminConfig.RequestStatus;
   dataTable: any;
   constructor(
-    private chRef: ChangeDetectorRef,    private requestService: RequestService
+    private chRef: ChangeDetectorRef, private requestService: RequestService
   ) { }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class AdminRequestComponent implements OnInit {
   }
   private loadNewRequestForAdmin() {
     this.loading = true;
-    
+
     this.requestService.getAll().subscribe(result => {
       this.loading = false;
       this.NewRequest = this.GetFilteredData(result, this.GetRequestedStatus(this.currentRequestData["CurrentActionName"]))
@@ -49,6 +49,8 @@ export class AdminRequestComponent implements OnInit {
   }
 
   GetFilteredData(data, status) {
+    if (status == 'ALL')
+      return data.filter(x => x.status == this.RequestStatus.IN_PROGRESS.DBStatus || x.status == this.RequestStatus.COMPLETED.DBStatus || x.status == this.RequestStatus.REJECTED.DBStatus || x.status == this.RequestStatus.UNDER_VERIFICATION.DBStatus)
     return data.filter(x => x.status == status)
   }
 
@@ -66,6 +68,8 @@ export class AdminRequestComponent implements OnInit {
         return this.RequestStatus.REJECTED.DBStatus;
       case this.AdminActionList.AdminTeamRequestUnderVerification:
         return this.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      case this.AdminActionList.AdminTeamRequestSummary:
+        return 'ALL';
       default:
         break;
     }
