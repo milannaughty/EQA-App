@@ -6,7 +6,8 @@
                 placeholder="Skill Name" required="required">
 
         </div>
-        <div style="float:left" class="skillContainer"> <select required id="skillTypeInput" #Id="ngModel" class=" form-control" [(ngModel)]="model.type"
+        <div style="float:left" class="skillContainer"> 
+            <select required id="skillTypeInput" #Id="ngModel" class=" form-control" [(ngModel)]="model.type"
                 name="type">
                 <option [ngValue]="k.Name" *ngFor="let k of panelTypeList">
                     {{k.Name}}

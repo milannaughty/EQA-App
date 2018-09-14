@@ -93,22 +93,22 @@
               <label for="status ">Update Status</label>
             </td>
             <td>
-              <select id="ddlStatus" name="ddlStatus" class="form-control" [(ngModel)]="model.selectedStatus" [ngModelOptions]="{standalone: true}"
-                (change)="onStatusChange($event)">
+              <select id="ddlStatus" name="ddlStatus" class="form-control" [(ngModel)]="model.selectedStatus"
+                [ngModelOptions]="{standalone: true}" (change)="onStatusChange($event)">
                 <option class="dropdown-item" [ngValue]="k.Id" *ngFor="let k of statusList">
                   {{k.Name}}
                 </option>
               </select>
             </td>
           </tr>
-          <br/>
+          <br />
           <tr *ngIf="currentRequestData.showRemark">
             <td>
               <label for="RejectRemark " cols="30" rows="4">Reason for rejection</label>
             </td>
             <td>
-              <textarea name="" class="form-control" [(ngModel)]="reasonText" [ngModelOptions]="{standalone: true}" id="reasontext" cols="30"
-                rows="4" required autofocus></textarea>
+              <textarea name="" class="form-control" [(ngModel)]="reasonText" [ngModelOptions]="{standalone: true}" id="reasontext"
+                cols="30" rows="4" required autofocus></textarea>
               <span style="color:red">*</span>
             </td>
           </tr>
@@ -140,11 +140,12 @@
               <td>
                 <!-- Default unchecked -->
                 <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="1" name="rdbCheckListGroup_{{data._Id}}"
-                    checked>
+                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="1"
+                    name="rdbCheckListGroup_{{data._Id}}" checked>
                   <label class="custom-control-label" for="defaultUnchecked">Open</label>
 
-                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="0" name="rdbCheckListGroup_{{data._Id}}">
+                  <input type="radio" class="custom-control-input" [(ngModel)]="modelRdbSelectedItem[data._Id]" [value]="0"
+                    name="rdbCheckListGroup_{{data._Id}}">
                   <label class="custom-control-label" for="defaultChecked">Close</label>
                 </div>
               </td>
@@ -162,19 +163,22 @@
           <div class="row">
             <div class="form-group col-sm-3 col-xs-6">
               <label for="findings">Findings</label>
-              <textarea class="form-control" name="findings"> </textarea>
+              <textarea class="form-control" name="findings" [(ngModel)]="model.findings" required="required">
+ </textarea>
             </div>
             <div class="form-group col-sm-3 col-xs-6">
               <label for="futureImpact">Future Impact</label>
-              <textarea class="form-control" name="futureImpact"> </textarea>
+              <textarea class="form-control" name="futureImpact" [(ngModel)]="model.futureImpact" required="required">
+ </textarea>
             </div>
             <div class="form-group col-sm-3 col-xs-6">
               <label for="proposedAction">Proposed Action</label>
-              <textarea class="form-control" name="proposedAction"> </textarea>
+              <textarea class="form-control" name="proposedAction" [(ngModel)]="model.proposedAction" required>
+ </textarea>
             </div>
             <div class="form-group col-sm-3 col-xs-6">
               <label for="panelComment">Panel Comment</label>
-              <textarea class="form-control" name="panelComment"> </textarea>
+              <textarea class="form-control" name="panelComment" [(ngModel)]="model.panelComment"> </textarea>
             </div>
             <!-- <div class="form-group col-sm-3 col-xs-6">
               <label for="teamComment">Team Comment</label>
@@ -182,29 +186,29 @@
             </div> -->
 
             <div class="form-group col-sm-2 col-xs-6">
-              <label for="ariaOfFinding">Aria Of Finding</label>
-              <select class="form-control" name="ariaOfFinding">
+              <label for="areaOfFinding">Area Of Finding</label>
+              <select class="form-control" name="areaOfFinding" [(ngModel)]="model.areaOfFinding">
                 <option>1</option>
                 <option>2</option>
               </select>
             </div>
             <div class="form-group col-sm-2 col-xs-6">
               <label for="savarity">Savarity</label>
-              <select class="form-control" name="savarity">
+              <select class="form-control" name="savarity" [(ngModel)]="model.savarity">
                 <option>1</option>
                 <option>2</option>
               </select>
             </div>
             <div class="form-group col-sm-2 col-xs-6">
               <label for="checkPointType">Check Point Type</label>
-              <select class="form-control" name="checkPointType">
-                <option>1</option>
-                <option>2</option>
+              <select class="form-control" name="checkPointType" [(ngModel)]="model.checkPointType">
+                <option>111</option>
+                <option>222</option>
               </select>
             </div>
             <div class="form-group col-sm-2 col-xs-6">
               <label for="status">Status</label>
-              <select class="form-control" name="status">
+              <select class="form-control" name="status" [(ngModel)]="model.status">
                 <option>Open</option>
                 <option>Close</option>
               </select>
@@ -217,26 +221,58 @@
             </div>
           </div>
         </div>
-        <br>
+        <div *ngIf="reviewItemsLenght">
+          <hr>
+          <table class="table-striped table table-condensed fontFamily data-table">
+            <thead>
+              <tr>
+                <th>Findings</th>
+                <th>Future Impact</th>
+                <th>Proposed Action</th>
+                <th>Panel Comment</th>
+                <th>Area Of Finding</th>
+                <th>Savarity</th>
+                <th>Check Point Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let review of reviewItems">
+                <td>{{review.findings}}</td>
+                <td>{{review.futureImpact}}</td>
+                <td>{{review.proposedAction}}</td>
+                <td *ngIf="review.panelComment">{{review.panelComment}}</td>
+                <td *ngIf="review.teamCommen">{{review.teamCommen}}</td>
+                <td>{{review.areaOfFinding}}</td>
+                <td>{{review.savarity}}</td>
+                <td>{{review.checkPointType}}</td>
+                <td>{{review.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <hr>
         <div class="">
           <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Panel Review Comments :</div>
           <table class="table-striped skillFontStyle">
             <tr>
               <td>Dev Panel</td>
-              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.DevReviewComment)
+              <td>-->{{(currentRequestData.verificationStatus &&
+                currentRequestData.verificationStatus.DevReviewComment)
                 || 'No Comments'}}
               </td>
             </tr>
             <tr>
               <td>QA Panel</td>
-              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.QAReviewComment) ||
+              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.QAReviewComment)
+                ||
                 'No Comments'}}
               </td>
             </tr>
             <tr>
               <td>Team Replay</td>
-              <td>-->{{(currentRequestData.verificationStatus && currentRequestData.verificationStatus.TeamReplyReviewComment)
+              <td>-->{{(currentRequestData.verificationStatus &&
+                currentRequestData.verificationStatus.TeamReplyReviewComment)
                 || 'No Comments'}}
               </td>
             </tr>
@@ -246,20 +282,25 @@
           <label for="ReviewDevComment " cols="30" rows="4">Review Comment</label>
           <textarea type="textarea" class="form-control" [(ngModel)]="model.DevReviewComment" [ngModelOptions]="{standalone: true}"
             id="ReviewDevComment" cols="30" rows="4" required>
+
+
+
           </textarea>
         </div>
         <div class="width50per" *ngIf="currentRequestData.currentUser.panelType == 'QA'">
           <label for="ReviewQAComment " cols="30" rows="4">Review Comment</label>
           <textarea type="textarea" class="form-control" [(ngModel)]="model.QAReviewComment" [ngModelOptions]="{standalone: true}"
             id="ReviewQAComment" cols="30" rows="4" required>
+
+
+
           </textarea>
         </div>
       </div>
       <div class="col-md-6 marginTop15">
         <button (click)="ShowRequestList()" class="btn btn-warning style=margin-left:15px;">Home</button>
         <button type="submit" class="btn btn-success" (click)="OnSaveClick()" *ngIf="currentRequestData.showRemark || currentRequestData.showSaveButton">Save</button>
-        <img *ngIf="showLoadingIcon" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-        />
+        <img *ngIf="showLoadingIcon" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
         <button type="submit" class="btn btn-info" (click)="OnCancelClick()" *ngIf="showCheckList">Cancel</button>
       </div>
     </form>

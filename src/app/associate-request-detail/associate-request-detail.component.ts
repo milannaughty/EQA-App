@@ -28,16 +28,21 @@ export class AssociateRequestDetailComponent implements OnInit {
   ddlId: number;
   showCheckList: boolean;
   showLoadingIcon: boolean = false;
-  checkPointType;
+
   findings;
-  ariaOfFinding;
-  savarity;
   futureImpact;
   proposedAction;
   panelComment;
   teamComment;
+  areaOfFinding;
+  savarity;
+  checkPointType;
   status;
-  reviewItem:boolean=true;
+
+  reviewItem: boolean = true;
+
+  reviewItems: any = [];
+  reviewItemsLenght = this.reviewItems.length > 0 ? true : false;
 
   constructor(private userService: UserService,
     private requestService: RequestService,
@@ -46,21 +51,51 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log(this.reviewItemsLenght);
     this.ShowRequestDetails();
     this.PopulateStatusDropdown();
     this.PopulateCheckList();
     // this.reasonText = `${this.currentRequestData.currentUser.FName} ${this.currentRequestData.currentUser.LName} has rejected IQA request on ${Date.now() }`
   }
-  callReviewItem(){
-  this.reviewItem = !this.reviewItem;
-}
-saveReviewItem(){
+  callReviewItem() {
+    this.reviewItem = !this.reviewItem;
+  }
+  saveReviewItem() {
+    debugger;
+    if(this.model.findings == undefined || this.model.findings == "" || this.model.findings == undefined || this.model.futureImpact == "" || this.model.futureImpact == undefined || this.model.proposedAction == "" ||  this.model.proposedAction == undefined || this.model.panelComment == "" || this.model.panelComment == undefined ||  this.model.areaOfFinding == "" || this.model.areaOfFinding == undefined || this.model.savarity == "" || this.model.savarity == undefined || this.model.checkPointType == "" || this.model.checkPointType == undefined || this.model.status == "" || this.model.status == undefined)
+    {
+      //this.model.teamComment == "" ||
+      return false;
+    }
+    var tem = {};
+    tem['findings'] = this.model.findings;
+    tem['futureImpact'] = this.model.futureImpact;
+    tem['proposedAction'] = this.model.proposedAction;
+    tem['panelComment'] = this.model.panelComment || false;
+    tem['teamComment'] = this.model.teamComment || false;
+    tem['areaOfFinding'] = this.model.areaOfFinding;
+    tem['savarity'] = this.model.savarity;
+    tem['checkPointType'] = this.model.checkPointType;
+    tem['status'] = this.model.status;
 
-}
-cancelReviewItem(){
+    this.reviewItems.push(tem);
+    this.reviewItemsLenght = this.reviewItems.length > 0 ? true : false;
+    this.clear();
+  }
+  clear() {
+    this.model.findings = "";
+    this.model.futureImpact = "";
+    this.model.proposedAction = "";
+    this.model.panelComment = "";
+    this.model.teamComment = "";
+    this.model.areaOfFinding = "";
+    this.model.savarity = "";
+    this.model.checkPointType = "";
+    this.model.status = "";
+  }
+  cancelReviewItem() {
 
-}
+  }
   onStatusChange(event) {
     this.isRejectRequestOperation = this.model.selectedStatus == "Rejected";
     this.isCompleteRequestOperation = this.model.selectedStatus == "Completed";
