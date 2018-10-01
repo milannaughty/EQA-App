@@ -22,6 +22,8 @@ service.generateNewPasswordIfForgotPassword=generateNewPasswordIfForgotPassword;
 service.getUserByUserName=getUserByUserName;
 service.updatePanelStatus=updatePanelStatus;
 service.panelSoftDelete=panelSoftDelete;
+service.updateTeamStatus=updateTeamStatus;
+service.teamSoftDelete=teamSoftDelete;
 
 module.exports = service;
 
@@ -143,6 +145,29 @@ function panelSoftDelete(reqBody) {
     console.log(reqBody.panelId);
     db.users.update(
         { _id: mongo.helper.toObjectID(reqBody.panelId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve();
+        });
+    return deferred.promise;
+}
+
+
+
+function updateTeamStatus(reqBody) {
+    console.log("updateTeamStatus method started for checking similar");
+    var deferred = Q.defer();
+    console.log("updateTeamStatus method started");
+    var set = {
+        "obsolute": reqBody.obsolute,
+    };
+    console.log(reqBody);
+    console.log(reqBody.teamId);
+    db.users.update(
+        { _id: mongo.helper.toObjectID(reqBody.teamId) },
         { $set: set },
         function (err, doc) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -423,3 +448,23 @@ function getUsersByRole(roleName){
     return deferred.promise;
 }
 
+function teamSoftDelete(reqBody) {
+    console.log("teamSoftDelete method started for checking similar");
+    var deferred = Q.defer();
+    console.log("teamSoftDelete method started");
+    var set = {
+        "isDeleted": reqBody.isDeleted,
+    };
+    console.log(reqBody);
+    console.log(reqBody.teamId);
+    db.users.update(
+        { _id: mongo.helper.toObjectID(reqBody.teamId) },
+        { $set: set },
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            console.log('Err :' + JSON.stringify(err))
+            console.log('doc :' + JSON.stringify(doc))
+            deferred.resolve();
+        });
+    return deferred.promise;
+}

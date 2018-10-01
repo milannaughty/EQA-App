@@ -52,11 +52,10 @@
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification, $event)">Req. Under
-                                    Verification
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestUnderVerification, $event)">Req. Under Verification
                                     <span class="badge" *ngIf="underReviewRequestCount">{{underReviewRequestCount}}</span>
                                 </a>
-                            </li> -->
+                            </li> 
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel, $event)">Add Panel</a>
                             </li>
@@ -67,11 +66,15 @@
                                 <a href="admin#" #myDiv id="AddSkills" (click)="doAction(ActionList.AddSkill, $event)">Add Skills</a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction('', $event)">Add Area</a>
+                                <a href="admin#" (click)="doAction(ActionList.AddArea, $event)">Add Area</a>
                             </li>
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.PanelList, $event)">Panel List</a>
                             </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.TeamList, $event)">Team List</a>
+                            </li>
+
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction('', $event)">Add Action2</a>
                             </li>
@@ -113,6 +116,8 @@
                         <app-admin-team-add *ngIf="AdminActiveTab== ActionList.AddTeam" [currentRequestData]="currentRequestData"> </app-admin-team-add>
                         <app-admin-skill-set *ngIf="AdminActiveTab== ActionList.AddSkill" [currentRequestData]="currentRequestData"></app-admin-skill-set>
                         <app-team-panel-list *ngIf="AdminActiveTab===ActionList.PanelList"></app-team-panel-list>
+                        <app-team-list *ngIf="AdminActiveTab===ActionList.TeamList"></app-team-list>
+                        <app-admin-area-add *ngIf="AdminActiveTab== ActionList.AddArea" [currentRequestData]="currentRequestData"></app-admin-area-add>
                     </div>
                 </div>
             </div>

@@ -34,7 +34,9 @@ export const adminConfig = {
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',
         AddSkill: 'ADD Skills',
-        PanelList: 'PANEL LIST'
+        PanelList: 'PANEL LIST',
+        TeamList:'Team List',
+        AddArea:'Add Area'
     }
 };
 
@@ -49,6 +51,7 @@ export const userConfig = {
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail',
         'ResetPassword': 'RESET PASSWORD',
-        'TeamCheckList': 'CHECKLIST REVIEW'
+        'TeamCheckList': 'CHECKLIST REVIEW',
+        'TeamList':'Team List'
     }
 };

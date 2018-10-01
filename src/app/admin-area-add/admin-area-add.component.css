@@ -1,0 +1,66 @@
+
+ table.table .form-control {
+    height: 32px;
+    line-height: 32px;
+    box-shadow: none;
+    border-radius: 2px;
+}
+
+ .areaTable {
+    margin-bottom: 20px;
+    border: 0.1px solid lightgrey;
+    width: 100%;
+}
+
+.table>tbody>tr>td, .tbody>tr>th, .tfoot>tr>td, .tfoot>tr>th, .thead>tr>td, .thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    width: 421px;
+}
+.td>th{
+
+    padding: 0;
+    width: 451px;
+    text-align: center;
+}
+
+.custom-select .custom-select-sm .form-control .form-control-sm{
+    height: auto;
+}
+
+.form-control {
+width: 50px;
+}
+#areaInput {
+    margin-left: 2px;
+    width: 197px;
+}
+#descriptionInput{
+    margin-left:2px;
+    width:197px;
+}
+
+#areaTypeInput {
+    margin-left: 58px;
+    width: 197px;
+}
+
+#btnAdd {
+    margin-left: 44px;
+    width: 154px;
+}
+.errorMsg{
+    color: red;
+    margin-left: 20px;
+}
+.successMsg {
+    color: green;
+    margin-left: 0px;
+}
+
+
+.col-xs-3{
+    width: 21%;
+}

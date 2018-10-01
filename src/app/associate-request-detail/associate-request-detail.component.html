@@ -26,9 +26,8 @@
               <label for="skillSet">Dev skill set</label>
             </td>
             <td>
-              <span *ngFor="let skilldata of currentRequestData.skillSet;let i=index; trackBy:trackByIndex">
-                {{skilldata.itemName}}{{i === currentRequestData.skillSet.length - 1 ? '' : ', '}}
-              </span>
+              <span class="skillFontStyle1">{{devSkillSet}}</span>
+              <a *ngIf="isDevSkillMore" (click)="ShowSkillPopup('Dev')">...See more</a>
             </td>
           </tr>
           <tr>
@@ -36,9 +35,8 @@
               <label for="skillSet">QA skill set</label>
             </td>
             <td>
-              <span *ngFor="let skilldata of currentRequestData.qaSkillSet;let i=index; trackBy:trackByIndex">
-                {{skilldata.itemName}}{{i === currentRequestData.qaSkillSet.length - 1 ? '' : ', '}}
-              </span>
+              <span class="skillFontStyle1">{{qaSkillSet}}</span>
+              <a *ngIf="isQaSkillMore" (click)="ShowSkillPopup('QA')">...See more</a>
             </td>
           </tr>
           <tr>
@@ -58,16 +56,17 @@
             <td>
               <label for="initiatedBy ">Initiated By</label>
             </td>
-            <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+         <!--   <td> {{currentRequestData.initiatedBy.TeamName}}</td>-->
+            <td><a (click)="getTeamDetails(currentRequestData.initiatedBy.ID)"> {{currentRequestData.initiatedBy.TeamName}}</a></td>
           </tr>
           <tr>
             <td>
               <label for="skillSet">Dev Panel</label>
             </td>
             <td>
-              <span *ngFor="let devPanel of currentRequestData.assignedDevPanelList;let i=index; trackBy:trackByIndex">
-                {{devPanel.itemName}}{{i === currentRequestData.assignedDevPanelList.length - 1 ? '' : ', '}}
-              </span>
+                <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
+                    <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
+                 </span>
             </td>
           </tr>
           <tr>

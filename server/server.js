@@ -28,6 +28,7 @@ app.use('/users', require('./controllers/users.controller'));
 app.use('/requests', require('./controllers/request.controller'));
 app.use('/skillSets',require('./controllers/skillSets.controller'));
 app.use('/mail',require('./controllers/mail.controller'));
+app.use('/area',require('./controllers/area.controller'));
 // error handler
 // app.use(function (err, req, res, next) {
 //     //res.header("Access-Control-Allow-Origin", "*")

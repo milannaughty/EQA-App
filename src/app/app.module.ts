@@ -21,7 +21,7 @@ import { routing } from './app.routing';
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
 import { JwtInterceptor, JwtInterceptorProvider } from './_helpers/index';
-import { AlertService, AuthenticationService, UserService, RequestService, ModalService, SkillSetsService, EmailService } from './_services/index';
+import { AlertService, AuthenticationService, UserService, RequestService, ModalService, SkillSetsService, EmailService ,AreaServices} from './_services/index';
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
@@ -47,7 +47,9 @@ import { AdminSkillSetComponent } from './admin-skill-set/admin-skill-set.compon
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component';
 import { RequestStatusComponent } from './request-status/request-status.component';
-import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component'; 
+import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component';
+import { TeamListComponent } from './team-list/team-list.component';
+import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component'; 
 //import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
@@ -83,7 +85,9 @@ import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist
         AdminHomePageComponent,
         ResetUserPasswordComponent,
         RequestStatusComponent,
-        TeamChecklistFormComponent
+        TeamChecklistFormComponent,
+        TeamListComponent,
+        AdminAreaAddComponent
     ],
     providers: [
         AuthGuard,
@@ -101,6 +105,7 @@ import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist
             useClass: JwtInterceptor,
             multi: true
         },
+        AreaServices,
 
         // provider used to create fake backend
         fakeBackendProvider

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TeamNewRequestComponent } from '../team-new-request/team-new-request.component';
 
-import { TeamNewRequestComponent } from './admin-team-request.component';
+
 
 describe('TeamNewRequestComponent', () => {
   let component: TeamNewRequestComponent;
