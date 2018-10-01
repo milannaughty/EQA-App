@@ -19,7 +19,9 @@ router.get('/generateRandomPassword', generateRandomPassword);
 router.get('/getUserByUserName', getUserByUserName);
 router.get('/:_id', getById);
 router.post('/updatePanelStatus',updatePanelStatus);
+router.post('/updateTeamStatus',updateTeamStatus);
 router.post('/panelSoftDelete',panelSoftDelete);
+router.post('/teamSoftDelete',teamSoftDelete);
 module.exports = router;
 
 function getUserByUserName(req,res){
@@ -262,4 +264,54 @@ function forgotPassword(req, res) {
         });
     }
     
+}
+
+function updateTeamStatus(req,res){
+    console.log("In start of updateTeamStatusInController method" );
+    bodyObject=req.body;
+    if(bodyObject.teamId==null || bodyObject.teamId==undefined)
+        {
+            console.log("teamId is undefined");
+            res.status(400).send("teamId is Undefined");
+            console.log("teamId is undefined");
+        }
+        else{
+    console.log(bodyObject);
+    userService.updateTeamStatus(bodyObject).then(
+            function(element){
+                console.log("updating Team complete successfully");
+                res.status(200).send(element);
+            }
+        ).catch(function(err){
+            console.log("updating Team complete successfully");
+            res.status(400).send(err);
+        })
+    }
+}
+
+
+function teamSoftDelete(req,res){
+    console.log("In start of TeamSoftDeleteInController method" );
+    bodyObject=req.body;
+    console.log(bodyObject.teamId);
+    if(bodyObject.teamId==null || bodyObject.teamId==undefined)
+        {
+            console.log("teamId is undefined");
+            res.status(400).send("teamId is Undefined");
+        }else if(bodyObject.isDeleted==null || bodyObject.isDeleted==undefined)
+        {
+            console.log("isDeleted is undefined");
+            res.status(400).send("iaDeleted is Undefined");
+        }else{
+    console.log(bodyObject);
+    userService.teamSoftDelete(bodyObject).then(
+            function(element){
+                console.log("deleting Team complete successfully");
+                res.status(200).send(element);
+            }
+        ).catch(function(err){
+            console.log("deleting Team complete successfully");
+            res.status(400).send(err);
+        })
+    }
 }

@@ -104,10 +104,6 @@ export class AdminDashboardComponent implements OnInit {
     var e=e;
     e.target.parentElement.setAttribute("class","active");
   }
-<<<<<<< HEAD
-  navToggle() {
-    $(".breadcrumb.left-nav").toggleClass("open");
-=======
   navToggle(){
     this.navOpen= !this.navOpen;
     console.log(this.navOpen);

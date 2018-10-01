@@ -72,5 +72,11 @@ export class UserService {
     getUserByUserName(userName) {
         return this.http.get<User>(appConfig.apiUrl + '/users/getUserByUserName?userName=' + userName);
     }
-
+    UpdateTeamStatus(reqObj: Object) {
+        return this.http.post(appConfig.apiUrl + '/users/UpdateTeamStatus', reqObj);
+    }
+    teamSoftDelete(reqObj: Object) {
+        debugger;
+        return this.http.post(appConfig.apiUrl + '/users/teamSoftDelete', reqObj);
+    }
 }

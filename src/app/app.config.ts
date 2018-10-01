@@ -1,6 +1,6 @@
 export const appConfig = {
     apiUrl: 'http://127.0.0.1:4000',
-    connectionString: "mongodb://127.0.0.1:27017/eqa-app",
+    connectionString: "mongodb://172.16.20.245:27017/eqa-app",
     fromPersonName: "Team IQA",
     fromPersonMailId: "iqaTeamMailId",
     initialPassword: 'nihilent@123'
@@ -34,7 +34,9 @@ export const adminConfig = {
         AddPanel: 'ADD PANEL',
         AddTeam: 'ADD TEAM',
         AddSkill: 'ADD Skills',
-        PanelList: 'PANEL LIST'
+        PanelList: 'PANEL LIST',
+        TeamList:'Team List',
+        AddArea:'Add Area'
     }
 };
 
@@ -49,6 +51,7 @@ export const userConfig = {
         'PanelList': 'Panel List',
         'PanelDetail': 'Panel Detail',
         'ResetPassword': 'RESET PASSWORD',
-        'TeamCheckList': 'CHECKLIST REVIEW'
+        'TeamCheckList': 'CHECKLIST REVIEW',
+        'TeamList':'Team List'
     }
 };

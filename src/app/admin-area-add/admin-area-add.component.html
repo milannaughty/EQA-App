@@ -1,0 +1,71 @@
+<div class="HeaderClass">Add Area</div>
+<div class="Header row" style="margin-top: 6px">
+    <form name="form" (ngSubmit)="f.form.valid && addArea()" #f="ngForm" novalidate>
+        <div class="col-xs-3 areaContainer">
+            <input type="text" id="areaInput" class="form-control" name="areaName" [(ngModel)]="model.areaName" #FName="ngModel"
+                placeholder="Area Name" required="required">
+         </div>
+
+      <div class="col-xs-3 areaContainer">
+          <input type="text" id="descriptionInput" class="form-control" name="Description" [(ngModel)]="model.Description" #FName="ngModel"
+          placeholder="Description" required="required">
+        </div>
+            
+        <div class="areaContainer form-group mobmt2">
+            <button [disabled]="loading" class="btn btn-primary" id="btnAdd">{{saveButtonCaption}}</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+            <a (click)="areaClear()" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-md-8">
+        <img *ngIf="tblloading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <div class="table-responsive">
+            <table class="areaTable table-hover table data-table table-condensed data-areaset table-striped fontFamily" id="areaDataTable" cellspacing="0"
+                data-page-length='10'>
+                <thead>
+                    <tr>
+                        <th style="text-align: center">#</th>
+                        <th style="text-align: left">Area Name</th>
+                        <th style="text-align: left">Description</th>
+                        <th style="text-align: left;">Created By</th>
+                        <th style="text-align: left;">Created On</th>
+                        <th style="text-align: left">Action</th>
+                    </tr>
+                </thead>
+             <tbody>
+                    <tr *ngFor="let client of area1; let i = index">
+                        <th scope="row" style="width: 10%; text-align: center">{{area1.indexOf(client)+1}}</th>
+                        <td style="width:300px">{{client.areaName}}</td>
+                        <td style="width: 198px">{{client.Description}}</td>
+                        <td style="width: 198px">{{client.createdBy}}</td>
+                        <td style="width: 198px">{{client.createdOn}}</td>
+                        <td style="width: 200px">
+                            <a (click)="editArea(client, i)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a (click)="deleteArea(client, i)" class="delete"><i class="glyphicon glyphicon-remove"
+                                    title="Delete"></i></a>
+                        </td>
+                    </tr>
+
+             </tbody>
+            </table>
+           
+        </div>
+    </div>
+
+</div>
+<script>
+    setTimeout(function () { $("#areaMessage").hide(); }, 5000);
+</script>
+  
+
+
+
+
+
