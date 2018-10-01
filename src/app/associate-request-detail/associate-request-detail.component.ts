@@ -22,13 +22,15 @@ export class AssociateRequestDetailComponent implements OnInit {
   modelRdbSelectedItem = []
   qaSkillSetPanel: any;
   devSkillSetPanel: any;
+  devSkillSet: any;
+  qaSkillSet: any;
   isSkillLoaded: boolean = false;
   reasonText: string = '';
   statusList: any = [];
   ddlId: number;
   showCheckList: boolean;
   showLoadingIcon: boolean = false;
-
+  loading: boolean;
   findings;
   futureImpact;
   proposedAction;
@@ -38,6 +40,10 @@ export class AssociateRequestDetailComponent implements OnInit {
   savarity;
   checkPointType;
   status;
+  isDevSkillMore: boolean;
+  isQaSkillMore: boolean;
+  devPanel: any;
+  qaPanel: any;
 
   reviewItem: boolean = true;
 
@@ -105,7 +111,34 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   ShowRequestDetails() {
+    debugger;
     console.log('In Request Detail Method')
+    this.loading = true
+    this.userService.getPanelBySkills(this.currentRequestData.skillSet, this.currentRequestData.qaSkillSet).subscribe(result => {
+      this.isSkillLoaded = true
+      this.isDevSkillMore = true;
+      this.isQaSkillMore = true;
+      this.loading = false
+      var r = result as Object[];
+      this.qaSkillSetPanel = r.filter(x => x['panelType'] == 'QA').map((x, i) => ({ id: x["_id"], itemName: x["username"] }));
+      this.devSkillSetPanel = r.filter(x => x['panelType'] == 'Dev').map(x => ({ id: x["_id"], itemName: x["username"] }));
+      var devstr = this.currentRequestData.skillSet.map(x => x.itemName).join(',');
+      var arr = devstr.split(',');
+      var count = arr.length;
+      if (count <= 3) {
+        this.isDevSkillMore = false;
+      }
+      this.devSkillSet = devstr.substring(0, CommonUtil.getNthIndexOfString(devstr, ',', 3));
+      var qaStr = this.currentRequestData.qaSkillSet.map(x => x.itemName).join(',');
+      var arr = qaStr.split(',');
+      var count = arr.length;
+      if (count <= 3) {
+        this.isQaSkillMore = false;
+      }
+      this.qaSkillSet = qaStr.substring(0, CommonUtil.getNthIndexOfString(qaStr, ',', 3));
+      this.devPanel = this.currentRequestData.assignedDevPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
+      this.qaPanel = this.currentRequestData.assignedQAPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
+    });
     // this.userService.getPanelBySkills(this.currentRequestData.skillSet, this.currentRequestData.qaSkillSet).subscribe(result => {
     //   this.isSkillLoaded = true
     //   var r = result as Object[];
@@ -116,6 +149,14 @@ export class AssociateRequestDetailComponent implements OnInit {
 
   }
 
+  ShowSkillPopup(type: string) {
+    var qaStr = type == 'Dev' ? this.GetCommaSepratedSkills(this.currentRequestData.skillSet) : this.GetCommaSepratedSkills(this.currentRequestData.qaSkillSet);
+    var htmlContent = CommonUtil.GetTabularData(qaStr, 5, null);
+    CommonUtil.ShowInfoAlert(`Required ${type} Skills`, htmlContent);
+  }
+  GetCommaSepratedSkills(skill) {
+    return skill.map(x => x.itemName).join(',');
+  }
   ShowRequestList() {
     this.messageEvent.emit({ ActivateTab: this.currentRequestData.prevActiveTab || 'HOME' });
   }
@@ -398,5 +439,29 @@ export class AssociateRequestDetailComponent implements OnInit {
     //this.currentRequestData.CheckListDetails.map(x => { this.modelRdbSelectedItem[x._Id] = x.status == 1 })
 
   }
+  showUserDeatail(recievedUserData) {
+    this.userService.getById(recievedUserData.id).subscribe(result => {
+      console.log(JSON.stringify(result));
+      debugger;
+      EmailManager.userDetailInfo(result);
+    }, err => {
+      console.log(JSON.stringify(err));
+      CommonUtil.ShowErrorAlert(err.error)
+    });
+    console.log(recievedUserData);
+  }
+
+  getTeamDetails(id) {
+    this.userService.getById(id).subscribe(result => {
+      console.log(JSON.stringify(result));
+      debugger;
+      EmailManager.teamDetailInfo(result);
+    }, err => {
+      console.log(JSON.stringify(err));
+      CommonUtil.ShowErrorAlert(err.error)
+    });
+  }
 
 }
+
+

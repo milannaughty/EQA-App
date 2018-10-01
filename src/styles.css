@@ -550,6 +550,12 @@ app{
     padding-left: 15px;
     float: left;
   }
+  .areaContainer{
+    
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+  }
   .skillContainer input, .skillContainer select{
     width:100% !important;
     margin-left: 0 !important;
@@ -709,3 +715,8 @@ color:#fff;
   }
 }
 
+/* Area */
+
+#areaDataTable_filter{
+  float: right;
+}
