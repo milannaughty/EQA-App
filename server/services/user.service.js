@@ -6,7 +6,7 @@ var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('users');
-
+db.bind('feedbacks');
 var service = {};
 
 service.authenticate = authenticate;
@@ -293,8 +293,8 @@ function create(userParam) {
 
 function submitfeedback(userParam) {
     var deferred = Q.defer();
-        db.users.insert(
-            user,
+        db.feedbacks.insert(
+            userParam,
             function (err, doc) {
                 if (err) deferred.reject(err.name + ': ' + err.message);
 

@@ -13,7 +13,7 @@ import { CommonUtil } from '../app.util';
 export class FeedbackComponent implements OnInit {
   AdminActiveTab: any;
   @Output() messageEvent = new EventEmitter<any>();
-  @Input() currentRequestData: any;
+  @Input() currentUser: any;
   model: any = {};
   loading = false;
   constructor(private userService: UserService,
@@ -24,17 +24,23 @@ export class FeedbackComponent implements OnInit {
   }
   savefeedback() {
     this.loading = true;
-    this.model.AddedBy = this.currentRequestData.currentUser.username;
+    this.model.AddedBy = this.currentUser.username;
     this.model.AddedOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
     this.userService.submitfeedback(this.model).subscribe(
       data => {
-
+          this.loading=false;
+          this.Clear();
       },
       error => {
         console.log("Error while submiting feedback with " + this.model.username);
         CommonUtil.ShowErrorAlert("Error while submiting feedback" + error.error);
+        this.Clear();
         this.loading = false;
       });
+  }
+
+  Clear(){
+    this.model.feedback="";
   }
 
 }

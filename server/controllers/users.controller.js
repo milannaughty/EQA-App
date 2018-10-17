@@ -85,9 +85,11 @@ function register(req, res) {
 function submitfeedback(req, res) {
     userService.submitfeedback(req.body)
         .then(function () {
+            console.log("Feedback successfully submited!");
             res.json('success');
         })
         .catch(function (err) {
+            console.log("Error occur at the time of feedback submition!");
             res.status(400).send(err);
         });
 }
