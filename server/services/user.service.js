@@ -24,6 +24,7 @@ service.updatePanelStatus=updatePanelStatus;
 service.panelSoftDelete=panelSoftDelete;
 service.updateTeamStatus=updateTeamStatus;
 service.teamSoftDelete=teamSoftDelete;
+service.submitfeedback=submitfeedback;
 
 module.exports = service;
 
@@ -288,6 +289,22 @@ function create(userParam) {
 
     return deferred.promise;
 }
+// service for user valuable feedback
+
+function submitfeedback(userParam) {
+    var deferred = Q.defer();
+        db.users.insert(
+            user,
+            function (err, doc) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
+
+                deferred.resolve();
+            });
+    
+
+    return deferred.promise;
+}
+
 
 function update(_id, userParam) {
     var deferred = Q.defer();
