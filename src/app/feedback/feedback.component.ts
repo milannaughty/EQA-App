@@ -1,0 +1,46 @@
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { UserService, EmailService } from '../_services/index';
+import { DatePipe } from '@angular/common';
+import { appConfig, adminConfig } from '../app.config';
+import { CommonUtil } from '../app.util';
+
+
+@Component({
+  selector: 'app-feedback',
+  templateUrl: './feedback.component.html',
+  styleUrls: ['./feedback.component.css']
+})
+export class FeedbackComponent implements OnInit {
+  AdminActiveTab: any;
+  @Output() messageEvent = new EventEmitter<any>();
+  @Input() currentUser: any;
+  model: any = {};
+  loading = false;
+  constructor(private userService: UserService,
+    private datePipe: DatePipe,
+    private emailService: EmailService) { }
+
+  ngOnInit() {
+  }
+  savefeedback() {
+    this.loading = true;
+    this.model.AddedBy = this.currentUser.username;
+    this.model.AddedOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
+    this.userService.submitfeedback(this.model).subscribe(
+      data => {
+          this.loading=false;
+          this.Clear();
+      },
+      error => {
+        console.log("Error while submiting feedback with " + this.model.username);
+        CommonUtil.ShowErrorAlert("Error while submiting feedback" + error.error);
+        this.Clear();
+        this.loading = false;
+      });
+  }
+
+  Clear(){
+    this.model.feedback="";
+  }
+
+}

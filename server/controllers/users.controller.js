@@ -7,6 +7,7 @@ var utililtiesServiceObject = require('services/utililties.service');
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
+router.post('/submitfeedback', submitfeedback);
 router.get('/', getAll);
 router.get('/current', getCurrent);
 router.put('/:_id', update);
@@ -80,6 +81,19 @@ function register(req, res) {
             res.status(400).send(err);
         });
 }
+
+function submitfeedback(req, res) {
+    userService.submitfeedback(req.body)
+        .then(function () {
+            console.log("Feedback successfully submited!");
+            res.json('success');
+        })
+        .catch(function (err) {
+            console.log("Error occur at the time of feedback submition!");
+            res.status(400).send(err);
+        });
+}
+
 
 function getAll(req, res) {
     userService.getAll()

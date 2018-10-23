@@ -49,7 +49,8 @@ import { ResetUserPasswordComponent } from './reset-user-password/reset-user-pas
 import { RequestStatusComponent } from './request-status/request-status.component';
 import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component';
 import { TeamListComponent } from './team-list/team-list.component';
-import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component'; 
+import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component';
+import { FeedbackComponent } from './feedback/feedback.component'; 
 //import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
@@ -87,7 +88,8 @@ import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component
         RequestStatusComponent,
         TeamChecklistFormComponent,
         TeamListComponent,
-        AdminAreaAddComponent
+        AdminAreaAddComponent,
+        FeedbackComponent
     ],
     providers: [
         AuthGuard,

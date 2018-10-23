@@ -22,6 +22,10 @@ export class UserService {
 
         return this.http.post(appConfig.apiUrl + '/users/register', user);
     }
+    submitfeedback(feedback: User) {
+
+        return this.http.post(appConfig.apiUrl + '/users/submitfeedback', feedback);
+    }
 
     update(user: User) {
         return this.http.put(appConfig.apiUrl + '/users/' + user.id, user);

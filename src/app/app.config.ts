@@ -53,6 +53,8 @@ export const userConfig = {
         'PanelDetail': 'Panel Detail',
         'ResetPassword': 'RESET PASSWORD',
         'TeamCheckList': 'CHECKLIST REVIEW',
-        'TeamList':'Team List'
+        'TeamList':'Team List',
+        'Feedback':'USER FEEDBACK'
+        
     }
 };

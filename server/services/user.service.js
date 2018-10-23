@@ -6,7 +6,7 @@ var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('users');
-
+db.bind('feedbacks');
 var service = {};
 
 service.authenticate = authenticate;
@@ -24,6 +24,7 @@ service.updatePanelStatus=updatePanelStatus;
 service.panelSoftDelete=panelSoftDelete;
 service.updateTeamStatus=updateTeamStatus;
 service.teamSoftDelete=teamSoftDelete;
+service.submitfeedback=submitfeedback;
 
 module.exports = service;
 
@@ -288,6 +289,22 @@ function create(userParam) {
 
     return deferred.promise;
 }
+// service for user valuable feedback
+
+function submitfeedback(userParam) {
+    var deferred = Q.defer();
+        db.feedbacks.insert(
+            userParam,
+            function (err, doc) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
+
+                deferred.resolve();
+            });
+    
+
+    return deferred.promise;
+}
+
 
 function update(_id, userParam) {
     var deferred = Q.defer();
