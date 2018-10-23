@@ -13,6 +13,34 @@ export class CommonUtil {
         { _Id: 5, CheckListItem: 'Limit the length of functions', Description: 'Don’t put too much code into single function. Try to make multiple functions as per logical grouping of code.' },
         { _Id: 6, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' },
         { _Id: 7, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' }]
+    static AreaOfFindings = [
+        { _Id: 1, Title: "Best Practices" },
+        { _Id: 2, Title: "Code Maintanability" },
+        { _Id: 3, Title: "Coding Standards" },
+        { _Id: 4, Title: "Configuration Issues" },
+        { _Id: 5, Title: "Cosmetic" },
+        { _Id: 6, Title: "Deployment Issues" },
+        { _Id: 7, Title: "Design Issue" },
+        { _Id: 8, Title: "Faulty Coding" },
+        { _Id: 9, Title: "Inadequate test coverage" },
+        { _Id: 10, Title: "Incorrect Error Handling" },
+        { _Id: 11, Title: "Incorrect Implementation" },
+        { _Id: 12, Title: "Incorrect memory management" },
+        { _Id: 13, Title: "Logical Issue" },
+        { _Id: 14, Title: "Missing impact analysis" },
+        { _Id: 15, Title: "NA" },
+        { _Id: 16, Title: "Not As Per Requirements" },
+        { _Id: 17, Title: "Performance Impact" },
+        { _Id: 18, Title: "Process violation" },
+        { _Id: 19, Title: "Reusability" },
+        { _Id: 20, Title: "Scalability" },
+        { _Id: 21, Title: "Stability" },
+        { _Id: 22, Title: "Unclear Requirements" }
+    ]
+    static TypeOfSeverity = [{ _Id: 1, Title: "Critical" }, { _Id: 2, Title: "High" }, { _Id: 3, Title: "Medium" }, { _Id: 4, Title: "Low" }];
+    static Status = [{ _Id: 1, Title: "Open" }, { _Id: 0, Title: "Closed" }, { _Id: 2, Title: "Verified-Closed" }];
+    static TypeOfReview = [{ _Id: 1, Title: "Peer" }, { _Id: 2, Title: "IQA" }];
+    static CheckPoints = [{ _Id: 1, Title: "Code" }, { _Id: 2, Title: "Design" }, { _Id: 3, Title: "Requirements" }, { _Id: 4, Title: "RUD" }, { _Id: 5, Title: "Testing" }];
 
     static GetFilteredRequestList(requestList, status) {
         return requestList.filter(x => x.status == status)
@@ -111,6 +139,9 @@ export class CommonUtil {
             case requestCollection.VERIFIED_BY_DEV_PANEL.DBStatus: return requestCollection.VERIFIED_BY_DEV_PANEL.DisplayStatus;
             case requestCollection.VERIFIED_BY_QA_PANEL.DBStatus: return requestCollection.VERIFIED_BY_QA_PANEL.DisplayStatus;
             case requestCollection.VERIFIED_BY_TEAM.DBStatus: return requestCollection.VERIFIED_BY_TEAM.DisplayStatus;
+            case 0: return requestCollection.CLOSE;
+            case 1: return requestCollection.OPEN;
+            case 2: return requestCollection.VERIFIED_CLOSE;
             default: return 'Other'
         }
     }
@@ -119,7 +150,7 @@ export class CommonUtil {
 export class EmailManager {
 
     static EmailAction = {
-        TEAM_ADDED:'TEAM_ADDED'
+        TEAM_ADDED: 'TEAM_ADDED'
     }
 
     /**

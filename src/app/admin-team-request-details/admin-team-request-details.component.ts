@@ -84,7 +84,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
         this.qaPanel = [];
       }
       this.devDropdownSettings = {
-        singleSelection: true,
+        singleSelection: false,
         text: "Select Dev Panel",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',

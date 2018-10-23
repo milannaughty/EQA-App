@@ -357,12 +357,26 @@ width: auto;
     font-variant: all-petite-caps;
     font-family: monospace;
 }
+.capseAll{
+  font-variant-caps: all-petite-caps;
+}
+
 #skillDataTable_filter{
   float: right;
 }
 h2.swal2-title{
   font-weight: normal !important;
 }
+
+.mb24 {
+  margin-bottom: 24px !important;
+}
+
+.src-image {
+  display: none;
+}
+
+/**FONT STYLES**/
 .tt-uppercase {
   text-transform: uppercase !important;
 }
@@ -371,7 +385,7 @@ h2.swal2-title{
   font-weight: 700 !important;
 }
 .fs-body2 {
-  font-size: 1.15384615rem !important;
+  font-size: 1.7rem !important;
 }
 .mb16 {
   margin-bottom: 10px !important;
@@ -384,18 +398,41 @@ h2.swal2-title{
   font-family: 'Roboto Slab',serif;
   font-weight: bold;
 }
+.ff-family {
+  font-family: Calibri, 'Trebuchet MS', sans-serif;
+}
 .fw-bold {
   font-weight: 700 !important;
 }
 .fs-title {
   font-size: 1.61538462rem !important;
 }
+
+.bg-divider {
+  background-color: #ffb935;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+.pl24 {
+  padding-left: 24px !important;
+}
+.pb4 {
+  padding-bottom: 4px !important;
+}
+.pr2 {
+  padding-right: 2px !important;
+}
+.pt2 {
+  padding-top: 2px !important;
+}
 .mb24 {
   margin-bottom: 24px !important;
 }
 
-.src-image {
-  display: none;
+.capitalize{
+  text-transform: capitalize;
 }
 
 

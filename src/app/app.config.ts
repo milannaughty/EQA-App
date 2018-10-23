@@ -16,6 +16,7 @@ export const adminConfig = {
         VERIFIED_BY_QA_PANEL: { DBStatus: 'VerifiedByQAPanel', DisplayStatus: 'Verified By QA Panel' },
         VERIFIED_BY_TEAM: { DBStatus: 'VerifiedByTeam', DisplayStatus: 'Verified By Team' },
         REJECTED: { DBStatus: 'Rejected', DisplayStatus: 'Req. Rejected' },
+        VERIFIED_CLOSE: 'Verified-Closed',
         CLOSE: 'Close',
         OPEN: 'Open',
         UNDER_VERIFICATION: { DBStatus: 'UnderVerification', DisplayStatus: 'Under Review' }

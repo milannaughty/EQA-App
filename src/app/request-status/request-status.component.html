@@ -5,5 +5,5 @@
 <span *ngIf="status==RequestStatus.PANEL_ASSIGNED.DBStatus" class="label label-warning statusPanelAssigned">{{RequestStatus.PANEL_ASSIGNED.DisplayStatus}}</span>
 <span *ngIf="status==RequestStatus.VERIFIED_BY_PANEL" class="label statusVerifiedByPanel">{{status}}</span>
 <span *ngIf="status==RequestStatus.OPEN" class="label label-danger">{{status}}</span>
-<span *ngIf="status==RequestStatus.CLOSE" class="label statusCompleted">{{status}}</span>
+<span *ngIf="status==RequestStatus.CLOSE || status==RequestStatus.VERIFIED_CLOSE" class="label statusCompleted">{{status}}</span>
 <span *ngIf="status==RequestStatus.UNDER_VERIFICATION.DBStatus" class="label statusVerifiedByPanel">{{RequestStatus.UNDER_VERIFICATION.DisplayStatus}}</span>

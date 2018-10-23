@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 
 import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     ActiveTab: any = 'Dashboard';
     ActionList: any = userConfig.ActionList;
     el: ElementRef;
-    navOpen:boolean=false;
+    navOpen: boolean = false;
     receiveMessage($event) {
         console.log('In receiveMessage Method');
         this.ActiveTabs = $event
@@ -30,8 +30,8 @@ export class HomeComponent implements OnInit {
         console.log('In receiveMessage Method');
         this.ActiveTab = mssgEvent.ActiveTabChildParam;
     }
-    constructor(private requestService: RequestService, private router: Router,el: ElementRef) {
-        this.el = el; 
+    constructor(private requestService: RequestService, private router: Router, el: ElementRef) {
+        this.el = el;
         let cachedUser = sessionStorage.getItem('currentUser');
         if (!cachedUser)
             this.router.navigate(['/login']);
@@ -46,12 +46,12 @@ export class HomeComponent implements OnInit {
         console.log('In ngOnInit Method');
         if (this.currentUser["isPanel"]) {
             this.requestService.getPanelRequestCountWithStatus
-            (this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus)
-            .subscribe(result => {
-                this.NewRequestCount = result["count"];
-            },err => {
-                debugger;
-            });
+                (this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus)
+                .subscribe(result => {
+                    this.NewRequestCount = result["count"];
+                }, err => {
+                    debugger;
+                });
         }
         else {
             // this.requestService.getAssociateNewRequest(this.currentUser["_id"]).subscribe(result => {
@@ -70,15 +70,15 @@ export class HomeComponent implements OnInit {
     }
 
 
-    doAction(actionName: string,e) {
+    doAction(actionName: string, e) {
         this.ActiveTab = actionName;
         $(".nav-pills li").removeClass("active")
-        var e=e;
-        e.target.parentElement.setAttribute("class","active");
+        var e = e;
+        e.target.parentElement.setAttribute("class", "active");
     }
     ShowRequestDetails(actionData) {
-        debugger;
-        this.currentRequestData = actionData.data;
+        this.currentRequestData = {};
+        this.currentRequestData["body"] = actionData.data;
         this.currentRequestData["currentUser"] = this.currentUser;
         this.currentRequestData["prevActiveTab"] = this.ActiveTab;
         this.ActiveTab = actionData.ActivateTab;
@@ -88,11 +88,10 @@ export class HomeComponent implements OnInit {
         this.ActiveTab = mssgEvent.ActivateTab;
     }
     ShowRequestList1(mssgEvent) {
-        debugger;
         this.ActiveTab = this.ActionList.TeamEQARequest;;
-    }   
-    navToggle(){
-        this.navOpen= !this.navOpen;
+    }
+    navToggle() {
+        this.navOpen = !this.navOpen;
         console.log(this.navOpen);
-      }
+    }
 }

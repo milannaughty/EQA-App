@@ -88,7 +88,7 @@ function updateReq(reqParam) {
 function getAllReq() {
     var deferred = Q.defer();
 
-    db.request.find().sort( { creationDate: -1 } ).toArray(function (err, requests) {
+    db.request.find().sort({ creationDate: -1 }).toArray(function (err, requests) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(requests);
@@ -160,15 +160,17 @@ function getPanelRequestWithStatus(_associateId, _requestStatus) {
 
 function getPanelRequestCountWithStatus(_associateId, _requestStatus) {
     console.log("in start of getPanelRequestCountWithStatus at Service");
-    var query = { $or: [
-                        { "assignedDevPanelList.id": _associateId}
-                        ,{ "assignedQAPanelList.id": _associateId}
-                    ], "status": _requestStatus  };
-console.log(query);
-        //             query = { $or: 
-        // [{ "assignedDevPanelList.id": "5b5576a589df945d682bc1b3" },
-        //  { "assignedQAPanelList.id": "5b5576a589df945d682bc1b3" }]
-        //  , "status": "PanelAssigned" };
+    var query = {
+        $or: [
+            { "assignedDevPanelList.id": _associateId }
+            , { "assignedQAPanelList.id": _associateId }
+        ], "status": _requestStatus
+    };
+    console.log(query);
+    //             query = { $or: 
+    // [{ "assignedDevPanelList.id": "5b5576a589df945d682bc1b3" },
+    //  { "assignedQAPanelList.id": "5b5576a589df945d682bc1b3" }]
+    //  , "status": "PanelAssigned" };
 
     var deferred = Q.defer();
     db.request.count(query,
@@ -187,33 +189,42 @@ function updateStatusOfRequest(reqParam) {
     console.log("UpdateStatusOfRequest method started");
     var utility = require('./utililties.service');
     var deferred = Q.defer();
-    var set = {
-        "status": reqParam.status,
-        "rejectReason": reqParam.rejectReason,
-    };
-    if (reqParam.assignedDevPanelList !== undefined) {
-        set["assignedDevPanelList"] = null;
-    }
-    if (reqParam.assignedQAPanelList !== undefined) {
-        set["assignedQAPanelList"] = null;
-    }
-    if (reqParam.CheckListDetails !== undefined) {
-        set["CheckListDetails"] = reqParam.CheckListDetails;
-    }
+    // var set = {
+    //     "status": reqParam.status,
+    //     "rejectReason": reqParam.rejectReason,
+    // };
+    // if (reqParam.assignedDevPanelList !== undefined) {
+    //     set["assignedDevPanelList"] = null;
+    // }
+    // if (reqParam.assignedQAPanelList !== undefined) {
+    //     set["assignedQAPanelList"] = null;
+    // }
+    // if (reqParam.CheckListDetails !== undefined) {
+    //     set["CheckListDetails"] = reqParam.CheckListDetails;
+    // }
     // if (!utility.IsUndefined(reqParam.DevReviewComment)) {
     //     set["DevReviewComment"] = reqParam.DevReviewComment;
     // }
     // if (!utility.IsUndefined(reqParam.QAReviewComment)) {
     //     set["QAReviewComment"] = reqParam.QAReviewComment;
     // }
-    if (!utility.IsUndefined(reqParam.verificationStatus)) {
-        set["verificationStatus"] = reqParam.verificationStatus;
-    }
-    console.log('Before Updating the request')
-    console.log(set);
+    // if (!utility.IsUndefined(reqParam.verificationStatus)) {
+    //     set["verificationStatus"] = reqParam.verificationStatus;
+    // }
+    //STRICT CHECKING REQUIRED HERE
+    // if (reqParam.isDevPanel == true) {
+    //     set["assignedDevPanelList"] = reqParam["assignedDevPanelList"];
+    // }
+    // if (reqParam.isDevPanel == false) {
+    //     set["assignedQAPanelList"] = reqParam["assignedQAPanelList"];
+    // }
+    var requestID = reqParam._id;
+    delete reqParam._id;
+    console.log('Before Updating the request id:'+requestID)
+    console.log(reqParam);
     db.request.update(
-        { _id: mongo.helper.toObjectID(reqParam.requestId) },
-        { $set: set },
+        { _id: mongo.helper.toObjectID(requestID) },
+        { $set: reqParam },
         function (err, doc) {
             if (err) deferred.reject(err.name + ': ' + err.message);
             console.log('Err :' + JSON.stringify(err))
