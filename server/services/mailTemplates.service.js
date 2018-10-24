@@ -11,6 +11,7 @@ mailTemplatesService.getMailTemplateToBeSendFirstMailToTeam=getMailTemplateToBeS
 mailTemplatesService.getMailTemplateTobeSentToUserAfterGeneratingNewPassword=getMailTemplateTobeSentToUserAfterGeneratingNewPassword;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel=getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel=getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel;
+mailTemplatesService.getMailTemplateforUsersfeedback=getMailTemplateforUsersfeedback;
 
 module.exports = mailTemplatesService;
 
@@ -135,5 +136,16 @@ function getMailTemplateTobeSentToUserAfterGeneratingNewPassword(valuesToBeRepla
     var mailContent=`<b>Hello ${name},<br><p>Your new password for IQA process is as below, request you to login with your username and new password.</b></p>`;
     mailContent+=`<div class=WordSection1><table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 style='border-collapse:collapse'><tr><td valign=top style='border:solid windowtext 1.0pt;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>User Name<o:p></o:p></p></td><td valign=top style='border:solid windowtext 1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>Password<o:p></o:p></p></td></tr><tr><td valign=top style='border:solid windowtext 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>${valuesToBeReplaced.username}<o:p></o:p></p></td><td valign=top style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>${valuesToBeReplaced.password}<o:p></o:p></p></td></tr></table><p class=MsoNormal><o:p>&nbsp;</o:p></p></div>`;
     mailContent+=getIQAMailSignature(undefined);
+    return mailContent;
+}
+
+/**
+ * this method generates template for mail to be send after rejected by Panel
+ * @param {requestObject.feedback} valuesToBeReplaced 
+ */
+function getMailTemplateforUsersfeedback(valuesToBeReplaced){
+    var mailContent=`<b>Hello Admin,<br><p> Below feedback is recieved from ${valuesToBeReplaced.fromPersonMailId} <BR>
+   <p>Feedback: ${valuesToBeReplaced.feedback}</p> </b></p>`;
+    mailContent+=getIQAMailSignature(valuesToBeReplaced.emailSender);
     return mailContent;
 }

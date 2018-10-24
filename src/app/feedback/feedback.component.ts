@@ -2,8 +2,8 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { UserService, EmailService } from '../_services/index';
 import { DatePipe } from '@angular/common';
 import { appConfig, adminConfig } from '../app.config';
-import { CommonUtil } from '../app.util';
-
+import { CommonUtil,EmailManager } from '../app.util';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-feedback',
@@ -29,18 +29,63 @@ export class FeedbackComponent implements OnInit {
     this.userService.submitfeedback(this.model).subscribe(
       data => {
           this.loading=false;
-          this.Clear();
+          //sendMailToAdminAftersubmitingfeedback
+                /**mail sending starts */
+                  var toPersonMailId ="krishna.yaldi@nihilent.com"
+                  var fromPersonMailId= this.currentUser.username;
+                    var emailSender= EmailManager.GetUserNameFromCommaSepratedEmailIds(this.currentUser.username);
+                  var toPersonName = toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).charAt(0).toUpperCase()
+                      + toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).slice(1);
+
+                  var mailSubject = "Feedback for improve IQA Management system. ";
+
+                  var mailObject = {
+                      "fromPersonName": appConfig.fromPersonName,
+                      "fromPersonMailId": fromPersonMailId,
+                      "toPersonName": toPersonName,
+                      "toPersonMailId": toPersonMailId,
+                      "ccPersonList": "",
+                      "mailSubject": mailSubject,
+                      "mailContent": "",
+                      "feedback":this.model.feedback,
+                      "emailSender": emailSender,
+                  };
+
+                  this.emailService.sendMailToAdminAftersubmitingfeedback(mailObject).subscribe(
+                      success => {
+                          this.loading = false;
+                          CommonUtil.ShowSuccessAlert("Feedback submited Successfully, mail sent to " + toPersonMailId);
+                      }, err => {
+                          this.loading = false;
+                          CommonUtil.ShowInfoAlert("Success", "Feedback submited Successfully, error while sendign mail to " + toPersonMailId);
+                      }
+                  );
+              /**mail sending ends */
+
+          this.ShowSuccessAlert("Feedback is successfully submited");
+          this.model.feedback="";
+
       },
       error => {
         console.log("Error while submiting feedback with " + this.model.username);
         CommonUtil.ShowErrorAlert("Error while submiting feedback" + error.error);
-        this.Clear();
+        this.model.feedback="";
         this.loading = false;
       });
   }
 
-  Clear(){
-    this.model.feedback="";
+    Clear(){
+      this.model.feedback="";
+    }
+
+  ErrorAlert(error) {
+    swal({
+      type: 'error',
+      title: error,
+    })
+  }
+  ShowSuccessAlert(msg) {
+    swal('success', msg, 'success')
   }
 
 }
