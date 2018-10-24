@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         else {
             this.model.isPanel = true;
         }
-        this.authenticationService.login(this.model.username, this.model.password, this.model.isPanel)
+        this.authenticationService.loginWithMongoAndLDAP(this.model.username, this.model.password)
             .subscribe(
             data => {
                 debugger;

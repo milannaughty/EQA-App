@@ -2,6 +2,17 @@
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
+var PropertiesReader = require('properties-reader');
+var properties = PropertiesReader('C:/IQA-conf/iqa-conf.prop');
+
+var utilitiesServiceObject = require('./utililties.service');
+
+const AD = require('activedirectory2').promiseWrapper;
+const adConfig = { url: properties.get('url'),
+               baseDN: properties.get('baseDN'),
+               username: properties.get('username'),
+               password: properties.get('password') }
+const ad = new AD(adConfig);
 var Q = require('q');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
@@ -26,17 +37,259 @@ service.updateTeamStatus=updateTeamStatus;
 service.teamSoftDelete=teamSoftDelete;
 service.submitfeedback=submitfeedback;
 
+service.authenticateByLdap=authenticateByLdap;
+service.findUserInLdapWithEmail=findUserInLdapWithEmail;
+service.checkIfUserExistsInLdapWithEmail=checkIfUserExistsInLdapWithEmail;
+service.authentionByBothLdapAndMongo=authentionByBothLdapAndMongo;
+
 module.exports = service;
 
+/**
+ * This method athenticates user of role Admin / Panel from LDAP 
+ * And for team user it authenticates from MongoDB 
+ * @param {username} username 
+ * @param {password} password 
+ */
+function authentionByBothLdapAndMongo(username, password){
+    console.log('In start of authentionByBothLdapAndMongo of UserService');
+    var deferred = Q.defer();
+
+    if(username.indexOf('@nihilent.com') > -1) {//if user is IQA lead or panel authenticate with LDAP
+        ad.authenticate(username, password, function(err, auth) {
+            if (err) {
+                var errorString = JSON.stringify(err);
+              console.log('ERROR: '+errorString);
+              console.log('In authentionByBothLdapAndMongo of UserService ends with err Error : ');
+              return deferred.reject(errorString);
+            }
+           
+            if (auth) {
+                console.log('In authentionByBothLdapAndMongo of UserService LDAP authenticated');
+                db.users.findOne({ username: username },
+                    function(err,user){
+                        if(err){
+                            console.log('Error occured while looking for user in db after authentication');
+                            console.log(JSON.stringify(err));
+                            deferred.reject('Error while authentication, Kindly ask support team to look into logs');
+                        }else if(user==null){  
+                            //user not found in mongoDB, this is first login of user
+                            //making users entry in MongoDB
+                            console.log("User not found with username in MongoDB making entry with : "+username);
+                            
+                            var query = 'mail='+username;
+                            ad.findUsers(query, true, function(err, users) {
+                            //looking for user details in LDAP
+                            if (err) {
+                                var errorString = JSON.stringify(err);
+                              console.log('In authentionByBothLdapAndMongo of UserService Error : user detail not found in LDAP with email : '+username +' ERROR: '+errorString);
+                              deferred.reject(errorString);
+                            }else if ((! users) || (users.length == 0)){
+                                console.log('In end of authentionByBothLdapAndMongo of UserService ERROR: ' +'No users found with email : '+username);
+                                deferred.reject('No user found with email : '+username);
+                            }else {
+                                console.log('In end of findUserInLdapWithEmail of UserService user found with email : '+username);
+                                //user detail found
+                                var userGroupArr=users[0].groups
+                                var tFirstName=utilitiesServiceObject.getFirstNameFromEmail(username);
+                                var tLastName=utilitiesServiceObject.getLastNameFromEmail(username);
+                                var newUserObject={
+                                    "FName" : tFirstName,
+                                    "username" : username,
+                                    "LName" : tLastName,
+                                    "panelType" : null,
+                                    "skillSet": null,
+                                    "isPanel" : false,
+                                    "isAdmin" :false,
+                                    "AddedBy" : {
+                                        "AdminUser" : username
+                                    },
+                                    "AddedOn" : new Date(),
+                                    "password": password
+                                };
+                               
+                                
+                                if(userGroupArr.some(x => x.cn==config.AdminDLName)){//fill user details as admin
+                                    newUserObject.isAdmin=true;
+                                }else{//fill user details as panel
+                                    newUserObject.isPanel=true;
+                                }
+                                createNewUser(newUserObject);
+                          }
+                          });
+                        }else if(user){
+                            deferred.resolve({
+                                _id: user._id,
+                                username: user.username,
+                                FName: user.FName,
+                                LName: user.LName,
+                                isPanel: user.isPanel,
+                                isAdmin: user.isAdmin,
+                                teamName: user.teamName,
+                                panelType: user.panelType,
+                                PMEmail:user.PMEmail,
+                                POCEmail:user.POCEmail,
+                                DAMEmail:user.DAMEmail,
+                                token: jwt.sign({ sub: user._id }, config.secret)
+                            });
+                        }else {
+                            deferred.reject('Error : Unexpected error occured');
+                        }
+                    });
+              }else {
+                console.log('In authentionByBothLdapAndMongo of UserService ends with err athentication failed');
+             deferred.reject("Error : Authentication failed");
+            }
+          });
+    }else{//if user is neither IQA lead nor panel authenticate with MONGO
+        //authenticate(username,password,false);
+        console.log('In authentionByBothLdapAndMongo of userService : MongoAuthentication for team');
+        db.users.findOne({ username: username }, function (err, user) {
+            if (err){
+                console.log('In authentionByBothLdapAndMongo of userService : MongoAuthentication for team - has error '+JSON.stringify(err));
+                deferred.reject(err.name + ': ' + err.message);
+            } 
+    
+            if (user && bcrypt.compareSync(password, user.hash)) {
+                console.log(user);
+                // authentication successful
+           
+                if (!user.isPanel) {
+    
+                    deferred.resolve({
+                        _id: user._id,
+                        username: user.username,
+                        FName: user.FName,
+                        LName: user.LName,
+                        isPanel: user.isPanel,
+                        isAdmin: user.isAdmin,
+                        teamName: user.teamName,
+                        panelType: user.panelType,
+                        PMEmail:user.PMEmail,
+                        POCEmail:user.POCEmail,
+                        DAMEmail:user.DAMEmail,
+                        token: jwt.sign({ sub: user._id }, config.secret)
+                    });
+                } else {
+                    console.log('In authentionByBothLdapAndMongo of userService : MongoAuthentication for team - Incorrect role, please provide the valid credentials ');
+                    deferred.reject("Incorrect role, please provide the valid credentials");
+                }
+            } else {
+                // authentication failed
+                console.log('In authentionByBothLdapAndMongo of userService : MongoAuthentication for team - Invalid Credentials');
+                deferred.resolve();
+            }
+        });
+
+    }
+
+    function createNewUser(recievedUserObject) {
+        console.log('In createNewUser of authentionByBothLdapAndMongo of UserService');
+        // set user object to userParam without the cleartext password
+        var user = _.omit(recievedUserObject, 'password');
+
+        // add hashed password to user object
+        user.hash = bcrypt.hashSync(recievedUserObject.password, 10);
+
+        db.users.insert(
+            user,
+            function (err, doc) {
+                if (err) {
+                    console.log('In createNewUser of authentionByBothLdapAndMongo of UserService ends with error : '+JSON.stringify(err));
+                    deferred.reject(err.name + ': ' + err.message);
+                }
+                deferred.resolve({
+                    _id: doc['insertedIds'][0],
+                    username: recievedUserObject.username,
+                    FName: recievedUserObject.FName,
+                    LName: recievedUserObject.LName,
+                    isPanel: recievedUserObject.isPanel,
+                    isAdmin: recievedUserObject.isAdmin,
+                    teamName: recievedUserObject.teamName,
+                    panelType: recievedUserObject.panelType,
+                    PMEmail:recievedUserObject.PMEmail,
+                    POCEmail:recievedUserObject.POCEmail,
+                    DAMEmail:recievedUserObject.DAMEmail,
+                    token: jwt.sign({ sub: user._id }, config.secret)
+                });
+            });
+    }
+      return deferred.promise;
+}
+
+
+function authenticateByLdap(username,password){
+    console.log('In start of authenticateByLdap of UserService');
+    var deferred = Q.defer();
+
+    ad.authenticate(username, password, function(err, auth) {
+        if (err) {
+          console.log('ERROR: '+JSON.stringify(err));
+          console.log('In authenticateByLdap of UserService ends with err');
+          return deferred.reject(JSON.stringify(err));
+        }
+       
+        if (auth) {
+            console.log('In authenticateByLdap of UserService ends with success');
+          return deferred.resolve(auth);
+        }
+        else {
+            console.log('In authenticateByLdap of UserService ends with err athentication failed');
+          return deferred.reject("Error : athentication failed");
+        }
+      });
+      return deferred.promise;
+}
+
+function findUserInLdapWithEmail(email){
+    console.log('In start of findUserInLdapWithEmail of UserService');
+    var query = 'mail='+email;
+    var deferred = Q.defer();
+    ad.findUsers(query, true, function(err, users) {
+        if (err) {
+          console.log('In end of findUserInLdapWithEmail of UserService with email : '+email +' ERROR: '+JSON.stringify(err));
+          deferred.reject(JSON.stringify(err));
+        }
+       
+        if ((! users) || (users.length == 0)) 
+        {
+            console.log('In end of findUserInLdapWithEmail of UserService ERROR: ' +'No users found with email : '+email);
+            deferred.reject('No user found with email : '+email);
+        }
+            
+        else {
+            console.log('In end of findUserInLdapWithEmail of UserService user found with email : '+email);
+            deferred.resolve(JSON.stringify(users));
+        }
+      });
+      return deferred.promise; 
+}
+
+function checkIfUserExistsInLdapWithEmail(email){
+    console.log('In start of checkIfUserExistsInLdapWithEmail of UserService');
+    var deferred = Q.defer();
+    ad.userExists(email, function(err, exists) {
+        if (err) {
+            console.log('In end of checkIfUserExistsInLdapWithEmail of UserService ERROR: ' +JSON.stringify(err));
+            deferred.reject(JSON.stringify(err));
+        }
+        console.log('In end of checkIfUserExistsInLdapWithEmail of UserService email exists = ' +exists);
+        deferred.resolve(exists);
+      });
+      return deferred.promise; 
+}
 function getUserByUserName(userName){
     console.log("At begining of getUserByUserName of UserService");
     var deferred = Q.defer();
     db.users.findOne({ username: userName },
         function(err,user){
-            if(err)
+            if(err){
+                console.log('Error while looking for user with email '+userName+' Error : '+JSON.stringify(user));
                 deferred.reject("Error : User not found with username "+userName);
-            else
+            }else{
+                console.log('User found with email '+JSON.stringify(user));
                 deferred.resolve(user);
+            }
+                
         });
     console.log("At end of getUserByUserName of UserService");
     return deferred.promise;
@@ -255,16 +508,19 @@ function getById(_id) {
 }
 
 function create(userParam) {
+    console.log('in start of create method of user service');
     var deferred = Q.defer();
 
     // validation
     db.users.findOne(
         { username: userParam.username },
         function (err, user) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
-
-            if (user) {
+            if (err) {
+                console.log('create method of user service has error : '+JSON.stringify(err));
+                deferred.reject(err.name + ': ' + err.message);
+            }else if (user) {
                 // username already exists
+                console.log('create method of user service has error : Username "' + userParam.username + '" is already taken');
                 deferred.reject('Username "' + userParam.username + '" is already taken');
             } else {
                 createUser();
@@ -273,6 +529,7 @@ function create(userParam) {
 
     function createUser() {
         // set user object to userParam without the cleartext password
+        console.log('createUser method of create method user service  ');
         var user = _.omit(userParam, 'password');
 
         // add hashed password to user object
@@ -281,8 +538,11 @@ function create(userParam) {
         db.users.insert(
             user,
             function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
+                                if (err) 
+                {
+                    console.log('createUser method of create method user service has error : while inserting '+JSON.stringify(err));
+                    deferred.reject(err.name + ': ' + err.message);
+                }
                 deferred.resolve();
             });
     }
