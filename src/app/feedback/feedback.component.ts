@@ -31,8 +31,7 @@ export class FeedbackComponent implements OnInit {
           this.loading=false;
           //sendMailToAdminAftersubmitingfeedback
                 /**mail sending starts */
-                 //var toPersonMailId ="krishna.yaldi@nihilent.com";
-                  var toPersonMailId ="vishal.rane@nihilent.com";
+                 var toPersonMailId ="krishna.yaldi@nihilent.com";
                   var fromPersonMailId= this.currentUser.username;
                     var emailSender= EmailManager.GetUserNameFromCommaSepratedEmailIds(this.currentUser.username);
                   var toPersonName = toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).charAt(0).toUpperCase()
