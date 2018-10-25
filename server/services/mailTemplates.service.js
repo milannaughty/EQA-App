@@ -144,8 +144,9 @@ function getMailTemplateTobeSentToUserAfterGeneratingNewPassword(valuesToBeRepla
  * @param {requestObject.feedback} valuesToBeReplaced 
  */
 function getMailTemplateforUsersfeedback(valuesToBeReplaced){
-    var mailContent=`<b>Hello Admin,<br><p> Below feedback is recieved from ${valuesToBeReplaced.fromPersonMailId} <BR>
-   <p>Feedback: ${valuesToBeReplaced.feedback}</p> </b></p>`;
-    mailContent+=getIQAMailSignature(valuesToBeReplaced.emailSender);
-    return mailContent;
+
+    return `<div style='font-family:"Calibri",sans-serif;color:#1F3864;'><strong>Hello Team IQA</strong>,<br><p > We have recieved new feedback from <a href="mailto:${valuesToBeReplaced.fromPersonMailId}?subject=IQA Team|Feedback From  - ${valuesToBeReplaced.emailSender}&body=Thanks for your valuable feedback. We will be looking into it and get back to you soon. :)">${valuesToBeReplaced.emailSender}</a>
+    <BR><strong>Feedback:</strong><i><p> ${valuesToBeReplaced.feedback}</i> </p><br><hr>Thanks & Regards,<br><strong>IQA IT Support Team.</strong>
+    </div>`
+    
 }
