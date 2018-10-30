@@ -65,6 +65,7 @@
                 <label for="skillSet">Dev Panel</label>
               </td>
               <td>
+                  <span *ngIf="!(devPanel && devPanel.length)">No Panel Assigned</span>
                 <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
               </span>
@@ -75,6 +76,7 @@
                 <label for="skillSet">QA Panel</label>
               </td>
               <td>
+                  <span *ngIf="!(qaPanel && qaPanel.length)">No Panel Assigned</span>
                 <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
                 <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
               </span>

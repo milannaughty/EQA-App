@@ -60,7 +60,7 @@ function authentionByBothLdapAndMongo(username, password){
                 var errorString = JSON.stringify(err);
               console.log('ERROR: '+errorString);
               console.log('In authentionByBothLdapAndMongo of UserService ends with err Error : ');
-              return deferred.reject(errorString);
+              return deferred.reject(' Invalid credentials, please try with valid credentials');
             }
            
             if (auth) {
@@ -705,6 +705,11 @@ function getUsersByRole(roleName){
                             },
                             {
                                 "isPanel": false
+                            },
+                            {
+                                "isAdmin": {
+                                    "$exists": false
+                                }
                             }
                         ]
                     };
