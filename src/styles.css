@@ -158,6 +158,23 @@ pre {
     border-left: solid 1px gainsboro;
 }
 
+.rightBorder {
+  border-right: 1px solid lightslategray;
+}
+
+.closeStatus {
+  padding-left: 5px;
+  padding-bottom: 10px;
+  background-color:rgb(5, 163, 5);
+  margin-right: 1px;
+}
+
+.openStatus {
+  padding-left: 5px;
+  padding-bottom: 10px;
+  background-color:rgb(212, 4, 4);
+  margin-right: 1px;
+}
   .HeaderClass {
     border-bottom: 1px solid gainsboro;
     box-shadow: 1px 1px 1px grey;

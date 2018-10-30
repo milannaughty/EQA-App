@@ -37,7 +37,7 @@
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestSummary)">Request Summary
+                                <a href="admin#" (click)="doAction(ActionList.AdminTeamRequestSummary, $event)">Request Summary
                                     <span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span>
                                 </a>
                             </li>

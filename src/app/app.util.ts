@@ -63,6 +63,14 @@ export class CommonUtil {
         })
     }
 
+    static ShowLoading(){
+        swal('Please wait...');
+        swal.showLoading();
+    }
+    static HideLoading(){
+        swal.close();
+    }
+
     /**
      * 
      * @param string 
@@ -145,6 +153,14 @@ export class CommonUtil {
             default: return 'Other'
         }
     }
+
+    /**
+     * Method capitalize the first letter of each word withing the given string
+     * @param str 
+     */
+    static Capitalize(str) {
+        return str.replace(/\b\w/g, function (l) { return l.toUpperCase() })
+    }
 }
 
 export class EmailManager {
@@ -154,7 +170,7 @@ export class EmailManager {
     }
 
     /**
-     * This method is used to get comma seprated list of email ids
+     * This method is used to get comma seprated string of email ids
      * @param arrayObject 
      */
     static GetCommaSepratedEmailIDs(arrayObject: string[]) {
@@ -199,11 +215,18 @@ export class EmailManager {
 
     /**
     * Method returns email subject line for  IQA request completed operation 
-    * @param sprintName 
-    * @param rejectedByPanelName 
+    * @param teamName 
     */
     static GetTeamAddedSubjectLine(teamName: string) {
         return `IQA Team | Team ${teamName} registered as Team for IQA Process"`;
+    }
+
+    /**
+    * Method returns email subject line for  IQA request completed operation 
+    * @param teamName 
+    */
+    static GetPanelAssignedSubjectLine(teamName: string) {
+        return `IQA Team | IQA Request for team ${teamName}`;
     }
 
     /**
@@ -211,7 +234,7 @@ export class EmailManager {
      * @param commaSepratedEmailIds 
      */
     static GetUserNameFromCommaSepratedEmailIds(commaSepratedEmailIds: string) {
-        var userNameList;
+        var userNameList = '';
         if (commaSepratedEmailIds.indexOf(',') > -1) {
             userNameList = commaSepratedEmailIds.split(',').map(function (emailItem) {
                 return emailItem.split('@')[0].replace('.', ' ');
@@ -220,7 +243,16 @@ export class EmailManager {
         else {
             userNameList = commaSepratedEmailIds.split('@')[0].replace('.', ' ');
         }
-        return userNameList;
+        return CommonUtil.Capitalize(userNameList);
+    }
+
+    /**
+     * Method returns list of email address(s) for the panel whose IQA request status is 'PanelAssigned'
+     * @param panelList 
+     */
+    static GetAssignedPanelEmailIDs(panelList) {
+        panelList = panelList ? panelList.filter(panel => panel.status && panel.status == adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus) : [];
+        return panelList.map(x => x.emailID);
     }
 
     static getFirstNameFromEmail(email) {
@@ -315,3 +347,23 @@ export class EmailManager {
 
     }
 }
+
+export class MessageManager {
+
+    public static ErrorEmailSending = 'Error while sending email to respective member(s)';
+    public static PanelAssignedTitle = 'Panel Assigned';
+    public static PanelAssignedSuccess = 'Request successfully assigned and Email send to the respective members(s).';
+    public static PanelAssignedSuccessWithErrorEmailSending = 'Request successfully assigned and ' + MessageManager.ErrorEmailSending;
+
+    public static RequestAcceptTitle = 'Request Accepted';
+    public static RequestAcceptError = 'Error while accepting IQA request';
+    public static RequestAcceptSuccess = 'IQA Request accepted successfully';
+    public static RequestAcceptSuccessWithErrorEmailSending = MessageManager.RequestAcceptSuccess+' and '+MessageManager.ErrorEmailSending;
+
+    public static RequestUpdateSuccess = 'IQA Request updated successfully and Email send to the respective members(s).';
+    public static RequestUpdateSuccessWithErrorEmailSending = MessageManager.RequestUpdateSuccess + ' and ' + MessageManager.ErrorEmailSending;
+
+    public static RequestRejectTitle = 'Request Rejected';
+    public static RequestRejected = 'Request has been rejected and Email send to the respective members(s).'
+    public static RequestRejectedWithErrorEmailSending = 'Request has been rejected and ' + MessageManager.ErrorEmailSending;
+};

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter,Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RequestService } from '../_services/index';
 
 @Component({
@@ -19,22 +19,18 @@ export class TeamRequestListComponent implements OnInit {
   }
 
   private loadNewRequestForAssociate() {
-    debugger;
     this.loading = true;
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
+    //this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'))
     this.requestService.getTeamAllRequest(this.currentUser._id).subscribe(result => {
       this.loading = false;
-      var resultTemp =result;
       this.NewRequest = result;
     });
   }
 
-  private ShowRequestDetails(data) {
-    debugger;
-    console.log(data);
+  private ShowRequestDetails(data) {
     console.log('Redirecting from request list to request detail view');
-    this.messageEvent.emit({ ActivateTab: 'Request Summary Detail', data: data });
-    } 
+    this.messageEvent.emit({ ActivateTab: 'Request Summary Detail', data: data });
+  }
 
 
 }

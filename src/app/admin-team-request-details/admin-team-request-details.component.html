@@ -1,22 +1,25 @@
 <table> </table>
 <div>
 
-  <div class="HeaderClass">Request Detail</div>
+  <!-- <div class="HeaderClass">Request Detail</div> -->
+  <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Request Detail</div>
+  <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
   <div class="modal-body row">
-    <div class="col-md-6" text-center>
+    <div class="col-md-8 rightBorder" text-center>
       <!-- <form  > -->
-      <table class="fontFamily" style="width:70%">
+
+      <table class="ff-family " style="width:70%">
         <tr>
           <td>
             <label for="pbiId ">PBI ID</label>
           </td>
-          <td>{{currentRequestData.pbiId}}</td>
+          <td>{{currentRequestData.body.pbiId}}</td>
         </tr>
         <tr>
           <td>
             <label for="name ">Name</label>
           </td>
-          <td> {{currentRequestData.name}}</td>
+          <td> {{currentRequestData.body.name}}</td>
         </tr>
         <tr>
           <td>
@@ -41,34 +44,39 @@
             <label for="deliveryDate ">Delivery Date</label>
           </td>
           <td>
-            {{currentRequestData.deliveryDate?(currentRequestData.deliveryDate | date: 'dd/MM/yyyy'):'NA'}}</td>
+            {{currentRequestData.body.deliveryDate?(currentRequestData.body.deliveryDate | date: 'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
             <label for="expectedIQADate ">Expected IQA Date</label>
           </td>
-          <td> {{currentRequestData.expectedIQADate?(currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'):'NA'}}</td>
+          <td> {{currentRequestData.body.expectedIQADate?(currentRequestData.body.expectedIQADate | date:
+            'dd/MM/yyyy'):'NA'}}</td>
         </tr>
         <tr>
           <td>
             <label for="status ">Status</label>
           </td>
-          <td><app-request-status [status]="currentRequestData.status"></app-request-status></td>
+          <td>
+            <app-request-status [status]="currentRequestData.body.status"></app-request-status>
+          </td>
         </tr>
         <tr>
           <td>
             <label for="initiatedBy ">Initiated By</label>
           </td>
-          <td><a (click)="getTeamDetails(currentRequestData.initiatedBy.ID)"> {{currentRequestData.initiatedBy.TeamName}}</a></td>
+          <td class="capitalize"><a (click)="getTeamDetails(currentRequestData.body.initiatedBy.ID)">
+              {{currentRequestData.body.initiatedBy.TeamName}}</a></td>
         </tr>
         <tr>
           <td>
             <label for="skillSet">Dev Panel</label>
           </td>
           <td>
-            <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
-               <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
+            <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;">
+              <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
             </span>
+            <span *ngIf="!(devPanel && devPanel.length)">No Panel Assigned</span>
           </td>
         </tr>
         <tr>
@@ -77,50 +85,55 @@
           </td>
           <td>
             <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
-                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
-              </span>
+              <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
+            </span>
+            <span *ngIf="!(qaPanel && qaPanel.length)">No Panel Assigned</span>
+          </td>
+        </tr>
+        <!-- <tr *ngIf="isUnderVerification">
+          <td>
+            <label for="devComment">Dev Review Status</label>
+          </td>
+          <td>
+            {{verificationStatus.DevReviewStatus}}
           </td>
         </tr>
         <tr *ngIf="isUnderVerification">
-            <td>
-              <label for="devComment">Dev Review Status</label>
-            </td>
-            <td>
-                {{verificationStatus.DevReviewStatus}}
-            </td>
-          </tr>
-          <tr *ngIf="isUnderVerification">
-              <td>
-                <label for="devComment">Dev Comment</label>
-              </td>
-              <td>
-                  {{verificationStatus.DevReviewComment}}
-              </td>
-            </tr>
+          <td>
+            <label for="devComment">Dev Comment</label>
+          </td>
+          <td>
+            {{verificationStatus.DevReviewComment}}
+          </td>
+        </tr> -->
       </table>
     </div>
     <div class="col-md-4">
       <h2>Select To Assign</h2>
-      <form (ngSubmit)="f.form.valid && assignSelectedUsers()" #f="ngForm">
+      <form (ngSubmit)="f.form.valid && AssignSelectedUsers()" #f="ngForm">
 
         <div class="custom-control custom-checkbox my-1 mr-sm-2">
           <div *ngIf="isSkillLoaded">
-            <div class="form-group">
-              <angular2-multiselect name="devSkillSetPanel" [data]="devSkillSetPanel" [(ngModel)]="model.devSkillSetPanel" [settings]="devDropdownSettings"></angular2-multiselect>
+            <div class="form-group capitalize">
+              <angular2-multiselect name="devSkillSetPanel" [data]="devSkillSetPanel" [(ngModel)]="model.devSkillSetPanel"
+                [settings]="devDropdownSettings" (onSelect)="OnPanelDropDownChange()" (onDeSelect)="OnPanelDropDownChange()"
+                (onSelectAll)="OnPanelDropDownChange()" (onDeSelectAll)="OnPanelDropDownChange()"></angular2-multiselect>
             </div>
 
-            <div class="form-group">
-              <angular2-multiselect name="qaSkillSetPanel" [data]="qaSkillSetPanel" [(ngModel)]="model.qaSkillSetPanel" [settings]="qaDropdownSettings"></angular2-multiselect>
+            <div class="form-group capitalize">
+              <angular2-multiselect name="qaSkillSetPanel" [data]="qaSkillSetPanel" [(ngModel)]="model.qaSkillSetPanel"
+                [settings]="qaDropdownSettings" (onSelect)="OnPanelDropDownChange()" (onDeSelect)="OnPanelDropDownChange()"
+                (onSelectAll)="OnPanelDropDownChange()" (onDeSelectAll)="OnPanelDropDownChange()"></angular2-multiselect>
             </div>
           </div>
         </div>
 
         <div style="align-content: center">
-          <button type="submit" class="btn btn-success ">Assign</button>
+          <button type="submit" class="btn btn-success " [disabled]="!enableAssignButton">Assign</button>
           <button (click)="ShowRequestList()" class="btn btn-warning">Go Back</button>
         </div>
         <div>
-            <img *ngIf="loading" class="load" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+          <img *ngIf="loading" class="load" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
         </div>
       </form>
     </div>

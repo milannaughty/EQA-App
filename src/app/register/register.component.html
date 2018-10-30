@@ -1,5 +1,7 @@
 <div class="col-md-6 col-xs-12">
-    <h2>Sign Up for Panel</h2>
+    <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Sign Up for Panel</div>
+    <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+
     <p>Please fill in this form to create an Panel account!</p>
     <hr>
     <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
@@ -7,26 +9,28 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-xs-6" [ngClass]="{ 'has-error': f.submitted && !FName.valid }">
-                        <input type="text" class="form-control" name="FName" [(ngModel)]="model.FName" #FName="ngModel" placeholder="First Name"
-                            required="required">
+                        <input type="text" class="form-control" name="FName" [(ngModel)]="model.FName" #FName="ngModel"
+                            placeholder="First Name" required="required">
                         <div *ngIf="f.submitted && !FName.valid" class="help-block"></div>
                     </div>
                     <div class="col-xs-6" [ngClass]="{ 'has-error': f.submitted && !LName.valid }">
-                        <input type="text" class="form-control" name="LName" [(ngModel)]="model.LName" #LName="ngModel" placeholder="Last Name" required="required">
+                        <input type="text" class="form-control" name="LName" [(ngModel)]="model.LName" #LName="ngModel"
+                            placeholder="Last Name" required="required">
                         <div *ngIf="f.submitted && !LName.valid" class="help-block"></div>
                     </div>
                 </div>
             </div>
             <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-                <input type="email" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" placeholder="Email"
-                    required />
-                    <span class="font-small-mono">This will be use as username</span>
+                <input type="email" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
+                    placeholder="Email" required />
+                <span class="font-small-mono">This will be use as username</span>
                 <div *ngIf="f.submitted && !username.valid" class="help-block"></div>
             </div>
         </div>
         <div class="form-group">
             <label for="LoginAsId">Panel Type</label>
-            <select required id="PanelType" #Id="ngModel" class="hideLabel form-control" [(ngModel)]="model.panelType" name="PanelType">
+            <select required id="PanelType" #Id="ngModel" class="hideLabel form-control" [(ngModel)]="model.panelType"
+                name="PanelType">
                 <option [ngValue]="k.Id" *ngFor="let k of panelTypeList">
                     {{k.Name}}
                 </option>
@@ -44,8 +48,7 @@
         </div>
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">Save Panel</button>
-            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-            />
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             <a [routerLink]="['/Admin']" class="btn btn-link">Cancel</a>
         </div>
     </form>

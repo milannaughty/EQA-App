@@ -57,34 +57,27 @@
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.Feedback, $event)">Feedback</a>
                                 </li>
-                                <li role="presentation">
-                                    <a href="#" (click)="doAction('Action Two', $event)">Action Two</a>
-                                </li>
-
                             </ul>
                         </div>
                         <div *ngIf="!currentUser.isPanel">
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.TeamCheckList)">Request Under Verification
+                                    <a href="#" (click)="doAction(ActionList.TeamCheckList, $event)">Request Under Verification
                                         <span *ngIf="NewRequestCount" class="badge">{{NewRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.InitiateEQARequest)">{{ActionList.InitiateEQARequest}}
+                                    <a href="#" (click)="doAction(ActionList.InitiateEQARequest, $event)">{{ActionList.InitiateEQARequest}}
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.TeamEQARequest)">{{ActionList.TeamEQARequest}}</a>
+                                    <a href="#" (click)="doAction(ActionList.TeamEQARequest, $event)">{{ActionList.TeamEQARequest}}</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.PanelList)">{{ActionList.PanelList}}</a>
+                                    <a href="#" (click)="doAction(ActionList.PanelList, $event)">{{ActionList.PanelList}}</a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.TeamList)">{{ActionList.TeamList}}</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#" (click)="doAction('Action one')">Action one</a>
+                                    <a href="#" (click)="doAction(ActionList.TeamList, $event)">{{ActionList.TeamList}}</a>
                                 </li>
                             </ul>
                         </div>

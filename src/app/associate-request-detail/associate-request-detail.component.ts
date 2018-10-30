@@ -5,7 +5,8 @@ import { RequestService } from "../_services/request.service";
 import { appConfig } from '../app.config';
 import { EmailService } from '../_services/mail.service';
 import { adminConfig } from "../app.config";
-import { CommonUtil, EmailManager } from '../app.util';
+import { CommonUtil, EmailManager, MessageManager } from '../app.util';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-associate-request-detail',
@@ -15,11 +16,11 @@ import { CommonUtil, EmailManager } from '../app.util';
 export class AssociateRequestDetailComponent implements OnInit {
   isCompleteRequestOperation: boolean;
   isRejectRequestOperation: boolean;
+  isAcceptRequestOperation: boolean;
   requestCheckListItem: { _Id: number; CheckListItem: string; Description: string; }[];
   @Input() currentRequestData: any;
   @Output() messageEvent = new EventEmitter<any>();
   model: any = {};
-  modelRdbSelectedItem = []
   qaSkillSetPanel: any;
   devSkillSetPanel: any;
   devSkillSet: any;
@@ -77,8 +78,6 @@ export class AssociateRequestDetailComponent implements OnInit {
   ngOnInit() {
     this.ShowRequestDetails();
     this.PopulateStatusDropdown();
-    //this.PopulateCheckList();
-    // this.reasonText = `${this.currentRequestData.currentUser.FName} ${this.currentRequestData.currentUser.LName} has rejected IQA request on ${Date.now() }`
   }
   ShowAddReviewItem() {
     this.showReviewItemForm = !this.showReviewItemForm;
@@ -120,8 +119,9 @@ export class AssociateRequestDetailComponent implements OnInit {
   onStatusChange(event) {
     this.isRejectRequestOperation = this.model.selectedStatus == "Rejected";
     this.isCompleteRequestOperation = this.model.selectedStatus == "Completed";
+    this.isAcceptRequestOperation = this.model.selectedStatus == "InProgress" //i.e Accept
     this.showRemark = this.isRejectRequestOperation;
-    this.showSaveButton = this.isCompleteRequestOperation || this.isRejectRequestOperation || this.model.selectedStatus == "InProgress";;
+    this.showSaveButton = this.isCompleteRequestOperation || this.isRejectRequestOperation || this.isAcceptRequestOperation;
     this.showCheckList = this.isCompleteRequestOperation;
     this.LoadCurrentPanelData();
     if (this.showCheckList) {
@@ -130,33 +130,37 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   ShowRequestDetails() {
-    this.loading = true
-    // this.isDevPanel = this.currentRequestData.currentUser.panelType == 'Dev';
-    // this.currentPanelId = this.currentRequestData.currentUser._id;
+    this.loading = true;
     this.userService.getPanelBySkills(this.currentRequestData.body.skillSet, this.currentRequestData.body.qaSkillSet).subscribe(result => {
       this.isSkillLoaded = true
       this.isDevSkillMore = true;
       this.isQaSkillMore = true;
-      this.loading = false
       var r = result as Object[];
       this.qaSkillSetPanel = r.filter(x => x['panelType'] == 'QA').map((x, i) => ({ id: x["_id"], itemName: x["username"] }));
       this.devSkillSetPanel = r.filter(x => x['panelType'] == 'Dev').map(x => ({ id: x["_id"], itemName: x["username"] }));
-      var devstr = this.currentRequestData.body.skillSet.map(x => x.itemName).join(',');
-      var arr = devstr.split(',');
-      var count = arr.length;
-      if (count <= 3) {
-        this.isDevSkillMore = false;
+
+      //Create skillsets comma sepreted list
+      if (this.currentRequestData.body.skillSet) {
+        this.devSkillSet = this.currentRequestData.body.skillSet.slice(0, 3).map(x => x.itemName).join(',');
+        if (this.currentRequestData.body.skillSet.length <= 3)
+          this.isDevSkillMore = false;
       }
-      this.devSkillSet = devstr.substring(0, CommonUtil.getNthIndexOfString(devstr, ',', 3));
-      var qaStr = this.currentRequestData.body.qaSkillSet.map(x => x.itemName).join(',');
-      var arr = qaStr.split(',');
-      var count = arr.length;
-      if (count <= 3) {
-        this.isQaSkillMore = false;
+      else {
+        this.devSkillSet = "NA";
       }
-      this.qaSkillSet = qaStr.substring(0, CommonUtil.getNthIndexOfString(qaStr, ',', 3));
+      if (this.currentRequestData.body.qaSkillSet) {
+        this.qaSkillSet = this.currentRequestData.body.qaSkillSet.map(x => x.itemName).slice(0, 3).join(',');
+        if (this.currentRequestData.body.qaSkillSet.length <= 3) {
+          this.isQaSkillMore = false;
+        }
+      }
+      else {
+        this.qaSkillSet = "NA";
+      }
+
       this.devPanel = this.currentRequestData.body.assignedDevPanelList ? this.currentRequestData.body.assignedDevPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) })) : []
       this.qaPanel = this.currentRequestData.body.assignedQAPanelList ? this.currentRequestData.body.assignedQAPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) })) : []
+      this.loading = false;
     });
   }
 
@@ -165,9 +169,11 @@ export class AssociateRequestDetailComponent implements OnInit {
     var htmlContent = CommonUtil.GetTabularData(qaStr, 5, null);
     CommonUtil.ShowInfoAlert(`Required ${type} Skills`, htmlContent);
   }
+
   GetCommaSepratedSkills(skill) {
     return skill.map(x => x.itemName).join(',');
   }
+
   ShowRequestList() {
     this.messageEvent.emit({ ActivateTab: this.currentRequestData.prevActiveTab || 'HOME' });
   }
@@ -179,79 +185,66 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   OnSaveClick() {
-    this.showLoadingIcon = true;
-    var requestObject = { status: this.model.selectedStatus, requestId: this.currentRequestData.body._id };
-
+    //this.showLoadingIcon = true;
+    CommonUtil.ShowLoading();
+    this.currentPanelData.lastActivity = new Date().toDateString();
     if (this.isRejectRequestOperation) {
-      // requestObject["rejectReason"] = this.reasonText;
-      // if (this.isDevPanel)
-      //   requestObject[this.assignedDevPanelListString] = null;
-      // if (this.currentRequestData.currentUser.panelType == 'QA' || this.currentRequestData.currentUser.panelType == 'Qa')
-      //   requestObject[this.assignedDevPanelListString] = null;
 
-      // //Update Panel checklist status, for reject IQA request
-      this.currentPanelData.status = adminConfig.RequestStatus.REJECTED.DBStatus;
       this.currentPanelData.rejectReason = this.reasonText;
+      this.currentPanelData.status = adminConfig.RequestStatus.REJECTED.DBStatus;
+      let isAllPanelRejectedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.REJECTED.DBStatus);
+      this.currentRequestData.body.status = isAllPanelRejectedRequest ? adminConfig.RequestStatus.REJECTED.DBStatus : this.currentRequestData.body.status;
+    }
+    else if (this.isAcceptRequestOperation) {
+
+      //this.currentRequestData.body.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
+      this.currentPanelData.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
+      let isAllPanelAcceptedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+      this.currentRequestData.body.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : this.currentRequestData.body.status;
     }
     else if (this.isCompleteRequestOperation) {
-      // var modelRdbSelectedItem = this.modelRdbSelectedItem;
-      // var isAnyChecklistItemOpen = modelRdbSelectedItem.some(x => x != undefined && x != null && x != 0)
-      // requestObject.status = isAnyChecklistItemOpen || this.newCheckListItemsLength ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
-      // //requestObject['GennericCheckListItems'] = this.requestCheckListItem.map(x => ({ _Id: x._Id, status: modelRdbSelectedItem[x._Id] || 0 }));
       //Add the newly added review comments to existing reviews
       if (this.newCheckListItemsLength) {
         this.currentPanelData.reviewCheckListItems = this.currentPanelData.reviewCheckListItems ? this.currentPanelData.reviewCheckListItems.concat(this.newCheckListItems) : this.newCheckListItems;
       }
-      //Update Panel checklist status, check any reviewCheckListItems is in open state
-      this.currentPanelData.status = this.currentPanelData.reviewCheckListItems && this.currentPanelData.reviewCheckListItems.some(x => x.status == 1) ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
+      
+      //Close the Generic checklist items if not modified and updated the close by details
+      this.currentRequestData.body.GennericCheckListItems = this.currentRequestData.body.GennericCheckListItems.map(x => {
+        if (!x.status && !x.raisedByPanelId) {
+          x.status = 0;
+          x.raisedByPanelType = this.currentRequestData.currentUser.panelType;
+          x.raisedByPanelId = this.currentRequestData.currentUser._id;
+          x.raisedByPanel = EmailManager.GetUserNameFromCommaSepratedEmailIds(this.currentRequestData.currentUser.username);
+        }
+        return x;
+      });
 
-      //Close the Generic checklist items if not modified
-      this.currentRequestData.body.GennericCheckListItems = this.currentRequestData.body.GennericCheckListItems.map(x => { if (!x.status) x.status = 0; return x });
+      //Update Panel checklist status, check any reviewCheckListItems is in open state
+      let isAnyGennericCheckListItemOpenByMe = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1 && x.raisedByPanelId == this.currentPanelId);
+      let isAnyMyCheckListItemOpen = this.currentPanelData.reviewCheckListItems && this.currentPanelData.reviewCheckListItems.some(x => x.status == 1);
+      this.currentPanelData.status = (isAnyGennericCheckListItemOpenByMe || isAnyMyCheckListItemOpen) ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
+
+      
+      debugger;
       var isAnyPreviousCheckCheckListItemOpen = this.allPreviousReviewComment.some(x => x.status == 1);
       var isAnyGennericCheckListItemOpen = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1);
       var isAnyMyCheckListItemOpen = this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
       var isAnyNewlyAddedCheckList = this.newCheckListItemsLength;
-      var isIQARequestCompleted = !(isAnyPreviousCheckCheckListItemOpen || isAnyGennericCheckListItemOpen || isAnyMyCheckListItemOpen || isAnyNewlyAddedCheckList);
-      this.currentRequestData.body.status = isIQARequestCompleted ? adminConfig.RequestStatus.COMPLETED.DBStatus : adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
-
-      // //set['DevReviewComment'] = this.model.DevReviewComment;
-      // //set['QAReviewComment'] = this.model.QAReviewComment;
-
-
-      // //Update panel list with updated current panel data...
-      // requestObject[this.panelList] = this.currentRequestData.body[this.panelList];
-
-      // var qaReviewStatus = this.currentRequestData.body.verificationStatus && this.currentRequestData.body.verificationStatus.QAReviewStatus;
-      // var devReviewStatus = this.currentRequestData.body.verificationStatus && this.currentRequestData.body.verificationStatus.DevReviewStatus;
-      // var teamReviewStatus = this.currentRequestData.body.verificationStatus && this.currentRequestData.body.verificationStatus.TeamReviewStatus;
-      // var teamReplyReviewComment = this.currentRequestData.body.verificationStatus && this.currentRequestData.body.verificationStatus.TeamReplyReviewComment;
-      // var qaReviewComment = this.model.QAReviewComment;
-      // var devReviewComment = this.model.DevReviewComment;
-
-      // if (this.isDevPanel)
-      //   devReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_DEV_PANEL.DBStatus
-      // else
-      //   qaReviewStatus = adminConfig.RequestStatus.VERIFIED_BY_QA_PANEL.DBStatus
-
-      // requestObject["verificationStatus"] = {
-      //   //MUST PASS FOLLOWING PROPERTIES UNDER verificationStatus Attr.
-      //   QAReviewStatus: qaReviewStatus,
-      //   DevReviewStatus: devReviewStatus,
-      //   QAReviewComment: qaReviewComment,
-      //   DevReviewComment: devReviewComment,
-      //   TeamReviewStatus: teamReviewStatus,
-      //   TeamReplyReviewComment: teamReplyReviewComment
-      // }
+      var isAllPanelCompletedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.COMPLETED.DBStatus);
+      var isIQARequestCompleted = !(isAnyPreviousCheckCheckListItemOpen || isAnyGennericCheckListItemOpen  || isAnyMyCheckListItemOpen || isAnyNewlyAddedCheckList);
+      this.currentRequestData.body.status = isAllPanelCompletedRequest && isIQARequestCompleted ? adminConfig.RequestStatus.COMPLETED.DBStatus : adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
     }
+
     this.requestService.updateStatusOfRequest(this.currentRequestData.body).subscribe(
       result => {
+        debugger;
         var data = this.currentRequestData.body;
         if (this.isRejectRequestOperation) {//code after rejection
-          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail, data.initiatedBy.POCEmail])
-          var toPerssonList = "";
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
+          var toPerssonList = data.initiatedBy.POCEmail + ',';
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
             if (adminList instanceof Array)
-              toPerssonList = EmailManager.GetCommaSepratedEmailIDs(adminList.map(x => x.username)); //Pass list of admin user name's i.e email id's
+              toPerssonList = adminList.map(x => x.username).join(',');
             else
               toPerssonList = adminList["username"];
 
@@ -269,34 +262,32 @@ export class AssociateRequestDetailComponent implements OnInit {
               "rejectReason": this.reasonText
             };
 
-            console.log('Mail Object: Request Rejected');
-            console.log(mailObject)
-            // this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
-            //   success => {
-            //     CommonUtil.ShowInfoAlert("Request Rejected", "Mail sent to admin with rejection details");
-            //     this.ShowRequestList();
-            //   }, err => {
-            //     CommonUtil.ShowSuccessAlert("Request Rejected successfully. Error while sending mail to admin with rejection details");
-            //     this.ShowRequestList();
-            //   }
-            // );
+            this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
+              success => {
+                CommonUtil.ShowInfoAlert(MessageManager.RequestRejectTitle, MessageManager.RequestRejected);
+                this.ShowRequestList();
+              }, err => {
+                CommonUtil.ShowSuccessAlert(MessageManager.RequestRejectedWithErrorEmailSending);
+                this.ShowRequestList();
+              }
+            );
 
           }, err => {
-            CommonUtil.ShowSuccessAlert("Request Rejected successfully. Error while sending mail to admin with rejection details : for fetching admin details");
+            CommonUtil.ShowSuccessAlert(MessageManager.RequestRejectedWithErrorEmailSending);
             this.ShowRequestList();
           });
         }
-        else if (requestObject.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus) {//code after acceptance
+        else if (this.isAcceptRequestOperation) {//code after acceptance
 
-          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
           var toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonListAcceptance);
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
 
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
             if (adminList instanceof Array)
-              ccPersonList += ',' + EmailManager.GetCommaSepratedEmailIDs(adminList.map(x => x.username));
+              ccPersonList += adminList.map(x => x.username).join(',');
             else
-              ccPersonList += ',' + adminList["username"];
+              ccPersonList += adminList["username"];
 
             var mailSubject = EmailManager.GetRequestAcceptSubjectLine(data.name, this.currentRequestData.currentUser.FName + " " + this.currentRequestData.currentUser.LName);
             var mailObject = {
@@ -310,28 +301,27 @@ export class AssociateRequestDetailComponent implements OnInit {
               "sprintName": data.name,
               "panelName": this.currentRequestData.currentUser.username,
             };
-            console.log('Mail Object: Request Accpeted');
-            console.log(mailObject)
-            // this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
-            //   success => {
-            //     CommonUtil.ShowInfoAlert("Request Accepted", "IQA Request for sprint name " + data.name + " is accepted");
-            //     this.ShowRequestList();
-            //   }, err => {
-            //     CommonUtil.ShowSuccessAlert("Request Accepted successfully. Error while sending mail.");
-            //     this.ShowRequestList();
-            //   }
-            // );
-            this.ShowRequestList();
+            this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
+              success => {
+                CommonUtil.ShowInfoAlert(MessageManager.RequestAcceptTitle, MessageManager.RequestAcceptSuccess);
+                this.ShowRequestList();
+              }, err => {
+                CommonUtil.ShowSuccessAlert(MessageManager.RequestAcceptSuccessWithErrorEmailSending);
+                this.ShowRequestList();
+              }
+            );
 
           }, err => {//error while fething admin role users
-            CommonUtil.ShowSuccessAlert("Request Accepted successfully, Error while sending mail to admin with rejection details : for fetching admin details");
+            CommonUtil.ShowSuccessAlert(MessageManager.RequestAcceptSuccessWithErrorEmailSending);
             this.ShowRequestList();
           });
         }//acceptance block ends here
-        if (requestObject.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {//if panel has completed IQA request
+        //If current panel status completed
+        else if (this.currentPanelData.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {//if panel has completed IQA request
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
-          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
+          let toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonListAcceptance);
+
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
 
             if (adminList instanceof Array)
@@ -352,57 +342,58 @@ export class AssociateRequestDetailComponent implements OnInit {
               "sprintName": data.name,
               "panelName": this.currentRequestData.currentUser.username,
             };
-            console.log('Mail Object: Request Completed');
-            console.log(mailObject)
-            // this.emailService.sendMailToPOCAfterIQARequestCompletedByPanel(mailObject).subscribe(
-            //   success => {
-            //     CommonUtil.ShowSuccessAlert("IQA Request completed for sprint name " + data.name);
-            //     this.ShowRequestList();
-            //   }, err => {
-            //     CommonUtil.ShowSuccessAlert("IQA Request Completed successfully. Email not send to respective team and administration");
-            //     this.ShowRequestList();
-            //   }
-            // );
-            this.ShowRequestList();
-
+            this.emailService.sendMailToPOCAfterIQARequestCompletedByPanel(mailObject).subscribe(
+              success => {
+                CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
+                this.ShowRequestList();
+              }, err => {
+                CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
+                this.ShowRequestList();
+              }
+            );
           }, err => {//error while fething admin role users
-            CommonUtil.ShowSuccessAlert("IQA Request Completed successfully. Error while fetching admin details");
+            CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
             this.ShowRequestList();
           });
         }//if panel has completed IQA request If block ends
 
-        if (requestObject.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
+        ///**************THIS CODE NEED TO TEST************ */
+        ///**************THIS CODE NEED TO TEST************ */
+        ///**************THIS CODE NEED TO TEST************ */
+        ///**************THIS CODE NEED TO TEST************ */
+        else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
+          debugger;
           //checklist details starts
           //this.showCheckList = true;
           //this.selectedRequestData = data;
           //this.TeamReplyReviewComment = data.verificationStatus.TeamReplyReviewComment || ''
-          var requestCheckListDetails = requestObject["CheckListDetails"];
-          var filterData = CommonUtil.CheckListDetails.filter(x => {
-            var y = requestCheckListDetails.filter(rchk => rchk._Id == x._Id)[0];
-            if (y) {
-              x["status"] = y.status == 0 ? 'Close' : 'Open';
-              return x;
-            }
-            return;
-          });
+          // var requestCheckListDetails = this.currentRequestData.body["CheckListDetails"];
+          // var filterData = CommonUtil.CheckListDetails.filter(x => {
+          //   var y = requestCheckListDetails.filter(rchk => rchk._Id == x._Id)[0];
+          //   if (y) {
+          //     x["status"] = y.status == 0 ? 'Close' : 'Open';
+          //     return x;
+          //   }
+          //   return;
+          // });
 
-          var closeCheckListItems = filterData.filter(x => x["status"] != undefined && x["status"] == 'Close');
-          var openCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Open');
+          // var closeCheckListItems = filterData.filter(x => x["status"] != undefined && x["status"] == 'Close');
+          // var openCheckListItem = filterData.filter(x => x["status"] != undefined && x["status"] == 'Open');
 
 
-          var openString = openCheckListItem.map(x => x.CheckListItem).join('|Open|') + "|Open";
-          var closeString = closeCheckListItems.map(x => x.CheckListItem).join('|Close|') + "|Close";
-          var comments = '';
-          if (this.isDevPanel)
-            comments = requestObject["verificationStatus"] ? requestObject["verificationStatus"].DevReviewComment ? requestObject["verificationStatus"].DevReviewComment : '' : '';
-          else
-            comments = requestObject["verificationStatus"] ? requestObject["verificationStatus"].QAReviewComment ? requestObject["verificationStatus"].QAReviewComment : '' : '';
-          //checklist details ends
+          // var openString = openCheckListItem.map(x => x.CheckListItem).join('|Open|') + "|Open";
+          // var closeString = closeCheckListItems.map(x => x.CheckListItem).join('|Close|') + "|Close";
+          // var comments = '';
+          // if (this.isDevPanel)
+          //   comments = requestObject["verificationStatus"] ? requestObject["verificationStatus"].DevReviewComment ? requestObject["verificationStatus"].DevReviewComment : '' : '';
+          // else
+          //   comments = requestObject["verificationStatus"] ? requestObject["verificationStatus"].QAReviewComment ? requestObject["verificationStatus"].QAReviewComment : '' : '';
+          // //checklist details ends
 
           //mail Object starts
-          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
           var toPerssonListAcceptance = data.initiatedBy.POCEmail;
-          var toPersonName = toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
+          var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail]);
+          let toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonListAcceptance);// toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).charAt(0).toUpperCase() + toPerssonListAcceptance.substring(0, toPerssonListAcceptance.indexOf('.', 0)).slice(1);
           var mailSubject = EmailManager.GetIQARequestUpdatedSubjectLine(data.name, this.currentRequestData.currentUser.FName + " " + this.currentRequestData.currentUser.LName);
           this.userService.getAllUsersByRole("admin").subscribe(adminList => {
 
@@ -421,25 +412,24 @@ export class AssociateRequestDetailComponent implements OnInit {
               "mailContent": "",
               "sprintName": data.name,
               "panelName": this.currentRequestData.currentUser.username,
-              "panelComments": comments,
-              "checkListDetails": openString + "|" + closeString
+              "panelComments": 'comments',
+              "checkListDetails": 'openString' + "|" + 'closeString'
             }
 
-            // this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
-            //   result => {
-            //     CommonUtil.ShowSuccessAlert("Request updated successfully, mail sent to respective team.");
-            //     this.showLoadingIcon = false;
-            //     this.ShowRequestList();
-            //   }, err => {
-            //     CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
-            //     this.showLoadingIcon = false;
-            //     this.ShowRequestList();
-            //   }
-            // );
-            this.ShowRequestList();
+            this.emailService.sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel(mailObject).subscribe(
+              result => {
+                CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
+                this.showLoadingIcon = false;
+                this.ShowRequestList();
+              }, err => {
+                CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
+                this.showLoadingIcon = false;
+                this.ShowRequestList();
+              }
+            );
 
           }, err => {
-            CommonUtil.ShowErrorAlert("Request updated successfully, error while sending mail to respective team.");
+            CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
             this.showLoadingIcon = false;
             this.ShowRequestList();
           });
@@ -458,11 +448,16 @@ export class AssociateRequestDetailComponent implements OnInit {
   PopulateStatusDropdown() {
     if (this.currentRequestData.body.status == 'PanelAssigned') {
       this.statusList.push({ "Id": "InProgress", "Name": "Accept" })
+      this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })
     }
-    else if (this.currentRequestData.body.status == 'InProgress' || adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {
+    else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {
       this.statusList.push({ "Id": "Completed", "Name": "Complete" })
+      this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })
+
     }
-    this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })
+    else if (this.currentRequestData.body.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {
+      this.statusList.push({ "Id": "Completed", "Name": "Re-Open" })
+    }
     this.model.selectedStatus = this.statusList[0].Name;
   }
 
@@ -546,6 +541,10 @@ export class AssociateRequestDetailComponent implements OnInit {
     data.raisedByPanelType = this.currentRequestData.currentUser.panelType;
     data.raisedByPanelId = this.currentRequestData.currentUser._id;
     data.raisedByPanel = EmailManager.GetUserNameFromCommaSepratedEmailIds(this.currentRequestData.currentUser.username);
+  }
+
+  CheckAllPanelRequestStatus(inputStatus) {
+    return this.currentRequestData.body.assignedDevPanelList.some(panel => panel.status == inputStatus) && this.currentRequestData.body.assignedQAPanelList.some(panel => panel.status == inputStatus);
   }
 
 }

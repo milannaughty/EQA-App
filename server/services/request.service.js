@@ -13,7 +13,7 @@ service.getAllReq = getAllReq;
 service.deleteReq = deleteReq;
 service.updateReq = updateReq;
 service.getTeamReq = getTeamReq;
-service.getAssociateNerReq = getAssociateNerReq;
+service.getAssociateNewReq = getAssociateNewReq;
 service.getAssociateAllRequest = getAssociateAllRequest;
 service.updateRequest = updateRequest;
 
@@ -25,19 +25,21 @@ module.exports = service;
 
 
 function updateRequest(requestParam) {
-    console.log('UpdateRequest service started');
-    //console.log(requestParam);
+    console.log('UpdateRequest service started...');
+    console.log(requestParam);
+    var requestID = requestParam._id;
+    delete requestParam._id;
     var deferred = Q.defer();
-    var set = { 'status': requestParam.status, };
+    // var set = { 'status': requestParam.status, };
 
-    if (requestParam.assignedDevPanelList)
-        set["assignedDevPanelList"] = requestParam.assignedDevPanelList;
-    if (requestParam.assignedQAPanelList)
-        set["assignedQAPanelList"] = requestParam.assignedQAPanelList;
+    // if (requestParam.assignedDevPanelList)
+    //     set["assignedDevPanelList"] = requestParam.assignedDevPanelList;
+    // if (requestParam.assignedQAPanelList)
+    //     set["assignedQAPanelList"] = requestParam.assignedQAPanelList;
 
     db.request.update(
-        { _id: mongo.helper.toObjectID(requestParam._id) },
-        { $set: set },
+        { _id: mongo.helper.toObjectID(requestID) },
+        { $set: requestParam },
         function (err, doc) {
             if (err) {
                 console.log('error while updaing request');
@@ -123,9 +125,13 @@ function getTeamReq(_id) {
     return deferred.promise;
 }
 
-function getAssociateNerReq(_associateId) {
+function getAssociateNewReq(_associateId) {
     var deferred = Q.defer();
-    var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ "status": "PanelAssigned" }] };
+    //var query = { $or: [{ "assignedDevPanelList.id": _associateId }, { "assignedQAPanelList.id": _associateId }], $and: [{ $or: [{ "assignedDevPanelList.status": 'PanelAssigned' }, { "assignedQAPanelList.status": 'PanelAssigned' }] }] };
+    var query = {
+        $or: [{ "assignedDevPanelList": { $elemMatch: { "id": _associateId, "status": "PanelAssigned" } } },
+        { "assignedQAPanelList": { $elemMatch: { "id": _associateId, "status": "PanelAssigned" } } }]
+    }
     db.request.find(query).toArray(
         function (err, requests) {
             if (err) deferred.reject(err.name + ': ' + err.message);
@@ -220,7 +226,7 @@ function updateStatusOfRequest(reqParam) {
     // }
     var requestID = reqParam._id;
     delete reqParam._id;
-    console.log('Before Updating the request id:'+requestID)
+    console.log('Before Updating the request id:' + requestID)
     console.log(reqParam);
     db.request.update(
         { _id: mongo.helper.toObjectID(requestID) },

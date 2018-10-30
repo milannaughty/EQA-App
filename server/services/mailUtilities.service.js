@@ -10,6 +10,7 @@ mailUtilitiesService.validateMailContentBeforeSendingMail = validateMailContentB
 mailUtilitiesService.getBoxWhereContentCanBePut = getBoxWhereContentCanBePut;
 mailUtilitiesService.getTabularData = getTabularData;
 mailUtilitiesService.GetFromMailID = GetFromMailID;
+mailUtilitiesService.FormulateEmailBodyTemplate = FormulateEmailBodyTemplate;
 
 module.exports = mailUtilitiesService;
 
@@ -133,4 +134,23 @@ function getTabularData(csString, maxColumns, headername, subHeaders, rowSeperat
  */
 function GetFromMailID() {
     return '"IQA TEAM" <jaydipjadhav26@gmail.com>'
+}
+
+function getIQAMailSignature(param) {
+    // var signatureText = `<BR><B>Thanks</B>,<BR>`;
+    // if (param == undefined)
+    //     return signatureText += `<B>Team IQA</B>`;
+    // else
+    //     return signatureText += '<B>' + param + '</B>';
+    return `<br><br><hr><b>Thanks,<br>	IQA IT Support,<br>	NIHILENT LIMITED.<b></div>`
+}
+
+/**
+ * Method to return formulated mail body.
+ */
+function FormulateEmailBodyTemplate(body) {
+
+    return `<html><head><style>
+    .container {padding: 2%; box-shadow: inset 0px 0px 4px 1px darkgrey;color: #1F3864;font-family: "Calibri",sans-serif;overflow-wrap: break-word;width: 50%;min-height: 220px;font-size: 11.0pt;line-height: 21px;}
+    </style></head><div class='container'>	${body} ` + getIQAMailSignature();
 }

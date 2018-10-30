@@ -1,5 +1,7 @@
 <div>
-  <div class="HeaderClass">Requests Under Verifications</div>
+  <!-- <div class="HeaderClass">Requests Under Verifications</div> -->
+  <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Requests Under Verifications</div>
+  <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
   <div *ngIf="!showCheckList">
     <table class="table-striped table table-condensed fontFamily data-table">
 
@@ -42,101 +44,180 @@
 
   </div>
 
-  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-  />
-  <div class="col-md-12" *ngIf="showCheckList">
-    <div class="noteFontStyle" *ngIf="isAnyOpenCheckListItem">***Please close all the checklist item in order to complete IQA Request</div>
-    <br>
-    <strong class="fw-bold fc-orange-500 tt-uppercase mb16">Open CheckList Items</strong>
-    <hr>
-    <div *ngIf="!isAnyOpenCheckListItem" class="fs-title ff-slab fw-bold mb16">No checklist item in open state.</div>
-    
-    <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="isAnyOpenCheckListItem" >
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+  <div class="col-md-12 form-add-review" *ngIf="showCheckList" style="padding: 0px !important">
 
-      <!--Table head-->
-      <thead>
-        <tr>
-          <th>#Item</th>
-          <th>CheckList Item</th>
-          <th>Description</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <!--Table head-->
+    <div *ngIf="isAnyOpenCheckListItem">
+      <div class="fw-bold fs-body2  tt-uppercase mb16">Common Review Items</div>
+      <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+      <table class="table table-condensed skillFontStyle ff-family data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>CheckList Item</th>
+            <th>Description</th>
+            <th>Panel Comment</th>
+            <th>Raised By</th>
+            <th>Team Comment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of openCheckListItem; let i = index;" class="form-add-review">
+            <th scope="row">{{i+1}}</th>
+            <td>{{data.CheckListItem}}</td>
+            <td>{{data.Description}}</td>
+            <td>{{data.panelComment||'NA'}}</td>
+            <td class="capitalize">{{data.raisedByPanel||'NA'}}</td>
+            <td><textarea type="text" class="form-control" name='genericPanelComment{{i}}' [(ngModel)]="data.teamComment"
+                #data.teamComment="ngModel" *ngIf="data.raisedByPanel && data.status"></textarea>
+              <span *ngIf="!(data.status)">{{data.teamComment||'NA'}}</span></td>
+            <td>
+              <app-request-status [status]="data.status?'Open':'Close'"></app-request-status>
+            </td>
+            <!-- <td><span [ngClass]="{'closeStatus':!data.status,'openStatus':data.status}"></span></td> -->
+          </tr>
+        </tbody>
+        <!--Table body-->
 
-      <!--Table body-->
-      <tbody>
-        <tr *ngFor="let data of openCheckListItem">
-          <th scope="row">{{openCheckListItem.indexOf(data)+1}}</th>
-          <td>{{data.CheckListItem}}</td>
-          <td>{{data.Description}}</td>
-          <td>
-            <app-request-status [status]="data.status"></app-request-status>
-          </td>
-          <td>
-            <div class="custom-control custom-radio">
-              <input type="checkbox" class="custom-control-input" [(ngModel)]="modelChkList[data._Id]" [value]="1" name="rdbCheckListGroup_{{data._Id}}"
-                checked>
-              <label class="custom-control-label" for="defaultUnchecked">Close</label>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <!--Table body-->
-    </table>
-    <br>
-    <hr>
-    <div class="">
-      <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Panel Review Comments :</div>
-      <table class="table-striped skillFontStyle">
-        <tr>
-          <td>Dev Panel</td>
-          <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.DevReviewComment) || 'No Comments'}}</td>
-        </tr>
-        <tr>
-          <td>QA Panel</td>
-          <td>-->{{(selectedRequestData.verificationStatus && selectedRequestData.verificationStatus.QAReviewComment) || 'No Comments'}}</td>
-        </tr>
       </table>
-      <div>
-        <div class="width50per">
-          <label for="ReviewReplyComment " cols="30" rows="4" class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Reply Review Comments :</label>
-          <textarea type="textarea" class="form-control" [(ngModel)]="TeamReplyReviewComment" [ngModelOptions]="{standalone: true}"
-             cols="30" rows="4" required>
-              </textarea>
-          <div class="marginTop15">
-            <button type="submit" class="btn btn-success" (click)="OnSaveClick()"  [disabled]="!isAnyOpenCheckListItem">Save</button>
-            <button type="submit" class="btn btn-info" (click)="OnCancelClick()">Cancel</button>
-          </div>
+      <hr>
+    </div>
+
+    <div *ngIf="devPreviousReviewComment.length">
+      <div class="fw-bold fs-body2 tt-uppercase mb16">DEV Panel Review :</div>
+      <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+      <table class="table table-condensed skillFontStyle ff-family data-table">
+        <thead>
+          <tr>
+            <td>#</td>
+            <th>Findings</th>
+            <th>Future Impact</th>
+            <th>Proposed Action</th>
+            <th>Panel Comment</th>
+            <th>Team Comment</th>
+            <!-- <th>Area Of Finding</th>
+            <th>Severity</th>
+            <th>Check Point Type</th>-->
+            <th>Raised By</th>
+            <!-- <th>Panel</th> -->
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of devPreviousReviewComment; let i = index" class="capitalize">
+            <td scope="row">{{(i+1)}}</td>
+            <td>{{data.findings}}</td>
+            <td>{{data.futureImpact}}</td>
+            <td>{{data.proposedAction}}</td>
+            <td>{{data.panelComment}}</td>
+            <td><textarea type="text" class="form-control" name='genericTeamComment{{i}}' [(ngModel)]="data.teamComment"
+                #data.teamComment="ngModel"></textarea></td>
+            <!-- <td>{{data.areaOfFinding}}</td>
+            <td>{{data.severity}}</td>
+            <td>{{data.checkPointType}}</td> -->
+            <td>{{data.raisedBy}}</td>
+            <!-- <td>{{data.panelType}}</td> -->
+            <td>
+              <app-request-status [status]="GetDisplayStatus(data.status)"></app-request-status>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+    </div>
+
+    <div *ngIf="qaPreviousReviewComment.length">
+      <div class="fw-bold fs-body2  tt-uppercase mb16">QA Panel Review :</div>
+      <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+      <table class="table table-condensed skillFontStyle ff-family data-table">
+        <thead>
+          <tr>
+            <td>#</td>
+            <th>Findings</th>
+            <th>Future Impact</th>
+            <th>Proposed Action</th>
+            <th>Panel Comment</th>
+            <th>Team Comment</th>
+            <!-- <th>Area Of Finding</th>
+            <th>Severity</th>
+            <th>Check Point Type</th> -->
+            <th>Raised By</th>
+            <!-- <th>Panel</th> -->
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of qaPreviousReviewComment; let i = index" class="capitalize">
+            <td scope="row">{{(i+1)}}</td>
+            <td>{{data.findings}}</td>
+            <td>{{data.futureImpact}}</td>
+            <td>{{data.proposedAction}}</td>
+            <td>{{data.panelComment}}</td>
+            <td><textarea type="text" class="form-control" name='genericQATeamComment{{i}}' [(ngModel)]="data.teamComment"
+                #data.teamComment="ngModel"></textarea></td>
+            <!-- <td>{{data.areaOfFinding}}</td>
+            <td>{{data.severity}}</td>
+            <td>{{data.checkPointType}}</td> -->
+            <td>{{data.raisedBy}}</td>
+            <!-- <td>{{data.panelType}}</td> -->
+            <td>
+              <app-request-status [status]="GetDisplayStatus(data.status)"></app-request-status>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+    </div>
+
+    <div *ngIf="allPreviousReviewComment.length">
+      <div class="fw-bold fs-body2  tt-uppercase mb16">Close Review Item(s):</div>
+      <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+      <table class="table table-condensed skillFontStyle ff-family data-table">
+        <thead>
+          <tr>
+            <td>#</td>
+            <th>Findings</th>
+            <th>Future Impact</th>
+            <th>Proposed Action</th>
+            <th>Panel Comment</th>
+            <th>Team Comment</th>
+            <th>Area Of Finding</th>
+            <th>Severity</th>
+            <th>Check Point Type</th>
+            <th>Raised By</th>
+            <th>Panel</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of allPreviousReviewComment; let i = index" class="capitalize">
+            <td scope="row">{{(i+1)}}</td>
+            <td>{{data.findings}}</td>
+            <td>{{data.futureImpact}}</td>
+            <td>{{data.proposedAction}}</td>
+            <td>{{data.panelComment}}</td>
+            <td>{{data.teamComment}}</td>
+            <td>{{data.areaOfFinding}}</td>
+            <td>{{data.severity}}</td>
+            <td>{{data.checkPointType}}</td>
+            <td>{{data.raisedBy}}</td>
+            <td>{{data.panelType}}</td>
+            <td>
+              <app-request-status [status]="GetDisplayStatus(data.status)"></app-request-status>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
+    </div>
+    <div>
+      <div class="width50per">
+        <div class="marginTop15 mb24">
+          <button type="submit" class="btn btn-success" (click)="OnSaveClick()" [disabled]="!isAnyOpenCheckListItem">Save</button>
+          <button type="submit" class="btn btn-link" (click)="OnCancelClick()">Cancel</button>
         </div>
-        <hr>
       </div>
     </div>
-    
-    <br>
-    <strong class="fw-bold fc-orange-500 tt-uppercase mb16">Close CheckList Items</strong>
-    <hr>
-    <table class="table-striped skillFontStyle" style="width: 90%; " *ngIf="closeCheckListItem.length > 0">
-      <thead>
-        <tr>
-          <th>#Item</th>
-          <th>CheckList Item</th>
-          <th>Description</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of closeCheckListItem">
-          <th scope="row">{{closeCheckListItem.indexOf(data)+1}}</th>
-          <td>{{data.CheckListItem}}</td>
-          <td>{{data.Description}}</td>
-          <td>
-            <app-request-status [status]="data.status"></app-request-status>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div *ngIf="closeCheckListItem.length == 0" class="">No open status checklist items.</div>
   </div>
 </div>

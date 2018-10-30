@@ -1,6 +1,7 @@
 <div class="">
   <div>
-    <div class="HeaderClass">IQA Summary</div>
+    <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">IQA Summary</div>
+    <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
     <div class="table-responsive">
       <table class="table-striped table table-condensed fontFamily data-table">
 
@@ -12,7 +13,8 @@
             <th class="th_cols">Name</th>
             <th>Delivery Date</th>
             <th>Expected IQA Date</th>
-            <th>Status</th>
+            <th>IQA Status</th>
+            <th>My Review Status</th>
             <th>Initiated By</th>
           </tr>
         </thead>
@@ -23,18 +25,20 @@
               <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
             </td>
             <td style="width: 15%">{{data.name}}</td>
-            <td>{{data.deliveryDate ?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
-            <td>{{data.expectedEQADate?(data.deliveryDate | date: 'dd MMM yyyy'):'NA'}}</td>
+            <td>{{data.sprintEndDate ?(data.sprintEndDate | date: 'dd MMM yyyy'):'NA'}}</td>
+            <td>{{data.expectedIQADate?(data.expectedIQADate | date: 'dd MMM yyyy'):'NA'}}</td>
             <td>
               <app-request-status [status]="data.status"></app-request-status>
             </td>
-            <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
+            <td>
+              <app-request-status [status]="data.CurrPanelReviewStatusForRequest"></app-request-status>
+            </td>
+            <td style="width: 15%" class="capitalize">{{data.initiatedBy.TeamName}}</td>
           </tr>
         </tbody>
         <!--Table body-->
       </table>
     </div>
   </div>
-  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-  />
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
 </div>

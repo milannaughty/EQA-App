@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { User } from '../_models/index';
 import { RequestService } from '../_services/index';
 import { UserService } from "../_services/user.service";
@@ -30,14 +30,14 @@ export class AdminDashboardComponent implements OnInit {
   loading: boolean;
   currentUser: User;
   el: ElementRef;
-  navOpen:boolean=false;
+  navOpen: boolean = false;
   ActionList = adminConfig.ActionList;
   RequestStatus = adminConfig.RequestStatus;
   newRequestCount: any;
   underReviewRequestCount: any;
 
-  constructor(private requestService: RequestService, private userService: UserService, private router: Router,el: ElementRef) {
-    this.el = el; 
+  constructor(private requestService: RequestService, private userService: UserService, private router: Router, el: ElementRef) {
+    this.el = el;
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!this.currentUser || !this.currentUser.isAdmin)
       this.router.navigate(['/login']);
@@ -68,25 +68,25 @@ export class AdminDashboardComponent implements OnInit {
     this.inProgressRequestCount = this.GetCount('ALL');
   }
   GetCount(DBRequestStatus) {
-    var sum=0;
+    var sum = 0;
     var arr = [];
-    if ('ALL' == DBRequestStatus){
+    if ('ALL' == DBRequestStatus) {
       arr = this.summaryData.filter(x => x.status == adminConfig.RequestStatus.REJECTED.DBStatus || x.status == adminConfig.RequestStatus.COMPLETED.DBStatus || x.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus || x.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
-    arr.map(function(DBRequestStatus){ sum+=DBRequestStatus.count});
-    return sum;
-  }
-    else{
+      arr.map(function (DBRequestStatus) { sum += DBRequestStatus.count });
+      return sum;
+    }
+    else {
       arr = this.summaryData.filter(x => x.status == DBRequestStatus);
-    if (arr && arr.length > 0) return arr[0].count; return 0;
+      if (arr && arr.length > 0) return arr[0].count; return 0;
+    }
   }
-}
 
   ShowRequestDetails(data) {
     this.ShowRequestCounts();
     this.AdminActiveTab = data.ActivateTab || this.ActionList.TeamRequestDetails;
-    this.currentRequestData = data.data || data;
+    this.currentRequestData.body = data.data || data;
     this.currentRequestData["currentUser"] = this.currentUser;
-    var keys = Object.keys(this.currentRequestData.skillSet);
+    var keys = Object.keys(this.currentRequestData.body.skillSet);
     this.skillSetCount = keys.length;
   }
 
@@ -97,15 +97,15 @@ export class AdminDashboardComponent implements OnInit {
   public getSkillCountOfCurrentRequest() {
     return this.skillSetCount;
   }
-  doAction(actionName,e) {
+  doAction(actionName, e) {
     this.AdminActiveTab = actionName;
     this.currentRequestData['CurrentActionName'] = actionName;
     $(".nav-pills li").removeClass("active")
-    var e=e;
-    e.target.parentElement.setAttribute("class","active");
+    var e = e;
+    e.target.parentElement.setAttribute("class", "active");
   }
-  navToggle(){
-    this.navOpen= !this.navOpen;
+  navToggle() {
+    this.navOpen = !this.navOpen;
     console.log(this.navOpen);
   }
 }

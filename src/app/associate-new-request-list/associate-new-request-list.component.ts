@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { RequestService, UserService, EmailService } from '../_services/index';
-import { appConfig } from '../app.config';
-import { CommonUtil } from '../app.util';
+import { appConfig, adminConfig } from '../app.config';
+import { CommonUtil, EmailManager, MessageManager } from '../app.util';
+import { debug } from 'util';
 
 @Component({
   selector: 'associate-new-request-list',
@@ -9,99 +10,119 @@ import { CommonUtil } from '../app.util';
   styleUrls: ['./associate-new-request-list.component.css']
 })
 export class AssociateNewRequestListComponent implements OnInit {
+
   NewRequest: any;
   loading: boolean;
+  isDevPanel: boolean;
+  panelList: any;
+  currentPanelData: any;
+  assignedDevPanelListString: string = 'assignedDevPanelList';
+  assignedQAPanelListString: string = 'assignedQAPanelList';
+
   @Input() currentUser: any;
   @Output() messageEvent = new EventEmitter<any>();
-  constructor(private requestService: RequestService,
-              private userService: UserService,
-              private emailService: EmailService) { }
+  newRequestResponse: any;
+
+  constructor(private requestService: RequestService, private userService: UserService, private emailService: EmailService) { }
 
   ngOnInit() {
-    this.loadNewRequestForAssociate();
+    this.LoadNewRequestForAssociate();
   }
 
-  ClickAccept(data : any){
-    var requestDto = {
-      "requestId":data._id,
-      "status": "InProgress"
-    };
-    this.requestService.updateStatusOfRequest(requestDto).subscribe(
+  OnAccept(currentRequestData: any) {
+
+    this.currentPanelData = this.LoadCurrentPanelData(currentRequestData);
+    this.currentPanelData.lastActivity = new Date().toDateString();
+    this.currentPanelData.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
+    let isAllPanelAcceptedRequest = this.CheckAllPanelRequestStatus(currentRequestData, adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+    currentRequestData.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : currentRequestData.status;
+    this.RemoveUnwantedProperties(currentRequestData);
+    CommonUtil.ShowLoading();
+    this.requestService.updateStatusOfRequest(currentRequestData).subscribe(
       result => {
-            debugger;
-            this.loadNewRequestForAssociate();
-            /** sending mail begins */
+        //this.loading = true;
+        var toPerssonList = currentRequestData.initiatedBy.POCEmail;
+        var toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonList);
+        var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([currentRequestData.initiatedBy.DAMEmail, currentRequestData.initiatedBy.PMEmail]);
 
-            var ccPersonList = (data.initiatedBy.DAMEmail ? data.initiatedBy.DAMEmail + ',' : '') 
-                              + (data.initiatedBy.PMEmail ? data.initiatedBy.PMEmail + ',' : '');
-                  if (ccPersonList.lastIndexOf(',') != ccPersonList.length - 1) {
-                    ccPersonList +=','; 
-                    }
-                     
-                  var toPerssonList=data.initiatedBy.POCEmail ;    
-                  var toPersonName=toPerssonList.substring(0,toPerssonList.indexOf('.',0)).charAt(0).toUpperCase() + toPerssonList.substring(0,toPerssonList.indexOf('.',0)).slice(1);
-                  this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-                    debugger;
-                    if (adminList instanceof Array)
-                      ccPersonList += adminList.map(x => x.username).join(',');
-                    else
-                      ccPersonList += adminList["username"];
-                    var currentUser = sessionStorage.getItem('currentUser');
-                    var cUser = JSON.parse(currentUser);
-                    
-                    var mailSubject="IQA Request [Sprint Name :"+data.name+"] Accepted by Panel "+cUser.FName+" "+cUser.LName; 
-                    
-                      var mailObject = {
-                        "fromPersonName": appConfig.fromPersonName,
-                        "fromPersonMailId": appConfig.fromPersonMailId,
-                        "toPersonName": toPersonName,
-                        "toPersonMailId": toPerssonList,
-                        "ccPersonList": ccPersonList,
-                        "mailSubject": mailSubject,
-                        "mailContent": "",
-                        "sprintName" : data.name,
-                        "panelName" : cUser.username,
-                       };
+        this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+          if (adminList instanceof Array)
+            ccPersonList += adminList.map(x => x.username).join(',');
+          else
+            ccPersonList += adminList["username"];
 
-                      this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
-                        success =>{
-                            //this.alertService.success("IQA Request having sprint name "+data.name+" is rejected successfully");
-                            console.log("mail sent to admin with rejection details");
-                            CommonUtil.ShowSuccessAlert("IQA Request updated successfully, mail sent to admin with rejection details");
-                        },err =>{
-                          //this.alertService.success(" ErrorIQA Request having sprint name "+data.name+" is rejected successfully");
-                          CommonUtil.ShowErrorAlert("IQA Request updated successfully, failed to send mail to admin");
-                        }
-                      );
+          var mailSubject = EmailManager.GetRequestAcceptSubjectLine(currentRequestData.name, this.currentUser.FName + " " + this.currentUser.LName);
+          var mailObject = {
+            "fromPersonName": appConfig.fromPersonName,
+            "fromPersonMailId": appConfig.fromPersonMailId,
+            "toPersonName": toPersonName,
+            "toPersonMailId": toPerssonList,
+            "ccPersonList": ccPersonList,
+            "mailSubject": mailSubject,
+            "mailContent": "",
+            "sprintName": currentRequestData.name,
+            "panelName": this.currentUser.username,
+          };
 
-                    },err => {//error while fething admin role users
-                      console.log("Error while sending mail to admin with rejection details : for fetching admin details");
-                      CommonUtil.ShowErrorAlert("IQA Request updated successfully, failed to send mail to admin");
-                    });
+          this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
+            success => {
+              console.log("mail sent to admin with rejection details");
+              CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
+              this.LoadNewRequestForAssociate();
+            }, err => {
+              CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
+              this.LoadNewRequestForAssociate();
+            }
+          );
+
+        }, err => {//error while fething admin role users
+          CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
+          this.LoadNewRequestForAssociate();
+        });
 
 
-            /** sending mail ends */
-          },err => {
-                console.log("Error while accepting IQA request ");
-                CommonUtil.ShowErrorAlert("Error while accepting IQA request");
-          });
-      }  
-  
-  private ShowRequestDetails(data,showRemarkBox) {
-    console.log(data);
-    console.log('Redirecting from request list to request detail view');
-    data["showRemark"] = showRemarkBox;
-    data["panelType"] = this.currentUser.panelType;
-    this.messageEvent.emit({ ActivateTab: 'Request Detail', data: data });
+        /** sending mail ends */
+      }, err => {
+        console.log("Error while accepting IQA request ");
+        CommonUtil.ShowErrorAlert(MessageManager.RequestAcceptError);
+        this.LoadNewRequestForAssociate();
+      });
   }
 
-  private loadNewRequestForAssociate() {
+  private ShowRequestDetails(currentRequestData, showRemarkBox) {
+    //console.log(currentRequestData);
+    console.log('Redirecting from request list to request detail view');
+    this.messageEvent.emit({ ActivateTab: 'Request Detail', data: currentRequestData });
+  }
+
+  private LoadNewRequestForAssociate() {
     this.loading = true;
+    this.isDevPanel = this.currentUser.panelType == 'Dev';
+    this.panelList = this.isDevPanel ? this.assignedDevPanelListString : this.assignedQAPanelListString;
+
     this.requestService.getAssociateNewRequest(this.currentUser._id).subscribe(result => {
-    this.loading = false;
-    debugger;
-    this.NewRequest = result;
+      this.loading = false;
+      this.NewRequest = result;
+      this.NewRequest = this.NewRequest.map(requestData => { this.GetCurrPanelReviewStatusForRequest(requestData); return requestData; });
     });
+  }
+
+  private LoadCurrentPanelData(currentRequestData) {
+    return currentRequestData[this.panelList].filter(x => x.id == this.currentUser._id)[0];
+  }
+
+  private GetCurrPanelReviewStatusForRequest(requestData) {
+    let panelData = this.LoadCurrentPanelData(requestData);
+    requestData.CurrPanelReviewStatusForRequest = panelData.status;
+  }
+
+  CheckAllPanelRequestStatus(currentRequestData, inputStatus) {
+    return currentRequestData.assignedDevPanelList.some(panel => panel.status == inputStatus) && currentRequestData.assignedQAPanelList.some(panel => panel.status == inputStatus);
+  }
+
+  RemoveUnwantedProperties(currentRequestData){
+    //CurrPanelReviewStatusForRequest
+    delete currentRequestData.CurrPanelReviewStatusForRequest;
   }
 
 }

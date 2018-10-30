@@ -10,7 +10,7 @@ router.put('/updateRequest', updateRequest);
 router.get('/', getAllReq);
 router.delete('/:_id', deleteReq);
 router.get('/team/:_id', getTeamReq);
-router.get('/associate/newrequests/:_id', getAssociateNerReq);
+router.get('/associate/newrequests/:_id', getAssociateNewReq);
 router.get('/associate/:_id', getAssociateAllRequest);
 // router.post('/sendMail', sendMail);
 router.put('/updateStatusOfRequest', updateStatusOfRequestInController);
@@ -111,16 +111,16 @@ function getTeamReq(req, res) {
         });
 }
 
-function getAssociateNerReq(req, res) {
-    console.log('in getAssociateNerReq start');
-    requestService.getAssociateNerReq(req.params._id)
+function getAssociateNewReq(req, res) {
+    console.log('in getAssociateNewReq start');
+    requestService.getAssociateNewReq(req.params._id)
         .then(function (requests) {
            // console.log(requests);
-           console.log('in getAssociateNerReq end');
+           console.log('in getAssociateNewReq end');
             res.send(requests);
         })
         .catch(function (err) {
-            console.log('in getAssociateNerReq end with error');
+            console.log('in getAssociateNewReq end with error');
             res.status(400).send(err);
         });
 }
