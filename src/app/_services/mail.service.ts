@@ -63,4 +63,8 @@ export class EmailService {
         return this.http.post(appConfig.apiUrl + actionURL, mailObject)
     }
 
+    sendMailToAdminAftersubmitingfeedback(recievedObject) {
+        return this.http.post(appConfig.apiUrl + '/mail/sendMailToAdminAftersubmitingfeedback', recievedObject);
+    }    
+
 }    

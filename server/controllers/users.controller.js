@@ -22,21 +22,103 @@ router.get('/:_id', getById);
 router.post('/updatePanelStatus',updatePanelStatus);
 router.post('/updateTeamStatus',updateTeamStatus);
 router.post('/panelSoftDelete',panelSoftDelete);
+router.get('/authenticateByLdap/:_userEmailId',authenticateByLdap);
+router.get('/findUserDetailsInLdapWithEmail/:_userEmailId',findUserDetailsInLdapWithEmail);
+router.get('/checkIfUserExistsInLdapWithEmail/:_userEmailId',checkIfUserExistsInLdapWithEmail);
+router.post('/authentionByBothLdapAndMongo',authentionByBothLdapAndMongo);
 router.post('/teamSoftDelete',teamSoftDelete);
 module.exports = router;
 
+/**
+ * This method athenticates user of role Admin / Panel from LDAP 
+ * And for team user it authenticates from MongoDB 
+ * @author Krishna.Yaldi
+ * @param {username} req 
+ * @param {password} req 
+ * */
+function authentionByBothLdapAndMongo(req,res){
+    console.log("In authentionByBothLdapAndMongo of user controller");
+    if(req.body.username==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+    if(req.body.password==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+    userService.authentionByBothLdapAndMongo(req.body.username,req.body.password)
+        .then(function (users) {
+            console.log("In authentionByBothLdapAndMongo of user controller");
+            res.send(users);
+        })
+        .catch(function (err) {
+            console.log("In authentionByBothLdapAndMongo of user controller"+JSON.stringify(err));
+            res.status(400).send(err);
+        });
+}
+
+function authenticateByLdap(req,res){
+    console.log("In authenticateByLdap of user controller");
+    if(req.params._userEmailId==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+    if(req.query.password==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+    userService.authenticateByLdap(req.params._userEmailId,req.query.password)
+        .then(function (users) {
+            console.log("In authenticateByLdap of user controller");
+            res.send(users);
+        })
+        .catch(function (err) {
+            console.log("In authenticateByLdap of user controller");
+            res.status(400).send(err);
+        });
+}
+
+function findUserDetailsInLdapWithEmail(req,res){
+    console.log("In findUserDetailsInLdapWithEmail of user controller");
+    if(req.params._userEmailId==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+
+    userService.findUserInLdapWithEmail(req.params._userEmailId)
+        .then(function (users) {
+            console.log("In findUserDetailsInLdapWithEmail of user controller");
+            res.send(users);
+        })
+        .catch(function (err) {
+            console.log("In findUserDetailsInLdapWithEmail of user controller");
+            res.status(400).send(err);
+        });
+}
+
+function checkIfUserExistsInLdapWithEmail(req,res){
+    console.log("In checkIfUserExistsInLdapWithEmail of user controller");
+    if(req.params._userEmailId==undefined){
+        res.status(400).send("Please use appropriate key");
+    }
+
+    userService.checkIfUserExistsInLdapWithEmail(req.params._userEmailId)
+        .then(function (users) {
+            console.log("In checkIfUserExistsInLdapWithEmail of user controller");
+            res.send(users);
+        })
+        .catch(function (err) {
+            console.log("In checkIfUserExistsInLdapWithEmail of user controller");
+            res.status(400).send(err);
+        });
+}
 function getUserByUserName(req,res){
-    console.log("In generateRandomPassword of user controller");
+    console.log("In getUserByUserName of user controller");
     if(req.query.userName==undefined){
         res.status(400).send("Please use appropriate key");
     }
     userService.getUserByUserName(req.query.userName)
         .then(function (users) {
-            console.log("In generateRandomPassword of user controller");
+            console.log("In getUserByUserName of user controller");
             res.send(users);
         })
         .catch(function (err) {
-            console.log("In generateRandomPassword of user controller");
+            console.log("In getUserByUserName of user controller");
             res.status(400).send(err);
         });
 }

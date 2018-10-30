@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../_models/index';
 
-import { AlertService, AuthenticationService } from '../_services/index';
+import { AlertService, AuthenticationService, UserService } from '../_services/index';
 
 @Component({
     moduleId: module.id,
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) {
+        private alertService: AlertService,
+        private userService: UserService) {
     }
 
     ngOnInit() {
@@ -36,6 +37,23 @@ export class LoginComponent implements OnInit {
                 "Name": "Panel"
             }]
         this.model.loginAsId = 1
+
+        /**
+         *  Initializing admin list
+         */
+        this.userService.getAllUsersByRole("admin").subscribe(adminList => {
+            var adminData;
+            if (adminList instanceof Array)
+                adminData= {
+                    emailIDs:adminList.map(x=>x.username).join(',')
+                    ,userNames:adminList.map(x=>x["FName"]+' '+x["LName"]).join(',')
+                    }
+            else
+                adminData = {emailIDs:adminList["username"],userNames:adminList["FName"]+' '+adminList["LName"]};
+            sessionStorage.setItem('adminList', JSON.stringify(adminData));
+        },err => {
+            console.log("Error while setting admin users");
+        });
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
@@ -48,7 +66,7 @@ export class LoginComponent implements OnInit {
         else {
             this.model.isPanel = true;
         }
-        this.authenticationService.login(this.model.username, this.model.password, this.model.isPanel)
+        this.authenticationService.loginWithMongoAndLDAP(this.model.username, this.model.password)
             .subscribe(
             data => {
                 debugger;

@@ -11,6 +11,7 @@ mailTemplatesService.getMailTemplateToBeSendFirstMailToTeam = getMailTemplateToB
 mailTemplatesService.getMailTemplateTobeSentToUserAfterGeneratingNewPassword = getMailTemplateTobeSentToUserAfterGeneratingNewPassword;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel = getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel = getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel;
+mailTemplatesService.getMailTemplateforUsersfeedback = getMailTemplateforUsersfeedback;
 
 module.exports = mailTemplatesService;
 
@@ -126,4 +127,15 @@ function getMailTemplateTobeSentToUserAfterGeneratingNewPassword(valuesToBeRepla
     mailContent += `<div class=WordSection1><table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 style='border-collapse:collapse'><tr><td valign=top style='border:solid windowtext 1.0pt;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>User Name<o:p></o:p></p></td><td valign=top style='border:solid windowtext 1.0pt;border-left:none;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>Password<o:p></o:p></p></td></tr><tr><td valign=top style='border:solid windowtext 1.0pt;border-top:none;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>${valuesToBeReplaced.username}<o:p></o:p></p></td><td valign=top style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0in 5.4pt 0in 5.4pt'><p class=MsoNormal>${valuesToBeReplaced.password}<o:p></o:p></p></td></tr></table><p class=MsoNormal><o:p>&nbsp;</o:p></p></div>`;
     //mailContent += getIQAMailSignature(undefined);
     return mailUtilitiesServiceObject.FormulateEmailBodyTemplate(mailContent);
+}
+
+/**
+ * this method generates template for mail to be send after rejected by Panel
+ * @param {requestObject.feedback} valuesToBeReplaced 
+ */
+function getMailTemplateforUsersfeedback(valuesToBeReplaced) {
+
+    return mailUtilitiesServiceObject.FormulateEmailBodyTemplate(`<div style='font-family:"Calibri",sans-serif;color:#1F3864;'><strong>Hello Team IQA</strong>,<br><p > We have recieved new feedback from <a href="mailto:${valuesToBeReplaced.fromPersonMailId}?subject=IQA Team|Feedback From  - ${valuesToBeReplaced.emailSender}&body=Thanks for your valuable feedback. We will be looking into it and get back to you soon. :)">${valuesToBeReplaced.emailSender}</a>
+    <BR><strong>Feedback:</strong><i><p> ${valuesToBeReplaced.feedback}</i> </p><br></div>`);
+
 }
