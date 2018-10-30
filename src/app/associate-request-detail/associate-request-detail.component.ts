@@ -223,12 +223,10 @@ export class AssociateRequestDetailComponent implements OnInit {
       let isAnyGennericCheckListItemOpenByMe = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1 && x.raisedByPanelId == this.currentPanelId);
       let isAnyMyCheckListItemOpen = this.currentPanelData.reviewCheckListItems && this.currentPanelData.reviewCheckListItems.some(x => x.status == 1);
       this.currentPanelData.status = (isAnyGennericCheckListItemOpenByMe || isAnyMyCheckListItemOpen) ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
-
       
-      debugger;
       var isAnyPreviousCheckCheckListItemOpen = this.allPreviousReviewComment.some(x => x.status == 1);
       var isAnyGennericCheckListItemOpen = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1);
-      var isAnyMyCheckListItemOpen = this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      isAnyMyCheckListItemOpen = this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
       var isAnyNewlyAddedCheckList = this.newCheckListItemsLength;
       var isAllPanelCompletedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.COMPLETED.DBStatus);
       var isIQARequestCompleted = !(isAnyPreviousCheckCheckListItemOpen || isAnyGennericCheckListItemOpen  || isAnyMyCheckListItemOpen || isAnyNewlyAddedCheckList);
@@ -237,7 +235,6 @@ export class AssociateRequestDetailComponent implements OnInit {
 
     this.requestService.updateStatusOfRequest(this.currentRequestData.body).subscribe(
       result => {
-        debugger;
         var data = this.currentRequestData.body;
         if (this.isRejectRequestOperation) {//code after rejection
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
