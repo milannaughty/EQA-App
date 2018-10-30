@@ -50,7 +50,8 @@ import { RequestStatusComponent } from './request-status/request-status.componen
 import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist-form.component';
 import { TeamListComponent } from './team-list/team-list.component';
 import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component';
-import { FeedbackComponent } from './feedback/feedback.component'; 
+import { FeedbackComponent } from './feedback/feedback.component';
+import { PanelHomePageComponent } from './panel-home-page/panel-home-page.component'; 
 //import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
@@ -89,7 +90,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
         TeamChecklistFormComponent,
         TeamListComponent,
         AdminAreaAddComponent,
-        FeedbackComponent
+        FeedbackComponent,
+        PanelHomePageComponent
     ],
     providers: [
         AuthGuard,

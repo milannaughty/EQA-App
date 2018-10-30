@@ -1,0 +1,35 @@
+<div *ngIf="showSelectPanelType">
+  <div>
+    <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Select Panel Type</div>
+    <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+  </div>
+  <div class="col-md-6 row">
+    <div class="btn-group">
+      <button type="button" id="show-preview" [ngClass]="{'btn': true, 'btn-info': true, 'active': isDevSelected}"
+        (click)="OnPanelClick('Dev',$event)">
+
+        DEV<i [ngClass]="{'glyphicon':true, 'glyphicon-ok':isDevSelected}"></i></button>
+      <button type="button" id="show-html" [ngClass]="{'btn': true, 'btn-info': true, 'active': !isDevSelected}"
+        (click)="OnPanelClick('QA',$event)">
+
+        QA<i [ngClass]="{'glyphicon':true, 'glyphicon-ok':!isDevSelected}"></i></button>
+    </div>
+    <div style="padding-top:10px">
+      <div class="form-group" *ngIf="isDevSelected">
+        <label for="LoginAsId">Dev Skills</label>
+        <angular2-multiselect name="skillset" [data]="skillList" [(ngModel)]="currentUser.skillSet" [settings]="dropdownSettings">
+        </angular2-multiselect>
+      </div>
+      <div class="form-group" *ngIf="!isDevSelected">
+        <label for="LoginAsId">QA Skills</label>
+        <angular2-multiselect name="qaSkillList" [data]="qaSkillList" [(ngModel)]="currentUser.qaSkillList" [settings]="dropdownSettings">
+        </angular2-multiselect>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary" (click)="OnSave()">Save Panel</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <a [routerLink]="['/Admin']" class="btn btn-link">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,7 @@
                     <div>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="active">
-                                <a href="#" (click)="doAction('',$event)">Home</a>
+                                <a href="#" (click)="doAction('Dashboard',$event)">Home</a>
                             </li>
                         </ul>
                         <div *ngIf="currentUser.isPanel">
@@ -97,7 +97,7 @@
                                 <li class="active">{{ActiveTab}}</li>
                             </ol>
                         </section>
-
+                        <app-panel-home-page *ngIf="ActiveTab=='Dashboard'" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-panel-home-page>
                         <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
                         <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
                         <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail" [currentRequestData]="currentRequestData"
