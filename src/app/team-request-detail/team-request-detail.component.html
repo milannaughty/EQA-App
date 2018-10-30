@@ -13,13 +13,13 @@
               <td>
                 <label for="pbiId ">PBI ID</label>
               </td>
-              <td>{{currentRequestData.pbiId}}</td>
+              <td>{{this.currentRequestData.body.pbiId}}</td>
             </tr>
             <tr>
               <td>
                 <label for="name ">Name</label>
               </td>
-              <td> {{currentRequestData.name}}</td>
+              <td> {{this.currentRequestData.body.name}}</td>
             </tr>
             <tr>
               <td>
@@ -44,21 +44,21 @@
               <td>
                 <label for="expectedIQADate ">Expected IQA Date</label>
               </td>
-              <td> {{currentRequestData.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+              <td> {{this.currentRequestData.body.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
             </tr>
             <tr>
               <td>
                 <label for="status ">Status</label>
               </td>
               <td>
-                <app-request-status [status]="currentRequestData.status"></app-request-status>
+                <app-request-status [status]="this.currentRequestData.body.status"></app-request-status>
               </td>
             </tr>
             <tr>
               <td>
                 <label for="initiatedBy ">Initiated By</label>
               </td>
-              <td> {{currentRequestData.initiatedBy.TeamName}}</td>
+              <td> {{this.currentRequestData.body.initiatedBy.TeamName}}</td>
             </tr>
             <tr>
               <td>

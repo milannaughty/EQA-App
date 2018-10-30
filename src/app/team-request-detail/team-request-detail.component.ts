@@ -41,7 +41,7 @@ export class TeamRequestDetailComponent implements OnInit {
     debugger;
     console.log('In Request Detail Method')
     this.loading = true
-    this.userService.getPanelBySkills(this.currentRequestData.skillSet, this.currentRequestData.qaSkillSet).subscribe(result => {
+    this.userService.getPanelBySkills(this.currentRequestData.body.skillSet, this.currentRequestData.body.qaSkillSet).subscribe(result => {
       this.isSkillLoaded = true
       this.isDevSkillMore = true;
       this.isQaSkillMore = true;
@@ -49,22 +49,22 @@ export class TeamRequestDetailComponent implements OnInit {
       var r = result as Object[];
       this.qaSkillSetPanel = r.filter(x => x['panelType'] == 'QA').map((x, i) => ({ id: x["_id"], itemName: x["username"] }));
       this.devSkillSetPanel = r.filter(x => x['panelType'] == 'Dev').map(x => ({ id: x["_id"], itemName: x["username"] }));
-      var devstr = this.currentRequestData.skillSet.map(x => x.itemName).join(',');
+      var devstr = this.currentRequestData.body.skillSet.map(x => x.itemName).join(',');
       var arr = devstr.split(',');
       var count = arr.length;
       if (count <= 3) {
         this.isDevSkillMore = false;
       }
       this.devSkillSet = devstr.substring(0, CommonUtil.getNthIndexOfString(devstr, ',', 3));
-      var qaStr = this.currentRequestData.qaSkillSet.map(x => x.itemName).join(',');
+      var qaStr = this.currentRequestData.body.qaSkillSet.map(x => x.itemName).join(',');
       var arr = qaStr.split(',');
       var count = arr.length;
       if (count <= 3) {
         this.isQaSkillMore = false;
       }
       this.qaSkillSet = qaStr.substring(0, CommonUtil.getNthIndexOfString(qaStr, ',', 3));
-      this.devPanel = this.currentRequestData.assignedDevPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
-      this.qaPanel = this.currentRequestData.assignedQAPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
+      this.devPanel = this.currentRequestData.body.assignedDevPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
+      this.qaPanel = this.currentRequestData.body.assignedQAPanelList.map(x => ({ id: x.id, emailId: x.itemName, fullName: EmailManager.GetUserNameFromCommaSepratedEmailIds(x.itemName) }));
     });
   }
   ShowRequestList1() {
@@ -73,20 +73,20 @@ export class TeamRequestDetailComponent implements OnInit {
   }
 
   devSkillAlert() {
-    var devstr = this.currentRequestData.skillSet.map(x => x.itemName).join(',');
+    var devstr = this.currentRequestData.body.skillSet.map(x => x.itemName).join(',');
     debugger;
     var title = 'Required Dev Skill';
     var htmlContent = CommonUtil.GetTabularData(devstr, 5, title);
     CommonUtil.ShowInfoAlert('Required Dev Skills', htmlContent);
   }
   qaSkillAlert() {
-    var qaStr = this.currentRequestData.qaSkillSet.map(x => x.itemName).join(',');
+    var qaStr = this.currentRequestData.body.qaSkillSet.map(x => x.itemName).join(',');
     var title = 'Required Qa Skill';
     var htmlContent = CommonUtil.GetTabularData(qaStr, 5, title);
     CommonUtil.ShowInfoAlert('Required QA Skills', htmlContent);
   }
   getEmailfromDev() {
-    var arr = this.currentRequestData.assignDevPanelList;
+    var arr = this.currentRequestData.body.assignDevPanelList;
     console.log(arr);
   }
 

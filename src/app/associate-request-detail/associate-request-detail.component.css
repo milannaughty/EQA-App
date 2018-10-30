@@ -23,7 +23,7 @@
 }
 .form-add-review select{
     height:27px;
-    width: 100px;
+    /* width: 100px; */
 }
 
 .form-add-review input{

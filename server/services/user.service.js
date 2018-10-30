@@ -111,6 +111,7 @@ function authentionByBothLdapAndMongo(username, password){
                                 if(userGroupArr.some(x => x.cn==config.AdminDLName)){//fill user details as admin
                                     newUserObject.isAdmin=true;
                                 }else{//fill user details as panel
+                                    //newUserObject.panelType="Dev";
                                     newUserObject.isPanel=true;
                                 }
                                 createNewUser(newUserObject);
@@ -649,6 +650,8 @@ function getPanelBySkills(skills) {
             panel.map(function (p) {
                 console.log("---------------PANEL------------------");
                 console.log(p.FName +' '+p.LName);
+                p.skillSet = p.skillSet || [];
+                p.qaSkillList= p.qaSkillList || [];
                 var panelSkills = p.panelType =='QA'? p.qaSkillList.map(x => x.itemName):p.skillSet.map(x => x.itemName);
                 var valid = panelSkills.some(x => (requestedDevSkill.includes(x) || requestedQaSkill.includes(x)))
                 if (valid)

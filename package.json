@@ -8,7 +8,8 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "host":"ng serve --host 172.16.20.245 --port 4200"
   },
   "private": true,
   "dependencies": {

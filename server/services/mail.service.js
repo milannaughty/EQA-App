@@ -11,8 +11,8 @@ function getGmailTransporter() {
     return nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'jaydipjadhav26@gmail.com',
-            pass: '9766160907'
+            user: 'iqanihilent@gmail.com',
+            pass: 'iqanihilent@123'
         }
     });
 }

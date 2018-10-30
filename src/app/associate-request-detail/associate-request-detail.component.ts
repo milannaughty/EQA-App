@@ -77,6 +77,7 @@ export class AssociateRequestDetailComponent implements OnInit {
 
   ngOnInit() {
     this.ShowRequestDetails();
+    this.LoadCurrentPanelData();
     this.PopulateStatusDropdown();
   }
   ShowAddReviewItem() {
@@ -123,7 +124,7 @@ export class AssociateRequestDetailComponent implements OnInit {
     this.showRemark = this.isRejectRequestOperation;
     this.showSaveButton = this.isCompleteRequestOperation || this.isRejectRequestOperation || this.isAcceptRequestOperation;
     this.showCheckList = this.isCompleteRequestOperation;
-    this.LoadCurrentPanelData();
+    //this.LoadCurrentPanelData();
     if (this.showCheckList) {
       this.PopulateCheckList();
     }
@@ -443,16 +444,16 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   PopulateStatusDropdown() {
-    if (this.currentRequestData.body.status == 'PanelAssigned') {
+    if (this.currentPanelData.status == 'PanelAssigned') {
       this.statusList.push({ "Id": "InProgress", "Name": "Accept" })
       this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })
     }
-    else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {
+    else if (this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus || this.currentPanelData.status == adminConfig.RequestStatus.IN_PROGRESS.DBStatus) {
       this.statusList.push({ "Id": "Completed", "Name": "Complete" })
       this.statusList.push({ "Id": "Rejected", "Name": "Rejected" })
 
     }
-    else if (this.currentRequestData.body.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {
+    else if (this.currentPanelData.status == adminConfig.RequestStatus.COMPLETED.DBStatus) {
       this.statusList.push({ "Id": "Completed", "Name": "Re-Open" })
     }
     this.model.selectedStatus = this.statusList[0].Name;
