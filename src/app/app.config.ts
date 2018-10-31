@@ -1,6 +1,5 @@
 export const appConfig = {
-    apiUrl: 'http://127.0.0.1:4000',
-    //connectionString: "mongodb://172.16.20.245:27017/eqa-app",
+    apiUrl: 'http://172.16.1.227:4000',
     fromPersonName: "Team IQA",
     fromPersonMailId: "iqaTeamMailId",
     initialPassword: 'nihilent@123'
