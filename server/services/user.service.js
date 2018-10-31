@@ -61,9 +61,9 @@ function authentionByBothLdapAndMongo(username, password) {
         ad.authenticate(username, password, function (err, auth) {
             if (err) {
                 var errorString = JSON.stringify(err);
-                console.log('ERROR: ' + errorString);
-                console.log('In authentionByBothLdapAndMongo of UserService ends with err Error : ');
-                return deferred.reject(errorString);
+              console.log('ERROR: '+errorString);
+              console.log('In authentionByBothLdapAndMongo of UserService ends with err Error : ');
+              return deferred.reject(' Invalid credentials, please try with valid credentials');
             }
 
             if (auth) {
@@ -697,38 +697,44 @@ function getUsersByRole(roleName) {
                 }
             ]
         };
-    } else if (roleName == 'panel') {
-        query = {
-            "$and": [
-                {
-                    "isPanel": {
-                        "$exists": true
-                    }
-                },
-                {
-                    "isPanel": true
-                }
-            ]
-        };
-    } else if (roleName == 'team') {
-        query = {
-            "$and": [
-                {
-                    "isPanel": {
-                        "$exists": true
-                    }
-                },
-                {
-                    "isPanel": false
-                }
-            ]
-        };
-    } else {
-        deferred.reject("No role found like " + roleName);
-        return deferred.promise;
-    }
-
-    console.log(JSON.stringify(query));
+    }else if(roleName=='panel')   
+            {
+                query = {
+                    "$and": [
+                        {
+                            "isPanel": {
+                                "$exists": true
+                            }
+                        },
+                        {
+                            "isPanel": true
+                        }
+                    ]
+                  };
+            }else if(roleName=='team'){
+                    query = {
+                        "$and": [
+                            {
+                                "isPanel": {
+                                    "$exists": true
+                                }
+                            },
+                            {
+                                "isPanel": false
+                            },
+                            {
+                                "isAdmin": {
+                                    "$exists": false
+                                }
+                            }
+                        ]
+                    };
+                }else{
+                    deferred.reject("No role found like "+roleName);
+                    return deferred.promise;
+                }  
+              
+                console.log(JSON.stringify(query));
 
     db.users.find(query).toArray(function (err, result) {
         if (err) {

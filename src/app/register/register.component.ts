@@ -107,6 +107,5 @@ export class RegisterComponent {
         console.log('Redirecting from request list to request detail view');
         //data["CurrentActionName"] = this.currentRequestData["CurrentActionName"];
         this.messageEvent.emit({ ActivateTab: adminConfig.ActionList.PanelList });
-        this.messageEvent.emit({ ActivateTab: adminConfig.ActionList.TeamList });
     }
 }
