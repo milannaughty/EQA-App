@@ -1,6 +1,6 @@
 ﻿{
-    "connectionString": "mongodb://172.16.20.245:27017/iqa_qa",
-    "apiUrl": "http://172.16.20.245:4000",
+    "connectionString": "mongodb://localhost:27017/iqa_qa",
     "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
-    "AdminDLName":"DL_MCA_EBSMS_IQA-TL"
+    "AdminDLName":"DL_MCA_EBSMS_IQA-TL",
+    "WebURL":"http://172.16.1.227:4200/"
 }

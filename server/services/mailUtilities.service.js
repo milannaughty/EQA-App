@@ -1,4 +1,4 @@
-
+var config = require('config.json');
 var utilitiesServiceObject = require('./utililties.service');
 var mailUtilitiesService = {};
 
@@ -152,5 +152,7 @@ function FormulateEmailBodyTemplate(body) {
 
     return `<html><head><style>
     .container {padding: 2%; box-shadow: inset 0px 0px 4px 1px darkgrey;color: #1F3864;font-family: "Calibri",sans-serif;overflow-wrap: break-word;width: 50%;min-height: 220px;font-size: 11.0pt;line-height: 21px;}
-    </style></head><div class='container'>	${body} ` + getIQAMailSignature();
+    </style></head><div class='container'>	${body} <br>
+    For more details please login to <a href='${config.WebURL}'>IQA Portal</a>.
+    ` + getIQAMailSignature();
 }
