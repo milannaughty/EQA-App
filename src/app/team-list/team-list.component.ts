@@ -23,7 +23,7 @@ export class TeamListComponent implements OnInit {
   constructor(private requestService: RequestService, private userService: UserService) { }
 
   ngOnInit() {
-    debugger;
+    //debugger;
     this.getAllTeamList();
   }
 
@@ -37,7 +37,7 @@ export class TeamListComponent implements OnInit {
       this.allTeam=activeTeamList.map(x=>{if (x["AddedBy"])
       x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
     
-    debugger;
+    //debugger;
     x["isObsolute"] = x["obsolute"] == true
     return x;
     });
@@ -56,28 +56,28 @@ export class TeamListComponent implements OnInit {
     this.userService.UpdateTeamStatus(set).subscribe(
       result => {
         this.loading = true;
-        debugger;
+        //debugger;
         console.log(result);
         CommonUtil.ShowSuccessAlert("Team Updated Successfully.");
         this.loading = false;
         this.getAllTeamList();
       },
       error => {
-        debugger;
+        //debugger;
         this.loading = true;
         CommonUtil.ShowErrorAlert(error.error);
         this.loading = false;
       });
     }
     deleteTeamDetails(id){
-      debugger;
+      //debugger;
       var set = {
         "isDeleted": true,
         "teamId": id
       };
       this.userService.teamSoftDelete(set).subscribe(
         result => {
-          debugger;
+          //debugger;
           this.loading = true;
           CommonUtil.ShowSuccessAlert("Team Deleted Successfully.");
           this.loading = false;

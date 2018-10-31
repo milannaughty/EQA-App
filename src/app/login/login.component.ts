@@ -69,12 +69,12 @@ export class LoginComponent implements OnInit {
         this.authenticationService.loginWithMongoAndLDAP(this.model.username, this.model.password)
             .subscribe(
             data => {
-                debugger;
+                //debugger;
                 this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
                 this.router.navigate(this.currentUser.isAdmin ? ['admin'] : ['home']);
             },
             error => {
-                debugger;
+                //debugger;
                 this.alertService.error(JSON.stringify(error.error));
                 this.loading = false;
             });

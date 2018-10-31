@@ -32,11 +32,11 @@ export class SkillSetsService {
         return this.http.post<SkillSets>(appConfig.apiUrl + '/skillSets/createNewSkillSet',skillSet);
     }
     updateSkillSetObjectToDB(reqObj: Object){
-        //debugger;
+        ////debugger;
         return this.http.put(appConfig.apiUrl + '/skillSets/updateSkillSet' , reqObj);
     }
     deleteSkillSet(_id: string) {
-        debugger;
+        //debugger;
         return this.http.delete(appConfig.apiUrl + '/skillSets/deleteSkillSet?id=' + _id);
     }
 

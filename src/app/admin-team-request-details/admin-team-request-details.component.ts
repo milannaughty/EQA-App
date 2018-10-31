@@ -100,7 +100,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   }
 
   AssignSelectedUsers() {
-    debugger;
+    //debugger;
     console.log('In assignSelectedUsers start');
     // var this.currentRequestData.body = {
     //   "_id": this.currentRequestData.body._id,
@@ -116,7 +116,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
     //     this.currentRequestData.assignedDevPanelList = this.GetUpdateAssignedPanelList(this.currentRequestData.assignedDevPanelList, this.model.devSkillSetPanel);
 
     // }
-    debugger;
+    //debugger;
     this.currentRequestData.body.assignedDevPanelList = this.GetUpdateAssignedPanelList(this.currentRequestData.body.assignedDevPanelList, this.model.devSkillSetPanel);
     this.currentRequestData.body.assignedQAPanelList = this.GetUpdateAssignedPanelList(this.currentRequestData.body.assignedQAPanelList, this.model.qaSkillSetPanel);
     this.currentRequestData.body.status = this.GetIQARequestStatus();
@@ -128,7 +128,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
     //
     this.requestService.updateRequest(this.currentRequestData.body).subscribe(
       res => {
-        debugger;
+        //debugger;
         console.log('Updated requested completed.');
         console.log('mail sending function starts here for Assigning QA and Dev to Request By admin');
         //this.currentRequestData.body;
@@ -205,7 +205,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   showUserDeatail(recievedUserData) {
     this.userService.getById(recievedUserData.id).subscribe(result => {
       console.log(JSON.stringify(result));
-      debugger;
+      //debugger;
       EmailManager.userDetailInfo(result);
     }, err => {
       console.log(JSON.stringify(err));
@@ -217,7 +217,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   getTeamDetails(id) {
     this.userService.getById(id).subscribe(result => {
       console.log(JSON.stringify(result));
-      debugger;
+      //debugger;
       EmailManager.teamDetailInfo(result);
     }, err => {
       console.log(JSON.stringify(err));

@@ -41,7 +41,7 @@ export class RegisterComponent {
     }
 
     register() {
-        debugger;
+        //debugger;
         this.loading = true;
         this.model.isPanel = true;
         this.model.AddedBy = { AdminUser: this.currentRequestData.currentUser.username };
@@ -50,7 +50,7 @@ export class RegisterComponent {
         this.model.password = 'nihilent@123';
         this.userService.create(this.model).subscribe(
             data => {
-                debugger;
+                //debugger;
 
                 /**mail sending starts */
                 if (this.model.isPanel) {//for panel
@@ -80,7 +80,7 @@ export class RegisterComponent {
                         success => {
                             this.loading = false;
                             CommonUtil.ShowSuccessAlert("Panel Created Successfully, mail sent to " + toPersonMailId);
-                            debugger;
+                            //debugger;
                             this.ShowRequestDetails();
                         }, err => {
                             this.loading = false;

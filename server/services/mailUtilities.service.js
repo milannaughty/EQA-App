@@ -80,7 +80,7 @@ function getBoxWhereContentCanBePut(contentTobePutInBox) {
  * @param {it is a special character with which you wan't to seperate incoming string[i.e. 1st parameter]  } rowSeperator 
  */
 function getTabularData(csString, maxColumns, headername, subHeaders, rowSeperator) {
-    debugger;
+    //debugger;
     var result = "";
     var data = csString.split(rowSeperator);
     result += `<table border='1'><thead>

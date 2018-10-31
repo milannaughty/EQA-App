@@ -35,11 +35,11 @@ export class RequestService {
         return this.http.get(appConfig.apiUrl + '/requests/associate/' + _associateId);
     }
     updateRequest(reqObj: object) {
-        //debugger;
+        ////debugger;
         return this.http.put(appConfig.apiUrl + '/requests/updateRequest', reqObj);
     }
     updateStatusOfRequest(reqObj: Object) {
-        //debugger;
+        ////debugger;
         return this.http.put(appConfig.apiUrl + '/requests/updateStatusOfRequest', reqObj);
     }
     sendMail(reqObj: object) {

@@ -184,7 +184,7 @@ function updateArea(reqParam)
 
 function deleteArea(id)
 {
-    debugger;
+    //debugger;
 console.log("deleteArea method started");
 var deferred = Q.defer();
 db.area.remove(

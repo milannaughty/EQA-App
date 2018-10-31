@@ -22,7 +22,7 @@ export class ResetUserPasswordComponent implements OnInit {
     private emailService: EmailService) { }
 
   ngOnInit() {
-    debugger;
+    //debugger;
     this.showOk = false;
     this.showNotOk = false;
     if (sessionStorage.getItem('currentUser')) {
@@ -113,7 +113,7 @@ export class ResetUserPasswordComponent implements OnInit {
   }
 
   resetPassword() {
-    debugger;
+    //debugger;
     var currentUser = sessionStorage.getItem('currentUser');
     var cUser = JSON.parse(currentUser);
 
@@ -139,13 +139,13 @@ export class ResetUserPasswordComponent implements OnInit {
   }
 
   onChangeNewPassword(recievedValue) {
-    //debugger;
+    ////debugger;
     console.log("1");
   }
 
   onChangeConfirmNewPassword(recievedValue) {
     console.log("at begining of onChangeConfirmNewPassword method");
-    //debugger;
+    ////debugger;
     this.showOk = false;
     this.showNotOk = false;
     this.model;

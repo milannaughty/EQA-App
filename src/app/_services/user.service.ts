@@ -79,7 +79,7 @@ export class UserService {
         return this.http.post(appConfig.apiUrl + '/users/UpdateTeamStatus', reqObj);
     }
     teamSoftDelete(reqObj: Object) {
-        debugger;
+        //debugger;
         return this.http.post(appConfig.apiUrl + '/users/teamSoftDelete', reqObj);
     }
 }

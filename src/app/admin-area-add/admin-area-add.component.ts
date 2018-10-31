@@ -52,14 +52,14 @@ export class AdminAreaAddComponent implements OnInit {
   
 
   ngOnInit() {
-    debugger;
+    //debugger;
     this.currentRequestData["CurrentUser"] = this.CurrentUser;
     this.getAllAreaOnLoad();
   }
 
 
   addArea(){
-    debugger;
+    //debugger;
     console.log("start of Add area method");
    
     this.model.modifiedBy = this.currentRequestData.currentUser.username;
@@ -69,7 +69,7 @@ export class AdminAreaAddComponent implements OnInit {
     
     if(this.saveButtonCaption=="Add Area")
     {
-      debugger;
+      //debugger;
       this.model.createdBy = this.currentRequestData.currentUser.username;
       this.model.createdOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
      this.loading=true;
@@ -106,7 +106,7 @@ export class AdminAreaAddComponent implements OnInit {
         this.loading = false;
       });
   }else if (this.saveButtonCaption == 'Update Changes') {
-    debugger;
+    //debugger;
     var descriptionShouldBeUpdated;
     this.loading = true;
     
@@ -168,13 +168,13 @@ export class AdminAreaAddComponent implements OnInit {
 
   getAllAreaOnLoad()
   {
-    debugger;
+    //debugger;
     this.tblloading = true;
     this.AreaServices.getAllArea().subscribe(
       devArea => 
       {
         this.area1 = (devArea as Area[]);
-        debugger;
+        //debugger;
         this.chRef.detectChanges();
         const table: any = $('table');
         this.dataTable = table.DataTable();

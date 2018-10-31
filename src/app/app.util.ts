@@ -86,7 +86,7 @@ export class CommonUtil {
     }
 
     static GetTabularData(csString, maxColumns, headername) {
-        debugger;
+        //debugger;
         var result = "";
         var data = csString.split(',');
         result += "<table class='table'><tbody>";

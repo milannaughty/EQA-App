@@ -23,7 +23,7 @@ export class TeamPanelListComponent implements OnInit {
   constructor(private requestService: RequestService, private userService: UserService) { }
 
   ngOnInit() {
-    debugger;
+    //debugger;
     this.getAllPanelList();
   }
 
@@ -31,13 +31,13 @@ export class TeamPanelListComponent implements OnInit {
     this.loading=true;
     this.userService.getAllUsersByRole("panel").subscribe(result => {
       console.log(result);
-      debugger;
+      //debugger;
      var activePanelList= result.filter(x => !x["isDeleted"]);
       this.allPanel = activePanelList.map(x => {
         if (x["AddedBy"])
           x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
         
-        debugger;
+        //debugger;
         x["isObsolute"] = x["obsolute"] == true
         return x;
       });
@@ -50,7 +50,7 @@ export class TeamPanelListComponent implements OnInit {
   }
   SkillAlert(data) {
     var devstr = data.map(x => x.itemName).join(',');
-    debugger;
+    //debugger;
     var title = 'Panel Skill';
     var htmlContent = CommonUtil.GetTabularData(devstr, 4, title);
     CommonUtil.ShowInfoAlert('Panel Skills', htmlContent);
@@ -64,28 +64,28 @@ export class TeamPanelListComponent implements OnInit {
     this.userService.UpdatePanelStatus(set).subscribe(
       result => {
         this.loading = true;
-        debugger;
+        //debugger;
         console.log(result);
         CommonUtil.ShowSuccessAlert("Panel Updated Successfully.");
         this.loading = false;
         this.getAllPanelList();
       },
       error => {
-        debugger;
+        //debugger;
         this.loading = true;
         CommonUtil.ShowErrorAlert(error.error);
         this.loading = false;
       });
   }
   deletePanelDetails(id){
-    debugger;
+    //debugger;
     var set = {
       "isDeleted": true,
       "panelId": id
     };
     this.userService.panelSoftDelete(set).subscribe(
       result => {
-        debugger;
+        //debugger;
         this.loading = true;
         CommonUtil.ShowSuccessAlert("Panel Deleted Successfully.");
         this.loading = false;

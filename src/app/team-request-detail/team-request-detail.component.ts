@@ -38,7 +38,7 @@ export class TeamRequestDetailComponent implements OnInit {
     this.ShowRequestDetails();
   }
   ShowRequestDetails() {
-    debugger;
+    //debugger;
     console.log('In Request Detail Method')
     this.loading = true
     this.userService.getPanelBySkills(this.currentRequestData.body.skillSet, this.currentRequestData.body.qaSkillSet).subscribe(result => {
@@ -68,13 +68,13 @@ export class TeamRequestDetailComponent implements OnInit {
     });
   }
   ShowRequestList1() {
-    debugger;
+    //debugger;
     this.messageEvent.emit({ ActivateTab: 'HOME' });
   }
 
   devSkillAlert() {
     var devstr = this.currentRequestData.body.skillSet.map(x => x.itemName).join(',');
-    debugger;
+    //debugger;
     var title = 'Required Dev Skill';
     var htmlContent = CommonUtil.GetTabularData(devstr, 5, title);
     CommonUtil.ShowInfoAlert('Required Dev Skills', htmlContent);
@@ -91,10 +91,10 @@ export class TeamRequestDetailComponent implements OnInit {
   }
 
   showUserDeatail(recievedUserData) {
-    debugger;
+    //debugger;
     this.userService.getById(recievedUserData.id).subscribe(result => {
       console.log(JSON.stringify(result));
-      debugger;
+      //debugger;
       EmailManager.userDetailInfo(result);
     }, err => {
       console.log(JSON.stringify(err));

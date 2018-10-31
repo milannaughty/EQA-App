@@ -87,7 +87,7 @@ export class TeamNewRequestComponent implements OnInit {
         var toPersonArr: any;
 
         this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-          debugger;
+          //debugger;
           if (adminList instanceof Array)
             toPersonArr = adminList.map(x => x.username).join(',');
           else

@@ -360,7 +360,7 @@ export class AssociateRequestDetailComponent implements OnInit {
         ///**************THIS CODE NEED TO TEST************ */
         ///**************THIS CODE NEED TO TEST************ */
         else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
-          debugger;
+          //debugger;
           //checklist details starts
           //this.showCheckList = true;
           //this.selectedRequestData = data;
@@ -474,7 +474,7 @@ export class AssociateRequestDetailComponent implements OnInit {
 
     this.allPreviousReviewComment = this.devPreviousReviewComment.concat(this.qaPreviousReviewComment).sort(x => x.status != 1);
     this.showPreviousReviewComment = this.allPreviousReviewComment.length > 0;
-    //debugger;
+    ////debugger;
     //this.currentRequestData.CheckListDetails.map(x => { this.modelRdbSelectedItem[x._Id] = x.status == 1 })
 
   }
