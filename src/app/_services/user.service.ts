@@ -27,14 +27,13 @@ export class UserService {
         return this.http.post(appConfig.apiUrl + '/users/submitfeedback', feedback);
     }
 
-    update(user: User) {
-        return this.http.put(appConfig.apiUrl + '/users/' + user.id, user);
+    update(user: any) {
+        return this.http.put(appConfig.apiUrl + '/users/' + user._id, user);
     }
     UpdatePanelStatus(reqObj: Object) {
         return this.http.post(appConfig.apiUrl + '/users/UpdatePanelStatus', reqObj);
     }
     panelSoftDelete(reqObj: Object) {
-        debugger;
         return this.http.post(appConfig.apiUrl + '/users/panelSoftDelete', reqObj);
     }
     delete(_id: number) {

@@ -63,11 +63,15 @@ export class CommonUtil {
         })
     }
 
-    static ShowLoading(){
+    static ShowLoading() {
         swal('Please wait...');
         swal.showLoading();
     }
-    static HideLoading(){
+    static ShowLoadingWithTitle(title:string) {
+        swal(title);
+        swal.showLoading();
+    }
+    static HideLoading() {
         swal.close();
     }
 
@@ -348,6 +352,14 @@ export class EmailManager {
     }
 }
 
+export class ConstantString {
+    public static Dev: string = 'Dev';
+    public static QA: string = 'QA';
+    public static SelectSkill: string = 'Select Skillsets';
+    public static SelectAll: string = 'Select All';
+    public static UnSelectAll: string = 'UnSelect All';
+}
+
 export class MessageManager {
 
     public static ErrorEmailSending = 'Error while sending email to respective member(s)';
@@ -358,7 +370,7 @@ export class MessageManager {
     public static RequestAcceptTitle = 'Request Accepted';
     public static RequestAcceptError = 'Error while accepting IQA request';
     public static RequestAcceptSuccess = 'IQA Request accepted successfully';
-    public static RequestAcceptSuccessWithErrorEmailSending = MessageManager.RequestAcceptSuccess+' and '+MessageManager.ErrorEmailSending;
+    public static RequestAcceptSuccessWithErrorEmailSending = MessageManager.RequestAcceptSuccess + ' and ' + MessageManager.ErrorEmailSending;
 
     public static RequestUpdateSuccess = 'IQA Request updated successfully and Email send to the respective members(s).';
     public static RequestUpdateSuccessWithErrorEmailSending = MessageManager.RequestUpdateSuccess + ' and ' + MessageManager.ErrorEmailSending;
@@ -366,4 +378,9 @@ export class MessageManager {
     public static RequestRejectTitle = 'Request Rejected';
     public static RequestRejected = 'Request has been rejected and Email send to the respective members(s).'
     public static RequestRejectedWithErrorEmailSending = 'Request has been rejected and ' + MessageManager.ErrorEmailSending;
+
+    public static UpdateSuccess = 'Record updated successfully.';
+    public static UpdateError = 'Something went wrong. Contact your service provider.';
+
+    public static UpdatePanelType = 'This is one time configuration setup. \n Please wait...';
 };
