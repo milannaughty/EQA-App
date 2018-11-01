@@ -180,7 +180,7 @@ function authentionByBothLdapAndMongo(username, password) {
             } else {
                 // authentication failed
                 console.log('In authentionByBothLdapAndMongo of userService : MongoAuthentication for team - Invalid Credentials');
-                deferred.resolve();
+                deferred.reject("Incorrect role, please provide the valid credentials");
             }
         });
 
