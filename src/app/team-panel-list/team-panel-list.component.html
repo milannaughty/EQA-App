@@ -26,13 +26,13 @@
           <td style="width: 15%">{{data.username}}</td>
           <td>{{data.panelType}}</td>
           <td>
-            <div *ngIf="data.panelType=='Dev'">
-                {{data.skillSet[0].itemName}} 
+            <div *ngIf="data.panelType=='Dev' && data.skillSet">
+                {{data.skillSet[0].itemName }} 
                 <div *ngIf="data.skillSet && data.skillSet.length>1">
                     <a (click)="SkillAlert(data.skillSet)"> {{data.skillSet.length-1}} more skills</a>
                 </div>
             </div>
-            <div *ngIf="data.panelType=='QA'">
+            <div *ngIf="data.panelType=='QA' && data.qaSkillList">
                 {{data.qaSkillList[0].itemName}}
                 <div *ngIf="data.qaSkillList && data.qaSkillList.length>1">
                     <a (click)="SkillAlert(data.qaSkillList)"> {{data.qaSkillList.length-1}} more skills</a>

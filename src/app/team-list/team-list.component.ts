@@ -34,8 +34,16 @@ export class TeamListComponent implements OnInit {
       result=>{console.log(result);
       var activeTeamList= result.filter(x => !x["isDeleted"]);
 
-      this.allTeam=activeTeamList.map(x=>{if (x["AddedBy"])
-      x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
+      this.allTeam=activeTeamList.map(x=>{
+        if (x["AddedBy"])
+          x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
+        if (x["POCEmail"])
+          x["POCEmail"] = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["POCEmail"]);
+        if (x["DAMEmail"])
+          x["DAMEmail"] = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["DAMEmail"]);
+        if (x["PMEmail"])
+          x["PMEmail"] = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["PMEmail"]);
+
     
     //debugger;
     x["isObsolute"] = x["obsolute"] == true
