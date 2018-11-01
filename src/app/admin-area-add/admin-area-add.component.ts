@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import * as $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
+import { EmailManager } from "../app.util";
 
 @Component({
   selector: 'app-admin-area-add',
@@ -173,7 +174,11 @@ export class AdminAreaAddComponent implements OnInit {
     this.AreaServices.getAllArea().subscribe(
       devArea => 
       {
-        this.area1 = (devArea as Area[]);
+        let area1 = (devArea as Area[])
+        this.area1 = area1.map(x=>{
+          x.CreatedBy = x.CreatedBy ?  EmailManager.GetUserNameFromCommaSepratedEmailIds(x.CreatedBy) :x.CreatedBy;
+          return x;
+        });
         //debugger;
         this.chRef.detectChanges();
         const table: any = $('table');

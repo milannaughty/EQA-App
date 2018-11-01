@@ -45,7 +45,7 @@
                         <td style="width:300px">{{client.areaName}}</td>
                         <td style="width: 198px">{{client.Description}}</td>
                         <td style="width: 198px">{{client.createdBy}}</td>
-                        <td style="width: 198px">{{client.createdOn}}</td>
+                        <td style="width: 198px">{{client.createdOn | date: 'dd MMM yyyy'}}</td>
                         <td style="width: 200px">
                             <a (click)="editArea(client, i)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
