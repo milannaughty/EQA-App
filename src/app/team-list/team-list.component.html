@@ -1,9 +1,8 @@
-
-
 <div class="">
   <div>
-    <div class="HeaderClass">Team List</div>
-    <table  class="table-striped table fontFamily" style="width: 95%">
+    <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Team List</div>
+    <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+    <table class="table-striped table table-condensed fontFamily data-table" >
 
       <!--Table head-->
       <thead>
@@ -16,47 +15,47 @@
           <th>Area</th>
           <th>Created On</th>
           <th>Created By</th>
-          <th>Action</th>
+          <th *ngIf="isAdminUser">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of allTeam">
           <th scope="row" style="width: 5%">{{allTeam.indexOf(data)+1}}</th>
           <td style="width: 10%" style="text-transform:capitalize">
-           {{data.teamName}}
+            {{data.teamName}}
           </td>
 
-          <td style="width: 15%"> <span *ngIf="data.PMEmail==null"  >NA</span>
+          <td style="width: 15%"> <span *ngIf="data.PMEmail==null">NA</span>
             <span *ngIf="data.PMEmail!=null">
               {{data.PMEmail}}</span>
           </td>
-          
-          <td  style="width: 15%"> <span *ngIf="data.POCEmail==null"  >NA</span>
+
+          <td style="width: 15%"> <span *ngIf="data.POCEmail==null">NA</span>
             <span *ngIf="data.POCEmail!=null">
               {{data.POCEmail}}</span>
           </td>
 
-          <td style="width: 15%"> <span *ngIf="data.DAMEmail==null" >NA</span>
+          <td style="width: 15%"> <span *ngIf="data.DAMEmail==null">NA</span>
             <span *ngIf="data.DAMEmail!=null">
               {{data.DAMEmail}}</span>
-           </td>
+          </td>
 
 
           <td style="width: 15%">{{data.area.areaName || 'NA'}}</td>
           <td style="width: 15%">
-          {{data.AddedOn?(data.AddedOn | date: 'dd MMM yyyy'):'NA'}}
+            {{data.AddedOn?(data.AddedOn | date: 'dd MMM yyyy'):'NA'}}
           </td>
-          
-          <td style="width: 15%"> <span *ngIf="data.AddedBy==null"  >NA</span>
+
+          <td style="width: 15%"> <span *ngIf="data.AddedBy==null">NA</span>
             <span *ngIf="data.AddedBy!=null">
               {{data.AddedBy.AdminUser}}</span>
           </td>
-         
-          <td>
-              <button class="btn btn-danger btn-xs" (click)="deleteTeamDetails(data._id)">
-                  <i class="fa fa-trash-o"></i> Delete</button>
-              <button class="btn btn-success btn-xs" *ngIf="data.isObsolute" (click)="UpdateTeamStatus(data._id,false)">
-                  <i class="fa fa-check"></i>Make Active</button>
+
+          <td *ngIf="isAdminUser">
+            <button class="btn btn-danger btn-xs" (click)="deleteTeamDetails(data._id)">
+              <i class="fa fa-trash-o"></i> Delete</button>
+            <button class="btn btn-success btn-xs" *ngIf="data.isObsolute" (click)="UpdateTeamStatus(data._id,false)">
+              <i class="fa fa-check"></i>Make Active</button>
             <button class="btn btn-success btn-xs" *ngIf="!data.isObsolute" (click)="UpdateTeamStatus(data._id,true)">
               <i class="fa fa-check"></i>Obsolute </button>
           </td>
@@ -65,6 +64,5 @@
       <!--Table body-->
     </table>
   </div>
-  <img *ngIf="loading"  class="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-  />
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
 </div>

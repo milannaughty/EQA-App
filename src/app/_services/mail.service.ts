@@ -9,6 +9,10 @@ export class EmailService {
     }
     constructor(private http: HttpClient) { }
 
+    SendMailTeamReviewFeedback(recievedObject) {
+        return this.http.post(appConfig.apiUrl + '/mail/SendMailTeamReviewFeedback', recievedObject);
+    }
+
     sendMailToAdminAfterIQARequestInitiatedByTeam(recievedObject) {
         return this.http.post(appConfig.apiUrl + '/mail/sendMailToAdminAfterIQARequestInitiatedByTeam', recievedObject);
     }

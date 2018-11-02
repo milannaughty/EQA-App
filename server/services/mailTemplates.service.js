@@ -12,6 +12,7 @@ mailTemplatesService.getMailTemplateTobeSentToUserAfterGeneratingNewPassword = g
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel = getMailTemplateToBeSentToAdminAfterRequestCompletedByPanel;
 mailTemplatesService.getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel = getMailTemplateToBeSentToAdminAfterRequestMadeUnderVerificationByPanel;
 mailTemplatesService.getMailTemplateforUsersfeedback = getMailTemplateforUsersfeedback;
+mailTemplatesService.TeamReviewFeedback = TeamReviewFeedback;
 
 module.exports = mailTemplatesService;
 
@@ -138,4 +139,16 @@ function getMailTemplateforUsersfeedback(valuesToBeReplaced) {
     return mailUtilitiesServiceObject.FormulateEmailBodyTemplate(`<div style='font-family:"Calibri",sans-serif;color:#1F3864;'><strong>Hello Team IQA</strong>,<br><p > We have recieved new feedback from <a href="mailto:${valuesToBeReplaced.fromPersonMailId}?subject=IQA Team|Feedback From  - ${valuesToBeReplaced.emailSender}&body=Thanks for your valuable feedback. We will be looking into it and get back to you soon. :)">${valuesToBeReplaced.emailSender}</a>
     <BR><strong>Feedback:</strong><i><p> ${valuesToBeReplaced.feedback}</i> </p><br></div>`);
 
+}
+
+/**
+ * This method generates template for mail to be sent first mail to Panel, 
+ * @param {requestObject.sprintName && requestObject.panelName && requestObject.rejectReason} valuesToBeReplaced 
+ */
+function TeamReviewFeedback(valuesToBeReplaced) {
+
+    var mailContent = `Hello ${valuesToBeReplaced.toPersonName},<br><p>This is to inform you that, Team ${valuesToBeReplaced.teamName} has provided review feedback.</p>`;
+    mailContent += `Request you to please review the comments from team and update the IQA status.`;
+    //mailContent += getIQAMailSignature(undefined);
+    return mailUtilitiesServiceObject.FormulateEmailBodyTemplate(mailContent);
 }

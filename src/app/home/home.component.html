@@ -110,7 +110,7 @@
                         <app-team-panel-detail *ngIf="ActiveTab===ActionList.PanelDetail"></app-team-panel-detail>
                         <app-reset-user-password *ngIf="ActiveTab===ActionList.ResetPassword"></app-reset-user-password>
                         <app-team-checklist-form *ngIf="ActiveTab===ActionList.TeamCheckList" [currentRequestData]="currentRequestData"></app-team-checklist-form>
-                        <app-team-list *ngIf="ActiveTab===ActionList.TeamList"></app-team-list>
+                        <app-team-list *ngIf="ActiveTab===ActionList.TeamList" [currentUser]="currentUser"></app-team-list>
                     </div>
                 </div>
             </div>

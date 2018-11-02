@@ -24,7 +24,6 @@ export class TeamNewRequestComponent implements OnInit {
   public deliveryDate: any = { date: new Date() };
   public expectedIQADate: any = { date: new Date() };
   constructor(
-    private router: Router,
     private requestService: RequestService,
     private alertService: AlertService,
     private skillSetsService: SkillSetsService,

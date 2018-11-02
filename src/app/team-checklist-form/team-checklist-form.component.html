@@ -24,7 +24,7 @@
         <tr *ngFor="let data of NewRequest">
           <th scope="row">{{NewRequest.indexOf(data)+1}}</th>
           <td>
-            <span (click)="ShowRequestDetails(data)"  class="text-primary">{{data.pbiId}}</span>
+            <span (click)="ShowCheckListDetails(data)"  class="text-primary">{{data.pbiId}}</span>
           </td>
           <td>{{data.name}}</td>
           <td>{{data.creationDate | date : DATE_FMT}}</td>
@@ -47,7 +47,7 @@
   <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
   <div class="col-md-12 form-add-review" *ngIf="showCheckList" style="padding: 0px !important">
 
-    <div *ngIf="isAnyOpenCheckListItem">
+    <div *ngIf="this.openCheckListItem.length>0">
       <div class="fw-bold fs-body2  tt-uppercase mb16">Common Review Items</div>
       <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
       <table class="table table-condensed skillFontStyle ff-family data-table">
@@ -156,11 +156,7 @@
             <td>{{data.panelComment}}</td>
             <td><textarea type="text" class="form-control" name='genericQATeamComment{{i}}' [(ngModel)]="data.teamComment"
                 #data.teamComment="ngModel"></textarea></td>
-            <!-- <td>{{data.areaOfFinding}}</td>
-            <td>{{data.severity}}</td>
-            <td>{{data.checkPointType}}</td> -->
             <td>{{data.raisedBy}}</td>
-            <!-- <td>{{data.panelType}}</td> -->
             <td>
               <app-request-status [status]="GetDisplayStatus(data.status)"></app-request-status>
             </td>

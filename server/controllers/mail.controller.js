@@ -17,6 +17,7 @@ router.post('/sendInitialMailToTeam', sendInitialMailToTeam);
 router.post('/sendNewlyGeneratedMailToUserForForgotPassword', sendNewlyGeneratedMailToUserForForgotPassword);
 router.post('/sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel', sendMailToPOCAfterIQARequestMadeUnderVerificationByPanel);
 router.post('/sendMailToAdminAftersubmitingfeedback', sendMailToAdminAftersubmitingfeedback);
+router.post('/SendMailTeamReviewFeedback', SendMailTeamReviewFeedback);
 
 
 module.exports = router;
@@ -293,3 +294,28 @@ function sendMailToAdminAftersubmitingfeedback(request, res) {
         });
     console.log('at end of sendMailToAdminAftersubmitingfeedback At Controller');
 }
+
+function SendMailTeamReviewFeedback(request, res) {
+    console.log('In  SendMailTeamReviewFeedback Controller...');
+    var bodyObject = request.body;
+
+    var fromMailId = bodyObject.fromPersonMailId;
+    var toPersonList = bodyObject.toPersonMailId;
+    var ccPersonList = bodyObject.ccPersonList;
+    var mailSubject = bodyObject.mailSubject;
+    var mailContent = mailTemplatesServiceObject.TeamReviewFeedback(bodyObject);
+
+    mailServiceObject.sendMail(
+        fromMailId, toPersonList, ccPersonList, mailSubject, mailContent
+    ).then(function (emailRes) {
+        console.log(emailRes);
+        console.log('in sendInitialMailToPanel function of MailController End');
+        res.json('success');
+    })
+        .catch(function (err) {
+            console.log('in sendInitialMailToPanel function of MailController End with error');
+            res.status(400).send(err);
+        });
+    console.log('at end of sendInitialMailToPanel At Controller');
+}
+

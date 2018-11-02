@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { RequestService, UserService } from '../_services/index';
-import { appConfig } from '../app.config';
+import { UserService } from '../_services/index';
 import { CommonUtil, EmailManager } from '../app.util';
 
 @Component({
@@ -20,28 +19,31 @@ export class TeamPanelListComponent implements OnInit {
   obsoluteFlag: boolean = false;
   addedBy: any;
   isMakeActive: boolean = false;
-  constructor(private requestService: RequestService, private userService: UserService) { }
+  isAdminUser: any;
+  constructor( private userService: UserService) { }
 
   ngOnInit() {
     //debugger;
+    this.currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    this.isAdminUser = this.currentUser.isAdmin;
     this.getAllPanelList();
   }
 
   getAllPanelList() {
-    this.loading=true;
+    this.loading = true;
     this.userService.getAllUsersByRole("panel").subscribe(result => {
       console.log(result);
       //debugger;
-     var activePanelList= result.filter(x => !x["isDeleted"]);
+      var activePanelList = result.filter(x => !x["isDeleted"]);
       this.allPanel = activePanelList.map(x => {
         if (x["AddedBy"])
           x["AddedBy"].AdminUser = EmailManager.GetUserNameFromCommaSepratedEmailIds(x["AddedBy"].AdminUser);
-        
+
         //debugger;
         x["isObsolute"] = x["obsolute"] == true
         return x;
       });
-      this.loading=false;
+      this.loading = false;
       console.log(this.allPanel.obsolute);
 
     }, err => {
@@ -77,7 +79,7 @@ export class TeamPanelListComponent implements OnInit {
         this.loading = false;
       });
   }
-  deletePanelDetails(id){
+  deletePanelDetails(id) {
     //debugger;
     var set = {
       "isDeleted": true,

@@ -67,7 +67,7 @@ export class CommonUtil {
         swal('Please wait...');
         swal.showLoading();
     }
-    static ShowLoadingWithTitle(title:string) {
+    static ShowLoadingWithTitle(title: string) {
         swal(title);
         swal.showLoading();
     }
@@ -165,6 +165,14 @@ export class CommonUtil {
     static Capitalize(str) {
         return str.replace(/\b\w/g, function (l) { return l.toUpperCase() })
     }
+
+    /**
+     * Method returns Admin Panel Email ID's and Admin Panel User Names
+     */
+    static GetAdminContactDetails() {
+        var data = sessionStorage.getItem('adminList');
+        return data ? JSON.parse(data) : null
+    }
 }
 
 export class EmailManager {
@@ -232,6 +240,14 @@ export class EmailManager {
     static GetPanelAssignedSubjectLine(teamName: string) {
         return `IQA Team | IQA Request for team ${teamName}`;
     }
+
+    /**
+    * Method returns email subject line for  IQA request reviewed by team 
+    * @param teamName 
+    */
+   static GetReviewedByTeamSubjectLine(teamName: string) {
+    return `IQA Team | ${teamName} has provided review feedback`;
+}
 
     /**
      * Method returns single or multiple User name(s) in comma separated list
@@ -353,11 +369,13 @@ export class EmailManager {
 }
 
 export class ConstantString {
-    public static Dev: string = 'Dev';
-    public static QA: string = 'QA';
-    public static SelectSkill: string = 'Select Skillsets';
-    public static SelectAll: string = 'Select All';
-    public static UnSelectAll: string = 'UnSelect All';
+    static Dev: string = 'Dev';
+    static QA: string = 'QA';
+    static SelectSkill: string = 'Select Skillsets';
+    static SelectAll: string = 'Select All';
+    static UnSelectAll: string = 'UnSelect All';
+    static SelectQASkill: string = "Select QA Skillset";
+    static SelectDevSkill: string = "Select Dev Skillset";
 }
 
 export class MessageManager {

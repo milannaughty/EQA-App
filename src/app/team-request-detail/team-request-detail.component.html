@@ -1,95 +1,148 @@
 <table> </table>
 <div>
 
-  <div class="HeaderClass" style="margin-left: 0px !important;">Request Detail</div>
+  <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">Request Detail</div>
+  <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
 
-  <div class="modal-body row">
+  <div class="row">
     <div class="col-md-8" text-center>
       <!-- <form  > -->
-      <form>
-        <div *ngIf="isSkillLoaded">
-          <table class="fontFamily" style="width:100%">
-            <tr>
-              <td>
-                <label for="pbiId ">PBI ID</label>
-              </td>
-              <td>{{this.currentRequestData.body.pbiId}}</td>
-            </tr>
-            <tr>
-              <td>
-                <label for="name ">Name</label>
-              </td>
-              <td> {{this.currentRequestData.body.name}}</td>
-            </tr>
-            <tr>
-              <td>
-                <label for="skillSet">Dev skill set</label>
-              </td>
-              <td>
-                <span>{{devSkillSet}}</span>
-                <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See more</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="skillSet">QA skill set</label>
-              </td>
-              <td>
-                <span>{{qaSkillSet}}</span>
-                <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See more</a>
-              </td>
-            </tr>
+      <img *ngIf="((showRequestDataForm &&!isSkillLoaded))" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> 
+      <div *ngIf="isSkillLoaded && !showEditForm">
 
-            <tr>
-              <td>
-                <label for="expectedIQADate ">Expected IQA Date</label>
-              </td>
-              <td> {{this.currentRequestData.body.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
-            </tr>
-            <tr>
-              <td>
-                <label for="status ">Status</label>
-              </td>
-              <td>
-                <app-request-status [status]="this.currentRequestData.body.status"></app-request-status>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="initiatedBy ">Initiated By</label>
-              </td>
-              <td> {{this.currentRequestData.body.initiatedBy.TeamName}}</td>
-            </tr>
-            <tr>
-              <td>
-                <label for="skillSet">Dev Panel</label>
-              </td>
-              <td>
-                  <span *ngIf="!(devPanel && devPanel.length)">No Panel Assigned</span>
-                <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;"> 
-               <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ', '}}</a>
+        <table class="ff-family" style="width:70%">
+          <tr>
+            <td>
+              <label for="pbiId ">PBI ID</label>
+            </td>
+            <td>{{this.currentRequestData.body.pbiId}}</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="name ">Name</label>
+            </td>
+            <td> {{this.currentRequestData.body.name}}</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="skillSet">Dev skill set</label>
+            </td>
+            <td>
+              <span>{{devSkillSet}}</span>
+              <a *ngIf="isDevSkillMore" (click)="devSkillAlert()">...See more</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="skillSet">QA skill set</label>
+            </td>
+            <td>
+              <span>{{qaSkillSet}}</span>
+              <a *ngIf="isQaSkillMore" (click)="qaSkillAlert()">...See more</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="expectedIQADate ">Expected IQA Date</label>
+            </td>
+            <td> {{this.currentRequestData.body.expectedIQADate | date: 'dd/MM/yyyy'}}</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="status ">Status</label>
+            </td>
+            <td>
+              <app-request-status [status]="this.currentRequestData.body.status"></app-request-status>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="initiatedBy ">Initiated By</label>
+            </td>
+            <td> {{this.currentRequestData.body.initiatedBy.TeamName}}</td>
+          </tr>
+          <tr>
+            <td>
+              <label for="skillSet">Dev Panel</label>
+            </td>
+            <td>
+              <span *ngIf="!(devPanel && devPanel.length)">No Panel Assigned</span>
+              <span *ngFor="let panelItem of devPanel;let i=index; trackBy:trackByIndex" style="text-transform: capitalize;">
+                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === devPanel.length - 1 ? '' : ',
+                  '}}</a>
               </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="skillSet">QA Panel</label>
-              </td>
-              <td>
-                  <span *ngIf="!(qaPanel && qaPanel.length)">No Panel Assigned</span>
-                <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
-                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ', '}}</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="skillSet">QA Panel</label>
+            </td>
+            <td>
+              <span *ngIf="!(qaPanel && qaPanel.length)">No Panel Assigned</span>
+              <span *ngFor="let panelItem of qaPanel;let i=index; trackBy:trackByIndex">
+                <a (click)="showUserDeatail(panelItem)">{{panelItem.fullName}}{{i === qaPanel.length - 1 ? '' : ',
+                  '}}</a>
               </span>
-              </td>
-            </tr>
-          </table>
-          <div style="align-content: center; margin-top: 15px;">
-            <!-- <button type="submit" class="btn btn-success ">Assign</button> -->
-            <button (click)="ShowRequestList1()" class="btn btn-warning">Home</button>
-          </div>
+            </td>
+          </tr>
+        </table>
+
+        <div style="align-content: center; margin-top: 15px;">
+          <button (click)="ShowRequestList1()" class="btn btn-warning btn-sm">Home</button>
+          <button (click)="ShowEditForm()" class="btn btn-link ">Edit Details</button>
         </div>
-        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
-      </form>
+      </div>
+      <div *ngIf="showEditForm" class="requestEdit col-md-10">
+        <img *ngIf=" !isEditFormLoaded" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <form *ngIf=" isEditFormLoaded" name="form" (ngSubmit)="f.form.valid && UpdateRequest()" #f="ngForm">
+
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !this.currentRequestData.body.pbiId.valid }">
+            <label for="name">Sprint</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="this.currentRequestData.body.name"
+              required #name="ngModel" placeholder="Enter Sprint Name here" />
+          </div>
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !this.currentRequestData.body.pbiId.valid }">
+            <label for="name">PBI's</label>
+            <input type="text" class="form-control" name="pbiId" [(ngModel)]="this.currentRequestData.body.pbiId"
+              required #pbiId="ngModel" placeholder="Enter PBI ID here, use comma(,) for seperating more than one ID's" />
+          </div>
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !this.currentRequestData.body.valid }">
+            <label for="name">Sprint Start Date</label>
+            <input type="date" class="form-control" name="sprintStartDate" [(ngModel)]="this.currentRequestData.body.sprintStartDate"
+              required #sprintStartDate="ngModel" placeholder="Select Sprint Start Date" />
+          </div>
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !this.currentRequestData.body.valid }">
+            <label for="name">Sprint End Date</label>
+            <input type="date" class="form-control" name="sprintEndDate" [(ngModel)]="this.currentRequestData.body.sprintEndDate"
+              required #sprintEndDate="ngModel" placeholder="Select Sprint End Date" />
+          </div>
+
+          <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !this.currentRequestData.body.valid }">
+            <label for="name">Expected IQA Date</label>
+            <input type="date" class="form-control" name="expectedIQADate" [(ngModel)]="this.currentRequestData.body.expectedIQADate"
+              required #expectedIQADate="ngModel" placeholder="Select Expected IQA Date" />
+          </div>
+
+          <div class="form-group">
+            <angular2-multiselect name="skillset" [data]="skillList" [(ngModel)]="this.currentRequestData.body.skillSet"
+              [settings]="dropdownSettingsDEV"></angular2-multiselect>
+          </div>
+          <div class="form-group">
+            <angular2-multiselect name="qaSkillSet" [data]="qaSkillList" [(ngModel)]="this.currentRequestData.body.qaSkillSet"
+              [settings]="dropdownSettingsQA"></angular2-multiselect>
+          </div>
+
+          <!-- <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <label for="area">Area</label>
+            <input type="text" class="form-control" name="area" [(ngModel)]="this.currentRequestData.body.area" #area="ngModel" required />
+            <div *ngIf="f.submitted && !area.valid" class="help-block">Area is required</div>
+          </div> -->
+          <div class="form-group">
+            <button [disabled]="loading" class="btn btn-sm btn-primary">Update</button>
+            <button (click)="ShowEditForm()" class="btn btn-link">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
 
   </div>
