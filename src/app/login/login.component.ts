@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
         else {
             this.model.isPanel = true;
         }
+        this.model.username = this.model.username.toLocaleLowerCase();
         this.authenticationService.loginWithMongoAndLDAP(this.model.username, this.model.password)
             .subscribe(
             data => {
