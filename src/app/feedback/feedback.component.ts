@@ -23,7 +23,6 @@ export class FeedbackComponent implements OnInit {
   ngOnInit() {
   }
   savefeedback() {
-    sessionStorage.getItem('');
     this.loading = true;
     this.model.AddedBy = this.currentUser.username;
     this.model.AddedOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
