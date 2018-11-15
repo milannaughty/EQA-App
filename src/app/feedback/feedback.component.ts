@@ -23,6 +23,7 @@ export class FeedbackComponent implements OnInit {
   ngOnInit() {
   }
   savefeedback() {
+    sessionStorage.getItem('');
     this.loading = true;
     this.model.AddedBy = this.currentUser.username;
     this.model.AddedOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
@@ -31,11 +32,10 @@ export class FeedbackComponent implements OnInit {
           this.loading=false;
           //sendMailToAdminAftersubmitingfeedback
                 /**mail sending starts */
-                 var toPersonMailId ="krishna.yaldi@nihilent.com";
+                 var toPersonMailId =JSON.parse(sessionStorage.getItem('adminList')).emailIDs;
                   var fromPersonMailId= this.currentUser.username;
                     var emailSender= EmailManager.GetUserNameFromCommaSepratedEmailIds(this.currentUser.username);
-                  var toPersonName = toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).charAt(0).toUpperCase()
-                      + toPersonMailId.substring(0, toPersonMailId.indexOf('.', 0)).slice(1);
+                  var toPersonName = "";
 
                   var mailSubject = "Feedback for improve IQA Management system. ";
 
