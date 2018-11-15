@@ -667,8 +667,8 @@ function getPanelBySkills(skills) {
                 console.log("---------------PANEL------------------");
                 console.log(p.FName + ' ' + p.LName);
                 p.skillSet = p.skillSet || [];
-                p.qaSkillList = p.qaSkillList || [];
-                var panelSkills = p.panelType == 'QA' ? p.qaSkillList.map(x => x.itemName) : p.skillSet.map(x => x.itemName);
+                p.qaSkillSet = p.qaSkillSet || [];
+                var panelSkills = p.panelType == 'QA' ? p.qaSkillSet.map(x => x.itemName) : p.skillSet.map(x => x.itemName);
                 var valid = panelSkills.some(x => (requestedDevSkill.includes(x) || requestedQaSkill.includes(x)))
                 if (valid)
                     result.push(p)
