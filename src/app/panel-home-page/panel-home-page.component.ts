@@ -51,6 +51,7 @@ export class PanelHomePageComponent implements OnInit {
       this.currentUser.qaSkillSet = [];
     }
     else {
+      this.currentUser.panelType = ConstantString.QA; //for default case
       this.currentUser.qaSkillSet = this.model.qaSkillSet;
       this.currentUser.skillSet = [];
     }

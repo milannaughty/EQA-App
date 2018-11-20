@@ -192,7 +192,7 @@ function deleteSkillSet(_id) {
  */
 function GetSkillsByPanelID(panelID) {
     var deferred = Q.defer();
-    db.collection("users").find({ "_id": mongo.helper.toObjectID(panelID) }, { "skillSet": 1.0 })
+    db.collection("users").find({ "_id": mongo.helper.toObjectID(panelID) }, { "skillSet": 1.0, "qaSkillSet": 1.0 })
         .toArray(function (err, recievedData) {
             if (err) {
                 console.log("Error => " + err.name + ': ' + err.message);

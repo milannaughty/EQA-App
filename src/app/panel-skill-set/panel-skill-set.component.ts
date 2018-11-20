@@ -93,7 +93,7 @@ export class PanelSkillSetComponent implements OnInit {
     //delete unnecessary object properties
     delete this.model.skillSet
     CommonUtil.ShowLoadingWithTitle("Adding new skill to master...");
-    this.model.type = ConstantString.Dev;
+    this.model.type = this.isDevPanel ? ConstantString.Dev : ConstantString.QA;
     this.model.createdBy = this.currentUser.username;
     this.model.createdOn = this.datePipe.transform(new Date(), 'dd-MMM-yyyy HH:MM:SS');
     this.skillSetsService.postNewSkillSet(this.model).subscribe(
