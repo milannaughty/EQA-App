@@ -33,10 +33,10 @@
                     <a (click)="SkillAlert(data.skillSet)"> {{data.skillSet.length-1}} more skills</a>
                 </div>
             </div>
-            <div *ngIf="data.panelType=='QA' && data.qaSkillList">
-                {{data.qaSkillList[0].itemName}}
-                <div *ngIf="data.qaSkillList && data.qaSkillList.length>1">
-                    <a (click)="SkillAlert(data.qaSkillList)"> {{data.qaSkillList.length-1}} more skills</a>
+            <div *ngIf="data.panelType=='QA' && data.qaSkillSet">
+                {{data.qaSkillSet[0].itemName}}
+                <div *ngIf="data.qaSkillSet && data.qaSkillSet.length>1">
+                    <a (click)="SkillAlert(data.qaSkillSet)"> {{data.qaSkillSet.length-1}} more skills</a>
                 </div>
                 
             </div>
