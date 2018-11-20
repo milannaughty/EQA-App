@@ -2,8 +2,10 @@
     <div class="row">
         <div class="col-xs-6 col-sm-9">
             <h3 class="user-name">
-                <span *ngIf="currentUser.isPanel" title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hi {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</span>
-                <span *ngIf="!currentUser.isPanel"  title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hello Team {{currentUser.teamName | titlecase }}!!</span>
+                <span *ngIf="currentUser.isPanel" title="{{currentUser.FName+' '+currentUser.LName | titlecase }}"> Hi
+                    {{currentUser.FName+' '+currentUser.LName | titlecase }}!!</span>
+                <span *ngIf="!currentUser.isPanel" title="{{currentUser.FName+' '+currentUser.LName | titlecase }}">
+                    Hello Team {{currentUser.teamName | titlecase }}!!</span>
                 <span (click)="navToggle()" class="glyphicon glyphicon-th-list cur-pointer"></span>
             </h3>
             <!-- <p>You're logged in with Angular 2!!</p>
@@ -46,13 +48,16 @@
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.EQASummary, $event)">{{ActionList.EQASummary}}</a>
-                                </li>
-                                <li role="presentation">
                                     <a href="#" (click)="doAction('Action Two', $event)">Req. Under Verification</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction('Action Two', $event)">IQA Completed Requests</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.EQASummary, $event)">{{ActionList.EQASummary}}</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.PanelSkillAdd, $event)">Update Skill Set</a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.Feedback, $event)">Feedback</a>
@@ -62,7 +67,8 @@
                         <div *ngIf="!currentUser.isPanel">
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.TeamCheckList, $event)">Request Under Verification
+                                    <a href="#" (click)="doAction(ActionList.TeamCheckList, $event)">Request Under
+                                        Verification
                                         <span *ngIf="NewRequestCount" class="badge">{{NewRequestCount}}</span>
                                     </a>
                                 </li>
@@ -98,19 +104,25 @@
                             </ol>
                         </section>
                         <app-panel-home-page *ngIf="ActiveTab=='Dashboard'" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-panel-home-page>
-                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
-                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
-                        <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestList($event)'></app-associate-request-detail>
+                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
+                        <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList($event)'></app-associate-request-detail>
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest" (messageEvent)='changeMessageEvent($event)'></app-team-new-request>
-                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-team-request-list>
+                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></app-team-request-list>
                         <app-feedback *ngIf="ActiveTab===ActionList.Feedback" [currentUser]="currentUser"></app-feedback>
-                        <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
+                        <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData"
+                            (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
                         <app-team-panel-list *ngIf="ActiveTab===ActionList.PanelList"></app-team-panel-list>
                         <app-team-panel-detail *ngIf="ActiveTab===ActionList.PanelDetail"></app-team-panel-detail>
                         <app-reset-user-password *ngIf="ActiveTab===ActionList.ResetPassword"></app-reset-user-password>
                         <app-team-checklist-form *ngIf="ActiveTab===ActionList.TeamCheckList" [currentRequestData]="currentRequestData"></app-team-checklist-form>
                         <app-team-list *ngIf="ActiveTab===ActionList.TeamList" [currentUser]="currentUser"></app-team-list>
+                        <app-panel-skill-set *ngIf="ActiveTab==ActionList.PanelSkillAdd" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></app-panel-skill-set>
                     </div>
                 </div>
             </div>

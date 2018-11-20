@@ -40,4 +40,8 @@ export class SkillSetsService {
         return this.http.delete(appConfig.apiUrl + '/skillSets/deleteSkillSet?id=' + _id);
     }
 
+    GetSkillSetsByPanel(_id : string) {
+        return this.http.get<any>(appConfig.apiUrl + '/skillSets/GetSkillSetByPanel?_id='+_id);
+    }
+
 }

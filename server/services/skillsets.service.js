@@ -14,15 +14,16 @@ var db = mongo.db(config.connectionString, { native_parser: true });
  */
 db.bind('skillSets');
 
-var skillSetService={};
+var skillSetService = {};
 
-skillSetService.getAllSkillSets=getAllSkillSets;
-skillSetService.getSkillsByType=getSkillsByType;
-skillSetService.getSkillSetsById=getSkillSetsById;
-skillSetService.getSkillsByName=getSkillsByName;
-skillSetService.createNewSkillSet=createNewSkillSet;
-skillSetService.updateSkillSet=updateSkillSet; 
-skillSetService.deleteSkillSet=deleteSkillSet;
+skillSetService.getAllSkillSets = getAllSkillSets;
+skillSetService.getSkillsByType = getSkillsByType;
+skillSetService.getSkillSetsById = getSkillSetsById;
+skillSetService.getSkillsByName = getSkillsByName;
+skillSetService.createNewSkillSet = createNewSkillSet;
+skillSetService.updateSkillSet = updateSkillSet;
+skillSetService.deleteSkillSet = deleteSkillSet;
+skillSetService.GetSkillsByPanelID = GetSkillsByPanelID;
 module.exports = skillSetService;
 
 /**
@@ -45,14 +46,14 @@ function getAllSkillSets() {
  * This method fetches all skill sets matching with passed type Dev or QA
  * @param {Type} recievedParam 
  */
-function getSkillsByType(recievedParam){
+function getSkillsByType(recievedParam) {
     console.log("Start of getSkillsByType method of service");
     var deferred = Q.defer();
     //db.users.findOne(
-    db.skillSets.find({ type: { $regex : new RegExp(recievedParam.type, "i") } })
+    db.skillSets.find({ type: { $regex: new RegExp(recievedParam.type, "i") } })
         .toArray(function (err, recievedData) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-    
+
             deferred.resolve(recievedData);
         });
 
@@ -69,10 +70,10 @@ function getSkillSetsById(recievedParam) {
     var deferred = Q.defer();
     //console.log(recievedParam._id);
     db.skillSets.findById(recievedParam._id, function (err, skill) {
-        if (err) 
+        if (err)
             deferred.reject(err.name + ': ' + err.message);
         deferred.resolve(skill);
-     });
+    });
     console.log("End of getSkillSetsById method of service");
     return deferred.promise;
 }
@@ -82,14 +83,14 @@ function getSkillSetsById(recievedParam) {
  * parameter sent will fetch it's object from DB.
  * @param {skillName} recievedParam 
  */
-function getSkillsByName(recievedParam){
+function getSkillsByName(recievedParam) {
     console.log("Start of getSkillsByName method of service");
     var deferred = Q.defer();
     //db.users.findOne(
-    db.skillSets.find({ skillName: { $regex : new RegExp(recievedParam.skillName, "i") } })
+    db.skillSets.find({ skillName: { $regex: new RegExp(recievedParam.skillName, "i") } })
         .toArray(function (err, recievedData) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-    
+
             deferred.resolve(recievedData);
         });
 
@@ -107,29 +108,28 @@ function getSkillsByName(recievedParam){
 function createNewSkillSet(reqParam) {
     var deferred = Q.defer();
 
-        // validate if already exist
-        db.skillSets.findOne(
-            { skillName: reqParam.skillName },
-            function (err, skillSet) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-    
-                if (skillSet) {
-                    // username already exists
-                    deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
-                } else {
-                    createSkillSet();
-                }
-            });
+    // validate if already exist
+    db.skillSets.findOne(
+        { skillName: reqParam.skillName },
+        function (err, skillSet) {
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
-            function createSkillSet(){
-                db.skillSets.insert(
-                    reqParam,
-                    function (err, doc) {
-                        if (err) deferred.reject(err.name + ': ' + err.message);
-            
-                        deferred.resolve();
-                    });
+            if (skillSet) {
+                // username already exists
+                deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
+            } else {
+                createSkillSet();
             }
+        });
+
+    function createSkillSet() {
+        db.skillSets.insert(
+            reqParam,
+            function (err, doc) {
+                if (err) deferred.reject(err.name + ': ' + err.message);
+                deferred.resolve(doc.ops);
+            });
+    }
 
     return deferred.promise;
 }
@@ -137,36 +137,36 @@ function createNewSkillSet(reqParam) {
 function updateSkillSet(reqParam) {
     console.log("UpdateSkillSet method started for checking similar");
     var deferred = Q.defer();
-        // validate if already exist
-        db.skillSets.findOne(
-            { skillName: reqParam.skillName },
-            function (err, skillSet) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-    
-                if (skillSet) {
-                    // username already exists
-                    deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
-                } else {
-                console.log("UpdateSkillSet method started");
-    var set = {
-        "skillName": reqParam.skillName,
-        "type": reqParam.type,
-        "modifiedBy": reqParam.modifiedBy,
-        "modifiedOn": reqParam.modifiedOn
-    };
-    console.log(reqParam);
-    console.log(reqParam.requestId);
-    db.skillSets.update(
-        { _id: mongo.helper.toObjectID(reqParam.requestId) },
-        { $set: set },
-        function (err, doc) {
+    // validate if already exist
+    db.skillSets.findOne(
+        { skillName: reqParam.skillName },
+        function (err, skillSet) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-            console.log('Err :' + JSON.stringify(err))
-            console.log('doc :' + JSON.stringify(doc))
-            deferred.resolve();
+
+            if (skillSet) {
+                // username already exists
+                deferred.reject('Skill "' + skillSet.skillName + '" is already exist');
+            } else {
+                console.log("UpdateSkillSet method started");
+                var set = {
+                    "skillName": reqParam.skillName,
+                    "type": reqParam.type,
+                    "modifiedBy": reqParam.modifiedBy,
+                    "modifiedOn": reqParam.modifiedOn
+                };
+                console.log(reqParam);
+                console.log(reqParam.requestId);
+                db.skillSets.update(
+                    { _id: mongo.helper.toObjectID(reqParam.requestId) },
+                    { $set: set },
+                    function (err, doc) {
+                        if (err) deferred.reject(err.name + ': ' + err.message);
+                        console.log('Err :' + JSON.stringify(err))
+                        console.log('doc :' + JSON.stringify(doc))
+                        deferred.resolve();
+                    });
+            }
         });
-    }
-});
     return deferred.promise;
 }
 
@@ -182,8 +182,25 @@ function deleteSkillSet(_id) {
 
             deferred.resolve();
         });
-        console.log("End of deleteSkillSet method of service");
+    console.log("End of deleteSkillSet method of service");
     return deferred.promise;
 }
 
+/**
+ * This method fetches all skill sets for given panel id
+ * @param {string} panelID 
+ */
+function GetSkillsByPanelID(panelID) {
+    var deferred = Q.defer();
+    db.collection("users").find({ "_id": mongo.helper.toObjectID(panelID) }, { "skillSet": 1.0 })
+        .toArray(function (err, recievedData) {
+            if (err) {
+                console.log("Error => " + err.name + ': ' + err.message);
+                deferred.reject(err.name + ': ' + err.message);
+            }
+            deferred.resolve(recievedData);
+        });
+
+    return deferred.promise;
+}
 

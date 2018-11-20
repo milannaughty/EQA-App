@@ -51,7 +51,8 @@ import { TeamChecklistFormComponent } from './team-checklist-form/team-checklist
 import { TeamListComponent } from './team-list/team-list.component';
 import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component';
 import { FeedbackComponent } from './feedback/feedback.component';
-import { PanelHomePageComponent } from './panel-home-page/panel-home-page.component'; 
+import { PanelHomePageComponent } from './panel-home-page/panel-home-page.component';
+import { PanelSkillSetComponent } from './panel-skill-set/panel-skill-set.component'; 
 //import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
@@ -91,7 +92,8 @@ import { PanelHomePageComponent } from './panel-home-page/panel-home-page.compon
         TeamListComponent,
         AdminAreaAddComponent,
         FeedbackComponent,
-        PanelHomePageComponent
+        PanelHomePageComponent,
+        PanelSkillSetComponent
     ],
     providers: [
         AuthGuard,

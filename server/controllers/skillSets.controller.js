@@ -21,6 +21,7 @@ router.get(['/getAllSkillSets','/'], getAllSkillSetsFromDB);
 router.get('/getAllSkillSetsByType', getAllSkillSetsByTypeFromDB);
 router.get('/getAllSkillSetById', getAllSkillSetsByIdFromDB);
 router.get('/getSkillSetByName', getSkillsByNameFromDB);
+router.get('/getSkillSetByPanel', GetSkillSetByPanel);
 router.post('/createNewSkillSet',postNewSkillSetObjectToDB);
 router.put('/updateSkillSet',updateSkillSetObjectToDB);
 router.delete('/deleteSkillSet', deleteSkillSet);
@@ -85,6 +86,19 @@ function getSkillsByNameFromDB(request, response){
                 response.send(element);
             }).catch(function (err) {
                 console.log("fetching skillsets operation completed with error " +JSON.stringify(err));
+                response.status(400).send(err);
+            })
+}
+
+function GetSkillSetByPanel(request, response){
+    console.log("GetSkillSetByPanel started...");
+    console.log("Panel : "+request.query._id);
+    skillsetsServiceObject.GetSkillsByPanelID(request.query._id)
+            .then(function (element) {
+                console.log("GetSkillSetByPanel completed");
+                response.send(element);
+            }).catch(function (err) {
+                console.log("GetSkillSetByPanel completed with error " +JSON.stringify(err));
                 response.status(400).send(err);
             })
 }

@@ -53,7 +53,7 @@ export const userConfig = {
         'ResetPassword': 'RESET PASSWORD',
         'TeamCheckList': 'CHECKLIST REVIEW',
         'TeamList':'Team List',
-        'Feedback':'USER FEEDBACK'
-        
+        'Feedback':'USER FEEDBACK',
+        'PanelSkillAdd':'PANEL SKILL SET'
     }
 };

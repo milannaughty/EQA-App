@@ -1,0 +1,56 @@
+<div>
+    <div>
+        <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">SKILL SET</div>
+        <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+    </div>
+
+
+    <div>
+        <div class="col-md-12 row">
+            <form name="form" (ngSubmit)="OnSave()" #f="ngForm" novalidate>
+                <div class="form-group col-md-6" style="min-height: 50px;padding-right: 0px">
+                    <angular2-multiselect *ngIf="!showAddNewTextBox" name="skillset" [data]="remainingSkillList"
+                        [(ngModel)]="model.skillSet" [settings]="dropdownSettings"></angular2-multiselect>
+                    <input *ngIf="showAddNewTextBox" type="text" id="skillInput" class="form-control " name="skillName"
+                        [(ngModel)]="model.skillName" #FName="ngModel" placeholder="Enter Skill" required="required">
+                </div>
+                <div class="form-group col-xs-4">
+                    <button class="btn btn-primary" id="btnAdd">Add to my skills</button>
+                    <button [disabled]="!currentUser.panelType" class="btn btn-link" (click)="OnAddNewClick()" *ngIf="!showAddNewTextBox">Add
+                        new</button>
+                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    <a (click)="OnCancelClick()" class="btn btn-link" *ngIf="showAddNewTextBox">Cancel</a>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div class="col-md-6">
+            <img *ngIf="tblloading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <div class="table-responsive">
+                <table class="skillTable table-hover table data-table table-condensed data-skillset table-striped fontFamily"
+                    id="skillDataTable" cellspacing="0" data-page-length='10'>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">#</th>
+                            <th style="text-align: left">Skills</th>
+                            <th style="text-align: left;">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let client of skillSets; let i = index">
+                            <th scope="row" style="width: 10%; text-align: center">{{skillSets.indexOf(client)+1}}</th>
+                            <td style="width:300px" class="capitalize">{{client.itemName}}</td>
+                            <td style="width: 200px">
+                                <!-- <a (click)="editSkillDetail(client, i)" class="edit"><i class="glyphicon glyphicon-edit" title="Edit"></i></a>
+                              &nbsp;&nbsp;&nbsp;&nbsp; -->
+                                <a (click)="OnDelete(client)" class="delete"><i class="glyphicon glyphicon-remove"
+                                        title="Delete"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
