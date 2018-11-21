@@ -110,7 +110,7 @@ function createNewSkillSet(reqParam) {
 
     // validate if already exist
     db.skillSets.findOne(
-        { skillName: reqParam.skillName },
+        { skillName: { "$regex" : reqParam.skillName , "$options" : "i"} },
         function (err, skillSet) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 
