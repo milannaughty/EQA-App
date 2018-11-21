@@ -136,7 +136,15 @@ export class PanelSkillSetComponent implements OnInit {
   OnDelete(skillsetItem) {
     CommonUtil.ShowLoading();
     this.skillSets = this.skillSets.filter(x => { return x.id != skillsetItem.id })
-    this.FillSkillSet(this.skillSets);
+    //this.FillSkillSet(this.skillSets);
+    if (this.isDevPanel) {
+      this.currentUser.skillSet = this.skillSets;
+      this.currentUser.qaSkillSet = [];
+    }
+    else {
+      this.currentUser.qaSkillSet = this.skillSets;
+      this.currentUser.skillSet = [];
+    }
     this.UpdateTheUserDetails();
   }
 
