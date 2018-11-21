@@ -110,7 +110,7 @@ export class TeamChecklistFormComponent implements OnInit {
     }
 
     //Close review comments
-    this.allPreviousReviewComment = this.devPreviousReviewComment.concat(this.qaPreviousReviewComment).filter(x => x.status == 0);
+    this.allPreviousReviewComment = this.devPreviousReviewComment.concat(this.qaPreviousReviewComment).filter(x => x.status == 0 || x.status == 2);
 
     //Show only open status review
     this.devPreviousReviewComment = this.devPreviousReviewComment.filter(x => x.status == 1);

@@ -187,7 +187,7 @@
                 <td><select class="form-control" name="reviewStatus{{i}}" [(ngModel)]="data.status">
                     <option *ngFor="let item of Status" [ngValue]="item._Id" [selected]="item._Id==data.status">{{item.Title}}</option>
                   </select></td>
-                <td><span [ngClass]="{'closeStatus':!data.status,'openStatus':data.status}"></span></td>
+                <td><span [ngClass]="{'closeStatus':(data.status==0 || data.status==2),'openStatus':(data.status ==1)}"></span></td>
               </tr>
             </tbody>
           </table>
