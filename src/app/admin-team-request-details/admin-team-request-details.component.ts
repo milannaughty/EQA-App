@@ -228,7 +228,7 @@ export class AdminTeamRequestDetailsComponent implements OnInit {
   GetUpdateAssignedPanelList(existingAssignedPanel, newAssignedPanel) {
     //if existingAssignedPanel not exist then return newly assigned panel with status as panel assigned
     if (!(existingAssignedPanel)) {
-      return newAssignedPanel ? newAssignedPanel.map(x => { x["status"] = adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus; return x; }) : [];
+      return newAssignedPanel ? newAssignedPanel.map(x => { x["status"] = adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus ; return x; }) : [];
     }
 
     let newPanelList = [];
