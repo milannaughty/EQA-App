@@ -34,8 +34,9 @@ export class AssociateNewRequestListComponent implements OnInit {
     this.currentPanelData = this.LoadCurrentPanelData(currentRequestData);
     this.currentPanelData.lastActivity = new Date().toDateString();
     this.currentPanelData.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
-    let isAllPanelAcceptedRequest = this.CheckAllPanelRequestStatus(currentRequestData, adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
-    currentRequestData.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : currentRequestData.status;
+    //let isAllPanelAcceptedRequest = this.CheckAllPanelRequestStatus(currentRequestData, adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+    //currentRequestData.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : currentRequestData.status;
+    currentRequestData.status = CommonUtil.GetRequestStatus(currentRequestData.assignedDevPanelList, currentRequestData.assignedQAPanelList);
     this.RemoveUnwantedProperties(currentRequestData);
     CommonUtil.ShowLoading();
     this.requestService.updateStatusOfRequest(currentRequestData).subscribe(
@@ -44,41 +45,32 @@ export class AssociateNewRequestListComponent implements OnInit {
         var toPerssonList = currentRequestData.initiatedBy.POCEmail;
         var toPersonName = EmailManager.GetUserNameFromCommaSepratedEmailIds(toPerssonList);
         var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([currentRequestData.initiatedBy.DAMEmail, currentRequestData.initiatedBy.PMEmail]);
+        ccPersonList += CommonUtil.GetAdminContactDetails().emailIDs;
 
-        this.userService.getAllUsersByRole("admin").subscribe(adminList => {
-          if (adminList instanceof Array)
-            ccPersonList += adminList.map(x => x.username).join(',');
-          else
-            ccPersonList += adminList["username"];
+        var mailSubject = EmailManager.GetRequestAcceptSubjectLine(currentRequestData.name, this.currentUser.FName + " " + this.currentUser.LName);
+        var mailObject = {
+          "fromPersonName": appConfig.fromPersonName,
+          "fromPersonMailId": appConfig.fromPersonMailId,
+          "toPersonName": toPersonName,
+          "toPersonMailId": toPerssonList,
+          "ccPersonList": ccPersonList,
+          "mailSubject": mailSubject,
+          "mailContent": "",
+          "sprintName": currentRequestData.name,
+          "panelName": this.currentUser.username,
+        };
 
-          var mailSubject = EmailManager.GetRequestAcceptSubjectLine(currentRequestData.name, this.currentUser.FName + " " + this.currentUser.LName);
-          var mailObject = {
-            "fromPersonName": appConfig.fromPersonName,
-            "fromPersonMailId": appConfig.fromPersonMailId,
-            "toPersonName": toPersonName,
-            "toPersonMailId": toPerssonList,
-            "ccPersonList": ccPersonList,
-            "mailSubject": mailSubject,
-            "mailContent": "",
-            "sprintName": currentRequestData.name,
-            "panelName": this.currentUser.username,
-          };
+        this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
+          success => {
+            console.log("mail sent to admin with rejection details");
+            CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
+            this.LoadNewRequestForAssociate();
+          }, err => {
+            CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
+            this.LoadNewRequestForAssociate();
+          }
+        );
 
-          this.emailService.sendMailToPOCAfterIQARequestAcceptedByPanel(mailObject).subscribe(
-            success => {
-              console.log("mail sent to admin with rejection details");
-              CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
-              this.LoadNewRequestForAssociate();
-            }, err => {
-              CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
-              this.LoadNewRequestForAssociate();
-            }
-          );
-
-        }, err => {//error while fething admin role users
-          CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
-          this.LoadNewRequestForAssociate();
-        });
 
 
         /** sending mail ends */
@@ -120,7 +112,7 @@ export class AssociateNewRequestListComponent implements OnInit {
     return currentRequestData.assignedDevPanelList.some(panel => panel.status == inputStatus) && currentRequestData.assignedQAPanelList.some(panel => panel.status == inputStatus);
   }
 
-  RemoveUnwantedProperties(currentRequestData){
+  RemoveUnwantedProperties(currentRequestData) {
     //CurrPanelReviewStatusForRequest
     delete currentRequestData.CurrPanelReviewStatusForRequest;
   }

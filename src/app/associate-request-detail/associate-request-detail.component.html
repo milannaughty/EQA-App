@@ -146,12 +146,12 @@
                 <span *ngIf="!(data.raisedByPanelId==currentPanelId &&  data.raisedByPanel && data.status)">{{data.panelComment||'Looks
                   good'}}</span>
               </td>
-              <td>
+              <td style="width:110px">
                 <select class="form-control" name="genericReviewStatus{{i}}" [(ngModel)]="data.status" (change)="OnGenericReviewStatusChanged(data)">
                   <option *ngFor="let item of Status" [ngValue]="item._Id" [selected]="item._Id==data.status">{{item.Title}}</option>
                 </select></td>
 
-              <td><span [ngClass]="{'closeStatus':!data.status,'openStatus':data.status}"></span></td>
+              <td><span [ngClass]="{'closeStatus':(data.status==0 || data.status==2),'openStatus':(data.status ==1)}"></span></td>
             </tr>
           </tbody>
           <!--Table body-->
@@ -184,7 +184,7 @@
                     #data.panelComment="ngModel" *ngIf="data.status"></textarea>
                   <span *ngIf="!(data.status)">{{data.panelComment||'No Comment'}}</span>
                 </td>
-                <td><select class="form-control" name="reviewStatus{{i}}" [(ngModel)]="data.status">
+                <td style="width:110px"><select class="form-control" name="reviewStatus{{i}}" [(ngModel)]="data.status">
                     <option *ngFor="let item of Status" [ngValue]="item._Id" [selected]="item._Id==data.status">{{item.Title}}</option>
                   </select></td>
                 <td><span [ngClass]="{'closeStatus':(data.status==0 || data.status==2),'openStatus':(data.status ==1)}"></span></td>
@@ -320,7 +320,7 @@
 
 
       </div>
-      <div class="col-md-6 marginTop15">
+      <div class="row col-md-6 marginTop15">
         <button (click)="ShowRequestList()" class="btn btn-warning btn-sm"style="margin-left:15px;">Home</button>
         <button type="submit" class="btn btn-success btn-sm" (click)="OnSaveClick()" *ngIf="showRemark || showSaveButton">Save</button>
         <img *ngIf="showLoadingIcon" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />

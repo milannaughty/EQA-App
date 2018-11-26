@@ -11,8 +11,7 @@ export class CommonUtil {
         { _Id: 3, CheckListItem: 'Consistent naming scheme', Description: 'Follow the consistent naming standards all over application.' },
         { _Id: 4, CheckListItem: 'Code reusability', Description: 'Code duplication should be avoided wherever possible. Try to reuse the existing code.' },
         { _Id: 5, CheckListItem: 'Limit the length of functions', Description: 'Don’t put too much code into single function. Try to make multiple functions as per logical grouping of code.' },
-        { _Id: 6, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' },
-        { _Id: 7, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' }]
+        { _Id: 6, CheckListItem: 'File and folder organisation', Description: 'Files and folders should be organised properly in application.' }]
     static AreaOfFindings = [
         { _Id: 1, Title: "Best Practices" },
         { _Id: 2, Title: "Code Maintanability" },
@@ -173,6 +172,57 @@ export class CommonUtil {
         var data = sessionStorage.getItem('adminList');
         return data ? JSON.parse(data) : null
     }
+
+    /**
+     * Method returns request status based on QA and Dev panel review status
+     */
+    static GetRequestStatus(devPanelList, qaPanelList) {
+        debugger;
+        let status;
+        if (devPanelList.length == 0 && qaPanelList.length == 0)
+            return adminConfig.RequestStatus.NEW.DBStatus;
+
+        let isAllDevPanelAssigned = CommonUtil.CheckAllRequestStatus(devPanelList, adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus);
+        let isAllQAPanelAssigned = CommonUtil.CheckAllRequestStatus(qaPanelList, adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus);
+
+        if (isAllDevPanelAssigned && isAllQAPanelAssigned)
+            return adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus;
+
+        let isAllDevIQACompleted = CommonUtil.CheckAllRequestStatus(devPanelList, adminConfig.RequestStatus.COMPLETED.DBStatus);
+        let isAllQAIQACompleted = CommonUtil.CheckAllRequestStatus(qaPanelList, adminConfig.RequestStatus.COMPLETED.DBStatus);
+
+        if (isAllDevIQACompleted && isAllQAIQACompleted)
+            return adminConfig.RequestStatus.COMPLETED.DBStatus;
+
+        let isAnyDevPanelInprogress = CommonUtil.CheckAnyRequestStatus(devPanelList, adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+        let isAnyQAPanelInprogress = CommonUtil.CheckAnyRequestStatus(qaPanelList, adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
+
+        if (isAnyDevPanelInprogress || isAnyQAPanelInprogress)
+            return adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
+
+        let isAnyDevIQAUnderReview = CommonUtil.CheckAnyRequestStatus(devPanelList, adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
+        let isAnyQAIQAUnderReview = CommonUtil.CheckAnyRequestStatus(qaPanelList, adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus);
+
+        if (isAnyDevIQAUnderReview || isAnyQAIQAUnderReview)
+            return adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+
+        //return default 
+        return adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus
+    }
+
+    /**
+     * Method returns true if all panel have same status as based on given status
+     */
+    static CheckAllRequestStatus(panelList, status) {
+        return panelList.every(x => x.status == status)
+    }
+
+    /**
+     * Method returns true if any panel have same status as based on given status
+     */
+    static CheckAnyRequestStatus(panelList, status) {
+        return panelList.length > 0 ? panelList.some(x => x.status == status) : true;
+    }
 }
 
 export class EmailManager {
@@ -245,9 +295,9 @@ export class EmailManager {
     * Method returns email subject line for  IQA request reviewed by team 
     * @param teamName 
     */
-   static GetReviewedByTeamSubjectLine(teamName: string) {
-    return `IQA Team | ${teamName} has provided review feedback`;
-}
+    static GetReviewedByTeamSubjectLine(teamName: string) {
+        return `IQA Team | ${teamName} has provided review feedback`;
+    }
 
     /**
      * Method returns single or multiple User name(s) in comma separated list

@@ -190,38 +190,42 @@ export class AssociateRequestDetailComponent implements OnInit {
     CommonUtil.ShowLoading();
     this.currentPanelData.lastActivity = new Date().toDateString();
     if (this.isRejectRequestOperation) {
-      debugger;
       this.currentPanelData.rejectReason = this.reasonText;
       this.currentPanelData.status = adminConfig.RequestStatus.REJECTED.DBStatus;
-      let isAllPanelRejectedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.REJECTED.DBStatus);
-      this.currentRequestData.body.status = isAllPanelRejectedRequest ? adminConfig.RequestStatus.REJECTED.DBStatus : this.currentRequestData.body.status;
 
-      if(Array.isArray(this.currentRequestData.body.rejectHistory)){
+      //To remove assign panel from assign list
+      if (this.isDevPanel)
+        this.currentRequestData.body.assignedDevPanelList = this.currentRequestData.body.assignedDevPanelList.filter(x => x.id != this.currentPanelData.id);
+      else
+        this.currentRequestData.body.assignedQAPanelList = this.currentRequestData.body.assignedQAPanelList.filter(x => x.id != this.currentPanelData.id);
+
+      //let isAllPanelRejectedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.REJECTED.DBStatus);
+      //this.currentRequestData.body.status = isAllPanelRejectedRequest ? adminConfig.RequestStatus.REJECTED.DBStatus : this.currentRequestData.body.status;
+      this.currentRequestData.body.status = CommonUtil.GetRequestStatus(this.currentRequestData.body.assignedDevPanelList, this.currentRequestData.body.assignedQAPanelList);
+
+      if (Array.isArray(this.currentRequestData.body.rejectHistory)) {
         this.currentRequestData.body.rejectHistory.push(this.currentPanelData);
-      }else{
-        this.currentRequestData.body.rejectHistory=[];
+      } else {
+        this.currentRequestData.body.rejectHistory = [];
         this.currentRequestData.body.rejectHistory.push(this.currentPanelData);
       }
 
-      if(this.isDevPanel)
-        this.currentRequestData.body.assignedDevPanelList = this.currentRequestData.body.assignedDevPanelList.filter(x =>  x.id != this.currentPanelData.id );
-      else
-        this.currentRequestData.body.assignedQAPanelList = this.currentRequestData.body.assignedQAPanelList.filter(x =>  x.id != this.currentPanelData.id );
-      
-}
+
+    }
     else if (this.isAcceptRequestOperation) {
 
       //this.currentRequestData.body.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
       this.currentPanelData.status = adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
       let isAllPanelAcceptedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.IN_PROGRESS.DBStatus);
-      this.currentRequestData.body.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : this.currentRequestData.body.status;
+      //this.currentRequestData.body.status = isAllPanelAcceptedRequest ? adminConfig.RequestStatus.IN_PROGRESS.DBStatus : this.currentRequestData.body.status;
+      this.currentRequestData.body.status = CommonUtil.GetRequestStatus(this.currentRequestData.body.assignedDevPanelList, this.currentRequestData.body.assignedQAPanelList);
     }
     else if (this.isCompleteRequestOperation) {
       //Add the newly added review comments to existing reviews
       if (this.newCheckListItemsLength) {
         this.currentPanelData.reviewCheckListItems = this.currentPanelData.reviewCheckListItems ? this.currentPanelData.reviewCheckListItems.concat(this.newCheckListItems) : this.newCheckListItems;
       }
-      
+
       //Close the Generic checklist items if not modified and updated the close by details
       this.currentRequestData.body.GennericCheckListItems = this.currentRequestData.body.GennericCheckListItems.map(x => {
         if (!x.status && !x.raisedByPanelId) {
@@ -232,19 +236,20 @@ export class AssociateRequestDetailComponent implements OnInit {
         }
         return x;
       });
-
+      debugger;
       //Update Panel checklist status, check any reviewCheckListItems is in open state
       let isAnyGennericCheckListItemOpenByMe = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1 && x.raisedByPanelId == this.currentPanelId);
       let isAnyMyCheckListItemOpen = this.currentPanelData.reviewCheckListItems && this.currentPanelData.reviewCheckListItems.some(x => x.status == 1);
       this.currentPanelData.status = (isAnyGennericCheckListItemOpenByMe || isAnyMyCheckListItemOpen) ? adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus : adminConfig.RequestStatus.COMPLETED.DBStatus;
-      
-      var isAnyPreviousCheckCheckListItemOpen = this.allPreviousReviewComment.some(x => x.status == 1);
-      var isAnyGennericCheckListItemOpen = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1);
-      isAnyMyCheckListItemOpen = this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
-      var isAnyNewlyAddedCheckList = this.newCheckListItemsLength;
-      var isAllPanelCompletedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.COMPLETED.DBStatus);
-      var isIQARequestCompleted = !(isAnyPreviousCheckCheckListItemOpen || isAnyGennericCheckListItemOpen  || isAnyMyCheckListItemOpen || isAnyNewlyAddedCheckList);
-      this.currentRequestData.body.status = isAllPanelCompletedRequest && isIQARequestCompleted ? adminConfig.RequestStatus.COMPLETED.DBStatus : adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+
+      //var isAnyPreviousCheckCheckListItemOpen = this.allPreviousReviewComment.some(x => x.status == 1);
+      //var isAnyGennericCheckListItemOpen = this.currentRequestData.body.GennericCheckListItems.some(x => x.status == 1);
+      //isAnyMyCheckListItemOpen = this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      //var isAnyNewlyAddedCheckList = this.newCheckListItemsLength;
+      //var isAllPanelCompletedRequest = this.CheckAllPanelRequestStatus(adminConfig.RequestStatus.COMPLETED.DBStatus);
+      //var isIQARequestCompleted = !(isAnyPreviousCheckCheckListItemOpen || isAnyGennericCheckListItemOpen || isAnyMyCheckListItemOpen || isAnyNewlyAddedCheckList);
+      // this.currentRequestData.body.status = isAllPanelCompletedRequest && isIQARequestCompleted ? adminConfig.RequestStatus.COMPLETED.DBStatus : adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      this.currentRequestData.body.status = CommonUtil.GetRequestStatus(this.currentRequestData.body.assignedDevPanelList, this.currentRequestData.body.assignedQAPanelList);
     }
 
     this.requestService.updateStatusOfRequest(this.currentRequestData.body).subscribe(
@@ -253,33 +258,33 @@ export class AssociateRequestDetailComponent implements OnInit {
         if (this.isRejectRequestOperation) {//code after rejection
           var ccPersonList = EmailManager.GetCommaSepratedEmailIDs([data.initiatedBy.DAMEmail, data.initiatedBy.PMEmail])
           var toPerssonList = data.initiatedBy.POCEmail + ',';
-          toPerssonList = toPerssonList+','+JSON.parse(sessionStorage.getItem('adminList')).emailIDs;
+          toPerssonList = toPerssonList + ',' + JSON.parse(sessionStorage.getItem('adminList')).emailIDs;
 
           var mailSubject = EmailManager.GetRejectRequestSubjectLine(data.name, this.currentRequestData.currentUser.username);
-            var mailObject = {
-              "fromPersonName": appConfig.fromPersonName,
-              "fromPersonMailId": appConfig.fromPersonMailId,
-              "toPersonName": "Admin",
-              "toPersonMailId": toPerssonList,
-              "ccPersonList": ccPersonList,
-              "mailSubject": mailSubject,
-              "mailContent": "",
-              "sprintName": data.name,
-              "panelName": this.currentRequestData.currentUser.username,
-              "rejectReason": this.reasonText
-            };
+          var mailObject = {
+            "fromPersonName": appConfig.fromPersonName,
+            "fromPersonMailId": appConfig.fromPersonMailId,
+            "toPersonName": "Admin",
+            "toPersonMailId": toPerssonList,
+            "ccPersonList": ccPersonList,
+            "mailSubject": mailSubject,
+            "mailContent": "",
+            "sprintName": data.name,
+            "panelName": this.currentRequestData.currentUser.username,
+            "rejectReason": this.reasonText
+          };
 
-            this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
-              success => {
-                CommonUtil.ShowInfoAlert(MessageManager.RequestRejectTitle, MessageManager.RequestRejected);
-                this.ShowRequestList();
-              }, err => {
-                CommonUtil.ShowSuccessAlert(MessageManager.RequestRejectedWithErrorEmailSending);
-                this.ShowRequestList();
-              }
-            );   
-            
-            
+          this.emailService.sendMailToAdminsAfterIQARequestRejectedByPanel(mailObject).subscribe(
+            success => {
+              CommonUtil.ShowInfoAlert(MessageManager.RequestRejectTitle, MessageManager.RequestRejected);
+              this.ShowRequestList();
+            }, err => {
+              CommonUtil.ShowSuccessAlert(MessageManager.RequestRejectedWithErrorEmailSending);
+              this.ShowRequestList();
+            }
+          );
+
+
         }
         else if (this.isAcceptRequestOperation) {//code after acceptance
 
@@ -365,7 +370,8 @@ export class AssociateRequestDetailComponent implements OnInit {
         ///**************THIS CODE NEED TO TEST************ */
         ///**************THIS CODE NEED TO TEST************ */
         ///**************THIS CODE NEED TO TEST************ */
-        else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
+        //else if (this.currentRequestData.body.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts
+        else if (this.currentPanelData.status == adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus) {//request status under verification starts          
           //debugger;
           //checklist details starts
           //this.showCheckList = true;
@@ -548,7 +554,7 @@ export class AssociateRequestDetailComponent implements OnInit {
   }
 
   CheckAllPanelRequestStatus(inputStatus) {
-    return (this.currentRequestData.body.assignedDevPanelList.length==0 || this.currentRequestData.body.assignedDevPanelList.some(panel => panel.status == inputStatus)) && (this.currentRequestData.body.assignedQAPanelList.length==0 ||this.currentRequestData.body.assignedQAPanelList.some(panel => panel.status == inputStatus));
+    return (this.currentRequestData.body.assignedDevPanelList.length == 0 || this.currentRequestData.body.assignedDevPanelList.some(panel => panel.status == inputStatus)) && (this.currentRequestData.body.assignedQAPanelList.length == 0 || this.currentRequestData.body.assignedQAPanelList.some(panel => panel.status == inputStatus));
   }
 
 }
