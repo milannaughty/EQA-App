@@ -64,7 +64,6 @@ export class TeamChecklistFormComponent implements OnInit {
     this.selectedRequestData.teamLastActivity = new Date();
     this.requestService.updateStatusOfRequest(this.selectedRequestData).subscribe(
       result => {
-        debugger;
         let adminContactData = CommonUtil.GetAdminContactDetails();
         let devReviewersEmailIDs = this.selectedRequestData.assignedDevPanelList ? this.selectedRequestData.assignedDevPanelList.map(dev => dev.emailID) : [];
         let qaReviewersEmailIDs = this.selectedRequestData.assignedQAPanelList ? this.selectedRequestData.assignedQAPanelList.map(dev => dev.emailID) : [];

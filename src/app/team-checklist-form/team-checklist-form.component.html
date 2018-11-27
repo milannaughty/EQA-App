@@ -166,6 +166,42 @@
       <hr>
     </div>
 
+    <div *ngIf="closeCheckListItem.length">
+      <div class="fw-bold fs-body2  tt-uppercase mb16">Close Generic Review Item(s):</div>
+      <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+      <table class="table table-condensed skillFontStyle ff-family data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>CheckList Item</th>
+            <th>Description</th>
+            <th>Panel Comment</th>
+            <th>Raised By</th>
+            <th>Team Comment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of closeCheckListItem; let i = index;" class="form-add-review">
+            <th scope="row">{{i+1}}</th>
+            <td>{{data.CheckListItem}}</td>
+            <td>{{data.Description}}</td>
+            <td>{{data.panelComment||'NA'}}</td>
+            <td class="capitalize">{{data.raisedByPanel||'NA'}}</td>
+            <td><textarea type="text" class="form-control" name='genericPanelComment{{i}}' [(ngModel)]="data.teamComment"
+                #data.teamComment="ngModel" *ngIf="data.raisedByPanel && data.status"></textarea>
+              <span *ngIf="!(data.status)">{{data.teamComment||'NA'}}</span></td>
+            <td>
+              <app-request-status [status]="data.status?'Open':'Close'"></app-request-status>
+            </td>
+            <!-- <td><span [ngClass]="{'closeStatus':!data.status,'openStatus':data.status}"></span></td> -->
+          </tr>
+        </tbody>
+        <!--Table body-->
+
+      </table>
+      <hr>
+    </div>
     <div *ngIf="allPreviousReviewComment.length">
       <div class="fw-bold fs-body2  tt-uppercase mb16">Close Review Item(s):</div>
       <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
