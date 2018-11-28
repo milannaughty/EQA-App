@@ -1,5 +1,5 @@
 export const appConfig = {
-    apiUrl: 'http://172.16.1.227:4000',
+    apiUrl: 'http://localhost:4000',
     fromPersonName: "Team IQA",
     fromPersonMailId: "iqaTeamMailId",
     initialPassword: 'nihilent@123'
@@ -10,8 +10,8 @@ export const adminConfig = {
         NEW: { DBStatus: 'New', DisplayStatus: 'New Request' },
         PANEL_ASSIGNED: { DBStatus: "PanelAssigned", DisplayStatus: "Pending" },
         IN_PROGRESS: { DBStatus: 'InProgress', DisplayStatus: 'Req. Inprogress' },
-        COMPLETED:  { DBStatus: 'Completed', DisplayStatus: 'IQA Completed' },
-        VERIFIED_BY_DEV_PANEL:{ DBStatus: 'VerifiedByDevPanel', DisplayStatus: 'Verified By Dev Panel' } ,
+        COMPLETED: { DBStatus: 'Completed', DisplayStatus: 'IQA Completed' },
+        VERIFIED_BY_DEV_PANEL: { DBStatus: 'VerifiedByDevPanel', DisplayStatus: 'Verified By Dev Panel' },
         VERIFIED_BY_QA_PANEL: { DBStatus: 'VerifiedByQAPanel', DisplayStatus: 'Verified By QA Panel' },
         VERIFIED_BY_TEAM: { DBStatus: 'VerifiedByTeam', DisplayStatus: 'Verified By Team' },
         REJECTED: { DBStatus: 'Rejected', DisplayStatus: 'Req. Rejected' },
@@ -35,8 +35,8 @@ export const adminConfig = {
         AddTeam: 'ADD TEAM',
         AddSkill: 'ADD Skills',
         PanelList: 'PANEL LIST',
-        TeamList:'Team List',
-        AddArea:'Add Area'
+        TeamList: 'Team List',
+        AddArea: 'Add Area'
     }
 };
 
@@ -44,6 +44,7 @@ export const userConfig = {
     ActionList: {
         'EQANewRequests': 'Assigned Request',
         'EQASummary': 'IQA Summary',
+        'EQAComplete': 'IQA Completed Request',
         'AssociateRequestDetail': 'Request Detail',
         'InitiateEQARequest': 'Initiate IQA Request',
         'TeamEQARequest': 'Request History',
@@ -52,8 +53,9 @@ export const userConfig = {
         'PanelDetail': 'Panel Detail',
         'ResetPassword': 'RESET PASSWORD',
         'TeamCheckList': 'CHECKLIST REVIEW',
-        'TeamList':'Team List',
-        'Feedback':'USER FEEDBACK',
-        'PanelSkillAdd':'PANEL SKILL SET'
+        'TeamList': 'Team List',
+        'Feedback': 'USER FEEDBACK',
+        'PanelSkillAdd': 'PANEL SKILL SET',
+        UnderVerification: 'Req. Under Verification'
     }
 };

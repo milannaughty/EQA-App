@@ -11,7 +11,7 @@ import * as $ from 'jquery';
 })
 
 export class HomeComponent implements OnInit {
-    currentRequestData: any;
+    currentRequestData: any={};
     NewRequestCount: any;
     NewRequest: any;
     currentUser: User;
@@ -73,6 +73,8 @@ export class HomeComponent implements OnInit {
 
     doAction(actionName: string, e) {
         this.ActiveTab = actionName;
+        debugger;
+        this.currentRequestData['CurrentActionName'] = actionName;
         $(".nav-pills li").removeClass("active")
         var e = e;
         e.target.parentElement.setAttribute("class", "active");
