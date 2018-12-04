@@ -48,15 +48,16 @@ function sendTestMail(reqParam) {
     };
 
     // send mail with defined transport object
-    gmailTransporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log('error occured while sedning');
-            console.log(error);
-            deferred.reject();
-        }
-        console.log('Message sent:');
-        deferred.resolve();  // SUCCESS with message
-    });
+    // gmailTransporter.sendMail(mailOptions, function (error, info) {
+    //     if (error) {
+    //         console.log('error occured while sedning');
+    //         console.log(error);
+    //         deferred.reject();
+    //     }
+    //     console.log('Message sent:');
+    //     deferred.resolve();  // SUCCESS with message
+    // });
+    deferred.resolve();
 
     return deferred.promise;
 }
@@ -75,14 +76,15 @@ function sendMail(fromMailId, toPersonList, ccPersonList, mailSubject, mailConte
         subject: mailSubject,
         html: mailContent
     };
-    gmailTransporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log('error occured while sedning mail from sendMail in service : ' + error);
-            deferred.reject();
-        } else {
-            console.log('Message sent: successfully from sendMail in service');
-            deferred.resolve();  // SUCCESS with message
-        }
-    });
+    // gmailTransporter.sendMail(mailOptions, function (error, info) {
+    //     if (error) {
+    //         console.log('error occured while sedning mail from sendMail in service : ' + error);
+    //         deferred.reject();
+    //     } else {
+    //         console.log('Message sent: successfully from sendMail in service');
+    //         deferred.resolve();  // SUCCESS with message
+    //     }
+    // });
+    deferred.resolve();
     return deferred.promise;
 }
