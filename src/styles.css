@@ -502,10 +502,37 @@ h2.swal2-title{
 
 /** Customizing Boostrap*/
 
-.badge{
-  background: crimson !important;
+.badge {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Trebuchet MS', sans-serif;
+  background:crimson;
+  cursor: default;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  height: 2rem;
+  letter-spacing: -.1rem;
+  margin-left: .1rem;
+  border: .2rem solid #fff;
+  text-align: center;
+  display: inline-block;
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0, .2);
+  box-shadow: 1px 1px 5px rgba(0,0,0, .2);
+  animation: pulse 1.5s 1;
 }
-
+@keyframes pulse {
+  0% {transform: scale(1);}
+  20% {transform: scale(1.4); } 
+  50% {transform: scale(.9);} 
+  80% {transform: scale(1.2);} 
+  100% {transform: scale(1);}
+}
+@keyframes sonar { 
+  0% {transform: scale(.9); opacity:1;}
+  100% {transform: scale(2);opacity: 0;}
+}
 
 /**teamdetails popup   */
 .teamcss {
@@ -704,8 +731,10 @@ color:#fff;
   padding-left: 0;
 }
 .nav-pills>.active>a>.badge{
-	color:#fff;
+  color:#fff;
+  background-color: crimson
 }
+
 .cur-pointer{
   cursor: pointer;
 }

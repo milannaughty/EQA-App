@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
     ActionList: any = userConfig.ActionList;
     el: ElementRef;
     navOpen: boolean = false;
+    summaryData: { status: string; count: any; }[];
     receiveMessage($event) {
         console.log('In receiveMessage Method');
         this.ActiveTabs = $event
@@ -46,13 +47,12 @@ export class HomeComponent implements OnInit {
         //debugger;
         console.log('In ngOnInit Method');
         if (this.currentUser["isPanel"]) {
-            // this.requestService.getPanelRequestCountWithStatus
-            //     (this.currentUser["_id"], adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus)
-            //     .subscribe(result => {
-            //         this.NewRequestCount = result["count"];
-            //     }, err => {
-            //         //debugger;
-            //     });
+            this.requestService.GetPanelRequestCountWithStatus(this.currentUser["_id"], this.currentUser["panelType"])
+                .subscribe(result => {
+                    this.NewRequestCount = result["count"];
+                }, err => {
+                    //debugger;
+                });
         }
         else {
             // this.requestService.getAssociateNewRequest(this.currentUser["_id"]).subscribe(result => {

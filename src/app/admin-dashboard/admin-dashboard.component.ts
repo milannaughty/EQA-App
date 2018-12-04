@@ -47,6 +47,10 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.AdminActiveTab = this.ActionList.AdminTeamRequest;
+    this.GetAllRequest();
+  }
+  GetAllRequest() {
+    console.log('In GetAllRequest...')
     this.requestService.getAll().subscribe(result => {
       this.loading = false;
       var counts = result.reduce((p, c) => {
@@ -61,7 +65,6 @@ export class AdminDashboardComponent implements OnInit {
       this.ShowRequestCounts();
     })
   }
-
   ShowRequestCounts() {
     this.newRequestCount = this.GetCount(adminConfig.RequestStatus.NEW.DBStatus);
     this.assignedRequestCount = this.GetCount(adminConfig.RequestStatus.PANEL_ASSIGNED.DBStatus);
@@ -82,7 +85,6 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   ShowRequestDetails(data) {
-    this.ShowRequestCounts();
     this.AdminActiveTab = data.ActivateTab || this.ActionList.TeamRequestDetails;
     this.currentRequestData.body = data.data || data;
     this.currentRequestData["currentUser"] = this.currentUser;
@@ -91,6 +93,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   ShowRequestList(mssgEvent) {
+    this.GetAllRequest();
     this.AdminActiveTab = mssgEvent.ActivateTab;
   }
 
