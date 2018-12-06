@@ -45,7 +45,6 @@ export class AssociateRequestListComponent implements OnInit {
   }
 
   private GetCurrPanelReviewStatusForRequest(requestData) {
-    debugger;
     let panelData = this.LoadCurrentPanelData(requestData);
     requestData.CurrPanelReviewStatusForRequest = panelData.status;
   }
@@ -56,13 +55,13 @@ export class AssociateRequestListComponent implements OnInit {
     else {
       //here data means current request data
       return data.filter(request => {
-        console.log({request,status})
+        console.log({ request, status })
         var res = [];
         if (this.isDevPanel) {
-          res = request.assignedDevPanelList.filter(panel => panel.status == status);
+          res = request.assignedDevPanelList.filter(panel => panel.status == status && panel.id == this.currentUser._id);
         }
         else {
-          res = request.assignedQAPanelList.filter(panel => panel.status == status);
+          res = request.assignedQAPanelList.filter(panel => panel.status == status && panel.id == this.currentUser._id);
         }
 
         if (res.length > 0)
@@ -83,6 +82,8 @@ export class AssociateRequestListComponent implements OnInit {
         return 'ALL';
       case userConfig.ActionList.UnderVerification:
         return adminConfig.RequestStatus.UNDER_VERIFICATION.DBStatus;
+      case userConfig.ActionList.EQAInprogress:
+        return adminConfig.RequestStatus.IN_PROGRESS.DBStatus;
       default:
         break;
     }

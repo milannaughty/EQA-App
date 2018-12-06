@@ -1,0 +1,66 @@
+<div class="col-md-8 col-xs-12">
+  <div class="fw-bold fs-body2 fc-orange-500 tt-uppercase mb16">panel availability</div>
+  <div class="pl24 pr2 pt2 pb4 bg-divider d-inline-block mb24"></div>
+  <div class="row">
+
+    <div class="col-md-3">
+      <label for="Area">Select Year</label>
+      <select #Id="ngModel" class="hideLabel form-control" [(ngModel)]="selectedYear" name="year" style="height: 25px !important;"
+        (change)="LoadData()">
+        <option [ngValue]="k.key" *ngFor="let k of yearList">
+          {{k.key}}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="Area">Select Month</label>
+      <select #Id="ngModel" class="hideLabel form-control" [(ngModel)]="selectedMonth" name="month" style="height: 25px !important;"
+        (change)="LoadData()">
+        <option [ngValue]="k.value" *ngFor="let k of monthList">
+          {{k.key}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <hr>
+  <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+  <span *ngIf="!RequestData.length">No Record(s) Found</span>
+  <table class="table table-condensed skillFontStyle ff-family data-table" *ngIf="RequestData.length">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>{{requeststatus.PANEL_ASSIGNED.DisplayStatus}}</th>
+        <th>{{requeststatus.IN_PROGRESS.DisplayStatus}}</th>
+        <th>{{requeststatus.UNDER_VERIFICATION.DisplayStatus}}</th>
+        <th>{{requeststatus.COMPLETED.DisplayStatus}}</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of RequestData; let i = index;" class="form-add-review">
+        <th scope="row"><span title="Availability" [ngClass]="{'closeStatus':data.statusData[requeststatus.COMPLETED.DBStatus] == data.totalCount,'openStatus':data.statusData[requeststatus.COMPLETED.DBStatus] != data.totalCount}"></span>{{i+1}}</th>
+        <td><b>{{data.name}}</b></td>
+        <td>{{data.type}}</td>
+        <td>{{data.statusData[requeststatus.PANEL_ASSIGNED.DBStatus]|| 0}}</td>
+        <td>{{data.statusData[requeststatus.IN_PROGRESS.DBStatus]|| 0}}</td>
+        <td>{{data.statusData[requeststatus.UNDER_VERIFICATION.DBStatus]|| 0}}</td>
+        <td>{{data.statusData[requeststatus.COMPLETED.DBStatus]||0}}</td>
+        <td><b>{{data.totalCount || 0}}</b></td>
+        <!-- <td>{{data.panelComment||'NA'}}</td>
+        <td class="capitalize">{{data.raisedByPanel||'NA'}}</td>
+        <td><textarea type="text" class="form-control" name='genericPanelComment{{i}}' [(ngModel)]="data.teamComment"
+            #data.teamComment="ngModel" *ngIf="data.raisedByPanel && data.status"></textarea>
+          <span *ngIf="!(data.status)">{{data.teamComment||'NA'}}</span></td>
+        <td>
+          <app-request-status [status]="data.status?'Open':'Close'"></app-request-status>
+        </td> -->
+        <!-- <td><span [ngClass]="{'closeStatus':!data.status,'openStatus':data.status}"></span></td> -->
+      </tr>
+    </tbody>
+    <!--Table body-->
+
+  </table>
+  <hr>
+</div>

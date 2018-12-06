@@ -16,23 +16,24 @@ router.get('/associate/:_id', getAssociateAllRequest);
 router.put('/updateStatusOfRequest', updateStatusOfRequestInController);
 
 router.get('/associate/request', getPanelRequestWithStatus);
-router.get('/associate/requestcount/:_associateId', getPanelRequestCountWithStatus);
+router.get('/associate/requestcount/:panelID/:panelType', GetPanelRequestCountWithStatus);
+router.get('/associate/all/requestcount/:year?/:month?', GetAllPanelRequestCountWithStatus);
 // router.get('/get');
 
 module.exports = router;
 
-function updateStatusOfRequestInController(request,response){
-    console.log("In start of updateStatusOfRequestInController method" );
+function updateStatusOfRequestInController(request, response) {
+    console.log("In start of updateStatusOfRequestInController method");
     console.log(request.body);
-        requestService.updateStatusOfRequest(request.body).then(
-            function(element){
-                console.log("updating request complete successfully");
-                response.status(200).send(element);
-            }
-        ).catch(function(err){
+    requestService.updateStatusOfRequest(request.body).then(
+        function (element) {
             console.log("updating request complete successfully");
-            response.status(400).send(err);
-        })
+            response.status(200).send(element);
+        }
+    ).catch(function (err) {
+        console.log("updating request complete successfully");
+        response.status(400).send(err);
+    })
 }
 
 // function sendMail(req, res) {
@@ -64,7 +65,7 @@ function updateRequest(req, res) {
     requestService.updateRequest(req.body)
         .then(function () {
             res.json('success');
-            
+
         })
         .catch(function (err) {
             res.status(400).send(err);
@@ -115,8 +116,8 @@ function getAssociateNewReq(req, res) {
     console.log('in getAssociateNewReq start');
     requestService.getAssociateNewReq(req.params._id)
         .then(function (requests) {
-           // console.log(requests);
-           console.log('in getAssociateNewReq end');
+            // console.log(requests);
+            console.log('in getAssociateNewReq end');
             res.send(requests);
         })
         .catch(function (err) {
@@ -138,10 +139,10 @@ function getAssociateAllRequest(req, res) {
 
 function getPanelRequestWithStatus(req, res) {
     console.log('GetPanelRequestWithStatus start');
-    requestService.getPanelRequestWithStatus(req.params._associateId,req.params.requestStatus)
+    requestService.getPanelRequestWithStatus(req.params._associateId, req.params.requestStatus)
         .then(function (requests) {
-           // console.log(requests);
-           console.log('GetPanelRequestWithStatus end');
+            // console.log(requests);
+            console.log('GetPanelRequestWithStatus end');
             res.send(requests);
         })
         .catch(function (err) {
@@ -149,16 +150,38 @@ function getPanelRequestWithStatus(req, res) {
             res.status(400).send(err);
         });
 }
-function getPanelRequestCountWithStatus(req, res) {
-    console.log('GetPanelRequestCountWithStatus start');
 
-    requestService.getPanelRequestCountWithStatus(req.params._associateId,req.query.requestStatus)
+/**
+ * Method returns the panel along with the there request status count summary
+ * 
+ *  */
+function GetPanelRequestCountWithStatus(req, res) {
+    console.log('GetPanelRequestCountWithStatus start...');
+    console.log('Panel : ' + JSON.stringify(req.params));
+    requestService.GetPanelRequestCountWithStatus(req.params.panelID, req.params.panelType)
         .then(function (requests) {
-           console.log('GetPanelRequestCountWithStatus end count is : '+JSON.stringify(requests));
-           res.send({"count" : requests});
+            console.log('GetPanelRequestCountWithStatus Completed');
+            res.send(requests);
         })
         .catch(function (err) {
-            console.log('GetPanelRequestCountWithStatus end with error'+JSON.stringify(err));
+            console.log('GetPanelRequestCountWithStatus end with error' + JSON.stringify(err));
+            res.status(400).send(err);
+        });
+}
+
+/**
+ * Method returns the panel list along with the there request status count summary
+ * 
+ *  */
+function GetAllPanelRequestCountWithStatus(req, res) {
+    console.log('GetAllPanelRequestCountWithStatus start...');
+    requestService.GetAllPanelRequestCountWithStatus(req.params.year, req.params.month)
+        .then(function (requests) {
+            console.log('GetAllPanelRequestCountWithStatus Completed');
+            res.send(requests);
+        })
+        .catch(function (err) {
+            console.log('GetAllPanelRequestCountWithStatus end with error' + JSON.stringify(err));
             res.status(400).send(err);
         });
 }

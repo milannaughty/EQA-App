@@ -41,6 +41,8 @@ export class CommonUtil {
     static TypeOfReview = [{ _Id: 1, Title: "Peer" }, { _Id: 2, Title: "IQA" }];
     static CheckPoints = [{ _Id: 1, Title: "Code" }, { _Id: 2, Title: "Design" }, { _Id: 3, Title: "Requirements" }, { _Id: 4, Title: "RUD" }, { _Id: 5, Title: "Testing" }];
 
+    static YearList = [{ key: 2018 }, { key: 2019 }, { key: 2020 }, { key: 2021 }, { key: 2022 }]
+    static MonthList = [{ key: 'JAN', value: 1 }, { key: 'FEB', value: 2 }, { key: 'MAR', value: 3 }, { key: 'APR', value: 4 }, { key: 'MAY', value: 5 }, { key: 'JUN', value: 6 }, { key: 'JUL', value: 7 }, { key: 'AUG', value: 8 }, { key: 'SEPT', value: 9 }, { key: 'OCT', value: 9 }, { key: 'NOV', value: 11 }, { key: 'DEC', value: 12 }]
     static GetFilteredRequestList(requestList, status) {
         return requestList.filter(x => x.status == status)
     }

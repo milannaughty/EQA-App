@@ -41,6 +41,10 @@
                                     <span class="badge" *ngIf="inProgressRequestCount">{{inProgressRequestCount}}</span>
                                 </a>
                             </li>
+                            <li role="presentation">
+                                <a href="admin#" (click)="doAction(ActionList.PanelAvailabilityStatus, $event)">{{ActionList.PanelAvailabilityStatus}}
+                                </a>
+                            </li>
                            
                             <li role="presentation">
                                 <a href="admin#" (click)="doAction(ActionList.AddPanel, $event)">Add Panel</a>
@@ -97,6 +101,7 @@
                         <app-team-panel-list *ngIf="AdminActiveTab===ActionList.PanelList"></app-team-panel-list>
                         <app-team-list *ngIf="AdminActiveTab===ActionList.TeamList"></app-team-list>
                         <app-admin-area-add *ngIf="AdminActiveTab== ActionList.AddArea" [currentRequestData]="currentRequestData"></app-admin-area-add>
+                        <app-panel-availability-status *ngIf="AdminActiveTab== ActionList.PanelAvailabilityStatus"></app-panel-availability-status >
                     </div>
                 </div>
             </div>

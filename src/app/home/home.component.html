@@ -43,17 +43,28 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.EQANewRequests, $event)">{{ActionList.EQANewRequests}}
-                                        <span *ngIf="NewRequestCount" class="badge">{{NewRequestCount}}</span>
+                                        <span *ngIf="assignedRequestCount" class="badge">{{assignedRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.UnderVerification, $event)">{{ActionList.UnderVerification}}</a>
+                                    <a href="#" (click)="doAction(ActionList.EQAInprogress, $event)">{{ActionList.EQAInprogress}}
+                                        <span *ngIf="inprogressRequestCount" class="badge">{{inprogressRequestCount}}</span>
+                                    </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.EQAComplete, $event)">{{ActionList.EQAComplete}}</a>
+                                    <a href="#" (click)="doAction(ActionList.UnderVerification, $event)">{{ActionList.UnderVerification}}
+                                        <span *ngIf="underReviewRequestCount" class="badge">{{underReviewRequestCount}}</span>
+                                    </a>
                                 </li>
                                 <li role="presentation">
-                                    <a href="#" (click)="doAction(ActionList.EQASummary, $event)">{{ActionList.EQASummary}}</a>
+                                    <a href="#" (click)="doAction(ActionList.EQAComplete, $event)">{{ActionList.EQAComplete}}
+                                        <span *ngIf="completedRequestCount" class="badge">{{completedRequestCount}}</span>
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" (click)="doAction(ActionList.EQASummary, $event)">{{ActionList.EQASummary}}
+                                        <span *ngIf="totalRequestCount" class="badge">{{totalRequestCount}}</span>
+                                    </a>
                                 </li>
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.PanelSkillAdd, $event)">Update Skill Set</a>
@@ -68,7 +79,6 @@
                                 <li role="presentation">
                                     <a href="#" (click)="doAction(ActionList.TeamCheckList, $event)">Request Under
                                         Verification
-                                        <span *ngIf="NewRequestCount" class="badge">{{NewRequestCount}}</span>
                                     </a>
                                 </li>
                                 <li role="presentation">
@@ -103,25 +113,32 @@
                             </ol>
                         </section>
                         <app-panel-home-page *ngIf="ActiveTab=='Dashboard'" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-panel-home-page>
-                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
-                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
-                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQAComplete" [currentUser]="currentUser" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
-                        <app-associate-request-list *ngIf="ActiveTab===ActionList.UnderVerification" [currentUser]="currentUser" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
-                        <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail" [currentRequestData]="currentRequestData"
-                            (messageEvent)='ShowRequestList($event)'></app-associate-request-detail>
+                        <associate-new-request-list *ngIf="ActiveTab===ActionList.EQANewRequests" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></associate-new-request-list>
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQAInprogress" [currentUser]="currentUser"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQASummary" [currentUser]="currentUser"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
+
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.EQAComplete" [currentUser]="currentUser"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
+                        <app-associate-request-list *ngIf="ActiveTab===ActionList.UnderVerification" [currentUser]="currentUser"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestDetails($event)'></app-associate-request-list>
+                        <app-associate-request-detail *ngIf="ActiveTab===ActionList.AssociateRequestDetail"
+                            [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList($event)'></app-associate-request-detail>
                         <app-team-new-request *ngIf="ActiveTab===ActionList.InitiateEQARequest" (messageEvent)='changeMessageEvent($event)'></app-team-new-request>
-                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-team-request-list>
+                        <app-team-request-list *ngIf="ActiveTab===ActionList.TeamEQARequest" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></app-team-request-list>
                         <app-feedback *ngIf="ActiveTab===ActionList.Feedback" [currentUser]="currentUser"></app-feedback>
-                        <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData" (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
+                        <app-team-request-detail *ngIf="ActiveTab===ActionList.TeamRequestDetail" [currentRequestData]="currentRequestData"
+                            (messageEvent)='ShowRequestList1($event)'></app-team-request-detail>
                         <app-team-panel-list *ngIf="ActiveTab===ActionList.PanelList"></app-team-panel-list>
                         <app-team-panel-detail *ngIf="ActiveTab===ActionList.PanelDetail"></app-team-panel-detail>
                         <app-reset-user-password *ngIf="ActiveTab===ActionList.ResetPassword"></app-reset-user-password>
                         <app-team-checklist-form *ngIf="ActiveTab===ActionList.TeamCheckList" [currentRequestData]="currentRequestData"></app-team-checklist-form>
                         <app-team-list *ngIf="ActiveTab===ActionList.TeamList" [currentUser]="currentUser"></app-team-list>
-                        <app-panel-skill-set *ngIf="ActiveTab==ActionList.PanelSkillAdd" [currentUser]="currentUser" (messageEvent)='ShowRequestDetails($event)'></app-panel-skill-set>
+                        <app-panel-skill-set *ngIf="ActiveTab==ActionList.PanelSkillAdd" [currentUser]="currentUser"
+                            (messageEvent)='ShowRequestDetails($event)'></app-panel-skill-set>
                     </div>
                 </div>
             </div>

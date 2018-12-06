@@ -19,7 +19,8 @@ service.updateRequest = updateRequest;
 
 service.updateStatusOfRequest = updateStatusOfRequest;
 service.getPanelRequestWithStatus = getPanelRequestWithStatus;
-service.getPanelRequestCountWithStatus = getPanelRequestCountWithStatus;
+service.GetPanelRequestCountWithStatus = GetPanelRequestCountWithStatus;
+service.GetAllPanelRequestCountWithStatus = GetAllPanelRequestCountWithStatus;
 module.exports = service;
 
 
@@ -164,6 +165,7 @@ function getPanelRequestWithStatus(_associateId, _requestStatus) {
     return deferred.promise;
 }
 
+//Deprec
 function getPanelRequestCountWithStatus(_associateId, _requestStatus) {
     console.log("in start of getPanelRequestCountWithStatus at Service");
     var query = {
@@ -190,6 +192,238 @@ function getPanelRequestCountWithStatus(_associateId, _requestStatus) {
 
     return deferred.promise;
 }
+
+function GetPanelRequestCountWithStatus(panelID, panelType) {
+    var deferred = Q.defer();
+
+    var match;
+    var groupID;
+    var project;
+    var unwind;
+    console.log('Check one')
+    if (panelType == 'Dev') {
+        unwind = { "path": "$assignedDevPanelList" }
+        match = { "assignedDevPanelList.id": panelID }
+        groupID = { "status": "$assignedDevPanelList.status" }
+        // groupID = "$assignedDevPanelList.status" 
+
+    }
+    else {
+        unwind = { "path": "$assignedQAPanelList" }
+        match = { "assignedQAPanelList.id": panelID }
+        groupID = { "status": "$assignedQAPanelList.status" }
+        //groupID =  "$assignedQAPanelList.status" 
+    }
+    var collection = db.collection("request");
+    var options = { allowDiskUse: true };
+    var pipeline = [
+        { $unwind: unwind },
+        { $match: match },
+        { $group: { "_id": groupID, "count": { "$sum": 1 } } },
+        {
+            "$group": {
+                "_id": 0,
+                "data": { "$push": { "status": "$_id.status", "count": "$count" } }
+            }
+        }
+    ];
+    //console.log('Pipeline :')
+    //console.log(JSON.stringify(pipeline));
+    collection.aggregate(pipeline,
+        function (err, results) {
+            if (err) {
+                deferred.reject(err)
+            }
+            else {
+                if (results.length)
+                    deferred.resolve(results[0].data);
+                else
+                    deferred.resolve([]);
+
+            }
+        })
+
+    return deferred.promise;
+}
+
+function GetAllPanelRequestCountWithStatus(year, month) {
+    console.log('Fetching qa panel summary record...')
+    var deferred = Q.defer();
+    var showYearMonthwise, showYearwise, showMonthwise, showAll;
+    showYearMonthwise = year && month;
+    showYearwise = year && !(month);
+    showMonthwise = !(year) && month;
+    showAll = !(year && month);
+
+
+    var collection = db.collection("request");
+
+    var options = { allowDiskUse: false };
+
+
+    //TODO:: need to optimize this code
+    var pipeline = [
+        {
+            $unwind: { "path": "$assignedQAPanelList" }
+        },
+        {
+            $group: {
+                _id: { "status": "$assignedQAPanelList.status", "name": "$assignedQAPanelList.itemName" },
+                count: { "$sum": 1.0 }
+            }
+        },
+        {
+            $group: {
+                _id: { "name": "$_id.name", "type": "QA" },
+                data: {
+                    $push: { "status": "$_id.status", "count": "$count" }
+                }
+            }
+        }
+    ];
+
+    var initialPipeline = [];
+    if (showYearMonthwise) {
+        var project = {
+            $project: {
+                yearDate: { "$substr": ["$creationDate", 0, 4] },
+                monthDate: { "$substr": ["$creationDate", 5, 2] },
+                assignedQAPanelList: "$assignedQAPanelList"
+            }
+        }
+        var match = { $match: { yearDate: { "$eq": year }, monthDate: { "$eq": month } } }
+
+        initialPipeline.push(project);
+        initialPipeline.push(match);
+        pipeline = initialPipeline.concat(pipeline);
+    }
+    else if (showYearwise) {
+
+        var project = {
+            $project: {
+                yearDate: { "$substr": ["$creationDate", 0, 4] },
+                assignedQAPanelList: "$assignedQAPanelList"
+            }
+        }
+        var match = { $match: { yearDate: { "$eq": year } } }
+
+        initialPipeline.push(project);
+        initialPipeline.push(match);
+        pipeline = initialPipeline.concat(pipeline);
+    }
+
+
+    collection.aggregate(pipeline,
+        function (err, results) {
+            if (err) {
+                deferred.reject(err)
+            }
+            else {
+                console.log('Fetching QA panel summary record completed.')
+                GetAllDevPanelRequestCountWithStatus(year, month).then(function (res, err) {
+                    results = results.concat(res);
+                    var data = results.map((x) => {
+                        var y = {};
+                        y.name = x._id.name;
+                        y.type = x._id.type;
+                        y.totalCount = 0;
+                        y.statusData = {};
+                        x.data.map((status) => {
+                            y.statusData[status.status] = status.count;
+                            y.totalCount += status.count;
+                        })
+                        return y;
+                    })
+                    data = data.sort((x, y) => { return y.totalCount - x.totalCount });
+                    deferred.resolve(data);
+                })
+            }
+        })
+
+    return deferred.promise;
+}
+
+function GetAllDevPanelRequestCountWithStatus(year, month) {
+    console.log('Fetching dev panel summary record...')
+    var deferred = Q.defer();
+    var showYearMonthwise, showYearwise, showMonthwise, showAll;
+    showYearMonthwise = year && month;
+    showYearwise = year && !(month);
+    showMonthwise = !(year) && month;
+    showAll = !(year && month);
+
+
+    var collection = db.collection("request");
+
+    var options = { allowDiskUse: false };
+
+
+    //TODO:: need to optimize this code
+    var pipeline = [
+        {
+            $unwind: { "path": "$assignedDevPanelList" }
+        },
+        {
+            $group: {
+                _id: { "status": "$assignedDevPanelList.status", "name": "$assignedDevPanelList.itemName" },
+                count: { "$sum": 1.0 }
+            }
+        },
+        {
+            $group: {
+                _id: { "name": "$_id.name", "type": "Dev" },
+                data: {
+                    $push: { "status": "$_id.status", "count": "$count" }
+                }
+            }
+        }
+    ];
+
+    var initialPipeline = [];
+    if (showYearMonthwise) {
+        var project = {
+            $project: {
+                yearDate: { "$substr": ["$creationDate", 0, 4] },
+                monthDate: { "$substr": ["$creationDate", 5, 2] },
+                assignedDevPanelList: "$assignedDevPanelList"
+            }
+        }
+        var match = { $match: { yearDate: { "$eq": year }, monthDate: { "$eq": month } } }
+
+        initialPipeline.push(project);
+        initialPipeline.push(match);
+        pipeline = initialPipeline.concat(pipeline);
+    }
+    else if (showYearwise) {
+
+        var project = {
+            $project: {
+                yearDate: { "$substr": ["$creationDate", 0, 4] },
+                assignedDevPanelList: "$assignedDevPanelList"
+            }
+        }
+        var match = { $match: { yearDate: { "$eq": year } } }
+
+        initialPipeline.push(project);
+        initialPipeline.push(match);
+        pipeline = initialPipeline.concat(pipeline);
+    }
+
+
+    collection.aggregate(pipeline,
+        function (err, results) {
+            if (err) {
+                deferred.reject(err)
+            }
+            else {
+                console.log('Fetching dev panel summary record completed.')
+                deferred.resolve(results);
+            }
+        })
+
+    return deferred.promise;
+}
+
 
 function updateStatusOfRequest(reqParam) {
     console.log("UpdateStatusOfRequest method started");
@@ -240,4 +474,6 @@ function updateStatusOfRequest(reqParam) {
 
     return deferred.promise;
 }
+
+
 

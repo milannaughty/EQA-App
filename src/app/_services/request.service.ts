@@ -58,10 +58,14 @@ export class RequestService {
         });
     }
 
-    getPanelRequestCountWithStatus(_associateId: string, requestStatus: string) {
+    GetPanelRequestCountWithStatus(panelID: string, panelType: string) {
         console.log("GetPanelRequestCountWithStatus started");
-        return this.http.get(appConfig.apiUrl +
-             '/requests/associate/requestcount/'+_associateId+'?requestStatus='+requestStatus);
+        return this.http.get(appConfig.apiUrl + '/requests/associate/requestcount/' + panelID + '/' + panelType);
+    }
+
+    GetAllPanelRequestCountWithStatus(year: any, month: any) {
+        console.log("GetAllPanelRequestCountWithStatus started");
+        return this.http.get(appConfig.apiUrl + '/requests/associate/all/requestcount/' + year + '/' + month);
     }
 
 }

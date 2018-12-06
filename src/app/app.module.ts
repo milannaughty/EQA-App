@@ -52,7 +52,8 @@ import { TeamListComponent } from './team-list/team-list.component';
 import { AdminAreaAddComponent } from './admin-area-add/admin-area-add.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { PanelHomePageComponent } from './panel-home-page/panel-home-page.component';
-import { PanelSkillSetComponent } from './panel-skill-set/panel-skill-set.component'; 
+import { PanelSkillSetComponent } from './panel-skill-set/panel-skill-set.component';
+import { PanelAvailabilityStatusComponent } from './panel-availability-status/panel-availability-status.component'; 
 //import { ResetUserPasswordComponent } from './reset-user-password/reset-user-password.component'; 
 @NgModule({
     imports: [
@@ -93,7 +94,8 @@ import { PanelSkillSetComponent } from './panel-skill-set/panel-skill-set.compon
         AdminAreaAddComponent,
         FeedbackComponent,
         PanelHomePageComponent,
-        PanelSkillSetComponent
+        PanelSkillSetComponent,
+        PanelAvailabilityStatusComponent
     ],
     providers: [
         AuthGuard,

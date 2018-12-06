@@ -36,26 +36,28 @@ export const adminConfig = {
         AddSkill: 'ADD Skills',
         PanelList: 'PANEL LIST',
         TeamList: 'Team List',
-        AddArea: 'Add Area'
+        AddArea: 'Add Area',
+        PanelAvailabilityStatus:'Panel Availability Status'
     }
 };
 
 export const userConfig = {
     ActionList: {
-        'EQANewRequests': 'Assigned Request',
-        'EQASummary': 'IQA Summary',
-        'EQAComplete': 'IQA Completed Request',
-        'AssociateRequestDetail': 'Request Detail',
-        'InitiateEQARequest': 'Initiate IQA Request',
-        'TeamEQARequest': 'Request History',
-        'TeamRequestDetail': 'Request Summary Detail',
-        'PanelList': 'Panel List',
-        'PanelDetail': 'Panel Detail',
-        'ResetPassword': 'RESET PASSWORD',
-        'TeamCheckList': 'CHECKLIST REVIEW',
-        'TeamList': 'Team List',
-        'Feedback': 'USER FEEDBACK',
-        'PanelSkillAdd': 'PANEL SKILL SET',
+        EQANewRequests: 'Assigned Request',
+        EQASummary: 'IQA Summary',
+        EQAComplete: 'IQA Completed Request',
+        EQAInprogress: 'IQA Inprogress Requests',
+        AssociateRequestDetail: 'Request Detail',
+        InitiateEQARequest: 'Initiate IQA Request',
+        TeamEQARequest: 'Request History',
+        TeamRequestDetail: 'Request Summary Detail',
+        PanelList: 'Panel List',
+        PanelDetail: 'Panel Detail',
+        ResetPassword: 'RESET PASSWORD',
+        TeamCheckList: 'CHECKLIST REVIEW',
+        TeamList: 'Team List',
+        Feedback: 'USER FEEDBACK',
+        PanelSkillAdd: 'PANEL SKILL SET',
         UnderVerification: 'Req. Under Verification'
     }
 };

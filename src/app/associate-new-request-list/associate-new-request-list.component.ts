@@ -65,6 +65,7 @@ export class AssociateNewRequestListComponent implements OnInit {
             console.log("mail sent to admin with rejection details");
             CommonUtil.ShowSuccessAlert(MessageManager.RequestUpdateSuccess);
             this.LoadNewRequestForAssociate();
+            this.ShowRequestDetails(null, null, true);
           }, err => {
             CommonUtil.ShowErrorAlert(MessageManager.RequestUpdateSuccessWithErrorEmailSending);
             this.LoadNewRequestForAssociate();
@@ -81,10 +82,10 @@ export class AssociateNewRequestListComponent implements OnInit {
       });
   }
 
-  private ShowRequestDetails(currentRequestData, showRemarkBox) {
+  private ShowRequestDetails(currentRequestData, showRemarkBox, updateRequestCount) {
     //console.log(currentRequestData);
     console.log('Redirecting from request list to request detail view');
-    this.messageEvent.emit({ ActivateTab: 'Request Detail', data: currentRequestData });
+    this.messageEvent.emit({ ActivateTab: 'Request Detail', data: currentRequestData, updateRequestCount });
   }
 
   private LoadNewRequestForAssociate() {
