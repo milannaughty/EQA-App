@@ -44,6 +44,8 @@ export class AdminRequestComponent implements OnInit {
         this.chRef.detectChanges();
         const table: any = $('table');
         this.dataTable = table.DataTable();
+        //column 4 = Created date val
+        this.dataTable.context["0"].aoColumns[4].sType = 'date';
       }
     });
   }
@@ -73,6 +75,10 @@ export class AdminRequestComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  GetSubstring(str, len) {
+    return str.length > len ? (str.substring(0, len) + '...') : str;
   }
 
 }

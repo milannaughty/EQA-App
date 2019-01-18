@@ -8,28 +8,29 @@
         <!--Table head-->
         <thead>
           <tr>
-            <th class="th_cols">#</th>
-            <th class="th_cols">PBI</th>
-            <th class="th_cols">Name</th>
-            <th>Request Date</th>
-            <th>Expected IQA Date</th>
-            <th>Status</th>
-            <th>Initiated By</th>
+            <th class="th_cols" style="width: 5%">#</th>
+            <th class="th_cols" >PBI</th>
+            <th class="th_cols" style="width: 25%">Name</th>
+            <!-- <th style="width: 15%">Expected IQA Date</th> -->
+            <th style="width: 15%">Initiated By</th>
+            <th style="width: 15%">Created Date</th>
+            <th style="width: 10%">Status</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of NewRequest">
-            <th scope="row" style="width: 5%">{{NewRequest.indexOf(data)+1}}</th>
-            <td style="width: 10%">
-              <span (click)="ShowRequestDetails(data)" class="text-primary">{{data.pbiId}}</span>
+            <th scope="row" >{{NewRequest.indexOf(data)+1}}</th>
+            <td >
+              <span (click)="ShowRequestDetails(data)" class="text-primary">{{GetSubstring(data.pbiId,40)}}</span>
             </td>
-            <td style="width: 15%">{{data.name}}</td>
-            <td style="width: 15%">{{data.creationDate?(data.creationDate | date: 'dd MMM yyyy'):'NA' }}</td>
-            <td style="width: 15%">{{data.expectedIQADate?(data.expectedIQADate | date: 'dd MMM yyyy'):'NA'}}</td>
-            <td style="width: 15%">
+            <td >{{GetSubstring(data.name,60)}}</td>
+            <!-- <td>{{data.expectedIQADate?(data.expectedIQADate | date: 'dd MMM yyyy'):'NA'}}</td> -->
+            <td>{{data.initiatedBy.TeamName}}</td>
+            <td>{{data.creationDate?(data.creationDate | date: 'dd MMM yyyy'):'NA' }}</td>
+            <td>
               <app-request-status [status]="data.status"></app-request-status>
             </td>
-            <td style="width: 15%">{{data.initiatedBy.TeamName}}</td>
+            
           </tr>
         </tbody>
         <!--Table body-->
