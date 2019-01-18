@@ -1,5 +1,5 @@
 export const appConfig = {
-    apiUrl: 'http://localhost:4000',
+    apiUrl: 'http://172.16.1.227:4000',
     fromPersonName: "Team IQA",
     fromPersonMailId: "iqaTeamMailId",
     initialPassword: 'nihilent@123'
