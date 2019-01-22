@@ -255,6 +255,9 @@ function GetAllPanelRequestCountWithStatus(year, month) {
     showMonthwise = !(year) && month;
     showAll = !(year && month);
 
+    // to acheive equality 01 == 1
+    var monthString = '' + month;
+    month = monthString.length == 1 ? '0' + month : month;
 
     var collection = db.collection("request");
 
@@ -291,6 +294,7 @@ function GetAllPanelRequestCountWithStatus(year, month) {
                 assignedQAPanelList: "$assignedQAPanelList"
             }
         }
+        console.log("Year :"+year +" Month :"+month)        
         var match = { $match: { yearDate: { "$eq": year }, monthDate: { "$eq": month } } }
 
         initialPipeline.push(project);
