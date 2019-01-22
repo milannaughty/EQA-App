@@ -16,7 +16,7 @@ export class PanelAvailabilityStatusComponent implements OnInit {
   requeststatus = adminConfig.RequestStatus;
   yearList = CommonUtil.YearList;
   monthList = CommonUtil.MonthList;
-  selectedYear = this.yearList[0].key;
+  selectedYear = new Date().getFullYear()//this.yearList[0].key;
   selectedMonth = new Date().getMonth() + 1;
   ngOnInit() {
     this.GetAllPanelRequestCount();
